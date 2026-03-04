@@ -1,8 +1,131 @@
 \section{Solution Method}
 
-\subsection{Genetic Algorithm}
+\subsection{Core Mathematical Model: Integer Programming Framework}
 
-We employ a genetic algorithm (GA) optimized for conservation resource allocation. The GA chromosome encodes deployment decisions across spatial zones and monitoring methods:
+The foundation of our solution is a mixed-integer linear programming (MILP) formulation that provides the mathematical core for resource allocation:
+
+\begin{equation}
+\max_{\mathbf{x}} \mathcal{P}_{system} = \omega_s \sum_{s \in \mathcal{S}} w_s \mathcal{P}_s + \omega_a \sum_{z \in \mathcal{Z}} \frac{A_z}{A_{total}} \mathcal{P}_z
+\label{eq:core_ip}
+\end{equation}
+
+\textbf{Decision Variables:}
+\begin{align}
+x_{z,m,t} &\in \{0, 1, 2, \ldots\} && \text{Integer allocation of method } m \text{ to zone } z \text{ at time } t \nonumber \\
+y_{z,s} &\in \{0, 1\} && \text{Binary: species } s \text{ protected in zone } z \nonumber \\
+\end{align}
+
+\textbf{Constraints:}
+\begin{align}
+\sum_{z \in \mathcal{Z}} \sum_{m \in \mathcal{M}} c_m x_{z,m,t} &\leq B_t && \forall t \in \mathcal{T} \tag{Budget} \\
+\sum_{z \in \mathcal{Z}} \sum_{m \in \mathcal{M}} r_m x_{z,m,t} &\leq R_t && \forall t \in \mathcal{T} \tag{Personnel} \\
+\sum_{t \in \mathcal{T}} x_{z,m,t} &\geq x_{z,m}^{min} && \forall z \in \mathcal{Z}, m \in \mathcal{M} \tag{Minimum coverage} \\
+\mathcal{P}_s &\geq \mathcal{P}_s^{target} && \forall s \in \mathcal{S}_{critical} \tag{Species protection}
+\end{align}
+
+This integer programming formulation captures the essential structure of the conservation allocation problem with discrete decision variables and linear constraints.
+
+\subsection{Multi-Stage Dynamic Programming Formulation}
+
+To address temporal allocation across planning horizons, we employ a dynamic programming framework:
+
+\begin{equation}
+V_t(z_t) = \max_{x_t} \left\{ R_t(z_t, x_t) + \beta \sum_{z_{t+1}} P(z_{t+1} | z_t, x_t) V_{t+1}(z_{t+1}) \right\}
+\label{eq:dp_bellman}
+\end{equation}
+
+where:
+\begin{itemize}
+    \item $z_t$: System state at time $t$ (species populations, threat levels)
+    \item $x_t$: Allocation decision at time $t$
+    \item $R_t(\cdot)$: Immediate protection reward
+    \item $P(\cdot)$: State transition probability
+    \item $\beta = 0.95$: Discount factor for future protection
+\end{itemize}
+
+\textbf{State Space Decomposition:}
+\begin{equation}
+z_t = \{ \mathbf{N}_t, \mathbf{T}_t, \mathbf{B}_t \}
+\label{eq:state_space}
+\end{equation}
+
+where $\mathbf{N}_t$ is species population vector, $\mathbf{T}_t$ is threat level vector, and $\mathbf{B}_t$ is budget availability.
+
+\textbf{Backward Induction Solution:}
+\begin{enumerate}
+    \item Initialize terminal value: $V_T(z_T) = \mathcal{P}_{system}(z_T)$
+    \item For $t = T-1$ to $0$: Solve maximization at each state
+    \item Store optimal policy: $\pi^*(z_t) = \arg\max_{x_t} V_t(z_t)$
+    \item Extract optimal allocation trajectory: $\{x_0^*, x_1^*, \ldots, x_{T-1}^*\}$
+\end{enumerate}
+
+This DP framework enables optimal temporal sequencing of resource deployment, accounting for evolving threat patterns and seasonal conservation needs.
+
+\subsection{Genetic Algorithm: Computational Solver}
+
+\textbf{Role Clarification:} The genetic algorithm serves as the \textit{computational engine} for solving the integer programming formulation, not the primary model itself. The GA efficiently navigates the large discrete solution space defined by the MILP constraints.
+
+\subsection{Multi-Stage Decision Framework}
+
+Our solution implements a hierarchical decision structure across multiple temporal and spatial scales:
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[
+    node distance=1.5cm,
+    decision/.style={rectangle, draw=blue!60, fill=blue!5, very thick, minimum size=10mm},
+    stage/.style={ellipse, draw=green!60, fill=green!5, thick, minimum size=8mm},
+    arrow/.style={->, >=stealth, thick}
+]
+    \node[decision] (annual) {Annual Planning};
+    \node[stage, below left=of annual] (seasonal) {Seasonal Adjustment};
+    \node[stage, below right=of annual] (monthly) {Monthly Deployment};
+    \node[decision, below=of seasonal] (weekly) {Weekly Operations};
+    \node[decision, below=of monthly] (daily) {Daily Patrols};
+
+    \draw[arrow] (annual) -- (seasonal);
+    \draw[arrow] (annual) -- (monthly);
+    \draw[arrow] (seasonal) -- (weekly);
+    \draw[arrow] (monthly) -- (daily);
+\end{tikzpicture}
+\caption{Multi-stage decision hierarchy for resource allocation}
+\end{figure}
+
+\textbf{Stage 1: Annual Strategic Planning (DP Framework)}
+\begin{itemize}
+    \item Set overall species protection targets
+    \item Allocate budget across monitoring methods
+    \item Establish ranger staffing levels
+    \item Determine UAV acquisition schedule
+\end{itemize}
+
+\textbf{Stage 2: Seasonal Tactical Adjustment}
+\begin{itemize}
+    \item Adjust for seasonal threat patterns
+    \item Reallocate based on migration cycles
+    \item Modify patrol frequencies
+    \item Update camera trap placements
+\end{itemize}
+
+\textbf{Stage 3: Monthly Operational Deployment}
+\begin{itemize}
+    \item Generate specific patrol routes
+    \item Schedule UAV flight paths
+    \item Configure camera trap networks
+    \item Assign ranger teams to zones
+\end{itemize}
+
+\textbf{Stage 4: Weekly/Daily Execution}
+\begin{itemize}
+    \item Real-time response to incidents
+    \item Dynamic patrol adjustments
+    \item Emergency UAV deployment
+    \item Intelligence-driven targeting
+\end{itemize}
+
+\subsection{Genetic Algorithm Implementation}
+
+We employ a genetic algorithm (GA) as the computational solver for the integer programming formulation. The GA chromosome encodes deployment decisions across spatial zones and monitoring methods:
 
 \begin{equation}
 \mathbf{x} = [x_{1}^{ranger}, x_{1}^{UAV}, x_{1}^{camera}, \ldots, x_{Z}^{ranger}, x_{Z}^{UAV}, x_{Z}^{camera}]
@@ -11,7 +134,7 @@ We employ a genetic algorithm (GA) optimized for conservation resource allocatio
 
 where $x_{z}^{method}$ represents allocation to zone $z$ using specified monitoring method.
 
-\subsection{Algorithm Specifications}
+\subsubsection{Algorithm Specifications}
 
 \begin{table}[h]
 \centering
@@ -31,7 +154,7 @@ Convergence criterion & No improvement > 20 generations \\
 \end{tabular}
 \end{table}
 
-Fitness evaluation directly maximizes Equation \ref{eq:optimization} from Section 2:
+Fitness evaluation directly maximizes the core integer programming objective:
 
 \begin{equation}
 \text{Fitness}(\mathbf{x}) = \mathcal{P}_{system}(\mathbf{x}) - \lambda \cdot \text{Penalty}(\mathbf{x})
@@ -160,4 +283,4 @@ Uniform Allocation & 62.4\% & <1 second \\
 \end{tabular}
 \end{table}
 
-The GA achieves superior protection while maintaining tractable computation time, demonstrating effectiveness for real-world conservation planning.
+The GA serves as an efficient solver for the integer programming core, achieving superior protection while maintaining tractable computation time. The mathematical rigor comes from the MILP formulation, while the GA provides computational efficiency for real-world conservation planning.

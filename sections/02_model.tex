@@ -1,125 +1,303 @@
 \section{Model Construction}
 
-\subsection{Protection Definition}
+\subsection{Protection Definition and Priority Evaluation Model}
 
-We define protection as multi-dimensional coverage that integrates spatial, temporal, and threat-based criteria. A location $i$ is considered protected at time $t$ if it satisfies:
+The first model layer establishes a quantitative protection framework. We define protection using a multi-criteria evaluation approach combining ecological importance, threat exposure, and operational capability.
+
+\subsubsection{Hierarchical Structure for Protection Assessment}
+
+We employ the Analytic Hierarchy Process (AHP) to organize protection criteria into a hierarchical structure:
 
 \begin{equation}
-P_i(t) = \mathbb{I}\left[C_{spatial}(i,t) \land C_{temporal}(i,t) \land C_{threat}(i,t)\right] \geq \tau
-\label{eq:protection}
+\mathcal{P} = \{L_1, L_2, L_3, L_4\}
 \end{equation}
 
 where:
 \begin{itemize}
-    \item $C_{spatial}(i,t)$ represents spatial coverage within effective monitoring range
-    \item $C_{temporal}(i,t)$ ensures temporal coverage during relevant activity periods
-    \item $C_{threat}(i,t)$ addresses threat-specific response capabilities
-    \item $\tau$ is the protection threshold (typically $\tau = 0.7$)
+\item $L_1$: Goal layer—overall protection level
+\item $L_2$: Criterion layer—species priority, habitat importance, threat exposure, coverage capability
+\item $L_3$: Indicator layer—IUCN status, breeding grounds, poaching risk, patrol frequency
+\item $L_4$: Alternative layer—spatial units (monitoring zones)
 \end{itemize}
 
-\subsection{Priority Framework}
+\subsubsection{AHP Weight Calculation Method}
 
-Species priority combines three critical dimensions: IUCN conservation status, ecological role, and flagship value. We formulate the priority score $w_s$ for species $s$ as:
+The AHP weight vector $\mathbf{w} = (w_1, w_2, w_3, w_4)$ is calculated through the following steps:
+
+\textbf{Step 1: Construct Pairwise Comparison Matrix}
+
+Using the 1-9 Saaty scale, we construct matrix $A = [a_{ij}]_{n \times n}$ where $a_{ij}$ represents the relative importance of criterion $i$ compared to criterion $j$.
 
 \begin{equation}
-w_s = \alpha \cdot \text{IUCN}_s + \beta \cdot \text{Ecological}_s + \gamma \cdot \text{Flagship}_s
-\label{eq:priority}
+A = \begin{pmatrix}
+1 & a_{12} & a_{13} & a_{14} \\
+1/a_{12} & 1 & a_{23} & a_{24} \\
+1/a_{13} & 1/a_{23} & 1 & a_{34} \\
+1/a_{14} & 1/a_{24} & 1/a_{34} & 1
+\end{pmatrix}
+\label{eq:pairwise_matrix}
 \end{equation}
 
-where $\alpha + \beta + \gamma = 1$ with empirical values $\alpha = 0.5$, $\beta = 0.3$, $\gamma = 0.2$.
+\textbf{Step 2: Calculate Weight Vector}
 
-High-priority species identified through this framework include:
+The weight for criterion $i$ is computed using the geometric mean method:
+
+\begin{equation}
+w_i = \frac{(\prod_{j=1}^{n} a_{ij})^{1/n}}{\sum_{k=1}^{n} (\prod_{j=1}^{n} a_{kj})^{1/n}}
+\label{eq:ahp_weight}
+\end{equation}
+
+\textbf{Step 3: Consistency Verification}
+
+Consistency ratio $CR$ must satisfy $CR < 0.1$:
+
+\begin{equation}
+CR = \frac{CI}{RI} = \frac{(\lambda_{max} - n)/(n - 1)}{RI}
+\label{eq:consistency}
+\end{equation}
+
+where $\lambda_{max}$ is the maximum eigenvalue of $A$, and $RI$ is the random index ($RI = 0.90$ for $n=4$).
+
+\subsubsection{Etosha-Specific AHP Weights}
+
+For Etosha National Park, the pairwise comparison yields:
+
+\begin{equation}
+\mathbf{w} = (w_1, w_2, w_3, w_4) = (0.50, 0.30, 0.15, 0.05)
+\label{eq:etosha_weights}
+\end{equation}
+
+\noindent where:
 \begin{itemize}
-    \item \textbf{Black rhino} (\textit{Diceros bicornis}): Critically Endangered, keystone grazer
-    \item \textbf{Elephant} (\textit{Loxodonta africana}): Endangered, ecosystem engineer
-    \item \textbf{Lion} (\textit{Panthera leo}): Vulnerable, apex predator, high flagship value
+\item $w_1 = 0.50$: Ecological importance (species priority + habitat quality)
+\item $w_2 = 0.30$: Threat exposure (poaching risk + human intrusion)
+\item $w_3 = 0.15$: Operational capability (patrol accessibility + response time)
+\item $w_4 = 0.05$: Seasonal variation factor
 \end{itemize}
 
-\subsection{Optimization Problem}
+This weighting prioritizes \textbf{conservation value} (80\% combined for ecology + threat) over operational convenience.
 
-Our core optimization maximizes system-level protection efficiency subject to resource constraints:
+\subsubsection{Fuzzy Comprehensive Protection Evaluation}
+
+Protection is not binary; many regions are only partially protected. We apply fuzzy comprehensive evaluation to capture partial protection states:
 
 \begin{equation}
-\max_{x \in \mathcal{X}} \quad \mathcal{P}_{system} = \frac{\sum_{i} w_i \cdot P_i(x)}{\sum_{i} w_i}
-\label{eq:optimization}
+P_i = \mathbf{w} \circ \mathbf{R}_i = \sum_{j=1}^{n} w_j \cdot r_{ij}
+\label{eq:fuzzy_protection}
 \end{equation}
-
-subject to:
-\begin{align}
-\sum_{j} c_j x_j &\leq B_{total} \quad \text{(Budget constraint)} \\
-\sum_{k} r_k &\leq R_{available} \quad \text{(Personnel constraint)} \\
-P_i(x) &\geq \tau_{min} \quad \forall i \in \mathcal{H} \quad \text{(Minimum protection for high-priority zones)}
-\end{align}
 
 where:
 \begin{itemize}
-    \item $x \in \mathcal{X}$ represents the allocation vector across monitoring methods
-    \item $w_i$ is the priority weight for location $i$
-    \item $c_j$ are unit costs for monitoring method $j$
-    \item $r_k$ represents ranger requirements
-    \item $\mathcal{H}$ denotes the set of high-priority zones
+\item $\mathbf{w} = (w_1, w_2, w_3, w_4)$: AHP-derived weight vector
+\item $\mathbf{R}_i = (r_{i1}, r_{i2}, r_{i3}, r_{i4})^T$: membership degree vector for zone $i$
+\item $\circ$: fuzzy composition operator
 \end{itemize}
 
-\subsection{Monitoring Methods}
+\textbf{Membership Function Design:}
 
-We consider three primary monitoring methods, each with distinct capabilities:
+For criterion $j$ in zone $i$, the membership degree $r_{ij}$ is calculated as:
+
+\begin{equation}
+r_{ij} = \begin{cases}
+1, & \text{if } v_{ij} \geq v_{max} \\
+\frac{v_{ij} - v_{min}}{v_{max} - v_{min}}, & \text{if } v_{min} < v_{ij} < v_{max} \\
+0, & \text{if } v_{ij} \leq v_{min}
+\end{cases}
+\label{eq:membership}
+\end{equation}
+
+where $v_{ij}$ is the observed value, and $v_{max}, v_{min}$ are the maximum and minimum values across all zones.
+
+\textbf{Protection Score Classification:}
+
+\begin{equation}
+\text{Protection Level} = \begin{cases}
+\text{High}, & \text{if } P_i \geq 0.75 \\
+\text{Medium}, & \text{if } 0.50 \leq P_i < 0.75 \\
+\text{Low}, & \text{if } P_i < 0.50
+\end{cases}
+\label{eq:protection_level}
+\end{equation}
+
+\subsubsection{Species Priority Weighting}
+
+Species priority combines IUCN status, ecological role, and flagship value:
+
+\begin{equation}
+\pi_s = \alpha_1 \cdot S_{IUCN}(s) + \alpha_2 \cdot S_{keystone}(s) + \alpha_3 \cdot S_{flagship}(s)
+\label{eq:species_priority}
+\end{equation}
+
+\noindent For Etosha, using $\alpha_1 = 0.6$, $\alpha_2 = 0.3$, $\alpha_3 = 0.1$:
 
 \begin{table}[h]
 \centering
-\caption{Monitoring Method Characteristics}
-\begin{tabular}{lccc}
+\caption{Species Priority Weights for Etosha National Park}
+\begin{tabular}{lcccc}
 \hline
-\textbf{Method} & \textbf{Spatial Range} & \textbf{Temporal Coverage} & \textbf{Cost Index} \\
+\textbf{Species} & \textbf{IUCN Status} & \textbf{Keystone} & \textbf{Flagship} & \textbf{Priority ($\pi_s$)} \\
 \hline
-Ranger patrols & 5-10 km/day/shift & High (8-12 hours) & 1.0 (baseline) \\
-UAV surveillance & 20-50 km/flight & Medium (2-4 hours) & 0.3 \\
-Camera traps & Point location & Low (event-triggered) & 0.1 \\
+Black Rhino & CR (0.95) & 0.90 & 0.95 & \textbf{0.940} \\
+Elephant & EN (0.85) & 0.95 & 0.90 & \textbf{0.885} \\
+Lion & VU (0.75) & 0.85 & 0.80 & \textbf{0.790} \\
+Cheetah & VU (0.75) & 0.70 & 0.75 & \textbf{0.735} \\
+Wild Dog & EN (0.85) & 0.75 & 0.70 & \textbf{0.785} \\
+Leopard & NT (0.65) & 0.70 & 0.75 & \textbf{0.690} \\
 \hline
 \end{tabular}
 \end{table}
 
-The spatial coverage function for rangers at location $i$ follows a distance-decay model:
+\noindent IUCN status values: CR=0.95, EN=0.85, VU=0.75, NT=0.65
+
+\subsubsection{Protection Gap Measure}
+
+The protection gap quantifies the difference between current and target protection:
 
 \begin{equation}
-C_{spatial}^{ranger}(i,t) = \exp\left(-\frac{d_{i,station}}{\lambda}\right) \cdot \mathbb{I}(t \in \text{shift})
-\label{eq:ranger_coverage}
+G_i = \tau_{target} - P_i
+\label{eq:protection_gap}
 \end{equation}
 
-where $d_{i,station}$ is distance from nearest station and $\lambda \approx 8$ km is effective patrol radius.
+where $\tau_{target} = 0.85$ is the target protection level for high-priority zones.
 
-For UAVs, spatial coverage incorporates flight patterns:
+\textbf{Example Calculation:}
 
-\begin{equation}
-C_{spatial}^{UAV}(i,t) = \sum_{f \in \mathcal{F}} \mathbb{I}(i \in \text{flightpath}_f) \cdot \mathbb{I}(t \in \text{window}_f)
-\label{eq:uav_coverage}
-\end{equation}
-
-\subsection{Threat Modeling}
-
-Threat assessment incorporates historical poaching patterns, accessibility metrics, and species presence:
-
-\begin{equation}
-T_i = \sum_{s} \rho_s \cdot \text{Presence}_s(i) \cdot \left( \phi \cdot \text{Accessibility}_i + (1-\phi) \cdot \text{Historical}_i \right)
-\label{eq:threat}
-\end{equation}
-
-where:
+For Zone 17 (Halali region):
 \begin{itemize}
-    \item $\rho_s$ is species-specific vulnerability (higher for high-value targets)
-    \item $\text{Accessibility}_i$ measures proximity to roads/boundaries (0-1 scale)
-    \item $\text{Historical}_i$ is normalized past poaching incidence
-    \item $\phi = 0.6$ weights accessibility vs. historical patterns
+\item Species indicator: $r_{17,1} = 0.92$ (black rhino + elephant presence)
+\item Habitat indicator: $r_{17,2} = 0.88$ (waterhole + breeding ground)
+\item Threat indicator: $r_{17,3} = 0.45$ (moderate poaching risk)
+\item Coverage indicator: $r_{17,4} = 0.67$ (limited road access)
 \end{itemize}
 
-\subsection{Objective Function Decomposition}
-
-The system-level protection objective decomposes into species-specific and area-weighted components:
-
 \begin{equation}
-\mathcal{P}_{system} = \omega_s \cdot \underbrace{\frac{\sum_{s} w_s \cdot P_s}{\sum_{s} w_s}}_{\text{Species protection}} + \omega_a \cdot \underbrace{\frac{\sum_{i \in \mathcal{A}} P_i}{|\mathcal{A}|}}_{\text{Area coverage}}
-\label{eq:decomposition}
+P_{17} = 0.50 \times 0.92 + 0.30 \times 0.88 + 0.15 \times 0.45 + 0.05 \times 0.67 = 0.821
 \end{equation}
 
-with $\omega_s = 0.7$ and $\omega_a = 0.3$, reflecting emphasis on species conservation over pure area coverage.
+\begin{equation}
+G_{17} = 0.85 - 0.821 = 0.029
+\end{equation}
 
-This formulation enables direct comparison between uniform and strategic allocation strategies while maintaining biological relevance through the priority-weighted species protection component.
+This small gap (2.9\%) indicates Zone 17 is near-target protection and requires maintenance-level resources.
+
+\textbf{Priority Zone Ranking:}
+
+Zones with largest protection gaps receive highest allocation priority:
+
+\begin{equation}
+\text{Priority Rank}(i) = \text{sort}(G_i, \text{descending})
+\label{eq:priority_rank}
+\end{equation}
+
+\subsection{Spatial Representation and Network Model}
+
+The second layer represents Etosha as a spatial network, incorporating roads, entrances, waterholes, and terrain.
+
+\subsubsection{Graph-Based Spatial Representation}
+
+We model Etosha as a weighted graph $G = (V, E, W)$ where:
+\begin{itemize}
+\item $V = \{v_1, v_2, ..., v_{50}\}$: 50 monitoring zones
+\item $E = \{(v_i, v_j) | \text{patrol route exists}\}$: traversable connections
+\item $W = \{w_{ij} | (v_i, v_j) \in E\}$: travel time/distance weights
+\end{itemize}
+
+\subsubsection{Accessibility Matrix}
+
+Accessibility from ranger outpost $k$ to zone $i$:
+
+\begin{equation}
+A_{ik} = \begin{cases}
+1, & \text{if } d(v_k, v_i) \leq R_{patrol} \\
+e^{-\lambda(d(v_k, v_i) - R_{patrol})}, & \text{if } d(v_k, v_i) > R_{patrol}
+\end{cases}
+\label{eq:accessibility}
+\end{equation}
+
+where $d(v_k, v_i)$ is the shortest-path distance computed via Dijkstra's algorithm.
+
+\subsubsection{Response Time Calculation}
+
+Response time from outpost $k$ to zone $i$:
+
+\begin{equation}
+T_{response}(i, k) = T_{travel}(i, k) + T_{prepare} + T_{uncertainty}
+\label{eq:response_time}
+\end{equation}
+
+where $T_{travel}$ is shortest-path travel time, $T_{prepare}$ is preparation time (15 minutes), and $T_{uncertainty}$ accounts for weather and terrain variability.
+
+\subsection{Resource Allocation and Planning Model}
+
+The third and central layer is a constrained integer programming model for resource deployment.
+
+\subsubsection{Decision Variables}
+
+\begin{align}
+x_{ijk} &= \begin{cases}
+1, & \text{if patrol } k \text{ assigned to zone } i \text{ in shift } t \\
+0, & \text{otherwise}
+\end{cases} \label{eq:decision_patrol} \\
+y_{ij} &= \begin{cases}
+1, & \text{if camera trap } j \text{ placed at zone } i \\
+0, & \text{otherwise}
+\end{cases} \label{eq:decision_camera} \\
+z_{ik} &= \begin{cases}
+1, & \text{if UAV } k \text{ monitors zone } i \\
+0, & \text{otherwise}
+\end{cases} \label{eq:decision_uav}
+\end{align}
+
+\subsubsection{Multi-Objective Integer Programming Model}
+
+\begin{equation}
+\max_{x, y, z} \left[ \mathcal{P}_{weighted}(x, y, z), -\mathcal{C}_{cost}(x, y, z), -\mathcal{G}_{gap}(x, y, z) \right]
+\label{eq:multi_objective}
+\end{equation}
+
+subject to:
+
+\noindent \textbf{Resource Constraints:}
+\begin{align}
+\sum_{i,k} x_{ijk} &\leq N_{rangers} \quad \forall t \label{eq:ranger_limit} \\
+\sum_{i} y_{ij} &\leq N_{cameras} \label{eq:camera_limit} \\
+\sum_{i} z_{ik} &\leq N_{UAVs} \label{eq:uav_limit}
+\end{align}
+
+\noindent \textbf{Coverage Constraints:}
+\begin{equation}
+\sum_{k} A_{ik} \cdot x_{ijk} + \beta_{camera} \cdot \sum_{j} y_{ij} + \beta_{UAV} \cdot \sum_{k} z_{ik} \geq \tau_{min} \quad \forall i \in \mathcal{L}_{high}
+\label{eq:coverage_requirement}
+\end{equation}
+
+\noindent \textbf{Temporal Constraints:}
+\begin{align}
+\sum_{j} x_{ijk} &\leq T_{shift} \quad \forall i, k, t \label{eq:shift_limit} \\
+x_{ijk} + x_{ijk'} &\leq 1 \quad \text{(no consecutive shifts)}
+\end{align}
+
+\noindent \textbf{Budget Constraint:}
+\begin{equation}
+c_{ranger} \sum_{i,j,k} x_{ijk} + c_{camera} \sum_{i,j} y_{ij} + c_{UAV} \sum_{i,k} z_{ik} \leq B
+\label{eq:budget}
+\end{equation}
+
+\subsubsection{Priority-Weighted Objective}
+
+\begin{equation}
+\mathcal{P}_{weighted} = \frac{\sum_{i} w_i \cdot P_i(x, y, z)}{\sum_{i} w_i}
+\label{eq:weighted_protection}
+\end{equation}
+
+where $w_i = \sum_{s \in S_i} \pi_s \cdot \alpha_s(i)$ is the conservation priority weight.
+
+\subsection{Protection Gap Minimization}
+
+The protection gap formulation:
+
+\begin{equation}
+\min_{x, y, z} \sum_{i} w_i \cdot \max(0, \tau_{target} - P_i(x, y, z))
+\label{eq:gap_minimization}
+\end{equation}
+
+This formulation directly minimizes the shortfall from target protection levels.

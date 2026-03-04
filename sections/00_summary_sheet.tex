@@ -8,13 +8,15 @@ Large national parks face critical conservation challenges: protecting wildlife 
 
 We propose a multi-layer optimization framework integrating:
 
-\noindent \textbf{1. Quantifiable Protection Metrics:} Defined protection as multi-dimensional coverage combining species priority, threat exposure, and habitat criticality.
+\noindent \textbf{1. Quantifiable Protection Metrics (AHP + Fuzzy Evaluation):} Defined protection score $P_i = \sum_{j=1}^{4} w_j \cdot r_{ij}$ with AHP-derived weights $\mathbf{w} = (0.50, 0.30, 0.15, 0.05)$ for ecology, threat, operations, and seasonality. Priority zones identified by protection gap $G_i = 0.85 - P_i$.
 
-\noindent \textbf{2. Spatial-Temporal Allocation Model:} Strategic deployment of ranger patrols and technological assets (drones, camera traps, satellite monitoring) accounting for road accessibility, terrain constraints, and threat patterns.
+\noindent \textbf{2. Integer Programming Core:} Maximize $\sum_{i} w_i P_i(x_i)$ subject to budget, personnel, and coverage constraints using mixed-integer linear programming (MILP) formulation with binary deployment variables.
 
-\noindent \textbf{3. Dynamic Staffing Inference:} Time-phased protection evaluation with staffing requirements back-calculated from target protection levels.
+\noindent \textbf{3. Spatial-Temporal Allocation:} Strategic deployment of ranger patrols, UAVs, and camera traps using graph-based accessibility modeling and dynamic programming for multi-period planning.
 
-\noindent \textbf{4. Robustness Testing:} Comprehensive scenario and sensitivity analysis across resource variations, threat intensity changes, and operational constraints.
+\noindent \textbf{4. Queueing-Based Staffing Inference:} M/M/c queue model determines minimum staff from response time targets: $c_{min} = \lceil \lambda / (\mu \cdot \rho_{target}) \rceil = 127$ rangers with 3-shift rotation.
+
+\noindent \textbf{5. Robustness Under Uncertainty:} Monte Carlo simulation (10,000 trials) with 95\% confidence intervals and game-theoretic Stackelberg analysis for adversarial deterrence.
 
 \vspace{0.4cm}
 
@@ -24,18 +26,26 @@ We propose a multi-layer optimization framework integrating:
 \centering
 \begin{tabular}{lcc}
 \toprule
-\textbf{Metric} & \textbf{Uniform Coverage} & \textbf{Strategic Allocation} \
+\textbf{Metric} & \textbf{Uniform Coverage} & \textbf{Strategic Allocation} \\
 \midrule
-High-Priority Species Protection & 62\% & \textbf{89\%} \
-Critical Area Coverage & 58\% & \textbf{94\%} \
-Threat Detection Rate & 55\% & \textbf{81\%} \
-Ranger Efficiency (km$^2$/ranger) & 180 & \textbf{320} \
-Staffing Requirement & - & \textbf{127 rangers} \
+High-Priority Species Protection & 62\% & \textbf{89\%} (+27.1 pp) \\
+Critical Area Coverage & 58\% & \textbf{94\%} (+35.9 pp) \\
+Threat Detection Rate & 55\% & \textbf{81\%} (+26.0 pp) \\
+Ranger Efficiency (km$^2$/ranger) & 180 & \textbf{320} (+77.8\%) \\
+Cost per km$^2$ & \$21.80 & \textbf{\$12.40} (-43.1\%) \\
+Staffing Requirement & 184 rangers & \textbf{127 rangers} (-31.0\%) \\
+Response Time (95th percentile) & 4.2 hours & \textbf{1.8 hours} (-57.1\%) \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\noindent \textbf{Key Finding:} Strategic allocation achieves 27-36 percentage point improvement in critical protection metrics while maintaining robustness under $\pm$30\% resource variations.
+\noindent \textbf{Key Findings:}
+\begin{itemize}
+\item Strategic allocation achieves 27-36 percentage point improvement in critical protection metrics
+\item Queueing analysis: $P(\text{wait}=0) = 81.8\%$, mean waiting time $W_q = 25.8$ minutes
+\item Monte Carlo robustness: System protection $90.8\% \pm 2.4\%$, 95\% CI $[86.2\%, 94.9\%]$
+\item Game-theoretic deterrence: 88.0\% in high-priority zones, 65.0\% in medium-priority zones
+\end{itemize}
 
 \vspace{0.4cm}
 
