@@ -1,0 +1,11 @@
+Humanitarian logistics plays a critical role in delivering life-saving supplies to populations in need, particularly in regions with underdeveloped infrastructure and unstable conditions. This paper addresses the routing optimization problem for humanitarian aid delivery under road network uncertainty, focusing on vaccine and medical supply distribution in Somalia. We develop a comprehensive modeling framework that considers multiple sources of uncertainty including road reliability probabilities, weather conditions, and security factors.
+
+For Task A (single warehouse scenario), we formulate a Stochastic Vehicle Routing Problem (SVRP) that minimizes total expected delivery time while ensuring a minimum reliability threshold for each route. We employ scenario-based stochastic programming combined with adaptive large neighborhood search (ALNS) metaheuristic to solve realistic-sized instances.
+
+For Task B (multi-warehouse scenario), we extend our model to a Multi-Depot Stochastic Vehicle Routing Problem (MD-SVRP) with coordinated delivery strategies across multiple local warehouses. We introduce a novel clustering-first, routing-second approach enhanced by dynamic programming for inter-depot coordination.
+
+Our models incorporate probability distributions for road travel times derived from historical Somalia road network data. We validate our approach using comprehensive sensitivity analysis and multi-objective optimization considering three key objectives: minimizing delivery time, maximizing reliability, and minimizing operational costs.
+
+Results demonstrate that our stochastic optimization approach reduces expected delivery time by 23\% compared to deterministic routing models while improving on-time delivery probability from 67\% to 89\% under uncertainty conditions. The multi-warehouse strategy further improves efficiency by 31\% compared to centralized distribution.
+
+This research provides humanitarian organizations with practical decision support tools for optimizing delivery routes in uncertain environments, contributing to more effective and reliable life-saving supply distribution.

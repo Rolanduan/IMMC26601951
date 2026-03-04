@@ -1,0 +1,53 @@
+\section{Introduction}
+
+\subsection{Background}
+
+Humanitarian logistics has emerged as a critical discipline in emergency response and disaster relief operations. Unlike commercial logistics, which primarily focuses on cost minimization and efficiency, humanitarian logistics operates under unique constraints including time urgency, uncertainty, and the imperative to save lives \cite{Kovacs2012}. The World Health Organization estimates that over 2 billion people lack access to essential medicines, with inadequate transportation infrastructure being a primary barrier \cite{WHO2023}.
+
+In conflict-affected and underdeveloped regions, the challenge of delivering life-saving supplies is particularly acute. Somalia, with its history of political instability and underdeveloped road infrastructure, represents a paradigmatic case study for humanitarian delivery optimization. Road network conditions vary dramatically based on seasonal factors (rainy seasons causing flooding), security conditions (conflict zones), and terrain challenges, creating a highly uncertain environment for logistics planning \cite{UNOCHA2024}.
+
+The COVID-19 pandemic further highlighted the critical importance of efficient vaccine distribution systems. Vaccine delivery requires strict temperature control, limited shelf life, and equitable access considerations—all while operating in resource-constrained environments with uncertain transportation networks \cite{UNICEF2021}. Traditional routing optimization approaches, which assume deterministic travel times, often fail in such stochastic environments.
+
+\subsection{Problem Statement}
+
+This paper addresses the routing optimization problem for humanitarian aid delivery under road network uncertainty. Specifically, we consider a scenario where a humanitarian organization must deliver vaccines and life-saving supplies from central warehouses to multiple distribution points across a region with uncertain road conditions.
+
+The problem presents two distinct but related tasks:
+
+\textbf{Task A: Single Warehouse Routing.} A central warehouse must supply multiple distribution points. Vehicles start from and return to the central warehouse. Road travel times are stochastic variables following probability distributions derived from historical data. The objective is to minimize total expected delivery time while ensuring reliability constraints.
+
+\textbf{Task B: Multi-Warehouse Routing.} Multiple local warehouses serve as starting points for delivery vehicles. This introduces additional complexity in coordinating delivery strategies, partitioning service areas among warehouses, and managing inter-warehouse inventory transfers.
+
+Key constraints include vehicle capacity limits, warehouse inventory constraints, delivery time windows (critical for vaccines with limited shelf life), and probabilistic road reliability requirements. The problem exhibits characteristics of both the Vehicle Routing Problem (VRP) and Stochastic Programming, making it computationally challenging for realistic instances.
+
+\subsection{Challenges and Motivation}
+
+Several critical challenges motivate our research:
+
+\textbf{Uncertainty Modeling.} Road travel times in humanitarian contexts exhibit high variability due to weather, security, and infrastructure conditions. Traditional deterministic VRP models cannot adequately capture this uncertainty, leading to suboptimal or infeasible routing plans when implemented in practice \cite{Gendreau2014}.
+
+\textbf{Multi-Objective Trade-offs.} Humanitarian logistics involves competing objectives: minimizing delivery time (urgency), maximizing reliability (critical for perishable supplies), and minimizing operational costs (resource constraints). Effective decision support tools must balance these objectives \cite{Campbell2004}.
+
+\textbf{Scalability.} Real-world humanitarian delivery networks involve hundreds of distribution points and multiple vehicles. Exact solution methods become computationally intractable, necessitating development of efficient heuristic and metaheuristic algorithms \cite{Laporte2009}.
+
+\textbf{Practical Implementation.} Mathematical models must translate into actionable routing plans that field operators can implement. This requires consideration of practical constraints, interpretability of results, and robustness to unexpected disruptions \cite{VanWassenhove2016}.
+
+\subsection{Research Contributions}
+
+This paper makes the following key contributions:
+
+\begin{enumerate}[label=(\roman*)]
+\item \textbf{Probabilistic Road Network Modeling:} We develop a comprehensive framework for modeling road travel time uncertainty using probability distributions fitted to historical Somalia road network data, incorporating seasonal and geographical factors.
+
+\item \textbf{Stochastic VRP Formulation:} We formulate the problem as a Stochastic Vehicle Routing Problem with reliability constraints, providing a mathematically rigorous foundation for optimization under uncertainty.
+
+\item \textbf{Hybrid Solution Algorithm:} We design a hybrid algorithm combining scenario-based stochastic programming with Adaptive Large Neighborhood Search (ALNS) metaheuristic, achieving near-optimal solutions for realistic problem instances.
+
+\item \textbf{Multi-Warehouse Coordination:} We develop a novel clustering-based approach for multi-depot coordination, demonstrating significant efficiency improvements over centralized distribution strategies.
+
+\item \textbf{Comprehensive Validation:} We conduct extensive sensitivity analysis and multi-objective optimization, providing robust insights into the trade-offs between efficiency, reliability, and cost.
+\end{enumerate}
+
+\subsection{Paper Organization}
+
+The remainder of this paper is organized as follows. Section \ref{sec:problem_analysis} provides a detailed problem analysis and restatement, identifying key variables, parameters, and modeling assumptions. Section \ref{sec:literature_review} reviews relevant literature on vehicle routing, stochastic programming, and humanitarian logistics. Section \ref{sec:data_analysis} presents exploratory analysis and probability modeling of road network data. Section \ref{sec:model_formulation} develops our mathematical models, progressing from deterministic to stochastic formulations. Section \ref{sec:solution_algorithm} describes our solution algorithms. Section \ref{sec:results} presents computational results and analysis. Section \ref{sec:sensitivity} conducts comprehensive sensitivity analysis. Section \ref{sec:evaluation} discusses model advantages and limitations. Section \ref{sec:conclusion} concludes with recommendations for practitioners and directions for future research.

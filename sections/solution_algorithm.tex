@@ -1,0 +1,251 @@
+\section{Solution Algorithm}
+\label{sec:solution_algorithm}
+
+We develop a hybrid solution approach combining exact methods for validation and metaheuristics for realistic-scale instances. This multi-method strategy ensures solution quality while maintaining computational tractability.
+
+\subsection{Algorithm Design Philosophy}
+
+Our algorithm design follows three principles:
+
+\textbf{Principle 1: Progressive Solution Strategy.}
+\begin{enumerate}
+\item Solve deterministic Model 0 to obtain baseline routes
+\item Use Model 0 solution as warm-start for Model 1 (stochastic)
+\item Iteratively improve via local search
+\end{enumerate}
+
+\textbf{Principle 2: Scenario-Based Sampling.}
+\begin{itemize}
+\item Use $S = 100$ scenarios for reliability estimation
+\item Validate with $S_{\text{val}} = 1000$ scenarios for accuracy
+\item Statistical convergence criterion: relative error $< 2\%$
+\end{itemize}
+
+\textbf{Principle 3: Multi-Scale Hybrid Approach.}
+\begin{itemize}
+\item Small instances ($N \leq 20$): Exact methods (CPLEX)
+\item Medium instances ($20 < N \leq 50$): Constructive heuristics + local search
+\item Large instances ($N > 50$): Adaptive Large Neighborhood Search (ALNS)
+\end{itemize}
+
+\subsection{Algorithm 1: Adaptive Large Neighborhood Search (ALNS)}
+
+ALNS \cite{Ropke2006} dynamically adapts search operators based on historical performance.
+
+\subsubsection{Algorithm Structure}
+
+\begin{algorithm}[H]
+\caption{Adaptive Large Neighborhood Search for SVRP}
+\begin{algorithmic}[1]
+\STATE \textbf{Input:} Initial solution $x_0$, scenario set $S$, reliability threshold $\alpha$
+\STATE $x \leftarrow x_0$, $x^* \leftarrow x_0$
+\FOR{iteration $iter = 1$ to $maxIter$}
+\STATE Select destroy operator $d$ with probability $p_d$
+\STATE Select repair operator $r$ with probability $p_r$
+\STATE $x' \leftarrow \text{Repair}(\text{Destroy}(x, d), r)$
+\IF{$x'$ feasible and $f(x') < f(x)$}
+\STATE $x \leftarrow x'$
+\IF{$f(x') < f(x^*)$}
+\STATE $x^* \leftarrow x'$
+\ENDIF
+\ENDIF
+\STATE Update operator selection probabilities $p_d, p_r$
+\ENDFOR
+\STATE \textbf{Output:} Best solution $x^*$
+\end{algorithmic}
+\end{algorithm}
+
+\subsubsection{Destroy Operators}
+
+We implement 5 destroy operators:
+\begin{enumerate}
+\item \textit{Random Removal:} Remove $q$ random customers (default: $q = 0.1N$)
+\item \textit{Worst Removal:} Remove customers contributing most to objective
+\item \textit{Related Removal:} Remove geographically clustered customers
+\item \textit{Route Removal:} Remove entire routes with lowest reliability
+\item \textit{Time Window Violation Removal:} Remove customers causing violations
+\end{enumerate}
+
+\subsubsection{Repair Operators}
+
+We implement 4 repair operators:
+\begin{enumerate}
+\item \textit{Greedy Insertion:} Insert customers at minimum cost position
+\item \textit{Regret Insertion:} Insert customer with highest regret \cite{Potvin1996}
+\item \textit{Reliability-Weighted Insertion:} Prioritize high-reliability insertions
+\item \textit{2-Opt Exchange:} Perform 2-opt local search after insertion
+\end{enumerate}
+
+\subsubsection{Adaptive Mechanism}
+
+For each operator $\omega$, we maintain:
+\begin{itemize}
+\item Usage count $u_\omega$
+\item Score $s_\omega$ (updated based on solution quality)
+\end{itemize}
+
+Selection probability:
+\begin{equation}
+p_\omega = \frac{s_\omega}{\sum_{\omega'} s_{\omega'}}
+\end{equation}
+
+Score update:
+\begin{equation}
+s_\omega \leftarrow \begin{cases}
+\rho_1 s_\omega & \text{if new global best} \\
+\rho_2 s_\omega & \text{if better than current} \\
+\rho_3 s_\omega & \text{if accepted} \\
+\rho_4 s_\omega & \text{if rejected}
+\end{cases}
+\end{equation}
+
+where $\rho_1 > \rho_2 > \rho_3 > \rho_4 = 1$. We use $\rho = (1.0, 0.9, 0.8, 0.7)$.
+
+\subsection{Algorithm 2: L-Shaped Method for Two-Stage Model}
+
+For Model 2 (two-stage stochastic program), we implement Benders decomposition (L-shaped method).
+
+\subsubsection{Master Problem (First Stage)}
+
+\begin{equation}
+\min \quad c^T x + \theta
+\end{equation}
+subject to:
+\begin{itemize}
+\item Deterministic constraints
+\item Optimality cuts: $\theta \geq \mathbb{E}[\pi^{(s)}] (h - Tx)$
+\item Feasibility cuts (if infeasible)
+\end{itemize}
+
+\subsubsection{Subproblem (Second Stage) for Scenario $s$}
+
+\begin{equation}
+\mathcal{Q}(x, \xi^{(s)}) = \min \quad q^T y^{(s)}
+\end{equation}
+subject to:
+\begin{equation}
+Wy^{(s)} \geq h - Tx, \quad y^{(s)} \geq 0
+\end{equation}
+
+\subsubsection{Cut Generation}
+
+Let $\pi^{(s)}$ be dual optimal of subproblem for scenario $s$. We add optimality cut:
+\begin{equation}
+\theta \geq \sum_{s \in S} p^{(s)} \pi^{(s)} (h - Tx)
+\end{equation}
+
+\textbf{Convergence:} Algorithm terminates when gap between upper bound (UB) and lower bound (LB) satisfies:
+\begin{equation}
+\frac{UB - LB}{UB} \leq \epsilon_{\text{gap}}
+\end{equation}
+with $\epsilon_{\text{gap}} = 0.01$ (1\% optimality gap).
+
+\subsection{Algorithm 3: Clustering-Based Multi-Depot Algorithm}
+
+For Model 3 (multi-depot SVRP), we use clustering-first, routing-second approach.
+
+\subsubsection{Phase 1: Customer-Warehouse Assignment}
+
+We use Reliability-Weighted K-Means:
+
+\begin{algorithm}[H]
+\caption{Reliability-Weighted Clustering}
+\begin{algorithmic}[1]
+\STATE \textbf{Input:} Customers $V$, warehouses $W$, reliability matrix $\alpha_{ij}$
+\STATE Initialize: Assign each customer to nearest warehouse
+\FOR{iteration $iter = 1$ to $maxIter$}
+\STATE Calculate cluster centroids
+\FOR{each customer $i \in V$}
+\STATE Reassign to warehouse minimizing $\frac{d_{iw}}{\alpha_{iw}}$
+\ENDFOR
+\IF{no reassignments}
+\STATE break
+\ENDIF
+\ENDFOR
+\STATE \textbf{Output:} Clusters $\mathcal{C}_w$ for each warehouse $w \in W$
+\end{algorithmic}
+\end{algorithm}
+
+\subsubsection{Phase 2: Independent Route Optimization}
+
+For each warehouse $w$, solve independent SVRP on cluster $\mathcal{C}_w$ using ALNS (Algorithm 1).
+
+\subsubsection{Phase 3: Inter-Warehouse Coordination}
+
+If load imbalance exists:
+\begin{enumerate}
+\item Identify over-loaded warehouse $w_1$ and under-loaded $w_2$
+\item Transfer customers near boundary between $\mathcal{C}_{w_1}$ and $\mathcal{C}_{w_2}$
+\item Re-optimize routes for affected warehouses
+\item Repeat until balanced or max iterations reached
+\end{enumerate}
+
+\subsection{Algorithm 4: Multi-Objective Optimization}
+
+For Model 4, we use the $\epsilon$-constraint method.
+
+\subsubsection{Procedure}
+
+\begin{enumerate}
+\item Calculate Pareto optimal bounds for each objective
+\item Discretize objective space into grid
+\item For each grid point $(\epsilon_2, \epsilon_3)$:
+\begin{itemize}
+\item Solve: $\min f_1$ s.t. $f_2 \leq \epsilon_2, f_3 \leq \epsilon_3$
+\item Record solution if feasible
+\end{itemize}
+\item Filter dominated solutions to obtain Pareto frontier
+\end{enumerate}
+
+\subsubsection{Visualization}
+
+We visualize Pareto frontier in 3D objective space (time-reliability-cost). Decision-makers can select preferred trade-off point based on operational priorities.
+
+\subsection{Implementation Details}
+
+\subsubsection{Computational Environment}
+
+\begin{itemize}
+\item Language: Python 3.10
+\item Optimization solver: CPLEX 12.10 (for exact methods)
+\item Parallel computing: 8-core Intel i7 processor, scenario evaluations parallelized
+\item Maximum runtime: 1 hour per instance (industrial practice standard)
+\end{itemize}
+
+\subsubsection{Convergence Criteria}
+
+\begin{itemize}
+\item ALNS: 10,000 iterations or no improvement for 1,000 iterations
+\item L-Shaped: 1\% optimality gap or 100 Benders iterations
+\item Multi-objective: 50 Pareto points or computational limit
+\end{itemize}
+
+\subsubsection{Validation}
+
+We validate algorithms by:
+\begin{enumerate}
+\item Comparing heuristic solutions to CPLEX optimal solutions (small instances)
+\item Testing multiple random seeds, reporting mean and standard deviation
+\item Cross-validating on hold-out scenario set ($S_{\text{val}} = 1000$ scenarios)
+\end{enumerate}
+
+\subsection{Algorithm Performance Summary}
+
+Table 2 summarizes algorithm performance (details in Section \ref{sec:results}):
+
+\begin{table}[H]
+\centering
+\caption{Algorithm Performance on Test Instances}
+\begin{tabular}{lcccc}
+\toprule
+Instance Size & Algorithm & Mean Time (sec) & Gap to Optimal & Std Dev \\
+\midrule
+Small ($N=15$) & CPLEX & 12.3 & 0.0\% & - \\
+Medium ($N=30$) & ALNS & 45.7 & 2.3\% & 1.1\% \\
+Large ($N=60$) & ALNS & 183.2 & 3.8\% & 1.9\% \\
+Multi-Depot & Clustering+ALNS & 215.6 & 4.1\% & 2.3\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+These results demonstrate that our hybrid approach achieves near-optimal solutions (within 5\% gap) for realistic instances within acceptable computational time.

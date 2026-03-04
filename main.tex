@@ -1,14 +1,138 @@
-\documentclass{article}
-\usepackage{graphicx} % Required for inserting images
+\documentclass[12pt,a4paper]{article}
 
-\title{IMMC26601951}
-\author{kaiyao.duan }
-\date{March 2026}
+% ============================================================================
+% Packages
+% ============================================================================
+\usepackage[top=2.54cm, bottom=2.54cm, left=3.17cm, right=3.17cm]{geometry}
+\usepackage{times}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{cite}
+\usepackage{url}
 
+% For Chinese support if needed
+\usepackage[UTF8]{ctex}
+
+% ============================================================================
+% Formatting
+% ============================================================================
+\linespread{1.5}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+
+% ============================================================================
+% Title Page Information
+% ============================================================================
+\title{\vspace{-2cm}\textbf{\Large Routing for Life-Saving Deliveries:\\Optimization of Humanitarian Aid Distribution\\Under Road Network Uncertainty}}
+
+\author{\textbf{Control Number: IMMC26601951}}
+
+\date{\today}
+
+% ============================================================================
+% Custom Commands
+% ============================================================================
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+
+% ============================================================================
+% Document Start
+% ============================================================================
 \begin{document}
 
+% ============================================================================
+% Title Page
+% ============================================================================
 \maketitle
+\vspace{-1cm}
+\begin{center}
+\textbf{Abstract}
+\end{center}
 
-\section{Introduction}
+\input{sections/abstract}
+
+\newpage
+
+% ============================================================================
+% Table of Contents
+% ============================================================================
+\tableofcontents
+\newpage
+
+% ============================================================================
+% Main Content
+% ============================================================================
+
+% Section 1: Introduction
+\input{sections/introduction}
+\newpage
+
+% Section 2: Problem Analysis and Restatement
+\input{sections/problem_analysis}
+\newpage
+
+% Section 3: Literature Review
+\input{sections/literature_review}
+\newpage
+
+% Section 4: Data Analysis
+\input{sections/data_analysis}
+\newpage
+
+% Section 5: Model Formulation
+\input{sections/model_formulation}
+\newpage
+
+% Section 6: Solution Algorithm
+\input{sections/solution_algorithm}
+\newpage
+
+% Section 7: Results and Analysis
+\input{sections/results_analysis}
+\newpage
+
+% Section 8: Sensitivity Analysis
+\input{sections/sensitivity_analysis}
+\newpage
+
+% Section 9: Model Evaluation
+\input{sections/model_evaluation}
+\newpage
+
+% Section 10: Conclusion and Recommendations
+\input{sections/conclusion}
+\newpage
+
+% ============================================================================
+% References
+% ============================================================================
+\bibliographystyle{plain}
+\bibliography{references}
+
+% ============================================================================
+% Appendices
+% ============================================================================
+\appendix
+
+\input{appendices/appendix_a}
+\input{appendices/appendix_b}
+\input{appendices/appendix_c}
 
 \end{document}
