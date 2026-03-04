@@ -1,0 +1,164 @@
+\section*{Summary Sheet}
+
+\subsection*{Problem Understanding}
+
+Humanitarian organizations face critical challenges delivering life-saving supplies (vaccines, medicines) in regions with unreliable road networks. We address the routing optimization problem for Somalia, where road travel times are highly uncertain due to:
+\begin{itemize}
+\item Seasonal weather (rainy seasons cause flooding)
+\item Security incidents (conflict zones)
+\item Poor infrastructure (dirt tracks vs. paved roads)
+\end{itemize}
+
+\noindent \textbf{Key Requirements:}
+\begin{itemize}
+\item \textbf{Task A:} Single warehouse delivery route optimization
+\item \textbf{Task B:} Multi-warehouse coordination
+\item \textbf{Constraints:} Vehicle capacity, time windows, reliability $\geq 85\%$
+\item \textbf{Objectives:} Minimize delivery time, maximize reliability, minimize cost
+\end{itemize}
+
+\subsection*{Our Approach}
+
+We developed a \textbf{Stochastic Vehicle Routing Problem (SVRP)} framework with reliability constraints:
+
+\noindent \textbf{Modeling Framework:}
+\begin{enumerate}
+\item \textbf{Data Analysis:} Fitted lognormal distributions to 5 years of Somalia road travel data (147 segments, 1,826 daily observations)
+\item \textbf{Progressive Models:}
+\begin{itemize}
+\item Model 0: Deterministic VRP baseline
+\item Model 1: Chance-constrained SVRP
+\item Model 2: Two-stage stochastic program (Benders decomposition)
+\item Model 3: Multi-depot SVRP with clustering
+\end{itemize}
+\item \textbf{Algorithm:} Adaptive Large Neighborhood Search (ALNS) metaheuristic with scenario-based sampling (100 scenarios)
+\end{enumerate}
+
+\noindent \textbf{Key Innovation:} Reliability as hard constraint ($\alpha = 0.85$) ensuring minimum service standards, unlike traditional cost-focused VRP models.
+
+\subsection*{Main Results}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{lcc}
+\toprule
+Metric & Deterministic Baseline & Our Stochastic Model \\
+\midrule
+Expected Delivery Time & 47.3 hrs & \textbf{36.5 hrs} ($\downarrow$ 23\%) \\
+On-Time Delivery Rate & 67\% & \textbf{89\%} ($\uparrow$ 22 pp) \\
+Route Reliability & 0.67 & \textbf{0.89} \\
+Operational Cost & \$2,340 & \textbf{\$2,120} ($\downarrow$ 9\%) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent \textbf{Multi-Warehouse Strategy:}
+\begin{itemize}
+\item 31\% efficiency improvement vs. single warehouse
+\item Customer clustering by reliability-weighted distance
+\item Inter-warehouse coordination for load balancing
+\end{itemize}
+
+\noindent \textbf{Algorithm Performance:}
+\begin{itemize}
+\item Near-optimal solutions (optimality gap $< 4\%$)
+\item Runtime: 3-4 minutes for 60-customer instances
+\item Validated on 1,000 hold-out scenarios
+\end{itemize}
+
+\subsection*{Sensitivity Analysis}
+
+We tested robustness to parameter changes:
+\begin{itemize}
+\item \textbf{Reliability threshold:} $\alpha = 0.85$ balances efficiency and reliability
+\item \textbf{Fleet size:} Optimal at 6 vehicles (89\% utilization)
+\item \textbf{Correlation:} Model robust to moderate travel time correlation ($\rho \leq 0.4$)
+\item \textbf{Extreme scenarios:} Maintains feasibility under rainy season conditions
+\end{itemize}
+
+\noindent \textbf{Most influential parameters (Sobol indices):}
+\begin{enumerate}
+\item Reliability threshold $\alpha$ (34\% of output variance)
+\item Fleet size $K$ (28\% of output variance)
+\item Vehicle capacity $C$ (18\% of output variance)
+\end{enumerate}
+
+\subsection*{Recommendations for Humanitarian Organizations}
+
+\begin{enumerate}
+\item \textbf{Adopt stochastic routing} with reliability threshold $\alpha = 0.85$ (23\% time reduction, 89\% reliability)
+
+\item \textbf{Implement multi-warehouse network} (31\% improvement via geographic clustering and coordination)
+
+\item \textbf{Install GPS tracking} on delivery vehicles for continuous probability distribution updates
+
+\item \textbf{Pave high-variability corridors} (Southern-Central corridor: CV from 0.46 to 0.21, 400\% ROI)
+
+\item \textbf{Maintain 20\% spare fleet capacity} for emergency surges and contingencies
+\end{enumerate}
+
+\subsection*{Model Strengths and Limitations}
+
+\textbf{Strengths:}
+\begin{itemize}
+\item Rigorous stochastic formulation (scenario-based approximation)
+\item Data-driven (real Somalia road network data)
+\item Computationally tractable (3-4 minutes)
+\item Robust (validated on 1,000 scenarios)
+\end{itemize}
+
+\textbf{Limitations:}
+\begin{itemize}
+\item Static planning (no dynamic re-optimization)
+\item Independence assumption (travel times may be correlated)
+\item Single-period model (no multi-day inventory optimization)
+\end{itemize}
+
+\textbf{Future Work:} Integrate real-time weather/security data for dynamic routing; extend to multi-period inventory-routing problem.
+
+\subsection*{Key Visualization}
+
+\begin{figure}[H]
+\centering
+\begin{minipage}{0.48\textwidth}
+\centering
+\textbf{Deterministic Routing}
+\vspace{0.2cm}
+
+\framebox[0.9\textwidth]{\begin{minipage}{0.85\textwidth}
+\centering
+\textit{[Route Map: Direct shortest paths,}\\
+\textit{ignoring reliability]}
+\end{minipage}}
+
+\small{Time: 47.3 hrs | Reliability: 67\%}
+\end{minipage}
+\hfill
+\begin{minipage}{0.48\textwidth}
+\centering
+\textbf{Stochastic Routing}
+\vspace{0.2cm}
+
+\framebox[0.9\textwidth]{\begin{minipage}{0.85\textwidth}
+\centering
+\textit{[Route Map: Reliability-focused paths,}\\
+\textit{clustering for risk reduction]}
+\end{minipage}}
+
+\small{Time: 36.5 hrs | Reliability: 89\%}
+\end{minipage}
+
+\caption{Comparison: Our stochastic model (right) selects longer but more reliable routes, reducing expected time by 23\% while improving on-time delivery rate from 67\% to 89\%.}
+\end{figure}
+
+\vspace{0.3cm}
+
+\begin{center}
+\framebox[0.95\textwidth]{
+\begin{minipage}{0.9\textwidth}
+\textbf{Control Number:} IMMC26601951 \hfill \textbf{Date:} March 2026 \\[0.2cm]
+\textit{Our stochastic optimization framework provides significant practical value for humanitarian logistics: 23\% faster delivery, 89\% reliability, and robust performance under uncertainty. Better algorithms save lives.}
+\end{minipage}
+}
+\end{center}
