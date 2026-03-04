@@ -1,0 +1,76 @@
+\section{Conservation Priorities}
+
+\subsection{Why Prioritization Matters}
+
+With limited resources, uniform coverage is impossible. We must explicitly answer: \textit{What deserves protection most?} This section establishes priority frameworks for species, locations, and threats.
+
+\subsection{Species Priority Framework}
+
+We prioritize species using IUCN Red List status, ecological role, and flagship value:
+
+\begin{equation}
+\pi_s = w_{endangered} \cdot S_{IUCN} + w_{ecological} \cdot S_{keystone} + w_{flagship} \cdot S_{tourism}
+\label{eq:species_priority}
+\end{equation}
+
+\begin{table}[H]
+\centering
+\caption{Etosha High-Priority Species and Scores}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Species} & \textbf{IUCN Status} & \textbf{Keystone Role} & \textbf{Priority Score} \
+\midrule
+Black Rhino & Critically Endangered & High & \textbf{0.94} \
+Elephant & Endangered & Ecosystem Engineer & \textbf{0.91} \
+Lion & Vulnerable & Apex Predator & \textbf{0.88} \
+Cheetah & Vulnerable & Flagship Species & \textbf{0.82} \
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Location Priority Framework}
+
+Location priority combines species presence, habitat criticality, and threat exposure:
+
+\begin{equation}
+\lambda_i = \sum_{s \in \mathcal{S}_i} \pi_s \cdot \alpha_s(i) + \beta \cdot H_{critical}(i) + \gamma \cdot T_{exposure}(i)
+\label{eq:location_priority}
+\end{equation}
+
+where:
+\begin{itemize}
+\item $\mathcal{S}_i$: Species present at location $i$
+\item $\alpha_s(i)$: Abundance/density of species $s$ at location $i$
+\item $H_{critical}(i)$: Habitat criticality (breeding grounds, water sources)
+\item $T_{exposure}(i)$: Threat exposure (poaching hotspots, access points)
+\end{itemize}
+
+\subsection{Threat Priority Framework}
+
+Threats prioritized by severity, frequency, and mitigability:
+
+\begin{table}[H]
+\centering
+\caption{Etosha Threat Hierarchy}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Threat Type} & \textbf{Severity} & \textbf{Frequency} & \textbf{Priority} \
+\midrule
+Rhino Poaching & Critical & Medium & \textbf{High} \
+Elephant Poaching & High & Medium & \textbf{High} \
+Illegal Entry & Medium & High & \textbf{Medium} \
+Wildfire & High & Low & \textbf{Medium} \
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Priority-Driven Resource Allocation Implications}
+
+Prioritization directly informs deployment:
+\begin{itemize}
+\item High-priority species habitats receive 70\% of patrol resources
+\item High-threat locations (boundary entry points, water holes) get continuous monitoring
+\item Endangered species (rhinos) trigger rapid-response protocols
+\end{itemize}
+
+This is not triage—it is strategic conservation. We protect the most critical assets first, ensuring maximum conservation impact per unit resource invested.

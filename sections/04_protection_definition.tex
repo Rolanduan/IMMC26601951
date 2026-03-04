@@ -1,0 +1,92 @@
+\section{Definition of Protection}
+
+\subsection{The Challenge: Defining the Indefinable}
+
+"Protection" is intuitively understood but mathematically elusive. What does it mean for a region, species, or ecosystem to be "protected"? Before allocating resources, we must establish quantifiable, operational definitions.
+
+\subsection{Our Definition: Multi-Dimensional Coverage}
+
+We define protection as \textbf{satisfying multi-dimensional coverage criteria across space, time, and threat dimensions}. Formally, a location $i$ is protected at time $t$ if:
+
+\begin{equation}
+P_i(t) = \mathbb{I}\left[C_{spatial}(i,t) \land C_{temporal}(i,t) \land C_{threat}(i,t)\right] \geq \tau
+\label{eq:protection_def}
+\end{equation}
+
+where:
+\begin{itemize}
+\item $C_{spatial}(i,t)$: Spatial coverage—monitoring assets can reach location $i$
+\item $C_{temporal}(i,t)$: Temporal coverage—monitoring occurs with sufficient frequency
+\item $C_{threat}(i,t)$: Threat coverage—specific threats are detectable and mitigable
+\item $\tau$: Protection threshold (e.g., $\tau = 0.85$ for 85\% target protection)
+\end{itemize}
+
+\subsection{Spatial Coverage: Accessibility and Detection}
+
+Spatial coverage requires both \textit{reachability} and \textit{detectability}:
+
+\begin{equation}
+C_{spatial}(i,t) = \max_{k \in K}\left[\mathbb{I}(d_{ik} \leq r_k) \cdot \mathbb{I}(P_{detection}(i,k) \geq p_{min})\right]
+\label{eq:spatial_coverage}
+\end{equation}
+
+where:
+\begin{itemize}
+\item $d_{ik}$: Distance from asset $k$ (ranger patrol, UAV, camera trap) to location $i$
+\item $r_k$: Operational range of asset $k$
+\item $P_{detection}(i,k)$: Probability of detecting threats at location $i$ using asset $k$
+\item $p_{min}$: Minimum acceptable detection probability
+\end{itemize}
+
+\subsection{Temporal Coverage: Monitoring Frequency}
+
+Protection is not static. Continuous monitoring is impossible; we define temporal sufficiency:
+
+\begin{equation}
+C_{temporal}(i,t) = \mathbb{I}\left(\frac{N_{visits}(i, t-\Delta t)}{\Delta t} \geq f_{target}\right)
+\label{eq:temporal_coverage}
+\end{equation}
+
+where:
+\begin{itemize}
+\item $N_{visits}(i, t-\Delta t)$: Number of monitoring visits to location $i$ in time window $\Delta t$
+\item $f_{target}$: Target visitation frequency (e.g., daily for high-priority areas)
+\end{itemize}
+
+\subsection{Threat Coverage: Specificity and Mitigability}
+
+Different threats require different detection and response capabilities:
+
+\begin{equation}
+C_{threat}(i,t) = \min_{\theta \in \Theta_i}\left[\mathbb{I}(P_{detect}^{(\theta)}(i,t) \geq p_{threshold}^{(\theta)}) \cdot \mathbb{I}(T_{response}^{(\theta)} \leq T_{critical}^{(\theta)})\right]
+\label{eq:threat_coverage}
+\end{equation}
+
+where for each threat type $\theta$:
+\begin{itemize}
+\item $P_{detect}^{(\theta)}$: Probability of detecting threat $\theta$
+\item $T_{response}^{(\theta)}$: Response time to threat $\theta$
+\item $T_{critical}^{(\theta)}$: Critical response window for threat $\theta$
+\end{itemize}
+
+\subsection{Aggregation: From Location to System-Level Protection}
+
+System-level protection aggregates across locations, weighted by conservation priority:
+
+\begin{equation}
+\mathcal{P}_{system} = \frac{\sum_{i \in \mathcal{L}} w_i \cdot P_i}{\sum_{i \in \mathcal{L}} w_i}
+\label{eq:system_protection}
+\end{equation}
+
+where $w_i$ is the conservation priority weight of location $i$ (Section 5).
+
+\subsection{Operational Interpretation}
+
+This definition provides operational guidance:
+\begin{itemize}
+\item \textbf{For rangers:} Patrols must reach high-priority locations within operational ranges with sufficient frequency
+\item \textbf{For UAVs:} Flight paths must cover inaccessible terrain with detection-capable sensors
+\item \textbf{For camera traps:} Placement must ensure threat-specific detection with actionable response times
+\end{itemize}
+
+Protection is not binary—it is graded, measurable, and achievable through strategic deployment.
