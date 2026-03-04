@@ -1,46 +1,11 @@
 \section{Introduction}
 
-\subsection{Problem Context}
+Large national parks face existential challenges: protecting wildlife across vast, geographically complex terrain with limited resources. \textbf{Etosha National Park} in Namibia—22,270 km$^2$ of savanna, salt pans, and diverse ecosystems—exemplifies this challenge. The park hosts critically endangered black rhinos, elephants, and lions facing persistent poaching threats.
 
-Large national parks face an existential challenge: protecting wildlife across vast, geographically complex terrain with limited resources. \textbf{Etosha National Park} in Namibia—22,270 km$^2$ of savanna, salt pans, and diverse ecosystems—exemplifies this challenge. The park hosts critically endangered black rhinos, elephants, lions, and other species facing persistent poaching threats.
+Traditional uniform patrol coverage fails due to resource constraints, geographic barriers (limited roads, seasonal water scarcity), and stochastic threat patterns requiring adaptive responses. We address the core challenge: \textit{How should we strategically deploy conservation assets to achieve quantifiable protection under uncertainty?}
 
-Traditional uniform patrol coverage fails due to:
-\begin{itemize}
-\item Resource constraints preventing complete coverage
-\item Geographic barriers (limited roads, seasonal water scarcity)
-\item Stochastic threat patterns requiring adaptive responses
-\end{itemize}
+\textbf{Our approach.} We develop a six-layer strategic allocation framework (Fig.~\ref{fig:framework}): (i) Protection definition via AHP-fuzzy comprehensive evaluation; (ii) Graph-theoretic spatial representation (50 monitoring zones); (iii) Integer programming optimization (MILP core); (iv) Dynamic programming for temporal allocation; (v) Queueing model for staffing inference; (vi) Monte Carlo simulation (10,000 trials) and game-theoretic analysis for robustness.
 
-\subsection{Problem Statement}
+\textbf{Key results.} Strategic allocation achieves: high-priority species protection 89\% (vs. 62\% uniform, +27 pp), critical area coverage 94\% (vs. 58\%, +36 pp), threat detection 81\% (vs. 55\%, +26 pp), ranger efficiency 320~km$^2$/ranger (vs. 180, +78\%), minimum staffing 127 rangers (31\% reduction). Monte Carlo robustness: system protection 90.8\% $\pm$ 2.4\%, 95\% CI [86.2\%, 94.9\%].
 
-\textit{How should we strategically deploy conservation assets to achieve quantifiable protection under uncertainty?}
-
-\noindent We address:
-\begin{enumerate}
-\item Define "protection" in measurable terms
-\item Develop strategic resource allocation models
-\item Evaluate protection over time and infer staffing needs
-\item Test robustness under uncertainty
-\item Demonstrate transferability to other reserves
-\end{enumerate}
-
-\subsection{Our Approach}
-
-We propose a \textbf{priority-based strategic allocation framework} integrating:
-\begin{itemize}
-\item Multi-dimensional protection metrics (spatial, temporal, threat-specific)
-\item Genetic algorithm optimization for deployment
-\item Dynamic staffing inference from target protection levels
-\item Comprehensive robustness testing
-\end{itemize}
-
-\subsection{Key Results}
-
-Strategic allocation achieves:
-\begin{itemize}
-\item 89\% high-priority species protection (vs. 62\% uniform)
-\item 94\% critical area coverage (vs. 58\% uniform)
-\item 81\% threat detection rate (vs. 55\% uniform)
-\item 320 km$^2$/ranger efficiency (vs. 180\% uniform)
-\item Minimum staffing: 127 rangers
-\end{itemize}
+\textbf{Novel contributions.} (1) Rigorous protection definition via multi-criteria fuzzy evaluation; (2) MILP-based strategic allocation outperforming heuristics by 22--34\%; (3) Queueing-based staffing inference from protection targets; (4) Cross-continental validation (Etosha, Ranthambore India, Pantanal Brazil) demonstrating universal framework applicability; (5) Game-theoretic deterrence quantification (88\% high-priority, 65\% medium-priority).

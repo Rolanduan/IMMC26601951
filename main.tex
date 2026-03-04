@@ -1,43 +1,49 @@
-\documentclass[12pt,a4paper]{article}
+\documentclass[10pt,a4paper]{article}
 
 % ============================================================================
-% Packages
+% Nature-Style Professional Typesetting
 % ============================================================================
-\usepackage[top=2.5cm, bottom=2.5cm, left=3cm, right=3cm]{geometry}
-\usepackage{times}
+\usepackage[top=2cm, bottom=2cm, left=1.8cm, right=1.8cm]{geometry}
+\usepackage{helvet}
 \usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathptmx} % Professional math font
+\usepackage[T1]{fontenc}
 \usepackage{graphicx}
-\usepackage{booktabs}
+\usepackage{booktabs} % Professional tables
 \usepackage{multirow}
 \usepackage{float}
-\usepackage{caption}
+\usepackage[font=small,labelfont=bf,skip=3pt]{caption}
 \usepackage{subcaption}
 \usepackage{enumitem}
 \usepackage{xcolor}
-\usepackage{listings}
-\usepackage{algorithm}
-\usepackage{algorithmic}
 \usepackage{cite}
 \usepackage{url}
 \usepackage{setspace}
 \usepackage{tikz}
 \usetikzlibrary{shapes,arrows,positioning,fit,calc}
+\usepackage{etoolbox}
 
 % ============================================================================
-% Formatting
+% Compact Professional Formatting
 % ============================================================================
-\linespread{1.3}
+\linespread{1.15} % Tighter line spacing
 \setlength{\parindent}{0pt}
-\setlength{\parskip}{5pt plus 2pt minus 1pt}
+\setlength{\parskip}{3pt plus 1pt minus 1pt} % Compact paragraph spacing
 
-% Better figure and table placement
-\renewcommand{\topfraction}{0.85}
-\renewcommand{\bottomfraction}{0.85}
-\renewcommand{\textfraction}{0.15}
-\renewcommand{\floatpagefraction}{0.85}
-\setcounter{topnumber}{3}
-\setcounter{bottomnumber}{3}
-\setcounter{totalnumber}{5}
+% Optimized float placement
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\bottomfraction}{0.9}
+\renewcommand{\textfraction}{0.1}
+\renewcommand{\floatpagefraction}{0.9}
+\setcounter{topnumber}{4}
+\setcounter{bottomnumber}{4}
+\setcounter{totalnumber}{6}
+
+% Tight section spacing
+\usepackage{titlesec}
+\titlespacing*{\medskip}{0.2ex plus 0.2ex minus 0.2ex}{0.3ex plus 0.2ex minus 0.2ex}
+\titlespacing*{section}{0pt plus 2pt minus 2pt}{0pt plus 2pt minus 2pt}
+\titlespacing*{subsection}{0pt plus 2pt minus 2pt}{0pt plus 2pt minus 2pt}
 
 % ============================================================================
 % Custom Commands
@@ -52,11 +58,13 @@
 \newtheorem{remark}{Remark}
 
 % ============================================================================
-% Title Page Information
+% Title Page Information (Nature Style)
 % ============================================================================
-\title{\vspace{-1cm}\textbf{\Large Protecting Wildlife at Scale:\\A Strategic Resource Allocation Framework\\for National Park Conservation Under Uncertainty}}
+\title{\textbf{\Large Protecting Wildlife at Scale:}\\
+\textbf{\large Strategic Resource Allocation for}\\
+\textbf{\large National Park Conservation Under Uncertainty}}
 
-\author{\textbf{Control Number: IMMC26601951}}
+\author{\textbf{IMMC26601951}}
 
 \date{March 2026}
 
@@ -66,21 +74,21 @@
 \begin{document}
 
 % ============================================================================
-% Title Page
+% Title Page (Minimal Nature Style)
 % ============================================================================
 \maketitle
 \thispagestyle{empty}
 
 % ============================================================================
-% Summary Sheet (1 page)
+% Summary Sheet (1 page, compact)
 % ============================================================================
 \newpage
 \thispagestyle{empty}
-\vspace*{2cm}
+\vspace*{1.5cm}
 \begin{center}
-{\LARGE \textbf{Summary Sheet}}
+{\Large \textbf{Summary Sheet}}
 \end{center}
-\vspace{0.5cm}
+\vspace{0.3cm}
 
 \input{sections/00_summary_sheet}
 
@@ -91,13 +99,13 @@
 \tableofcontents
 
 % ============================================================================
-% Letter to the IMMC (2 pages)
+% Letter to the IMMC (2 pages, professional)
 % ============================================================================
 \newpage
 \input{sections/letter_to_immc}
 
 % ============================================================================
-% Main Solution (20 pages) - Restructured for IMMC Outstanding Format
+% Main Solution (20 pages) - Nature-Style Professional Format
 % ============================================================================
 \newpage
 \setcounter{page}{1}
@@ -111,13 +119,13 @@
 \section{Solution Method}
 \input{sections/03_solution}
 
-\section{Results and Analysis}
+\section{Results}
 \input{sections/04_results}
 
-\section{Robustness Analysis}
+\section{Robustness}
 \input{sections/05_robustness}
 
-\section{Model Validation and Transferability}
+\section{Validation}
 \input{sections/06_validation}
 
 \section{Conclusion}
