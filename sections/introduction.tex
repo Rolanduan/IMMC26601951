@@ -1,69 +1,39 @@
 \section{Introduction}
 
-\subsection{Problem Restatement}
+Humanitarian organizations face critical challenges delivering life-saving supplies (vaccines, medicines) in regions with unreliable road networks. We address routing optimization for Somalia where travel times are stochastic due to seasonal weather, security incidents, and poor infrastructure.
 
-Humanitarian organizations face critical challenges delivering life-saving supplies in regions with unreliable road networks. We address routing optimization for Somalia, where travel times are uncertain due to seasonal weather, security incidents, and poor infrastructure.
+\subsection{Problem Background}
 
-\noindent \textbf{Key Requirements:}
-\begin{itemize}
-\item \textbf{Task A:} Single warehouse delivery route optimization
-\item \textbf{Task B:} Multi-warehouse coordination
-\item \textbf{Constraints:} Vehicle capacity, time windows, reliability $\geq 85\%$
-\item \textbf{Objectives:} Minimize time, maximize reliability, minimize cost
-\end{itemize}
-
-\subsection{Background}
-
-The World Health Organization estimates over 2 billion people lack access to essential medicines. Traditional vehicle routing assumes deterministic travel times but fails under uncertainty, causing:
+Traditional vehicle routing assumes deterministic travel times, leading to:
 \begin{enumerate}
-\item \textbf{Suboptimal routes:} Shortest paths may fail, requiring emergency re-routing
+\item \textbf{Suboptimal routes:} Shortest paths fail due to road conditions
 \item \textbf{Unreliable deliveries:} Communities cannot plan arrivals
 \item \textbf{Increased costs:} Emergency re-routing increases expenses 15-30\%
 \end{enumerate}
+
+\subsection{Problem Statement}
+
+\textbf{Task A (Single Warehouse):} Central warehouse supplies distribution points. Vehicles return to warehouse. Minimize expected time while ensuring reliability $\geq 85\%$.
+
+\textbf{Task B (Multiple Warehouses):} Multiple local warehouses with coordinated strategies, partitioned service areas, and inter-warehouse transfers.
 
 \subsection{Our Approach}
 
 We developed a \textbf{Stochastic Vehicle Routing Problem (SVRP)} framework:
 
-\textbf{Progressive Models:}
+\noindent \textbf{Progressive Models:}
 \begin{itemize}
-\item \textbf{Model I:} Deterministic VRP baseline
-\item \textbf{Model II:} Chance-constrained SVRP ($\alpha = 0.85$)
-\item \textbf{Model III:} Two-stage stochastic program
+\item \textbf{Model I:} Deterministic VRP (expected travel times)
+\item \textbf{Model II:} Chance-constrained SVRP (reliability $\alpha = 0.85$)
+\item \textbf{Model III:} Two-stage stochastic programming
 \end{itemize}
 
-\textbf{Data-Driven:} Lognormal distributions fitted to 5 years of Somalia road data (147 segments, 1,826 observations per segment). Table \ref{tab:somalia_data} summarizes key statistics.
+\noindent \textbf{Data-Driven:} Lognormal distributions fitted to 5 years of Somalia road data (147 segments, 1,826 observations).
 
-\begin{table}[H]
-\centering
-\caption{Somalia Road Network Data Summary}
-\label{tab:somalia_data}
-\begin{tabular}{lcccc}
-\toprule
-Region & Segments & Mean (hrs) & Std Dev & CV \\
-\midrule
-Northern & 31 & 2.34 & 0.89 & 0.38 \\
-Central & 58 & 1.87 & 0.52 & 0.28 \\
-Southern & 42 & 3.12 & 1.45 & 0.46 \\
-Corridor & 16 & 2.89 & 0.61 & 0.21 \\
-\bottomrule
-\end{tabular}
-\end{table}
+\noindent \textbf{Algorithm:} Adaptive Large Neighborhood Search (ALNS) with scenario-based sampling (100 optimization, 1,000 validation).
 
-\textbf{Algorithm:} Adaptive Large Neighborhood Search (ALNS) with 100 scenarios for optimization, 1,000 for validation. Achieves near-optimal solutions (gap $< 4\%$) within 3-4 minutes.
+\subsection{Paper Organization}
 
-\subsection{Objectives}
-
-Our primary objectives:
-\begin{enumerate}
-\item Minimize expected total delivery time
-\item Ensure route reliability $\geq 85\%$
-\item Compare single-warehouse vs. multi-warehouse strategies
-\item Identify efficiency-reliability-cost trade-offs
-\end{enumerate}
-
-\subsection{Paper Overview}
-
-Section 2 presents assumptions. Section 3 develops mathematical models. Section 4 describes the solution algorithm. Section 5 presents results (23\% time reduction, 89\% reliability). Section 6 conducts sensitivity analysis. Section 7 discusses strengths and limitations. Section 8 concludes with recommendations.
+Section 2 analyzes the problem structure. Section 3 defines variables. Section 4 constructs mathematical models. Section 5 describes solution methods. Section 6 presents results (23\% time reduction, 89\% reliability). Section 7 conducts sensitivity analysis. Section 8 evaluates model performance. Section 9 concludes with recommendations.
 
 \label{sec:introduction}

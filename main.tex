@@ -23,9 +23,6 @@
 \usepackage{tikz}
 \usetikzlibrary{shapes,arrows,positioning,fit,calc}
 
-% Load ctex for Chinese support (uncomment if using XeLaTeX)
-% \usepackage[UTF8]{ctex}
-
 % ============================================================================
 % Formatting
 % ============================================================================
@@ -54,18 +51,14 @@
 \theoremstyle{remark}
 \newtheorem{remark}{Remark}
 
-% Custom section formatting
-\newcommand{\sectiontitle}[1]{\vspace{0.3cm}\textbf{\Large #1}\vspace{0.2cm}}
-\newcommand{\subsectiontitle}[1]{\vspace{0.2cm}\textbf{\large #1}\vspace{0.1cm}}
-
 % ============================================================================
 % Title Page Information
 % ============================================================================
-\title{\vspace{-1cm}\textbf{\Large Routing for Life-Saving Deliveries:\\Optimization of Humanitarian Aid Distribution\\Under Road Network Uncertainty}}
+\title{\vspace{-1cm}\textbf{\Large Routing for Life-Saving Deliveries:\\Stochastic Optimization of Humanitarian Aid Distribution\\Under Road Network Uncertainty}}
 
 \author{\textbf{Control Number: IMMC26601951}}
 
-\date{\today}
+\date{March 2026}
 
 % ============================================================================
 % Document Start
@@ -98,26 +91,27 @@
 \setcounter{page}{1}
 
 \input{sections/introduction}
-\vspace{0.3cm}
 
-\input{sections/assumptions}
-\vspace{0.3cm}
+\input{sections/problem_analysis}
 
-\input{sections/model_formulation}
-\vspace{0.3cm}
+\input{sections/variable_definitions}
 
-\input{sections/solution_algorithm}
-\vspace{0.3cm}
+\input{sections/model_construction}
 
-\input{sections/results_analysis}
-\vspace{0.3cm}
+\input{sections/solution_methods}
+
+\input{sections/results}
 
 \input{sections/sensitivity_analysis}
-\vspace{0.3cm}
 
 \input{sections/model_evaluation}
-\vspace{0.3cm}
 
 \input{sections/conclusion}
+
+% ============================================================================
+% References (Optional)
+% ============================================================================
+% \bibliographystyle{plain}
+% \bibliography{references}
 
 \end{document}

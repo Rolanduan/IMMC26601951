@@ -1,32 +1,20 @@
 \textbf{\Large Problem Understanding}
 
-Humanitarian organizations face critical challenges delivering life-saving supplies (vaccines, medicines) in regions with unreliable road networks. We address routing optimization for Somalia, where travel times are highly uncertain due to seasonal weather, security incidents, and poor infrastructure.
+We address routing optimization for humanitarian aid delivery in Somalia, where travel times are highly uncertain due to seasonal weather (rainy seasons cause flooding), security incidents (conflict zones), and poor infrastructure (mix of paved and dirt roads).
 
-\noindent \textbf{Key Requirements:}
-\begin{itemize}
-\item \textbf{Task A:} Single warehouse delivery route optimization
-\item \textbf{Task B:} Multi-warehouse coordination
-\item \textbf{Constraints:} Vehicle capacity, time windows, reliability $\geq 85\%$
-\item \textbf{Objectives:} Minimize time, maximize reliability, minimize cost
-\end{itemize}
+\noindent \textbf{Task A (Single Warehouse):} Optimize delivery routes from central warehouse to distribution points, vehicles return to warehouse. Minimize expected time while ensuring route reliability $\geq 85\%$.
+
+\noindent \textbf{Task B (Multiple Warehouses):} Extend to multiple local warehouses with coordinated delivery strategies, service area partitioning, and inter-warehouse inventory transfers.
 
 \vspace{0.4cm}
 
 \textbf{\Large Our Approach}
 
-We developed a \textbf{Stochastic Vehicle Routing Problem (SVRP)} framework:
+We developed a \textbf{Stochastic Vehicle Routing Problem (SVRP)} framework with reliability constraints, progressing from deterministic baseline (Model I) to chance-constrained optimization (Model II) to two-stage stochastic programming (Model III).
 
-\noindent \textbf{Data-Driven:} Fitted lognormal distributions to 5 years of Somalia road data (147 segments, 1,826 daily observations)
+\noindent \textbf{Data-Driven:} Lognormal distributions fitted to 5 years of Somalia road data (147 segments, 1,826 observations per segment).
 
-\noindent \textbf{Progressive Models:}
-\begin{itemize}
-\item Model 0: Deterministic VRP baseline
-\item Model 1: Chance-constrained SVRP ($\alpha = 0.85$)
-\item Model 2: Two-stage stochastic program (Benders decomposition)
-\item Model 3: Multi-depot SVRP with clustering
-\end{itemize}
-
-\noindent \textbf{Algorithm:} Adaptive Large Neighborhood Search (ALNS) with 100 scenarios
+\noindent \textbf{Algorithm:} Adaptive Large Neighborhood Search (ALNS) with 100 scenarios for optimization, 1,000 for validation.
 
 \vspace{0.4cm}
 
@@ -36,19 +24,18 @@ We developed a \textbf{Stochastic Vehicle Routing Problem (SVRP)} framework:
 \centering
 \begin{tabular}{lcc}
 \toprule
-\textbf{Metric} & \textbf{Deterministic} & \textbf{Our Model} \\
+\textbf{Metric} & \textbf{Deterministic} & \textbf{Stochastic Model} \\
 \midrule
 Delivery Time & 47.3 hrs & \textbf{36.5 hrs} $\downarrow$ 23\% \\
 On-Time Rate & 67\% & \textbf{89\%} $\uparrow$ 22 pp \\
 Reliability & 0.67 & \textbf{0.89} \\
 Cost & \$2,340 & \textbf{\$2,120} $\downarrow$ 9\% \\
+Multi-Warehouse Gain & N/A & \textbf{31\%} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\noindent \textbf{Multi-Warehouse:} 31\% efficiency improvement via clustering
-
-\noindent \textbf{Algorithm:} Near-optimal (gap $< 4\%$), 3-4 min runtime
+\noindent \textbf{Algorithm:} Near-optimal (gap $< 4\%$), 3-4 min runtime, validated on 1,000 scenarios.
 
 \vspace{0.4cm}
 
@@ -57,7 +44,7 @@ Cost & \$2,340 & \textbf{\$2,120} $\downarrow$ 9\% \\
 \begin{enumerate}
 \item Adopt stochastic routing ($\alpha = 0.85$) $\to$ 23\% faster, 89\% reliable
 \item Implement multi-warehouse network $\to$ 31\% improvement
-\item Install GPS tracking for continuous updates
+\item Install GPS tracking for continuous model updates
 \item Pave high-variability corridors $\to$ 400\% ROI
 \item Maintain 20\% spare capacity for emergencies
 \end{enumerate}
