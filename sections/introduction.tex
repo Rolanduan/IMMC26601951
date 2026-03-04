@@ -2,82 +2,45 @@
 
 \subsection{Problem Restatement}
 
-Humanitarian organizations face critical challenges in delivering life-saving supplies (vaccines, medicines, medical equipment) to regions with underdeveloped infrastructure and uncertain road conditions. We address the routing optimization problem for Somalia, where:
+Humanitarian organizations face critical challenges delivering life-saving supplies in regions with unreliable road networks. We address routing optimization for Somalia, where travel times are uncertain due to seasonal weather, security incidents, and poor infrastructure.
 
+\noindent \textbf{Key Requirements:}
 \begin{itemize}
-\item Road travel times are highly stochastic due to seasonal weather (rainy seasons cause flooding), security incidents (conflict zones), and poor infrastructure (mix of paved and dirt roads)
-\item Timely delivery is critical for perishable supplies with limited shelf life
-\item Resources are limited: vehicle capacity constraints, fuel costs, and driver availability
-\item Reliability is paramount: failed deliveries have life-or-death consequences
+\item \textbf{Task A:} Single warehouse delivery route optimization
+\item \textbf{Task B:} Multi-warehouse coordination
+\item \textbf{Constraints:} Vehicle capacity, time windows, reliability $\geq 85\%$
+\item \textbf{Objectives:} Minimize time, maximize reliability, minimize cost
 \end{itemize}
-
-The problem presents two distinct tasks:
-
-\textbf{Task A (Single Warehouse):} Optimize delivery routes from a central warehouse to multiple distribution points, with vehicles returning to the central warehouse. Minimize expected delivery time while ensuring route reliability $\geq 85\%$.
-
-\textbf{Task B (Multiple Warehouses):} Extend to multiple local warehouses with coordinated delivery strategies. Partition service areas and manage inter-warehouse inventory transfers.
 
 \subsection{Background}
 
-The World Health Organization estimates that over 2 billion people lack access to essential medicines, with inadequate transportation infrastructure being a primary barrier. In Somalia, underdeveloped road infrastructure and political instability create a highly uncertain environment for humanitarian logistics.
-
-Traditional vehicle routing optimization assumes deterministic travel times. However, this approach fails when travel times are stochastic, leading to:
+The World Health Organization estimates over 2 billion people lack access to essential medicines. Traditional vehicle routing assumes deterministic travel times but fails under uncertainty, causing:
 \begin{enumerate}
-\item \textbf{Suboptimal routes:} Shortest paths may fail due to road conditions, requiring emergency re-routing
-\item \textbf{Unreliable delivery times:} Communities cannot plan for arrivals, eroding trust
-\item \textbf{Increased costs:} Emergency re-routing and failed deliveries increase operational expenses by 15-30\%
+\item \textbf{Suboptimal routes:} Shortest paths may fail, requiring emergency re-routing
+\item \textbf{Unreliable deliveries:} Communities cannot plan arrivals
+\item \textbf{Increased costs:} Emergency re-routing increases expenses 15-30\%
 \end{enumerate}
-
-Figure 1 illustrates the challenge: a deterministic shortest path (47.3 km) may have only 67\% reliability, while a slightly longer alternative route (52.1 km) achieves 89\% reliability by avoiding high-risk dirt tracks.
-
-\begin{figure}[H]
-\centering
-\begin{minipage}{0.45\textwidth}
-\centering
-\framebox{\begin{minipage}{0.9\textwidth}
-\centering
-\vspace{1cm}
-\textbf{Deterministic Route}\\
-Distance: 47.3 km\\
-Reliability: 67\%\\
-\vspace{1cm}
-\end{minipage}}
-\end{minipage}
-\hfill
-\begin{minipage}{0.45\textwidth}
-\centering
-\framebox{\begin{minipage}{0.9\textwidth}
-\centering
-\vspace{1cm}
-\textbf{Reliability-Focused Route}\\
-Distance: 52.1 km\\
-Reliability: 89\%\\
-\vspace{1cm}
-\end{minipage}}
-\end{minipage}
-\caption{Route comparison: deterministic shortest path vs. reliability-optimized route}
-\end{figure}
 
 \subsection{Our Approach}
 
-We develop a \textbf{Stochastic Vehicle Routing Problem (SVRP)} framework with reliability constraints:
+We developed a \textbf{Stochastic Vehicle Routing Problem (SVRP)} framework:
 
-\textbf{Progressive Modeling:} We present three models of increasing sophistication:
+\textbf{Progressive Models:}
 \begin{itemize}
-\item \textbf{Model I:} Deterministic VRP baseline (using expected travel times)
-\item \textbf{Model II:} Chance-constrained SVRP with reliability threshold $\alpha = 0.85$
-\item \textbf{Model III:} Two-stage stochastic program with recourse decisions
+\item \textbf{Model I:} Deterministic VRP baseline
+\item \textbf{Model II:} Chance-constrained SVRP ($\alpha = 0.85$)
+\item \textbf{Model III:} Two-stage stochastic program
 \end{itemize}
 
-\textbf{Data-Driven:} We fit lognormal distributions to 5 years of Somalia road network data (147 segments, 1,826 daily observations per segment). Table 1 summarizes the data characteristics.
+\textbf{Data-Driven:} Lognormal distributions fitted to 5 years of Somalia road data (147 segments, 1,826 observations per segment). Table \ref{tab:somalia_data} summarizes key statistics.
 
 \begin{table}[H]
 \centering
-\small
 \caption{Somalia Road Network Data Summary}
+\label{tab:somalia_data}
 \begin{tabular}{lcccc}
 \toprule
-Region & Segments & Mean Time (hrs) & Std Dev & CV \\
+Region & Segments & Mean (hrs) & Std Dev & CV \\
 \midrule
 Northern & 31 & 2.34 & 0.89 & 0.38 \\
 Central & 58 & 1.87 & 0.52 & 0.28 \\
@@ -87,20 +50,20 @@ Corridor & 16 & 2.89 & 0.61 & 0.21 \\
 \end{tabular}
 \end{table}
 
-\textbf{Algorithm:} We employ Adaptive Large Neighborhood Search (ALNS) metaheuristic with scenario-based sampling (100 scenarios for optimization, 1,000 for validation). This achieves near-optimal solutions (optimality gap $< 4\%$) within 3-4 minutes for instances up to 60 customers.
+\textbf{Algorithm:} Adaptive Large Neighborhood Search (ALNS) with 100 scenarios for optimization, 1,000 for validation. Achieves near-optimal solutions (gap $< 4\%$) within 3-4 minutes.
 
 \subsection{Objectives}
 
-Our primary objectives are:
+Our primary objectives:
 \begin{enumerate}
-\item Minimize expected total delivery time across all routes
-\item Ensure route reliability $\geq 85\%$ (probability of on-time completion)
+\item Minimize expected total delivery time
+\item Ensure route reliability $\geq 85\%$
 \item Compare single-warehouse vs. multi-warehouse strategies
-\item Identify efficiency-reliability-cost trade-offs through multi-objective optimization
+\item Identify efficiency-reliability-cost trade-offs
 \end{enumerate}
 
-\subsection{Overview of Paper}
+\subsection{Paper Overview}
 
-Section 2 lists our assumptions and justifications. Section 3 develops the mathematical models with complete formulations. Section 4 describes the solution algorithm with pseudocode. Section 5 presents computational results demonstrating 23\% reduction in delivery time and 89\% on-time delivery rate compared to deterministic methods. Section 6 conducts comprehensive sensitivity analysis testing parameter variations. Section 7 discusses model strengths and limitations. Section 8 concludes with recommendations for humanitarian organizations.
+Section 2 presents assumptions. Section 3 develops mathematical models. Section 4 describes the solution algorithm. Section 5 presents results (23\% time reduction, 89\% reliability). Section 6 conducts sensitivity analysis. Section 7 discusses strengths and limitations. Section 8 concludes with recommendations.
 
 \label{sec:introduction}

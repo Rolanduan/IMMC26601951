@@ -3,7 +3,7 @@
 % ============================================================================
 % Packages
 % ============================================================================
-\usepackage[top=2.54cm, bottom=2.54cm, left=3.17cm, right=3.17cm]{geometry}
+\usepackage[top=2.5cm, bottom=2.5cm, left=3cm, right=3cm]{geometry}
 \usepackage{times}
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{graphicx}
@@ -13,31 +13,34 @@
 \usepackage{caption}
 \usepackage{subcaption}
 \usepackage{enumitem}
-\usepackage{hyperref}
 \usepackage{xcolor}
 \usepackage{listings}
 \usepackage{algorithm}
 \usepackage{algorithmic}
 \usepackage{cite}
 \usepackage{url}
-\usepackage{fancyhdr}
 \usepackage{setspace}
 \usepackage{tikz}
-\usetikzlibrary{shapes,arrows,positioning}
+\usetikzlibrary{shapes,arrows,positioning,fit,calc}
 
-% For Chinese support if needed - comment out for pdfLaTeX
+% Load ctex for Chinese support (uncomment if using XeLaTeX)
 % \usepackage[UTF8]{ctex}
 
 % ============================================================================
 % Formatting
 % ============================================================================
-\linespread{1.5}
+\linespread{1.3}
 \setlength{\parindent}{0pt}
-\setlength{\parskip}{6pt}
+\setlength{\parskip}{5pt plus 2pt minus 1pt}
 
-% Page numbering
-\pagestyle{plain}
-\pagenumbering{arabic}
+% Better figure and table placement
+\renewcommand{\topfraction}{0.85}
+\renewcommand{\bottomfraction}{0.85}
+\renewcommand{\textfraction}{0.15}
+\renewcommand{\floatpagefraction}{0.85}
+\setcounter{topnumber}{3}
+\setcounter{bottomnumber}{3}
+\setcounter{totalnumber}{5}
 
 % ============================================================================
 % Custom Commands
@@ -51,10 +54,14 @@
 \theoremstyle{remark}
 \newtheorem{remark}{Remark}
 
+% Custom section formatting
+\newcommand{\sectiontitle}[1]{\vspace{0.3cm}\textbf{\Large #1}\vspace{0.2cm}}
+\newcommand{\subsectiontitle}[1]{\vspace{0.2cm}\textbf{\large #1}\vspace{0.1cm}}
+
 % ============================================================================
 % Title Page Information
 % ============================================================================
-\title{\vspace{-2cm}\textbf{\Large Routing for Life-Saving Deliveries:\\Optimization of Humanitarian Aid Distribution\\Under Road Network Uncertainty}}
+\title{\vspace{-1cm}\textbf{\Large Routing for Life-Saving Deliveries:\\Optimization of Humanitarian Aid Distribution\\Under Road Network Uncertainty}}
 
 \author{\textbf{Control Number: IMMC26601951}}
 
@@ -71,54 +78,46 @@
 \maketitle
 \thispagestyle{empty}
 
+% ============================================================================
+% Summary Sheet
+% ============================================================================
+\newpage
+\thispagestyle{empty}
+\vspace*{2cm}
 \begin{center}
-\vspace{2cm}
-\textbf{Summary Sheet}
+{\LARGE \textbf{Summary Sheet}}
 \end{center}
+\vspace{0.5cm}
 
 \input{sections/summary_sheet}
-\newpage
 
+% ============================================================================
+% Main Content
+% ============================================================================
+\newpage
 \setcounter{page}{1}
 
-% ============================================================================
-% Main Content - Following HiMCM Award-Winning Structure
-% ============================================================================
-
-% Section 1: Introduction
 \input{sections/introduction}
+\vspace{0.3cm}
 
-% Section 2: Assumptions
 \input{sections/assumptions}
-\newpage
+\vspace{0.3cm}
 
-% Section 3: Model Development
 \input{sections/model_formulation}
-\newpage
+\vspace{0.3cm}
 
-% Section 4: Solution Approach
 \input{sections/solution_algorithm}
-\newpage
+\vspace{0.3cm}
 
-% Section 5: Results and Analysis
 \input{sections/results_analysis}
-\newpage
+\vspace{0.3cm}
 
-% Section 6: Sensitivity Analysis
 \input{sections/sensitivity_analysis}
-\newpage
+\vspace{0.3cm}
 
-% Section 7: Strengths and Limitations
 \input{sections/model_evaluation}
-\newpage
+\vspace{0.3cm}
 
-% Section 8: Conclusions
 \input{sections/conclusion}
-
-% ============================================================================
-% References (Optional - place at end if needed)
-% ============================================================================
-% \bibliographystyle{plain}
-% \bibliography{references}
 
 \end{document}
