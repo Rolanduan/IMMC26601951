@@ -1,0 +1,46 @@
+\section{Solution Methods}
+
+\subsection{Algorithm Design}
+
+We employ Adaptive Large Neighborhood Search (ALNS) with scenario-based evaluation.
+
+\subsection{ALNS Framework}
+
+\textbf{Destroy Operators:}
+\begin{enumerate}
+\item Random removal: Remove $q$ random customers
+\item Worst removal: Remove customers contributing most to cost
+\item Route removal: Remove entire routes with low reliability
+\end{enumerate}
+
+\textbf{Repair Operators:}
+\begin{enumerate}
+\item Greedy insertion: Insert at minimum cost position
+\item Regret insertion: Insert customer with highest regret
+\item Reliability-weighted insertion: Prioritize high-reliability
+\end{enumerate}
+
+\subsection{Adaptive Mechanism}
+
+Each operator $\omega$ maintains score $s_\omega$ updated based on solution quality:
+\begin{equation}
+s_\omega \leftarrow \begin{cases}
+\rho_1 s_\omega & \text{if new global best} \
+\rho_2 s_\omega & \text{if improvement} \
+\rho_3 s_\omega & \text{if accepted} \
+\rho_4 s_\omega & \text{if rejected}
+\end{cases}
+\end{equation}
+
+Selection probability: $p_\omega = s_\omega / \sum s_{\omega'}$
+
+\subsection{Scenario-Based Evaluation}
+
+For each candidate solution:
+\begin{enumerate}
+\item Evaluate across $S = 100$ scenarios
+\item Calculate expected cost and reliability
+\item Accept if reliability $\geq \alpha$
+\end{enumerate}
+
+\label{sec:methods}
