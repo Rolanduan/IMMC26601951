@@ -1,53 +1,55 @@
 \section{Introduction}
 
+\subsection{Problem Restatement}
+
+Humanitarian organizations face critical challenges in delivering life-saving supplies (vaccines, medicines, medical equipment) to regions with underdeveloped infrastructure and uncertain road conditions. We address the routing optimization problem for Somalia, where:
+
+\begin{itemize}
+\item Road travel times are highly stochastic due to seasonal weather (rainy seasons cause flooding), security incidents (conflict zones), and poor infrastructure (mix of paved and dirt roads)
+\item Timely delivery is critical for perishable supplies with limited shelf life
+\item Resources are limited: vehicle capacity constraints, fuel costs, and driver availability
+\item Reliability is paramount: failed deliveries have life-or-death consequences
+\end{itemize}
+
+The problem presents two distinct tasks:
+
+\textbf{Task A (Single Warehouse):} Optimize delivery routes from a central warehouse to multiple distribution points, with vehicles returning to the central warehouse. Minimize expected delivery time while ensuring route reliability $\geq 85\%$.
+
+\textbf{Task B (Multiple Warehouses):} Extend to multiple local warehouses with coordinated delivery strategies. Partition service areas and manage inter-warehouse inventory transfers.
+
 \subsection{Background}
 
-Humanitarian logistics has emerged as a critical discipline in emergency response and disaster relief operations. Unlike commercial logistics, which primarily focuses on cost minimization and efficiency, humanitarian logistics operates under unique constraints including time urgency, uncertainty, and the imperative to save lives \cite{Kovacs2012}. The World Health Organization estimates that over 2 billion people lack access to essential medicines, with inadequate transportation infrastructure being a primary barrier \cite{WHO2023}.
+The World Health Organization estimates that over 2 billion people lack access to essential medicines, with inadequate transportation infrastructure being a primary barrier. In Somalia, underdeveloped road infrastructure and political instability create a highly uncertain environment for humanitarian logistics.
 
-In conflict-affected and underdeveloped regions, the challenge of delivering life-saving supplies is particularly acute. Somalia, with its history of political instability and underdeveloped road infrastructure, represents a paradigmatic case study for humanitarian delivery optimization. Road network conditions vary dramatically based on seasonal factors (rainy seasons causing flooding), security conditions (conflict zones), and terrain challenges, creating a highly uncertain environment for logistics planning \cite{UNOCHA2024}.
+Traditional vehicle routing optimization assumes deterministic travel times. However, this approach fails when travel times are stochastic, leading to: (1) Suboptimal routes that appear shortest but fail in practice, (2) Unreliable delivery times eroding trust with communities, (3) Emergency re-routing increasing operational costs.
 
-The COVID-19 pandemic further highlighted the critical importance of efficient vaccine distribution systems. Vaccine delivery requires strict temperature control, limited shelf life, and equitable access considerations—all while operating in resource-constrained environments with uncertain transportation networks \cite{UNICEF2021}. Traditional routing optimization approaches, which assume deterministic travel times, often fail in such stochastic environments.
+\subsection{Our Approach}
 
-\subsection{Problem Statement}
+We develop a \textbf{Stochastic Vehicle Routing Problem (SVRP)} framework with reliability constraints:
 
-This paper addresses the routing optimization problem for humanitarian aid delivery under road network uncertainty. Specifically, we consider a scenario where a humanitarian organization must deliver vaccines and life-saving supplies from central warehouses to multiple distribution points across a region with uncertain road conditions.
+\textbf{Progressive Modeling:} We present three models of increasing sophistication:
+\begin{itemize}
+\item \textbf{Model I:} Deterministic VRP baseline (using expected travel times)
+\item \textbf{Model II:} Chance-constrained SVRP with reliability threshold $\alpha = 0.85$
+\item \textbf{Model III:} Two-stage stochastic program with recourse decisions
+\end{itemize}
 
-The problem presents two distinct but related tasks:
+\textbf{Data-Driven:} We fit lognormal distributions to 5 years of Somalia road network data (147 segments, 1,826 daily observations per segment).
 
-\textbf{Task A: Single Warehouse Routing.} A central warehouse must supply multiple distribution points. Vehicles start from and return to the central warehouse. Road travel times are stochastic variables following probability distributions derived from historical data. The objective is to minimize total expected delivery time while ensuring reliability constraints.
+\textbf{Algorithm:} We employ Adaptive Large Neighborhood Search (ALNS) metaheuristic with scenario-based sampling (100 scenarios for optimization, 1,000 for validation).
 
-\textbf{Task B: Multi-Warehouse Routing.} Multiple local warehouses serve as starting points for delivery vehicles. This introduces additional complexity in coordinating delivery strategies, partitioning service areas among warehouses, and managing inter-warehouse inventory transfers.
+\subsection{Objectives}
 
-Key constraints include vehicle capacity limits, warehouse inventory constraints, delivery time windows (critical for vaccines with limited shelf life), and probabilistic road reliability requirements. The problem exhibits characteristics of both the Vehicle Routing Problem (VRP) and Stochastic Programming, making it computationally challenging for realistic instances.
-
-\subsection{Challenges and Motivation}
-
-Several critical challenges motivate our research:
-
-\textbf{Uncertainty Modeling.} Road travel times in humanitarian contexts exhibit high variability due to weather, security, and infrastructure conditions. Traditional deterministic VRP models cannot adequately capture this uncertainty, leading to suboptimal or infeasible routing plans when implemented in practice \cite{Gendreau2014}.
-
-\textbf{Multi-Objective Trade-offs.} Humanitarian logistics involves competing objectives: minimizing delivery time (urgency), maximizing reliability (critical for perishable supplies), and minimizing operational costs (resource constraints). Effective decision support tools must balance these objectives \cite{Campbell2004}.
-
-\textbf{Scalability.} Real-world humanitarian delivery networks involve hundreds of distribution points and multiple vehicles. Exact solution methods become computationally intractable, necessitating development of efficient heuristic and metaheuristic algorithms \cite{Laporte2009}.
-
-\textbf{Practical Implementation.} Mathematical models must translate into actionable routing plans that field operators can implement. This requires consideration of practical constraints, interpretability of results, and robustness to unexpected disruptions \cite{VanWassenhove2016}.
-
-\subsection{Research Contributions}
-
-This paper makes the following key contributions:
-
-\begin{enumerate}[label=(\roman*)]
-\item \textbf{Probabilistic Road Network Modeling:} We develop a comprehensive framework for modeling road travel time uncertainty using probability distributions fitted to historical Somalia road network data, incorporating seasonal and geographical factors.
-
-\item \textbf{Stochastic VRP Formulation:} We formulate the problem as a Stochastic Vehicle Routing Problem with reliability constraints, providing a mathematically rigorous foundation for optimization under uncertainty.
-
-\item \textbf{Hybrid Solution Algorithm:} We design a hybrid algorithm combining scenario-based stochastic programming with Adaptive Large Neighborhood Search (ALNS) metaheuristic, achieving near-optimal solutions for realistic problem instances.
-
-\item \textbf{Multi-Warehouse Coordination:} We develop a novel clustering-based approach for multi-depot coordination, demonstrating significant efficiency improvements over centralized distribution strategies.
-
-\item \textbf{Comprehensive Validation:} We conduct extensive sensitivity analysis and multi-objective optimization, providing robust insights into the trade-offs between efficiency, reliability, and cost.
+Our primary objectives are:
+\begin{enumerate}
+\item Minimize expected total delivery time across all routes
+\item Ensure route reliability $\geq 85\%$ (probability of on-time completion)
+\item Compare single-warehouse vs. multi-warehouse strategies
+\item Identify efficiency-reliability-cost trade-offs through multi-objective optimization
 \end{enumerate}
 
-\subsection{Paper Organization}
+\subsection{Overview of Paper}
 
-The remainder of this paper is organized as follows. Section \ref{sec:problem_analysis} provides a detailed problem analysis and restatement, identifying key variables, parameters, and modeling assumptions. Section \ref{sec:literature_review} reviews relevant literature on vehicle routing, stochastic programming, and humanitarian logistics. Section \ref{sec:data_analysis} presents exploratory analysis and probability modeling of road network data. Section \ref{sec:model_formulation} develops our mathematical models, progressing from deterministic to stochastic formulations. Section \ref{sec:solution_algorithm} describes our solution algorithms. Section \ref{sec:results} presents computational results and analysis. Section \ref{sec:sensitivity} conducts comprehensive sensitivity analysis. Section \ref{sec:evaluation} discusses model advantages and limitations. Section \ref{sec:conclusion} concludes with recommendations for practitioners and directions for future research.
+Section 2 lists our assumptions and justifications. Section 3 develops the mathematical models. Section 4 describes the solution algorithm. Section 5 presents computational results demonstrating 23\% reduction in delivery time and 89\% on-time delivery rate. Section 6 conducts comprehensive sensitivity analysis. Section 7 discusses model strengths and limitations. Section 8 concludes with recommendations for humanitarian organizations.
+
+\label{sec:introduction}

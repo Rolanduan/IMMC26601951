@@ -20,9 +20,10 @@
 \usepackage{algorithmic}
 \usepackage{cite}
 \usepackage{url}
+\usepackage{fancyhdr}
+\usepackage{setspace}
 
-% For Chinese support if needed
-% Comment out if using pdfLaTeX, uncomment for XeLaTeX/LuaLaTeX
+% For Chinese support if needed - comment out for pdfLaTeX
 % \usepackage[UTF8]{ctex}
 
 % ============================================================================
@@ -32,14 +33,9 @@
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{6pt}
 
-% ============================================================================
-% Title Page Information
-% ============================================================================
-\title{\vspace{-2cm}\textbf{\Large Routing for Life-Saving Deliveries:\\Optimization of Humanitarian Aid Distribution\\Under Road Network Uncertainty}}
-
-\author{\textbf{Control Number: IMMC26601951}}
-
-\date{\today}
+% Page numbering
+\pagestyle{plain}
+\pagenumbering{arabic}
 
 % ============================================================================
 % Custom Commands
@@ -54,6 +50,15 @@
 \newtheorem{remark}{Remark}
 
 % ============================================================================
+% Title Page Information
+% ============================================================================
+\title{\vspace{-2cm}\textbf{\Large Routing for Life-Saving Deliveries:\\Optimization of Humanitarian Aid Distribution\\Under Road Network Uncertainty}}
+
+\author{\textbf{Control Number: IMMC26601951}}
+
+\date{\today}
+
+% ============================================================================
 % Document Start
 % ============================================================================
 \begin{document}
@@ -64,77 +69,54 @@
 \maketitle
 \thispagestyle{empty}
 
-% ============================================================================
-% Summary Sheet (IMMC Requirement)
-% ============================================================================
-\newpage
-\thispagestyle{empty}
+\begin{center}
+\vspace{2cm}
+\textbf{Summary Sheet}
+\end{center}
+
 \input{sections/summary_sheet}
-
-% ============================================================================
-% Table of Contents
-% ============================================================================
-\newpage
-\tableofcontents
 \newpage
 
+\setcounter{page}{1}
+
 % ============================================================================
-% Main Content
+% Main Content - Following HiMCM Award-Winning Structure
 % ============================================================================
 
 % Section 1: Introduction
 \input{sections/introduction}
+
+% Section 2: Assumptions
+\input{sections/assumptions}
 \newpage
 
-% Section 2: Problem Analysis and Restatement
-\input{sections/problem_analysis}
-\newpage
-
-% Section 3: Literature Review
-\input{sections/literature_review}
-\newpage
-
-% Section 4: Data Analysis
-\input{sections/data_analysis}
-\newpage
-
-% Section 5: Model Formulation
+% Section 3: Model Development
 \input{sections/model_formulation}
 \newpage
 
-% Section 6: Solution Algorithm
+% Section 4: Solution Approach
 \input{sections/solution_algorithm}
 \newpage
 
-% Section 7: Results and Analysis
+% Section 5: Results and Analysis
 \input{sections/results_analysis}
 \newpage
 
-% Section 8: Sensitivity Analysis
+% Section 6: Sensitivity Analysis
 \input{sections/sensitivity_analysis}
 \newpage
 
-% Section 9: Model Evaluation
+% Section 7: Strengths and Limitations
 \input{sections/model_evaluation}
 \newpage
 
-% Section 10: Conclusion and Recommendations
+% Section 8: Conclusions
 \input{sections/conclusion}
-\newpage
 
 % ============================================================================
-% References
+% References (Optional - place at end if needed)
 % ============================================================================
-\bibliographystyle{plain}
-\bibliography{references}
-
-% ============================================================================
-% Appendices
-% ============================================================================
-\appendix
-
-\input{appendices/appendix_a}
-\input{appendices/appendix_b}
-\input{appendices/appendix_c}
+% \bibliographystyle{plain}
+% \bibliography{references}
 
 \end{document}
