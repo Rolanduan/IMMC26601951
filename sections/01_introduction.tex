@@ -2,54 +2,45 @@
 
 \subsection{Problem Context}
 
-Large national parks and protected areas worldwide face an existential crisis: how to protect wildlife across vast, geographically complex terrain with limited personnel and resources. \textbf{Etosha National Park} in Namibia exemplifies this challenge. Spanning 22,270 km$^2$ of savanna, salt pans, and diverse ecosystems, Etosha hosts critical populations of endangered species including black rhinos, elephants, lions, and various antelope species. The park faces persistent threats from poaching, illegal entry, wildfires, and human-wildlife conflict.
+Large national parks face an existential challenge: protecting wildlife across vast, geographically complex terrain with limited resources. \textbf{Etosha National Park} in Namibia—22,270 km$^2$ of savanna, salt pans, and diverse ecosystems—exemplifies this challenge. The park hosts critically endangered black rhinos, elephants, lions, and other species facing persistent poaching threats.
 
-Traditional conservation approaches—uniform patrol distribution, static camera placement, and ad-hoc response—fail to achieve meaningful protection. Resource constraints prevent complete coverage. Geographic barriers (limited road networks, seasonal water scarcity, remote terrain) compound accessibility challenges. Threats exhibit spatial and temporal randomness that static deployments cannot address.
+Traditional uniform patrol coverage fails due to:
+\begin{itemize}
+\item Resource constraints preventing complete coverage
+\item Geographic barriers (limited roads, seasonal water scarcity)
+\item Stochastic threat patterns requiring adaptive responses
+\end{itemize}
 
 \subsection{Problem Statement}
 
-We address the core challenge: \textit{In resource-limited, geographically complex protected areas, how do we strategically deploy conservation assets to achieve quantifiable, robust protection of wildlife?}
+\textit{How should we strategically deploy conservation assets to achieve quantifiable protection under uncertainty?}
 
-Specific requirements:
+\noindent We address:
 \begin{enumerate}
-\item Define "protection" in quantifiable, measurable terms
-\item Develop strategic resource allocation models (rangers, technology, infrastructure)
-\item Evaluate protection effectiveness over time and infer staffing requirements
-\item Conduct comprehensive scenario and sensitivity analysis
-\item Transfer methodology to reserves on different continents
+\item Define "protection" in measurable terms
+\item Develop strategic resource allocation models
+\item Evaluate protection over time and infer staffing needs
+\item Test robustness under uncertainty
+\item Demonstrate transferability to other reserves
 \end{enumerate}
 
-\subsection{Our Approach: Priority-Based Strategic Allocation}
+\subsection{Our Approach}
 
-We propose a multi-layer optimization framework that recognizes a fundamental reality: \textbf{complete coverage is impossible; strategic prioritization is essential}.
-
-Our framework integrates:
+We propose a \textbf{priority-based strategic allocation framework} integrating:
 \begin{itemize}
-\item \textbf{Multi-dimensional protection metrics} combining species priority, threat exposure, and habitat criticality
-\item \textbf{Spatial-temporal allocation models} for ranger patrols and technological assets
-\item \textbf{Dynamic staffing inference} back-calculated from target protection levels
-\item \textbf{Robustness testing} under resource variation, threat uncertainty, and operational constraints
+\item Multi-dimensional protection metrics (spatial, temporal, threat-specific)
+\item Genetic algorithm optimization for deployment
+\item Dynamic staffing inference from target protection levels
+\item Comprehensive robustness testing
 \end{itemize}
 
-\subsection{Key Findings}
+\subsection{Key Results}
 
-\begin{table}[H]
-\centering
-\caption{Performance Comparison: Uniform vs. Strategic Allocation}
-\begin{tabular}{lcc}
-\toprule
-\textbf{Metric} & \textbf{Uniform} & \textbf{Strategic} \
-\midrule
-High-Priority Species Protection & 62\% & \textbf{89\%} \
-Critical Area Coverage & 58\% & \textbf{94\%} \
-Threat Detection Rate & 55\% & \textbf{81\%} \
-Ranger Efficiency (km$^2$/ranger) & 180 & \textbf{320} \
-\bottomrule
-\end{tabular}
-\end{table}
-
-Strategic allocation achieves 27-36 percentage point improvements across critical metrics while maintaining robustness under $\pm$30\% resource variations.
-
-\subsection{Paper Organization}
-
-Section 2 establishes conservation priorities. Section 3 defines system boundaries. Section 4 provides a rigorous definition of protection. Sections 5-8 develop metrics, data abstraction, threat structure, and resource capabilities. Section 9 presents deployment logic. Sections 10-12 present baseline results, temporal dynamics, and staffing requirements. Sections 13-15 conduct scenario and sensitivity analysis. Sections 16-18 demonstrate framework transferability. Sections 19-20 conclude with evaluation and management implications.
+Strategic allocation achieves:
+\begin{itemize}
+\item 89\% high-priority species protection (vs. 62\% uniform)
+\item 94\% critical area coverage (vs. 58\% uniform)
+\item 81\% threat detection rate (vs. 55\% uniform)
+\item 320 km$^2$/ranger efficiency (vs. 180\% uniform)
+\item Minimum staffing: 127 rangers
+\end{itemize}
