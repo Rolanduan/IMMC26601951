@@ -1,295 +1,82 @@
-\section{Model Evaluation}
+\section{Strengths and Limitations}
 \label{sec:evaluation}
 
-We critically evaluate our model framework, discussing advantages, limitations, computational performance, and practical feasibility. Honest assessment of limitations strengthens model credibility and guides future improvements.
+We critically evaluate our model framework, discussing advantages, limitations, and practical feasibility.
 
-\subsection{Model Advantages}
+\subsection{Model Strengths}
 
-\subsubsection{Theoretical Advantages}
+\textbf{1. Rigorous Stochastic Formulation.} Our chance-constrained stochastic programming explicitly models uncertainty using probability distributions fitted to 5 years of Somalia road data, providing mathematical rigor while remaining computationally tractable.
 
-\textbf{1. Rigorous Stochastic Formulation.}
-Unlike deterministic VRP models that ignore uncertainty, our chance-constrained stochastic programming formulation explicitly models road travel time uncertainty using probability distributions fitted to empirical data. This provides mathematical rigor while remaining computationally tractable through scenario-based approximation.
+\textbf{2. Reliability-Focused Objective.} Unlike cost-focused SVRP models, we enforce reliability threshold $\alpha = 0.85$ as a hard constraint, ensuring minimum service standards critical for perishable supplies.
 
-\textbf{2. Reliability-Focused Objective.}
-Most SVRP literature minimizes expected cost. Our model treats reliability as a hard constraint with threshold $\alpha = 0.85$, ensuring minimum service standards. This aligns with humanitarian logistics priorities where reliability (on-time delivery) is critical for perishable supplies (vaccines, medicines).
+\textbf{3. Computational Efficiency.} ALNS achieves near-optimal solutions (gap $< 4\%$) within 3-4 minutes for realistic instances. Parallel scenario evaluation reduces runtime by 65\% on 8-core processors.
 
-\textbf{3. Multi-Stage Progressive Modeling.}
-Our Model 0 $\to$ Model 1 $\to$ Model 2 $\to$ Model 3 progression demonstrates:
-\begin{itemize}
-\item Understanding of problem complexity
-\item Validation of model components incrementally
-\   - Model 0 establishes baseline
-\   - Model 1 demonstrates stochastic benefits
-\   - Model 2 improves computational efficiency
-\   - Model 3 extends to multi-depot coordination
-\end{itemize}
+\textbf{4. Data-Driven Validation.} We validate against real-world pilot data: model predicts 36.5 hours mean delivery time vs. 38.2 hours actual (4.5\% error); reliability predictions 89\% vs. 87\% actual (2.2 percentage point error).
 
-\textbf{4. Multi-Objective Framework.}
-Model 4 identifies efficiency-reliability-cost trade-offs using Pareto optimization. This provides decision-makers with flexible options rather than single ``optimal'' solution.
+\textbf{5. Robustness.} Sensitivity analysis demonstrates effectiveness under parameter variation ($\pm 10-20\%$), moderate correlation ($\rho \leq 0.4$), and extreme scenarios (rainy season, security incidents).
 
-\subsubsection{Computational Advantages}
-
-\textbf{1. Hybrid Solution Strategy.}
-Combining exact methods (CPLEX) for validation and metaheuristics (ALNS) for realistic instances balances solution quality with computational tractability. Near-optimal solutions (gap $< 4\%$) within 3-4 minutes are practical for field implementation.
-
-\textbf{2. Scenario-Based Approximation.}
-Using $S = 100$ scenarios avoids computationally expensive multi-dimensional integration while accurately approximating expected values and reliability (sampling error $< 2\%$).
-
-\textbf{3. Parallel Computing.}
-Scenario evaluations are embarrassingly parallel. Our implementation achieves 65\% runtime reduction on 8-core processor, enabling practical solution times for large instances.
-
-\textbf{4. Scalability.}
-ALNS handles instances up to $N = 60$ customers within acceptable runtime ($< 4$ minutes). Modular design allows extension to larger instances ($N > 100$) with additional computational resources.
-
-\subsubsection{Practical Advantages}
-
-\textbf{1. Data-Driven Approach.}
-We use real Somalia road network data (5 years of historical travel times) rather than synthetic or hypothetical data. This enhances model credibility and validity for humanitarian applications.
-
-\textbf{2. Interpretability.}
-Route solutions are visually interpretable (GIS maps in Appendix A). Field operators can understand and trust recommended routes, facilitating implementation acceptance.
-
-\textbf{3. Robustness.}
-Sensitivity analysis (Section \ref{sec:sensitivity}) demonstrates solutions remain effective under:
-\begin{itemize}
-\item Parameter variation ($\pm 10-20\%$)
-\item Moderate assumption violations (correlation $\rho \leq 0.4$)
-\item Extreme scenarios (rainy season, security incidents)
-\end{itemize}
-
-\textbf{4. Implementation Feasibility.}
-Algorithm runtime (3-4 minutes) fits within operational planning cycles. Humanitarian organizations can run daily optimization to generate routes for next-day deliveries.
-
-\subsection{Model Limitations}
-
-\subsubsection{Structural Limitations}
-
-\textbf{Limitation 1: Static Planning Horizon.}
-Our model adopts a static planning approach: routes planned day-ahead, not re-optimized dynamically during execution.
-
-\textit{Impact:} Cannot respond to unexpected disruptions (flash floods, sudden security incidents) during route execution.
-
-\textit{Mitigation:} We design reliability thresholds conservatively ($\alpha = 0.85$) to provide buffer against typical disruptions. For extreme events, manual re-routing required.
-
-\textit{Future Work:} Integrate real-time data (weather forecasts, security alerts) for dynamic re-optimization.
-
-\textbf{Limitation 2: Independence Assumption.}
-We assume travel times on different road segments are independent random variables.
-
-\textit{Impact:} Underestimates variance when correlation is present (Section \ref{sec:sensitivity} shows 6\% reliability reduction for $\rho = 0.60$).
-
-\textit{Mitigation:} Somalia data shows moderate correlation ($\rho \approx 0.34$). Model error $< 3\%$ acceptable for planning.
-
-\textit{Future Work:} Incorporate copula models for correlated travel times.
-
-\textbf{Limitation 3: Single-Period Model.}
-Our model optimizes one-day delivery routes without considering multi-day inventory management.
-
-\textit{Impact:} Suboptimal if demand varies significantly day-to-day or if inventory holding costs are significant.
-
-\textit{Mitigation:} We assume demand is relatively stable (humanitarian contexts: ongoing needs).
-
-\textit{Future Work:} Extend to multi-period inventory-routing problem (IRP).
-
-\subsubsection{Data Limitations}
-
-\textbf{Limitation 4: Historical Data Quality.}
-Somalia road network data has missing values (3.2\%) and potential measurement errors.
-
-\textit{Impact:} Fitted probability distributions may not accurately represent true travel time distributions.
-
-\textit{Mitigation:} We use robust estimation methods (maximum likelihood) and remove outliers. Validation on hold-out data confirms model accuracy.
-
-\textit{Future Work:} Install GPS trackers on delivery vehicles for continuous data collection and model updating.
-
-\textbf{Limitation 5: Limited Scenario Coverage.}
-Our scenario generation samples from historical distributions, which may not capture rare events (black swans).
-
-\textit{Impact:} Model may be unprepared for unprecedented events (extreme weather, major security incidents).
-
-\textit{Mitigation:} Supplement historical scenarios with expert-elicited extreme scenarios.
-
-\textit{Future Work:} Use stress testing and scenario planning for catastrophic events.
-
-\subsubsection{Computational Limitations}
-
-\textbf{Limitation 6: ALNS Local Optima.}
-As a metaheuristic, ALNS provides no optimality guarantees. Solutions may be local optima rather than global optimum.
-
-\textit{Impact:} True optimal solution may be better than our ``best found'' solution.
-
-\textit{Mitigation:} We compare with CPLEX solutions for small instances, showing gap $< 4\%$. Multiple random seeds reduce variability.
-
-\textit{Future Work:} Develop matheuristic approaches combining exact and heuristic methods.
-
-\textbf{Limitation 7: Scenario Sampling Error.}
-Using $S = 100$ scenarios introduces sampling error (approximately 1.3\% reliability estimate error).
-
-\textit{Impact:} Solution reliability may differ from estimated reliability.
-
-\textit{Mitigation:} We validate with $S_{\text{val}} = 1000$ scenarios, confirming accuracy.
-
-\textit{Future Work:} Use quasi-Monte Carlo sequences for faster convergence.
-
-\subsubsection{Practical Limitations}
-
-\textbf{Limitation 8: Implementation Barrier.}
-Humanitarian organizations may lack technical capacity (software, expertise) to implement our algorithms.
-
-\textit{Impact:} Model may remain academic rather than practical tool.
-
-\textit{Mitigation:} We develop user-friendly interface (conceptual in Appendix C). Open-source implementation enables adoption.
-
-\textit{Future Work:} Deploy web-based decision support tool requiring minimal technical expertise.
-
-\textbf{Limitation 9: Communication Constraints.}
-Somalia has limited communication infrastructure. Real-time route adjustments may be impractical.
-
-\textit{Impact:} Field operators must follow pre-planned routes even if conditions change.
-
-\textit{Mitigation:} Static plans with reliability buffers provide robustness. Satellite communication devices enable limited coordination.
-
-\textit{Future Work:} Design communication protocols for route updates via SMS or satellite messaging.
-
-\subsection{Computational Performance Assessment}
-
-\subsubsection{Benchmarking Against Commercial Solvers}
-
-We benchmark our ALNS implementation against Google OR-Tools:
-
-\begin{table}[H]
-\centering
-\caption{Algorithm Performance Comparison}
-\begin{tabular}{lcccc}
-\toprule
-Method & Solution Quality & Runtime & Scalability & Stochastic Capability \\
-\midrule
-CPLEX (Exact) & Optimal & Slow (hrs) & Poor ($N \leq 20$) & No \\
-OR-Tools & Good & Fast (sec) & Good ($N \leq 100$) & No \\
-Our ALNS & Near-optimal & Medium (min) & Good ($N \leq 60$) & Yes \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\textbf{Assessment:} Our approach fills critical gap: stochastic VRP solver for realistic instances. Trade-off: slower than OR-Tools but handles uncertainty.
-
-\subsubsection{Convergence Analysis}
-
-Figure 6 (Appendix A) shows ALNS convergence for instance I-Medium-1:
-\begin{itemize}
-\item Rapid improvement in first 2,000 iterations (exploration phase)
-\item Gradual improvement 2,000-6,000 iterations (exploitation phase)
-\item Convergence after 8,000 iterations (no improvement for 1,000 iterations)
-\item Adaptive mechanism balances exploration and exploitation effectively
-\end{itemize}
-
-\subsection{Practical Feasibility Assessment}
-
-\subsubsection{Organizational Capacity Requirements}
-
-Implementing our model requires:
-\begin{enumerate}
-\item \textbf{Data:} Historical road travel times (2-3 years minimum)
-\item \textbf{Software:} Python environment, CPLEX license (optional, for validation)
-\item \textbf{Hardware:} Standard laptop or desktop (8 GB RAM, 4 cores sufficient)
-\item \textbf{Expertise:} Basic operations research knowledge for parameter tuning
-\end{enumerate}
-
-\textit{Feasibility:} Medium barrier. Most humanitarian organizations have basic IT infrastructure. Training required for operations research expertise.
-
-\subsubsection{Cost-Benefit Analysis}
-
-\textbf{Costs:}
-\begin{itemize}
-\item Software development: \$15,000 (one-time)
-\item Training: \$5,000 (one-time)
-\item Annual maintenance: \$3,000
-\end{itemize}
-
-\textbf{Benefits (based on results):}
-\begin{itemize}
-\item 23\% reduction in delivery time
-\item 31\% improvement from multi-warehouse coordination
-\item For organization with \$500,000 annual logistics budget: $\approx$ \$100,000-\$150,000 savings
-\end{itemize}
-
-\textit{ROI:} $\approx$ 400\% in first year, 1000\% over 3 years. Strong economic case for implementation.
-
-\subsection{Model Comparison Framework}
-
-Table 7 compares our approach to alternative modeling paradigms:
+Table 5 summarizes our approach compared to alternatives:
 
 \begin{table}[H]
 \centering
 \caption{Model Comparison}
 \begin{tabular}{lcccc}
 \toprule
-Modeling Approach & Uncertainty & Computational Tractability & Practical Value & Our Assessment \\
+Approach & Uncertainty & Tractability & Practical Value & Assessment \\
 \midrule
-Deterministic VRP & None & High & Low (unrealistic) & Inadequate \\
+Deterministic VRP & None & High & Low & Inadequate \\
 Robust Optimization & Bounded & High & Medium & Conservative \\
-Chance-Constrained & Probabilistic & Medium & High & \textbf{Our approach} \\
-Dynamic Programming & Probabilistic & Low & High & Computationally hard \\
+\textbf{Chance-Constrained} & \textbf{Probabilistic} & \textbf{Medium} & \textbf{High} & \textbf{Our approach} \\
 Simulation-Based & Probabilistic & Medium & High & Complementary \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Our chance-constrained stochastic programming approach balances rigor, tractability, and practical value.
+\subsection{Model Limitations}
 
-\subsection{Validation and Verification}
+\textbf{1. Static Planning Horizon.} Routes are planned day-ahead, not dynamically re-optimized during execution. \textit{Mitigation:} Conservative reliability thresholds ($\alpha = 0.85$) provide buffer against disruptions. \textit{Future Work:} Integrate real-time weather/security data.
 
-\subsubsection{Internal Validation}
+\textbf{2. Independence Assumption.} Travel times assumed independent (actual $\rho \approx 0.34$). Impact: 6\% reliability reduction for $\rho = 0.60$. \textit{Mitigation:} Model robust for moderate correlation. \textit{Future Work:} Copula models for correlation.
 
-\textbf{Cross-Validation:} 5-fold cross-validation on scenario set shows:
+\textbf{3. Single-Period Model.} Optimizes one-day routes without multi-day inventory optimization. \textit{Future Work:} Extend to inventory-routing problem (IRP).
+
+\textbf{4. ALNS Local Optima.} No optimality guarantees; gap $< 4\%$ to CPLEX optimal solutions (small instances). \textit{Future Work:} Matheuristic approaches.
+
+\textbf{5. Implementation Barrier.} Requires technical capacity (software, expertise). \textit{Mitigation:} Open-source code, user-friendly interface. \textit{Future Work:} Web-based decision support tool.
+
+Table 6 summarizes limitation impacts:
+
+\begin{table}[H]
+\centering
+\caption{Limitation Impact Assessment}
+\begin{tabular}{lccc}
+\toprule
+Limitation & Impact & Sensitivity & Mitigation \\
+\midrule
+Static Planning & Medium & High & Conservative $\alpha$ \\
+Independence Assumption & Low-Medium & Moderate & Robust for $\rho \leq 0.4$ \\
+Single-Period & Low & Low & Separate inventory model \\
+ALNS Local Optima & Low & Negligible & Gap $< 4\%$ \\
+Implementation & High & N/A & Open-source + training \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Practical Implementation}
+
+\textbf{Cost-Benefit Analysis:}
 \begin{itemize}
-\item Mean absolute error: 2.3 hours (6.3\% of mean delivery time)
-\item 95\% confidence interval: $\pm 4.1$ hours
+\item Costs: \$15,000 development, \$5,000 training, \$3,000 annual maintenance
+\item Benefits: 23\% time reduction, 31\% multi-warehouse improvement $\approx$ \$100,000-\$150,000 annual savings
+\item ROI: 400\% (first year), 1000\% (3 years)
 \end{itemize}
 
-\textbf{Code Verification:} We verify implementation by:
-\begin{itemize}
-\item Comparing with CPLEX solutions (small instances)
-\item Testing on synthetic instances with known optimal solutions
-\item Unit testing individual algorithm components
-\end{itemize}
-
-\subsubsection{External Validation}
-
-We validate against real-world implementation data (partner humanitarian organization):
-\begin{itemize}
-\item Model-predicted delivery times: mean 36.5 hours
-\item Actual delivery times (6-month pilot): mean 38.2 hours
-\item Prediction error: 4.5\% (excellent for planning model)
-\item Model reliability predictions: 89\%
-\item Actual on-time delivery rate: 87\%
-\item Reliability prediction error: 2.2 percentage points (acceptable)
-\end{itemize}
-
-\subsection{Summary and Recommendations}
-
-\textbf{Model Strengths:}
+\textbf{Implementation Requirements:}
 \begin{enumerate}
-\item Rigorous stochastic formulation with reliability constraints
-\item Demonstrated improvements (23\% time reduction, 31\% multi-warehouse gain)
-\item Robust across sensitivity analysis scenarios
-\item Validated against real-world pilot data (4.5\% prediction error)
+\item Data: 2-3 years historical road travel times
+\item Software: Python environment (open-source)
+\item Hardware: Standard laptop (8 GB RAM, 4 cores)
+\item Expertise: Basic operations research knowledge
 \end{enumerate}
 
-\textbf{Model Weaknesses:}
-\begin{enumerate}
-\item Static planning (no dynamic re-optimization)
-\item Independence assumption (limits accuracy under strong correlation)
-\item Single-period model (no multi-day inventory optimization)
-\item Implementation barrier (requires technical capacity)
-\end{enumerate}
-
-\textbf{Implementation Recommendations:}
-\begin{enumerate}
-\item Deploy as decision support tool (not full automation) to maintain human oversight
-\item Start with pilot program in limited region before scaling nationally
-\item Invest in capacity building (training local staff)
-\item Establish data collection infrastructure for continuous model improvement
-\end{enumerate}
-
-Our model provides substantial practical value for humanitarian logistics while acknowledging limitations transparently. This balanced assessment strengthens model credibility and guides future research (Section \ref{sec:conclusion}).
+Our model provides substantial practical value (23\% faster, 89\% reliability) while transparently acknowledging limitations. This balanced assessment strengthens credibility and guides implementation.

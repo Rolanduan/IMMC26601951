@@ -219,4 +219,19 @@ Our progressive modeling approach:
 \item Model 4 identifies efficiency-reliability-cost trade-offs
 \end{enumerate}
 
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[node distance=2.5cm,auto]
+  \node (m0) [rectangle, draw, fill=blue!10, text width=3cm, align=center] {Model 0\\Deterministic VRP\\Baseline};
+  \node (m1) [rectangle, draw, fill=green!10, text width=3cm, align=center, right of=m0] {Model 1\\Chance-Constrained\\SVRP};
+  \node (m2) [rectangle, draw, fill=yellow!10, text width=3cm, align=center, right of=m1] {Model 2\\Two-Stage\\Stochastic};
+  \node (m3) [rectangle, draw, fill=orange!10, text width=3cm, align=center, below of=m1] {Model 3\\Multi-Depot\\Coordination};
+
+  \draw[->, thick] (m0) -- (m1);
+  \draw[->, thick] (m1) -- (m2);
+  \draw[->, thick] (m1) -- (m3);
+\end{tikzpicture}
+\caption{Model progression: from deterministic baseline to comprehensive stochastic framework}
+\end{figure}
+
 In Section \ref{sec:solution_algorithm}, we develop algorithms to solve these models for realistic problem instances.
