@@ -264,10 +264,21 @@ z_{ik} &= \begin{cases}
 
 \subsubsection{Multi-Objective Integer Programming Model}
 
+Our optimization maximizes three competing objectives simultaneously:
+
 \begin{equation}
 \max_{x, y, z} \left[ \mathcal{P}_{weighted}(x, y, z), -\mathcal{C}_{cost}(x, y, z), -\mathcal{G}_{gap}(x, y, z) \right]
 \label{eq:multi_objective}
 \end{equation}
+
+\noindent \textbf{Intuition:} We seek allocation decisions $(x, y, z)$ that:
+\begin{itemize}
+    \item \textbf{Maximize} $\mathcal{P}_{weighted}$: priority-weighted protection across all zones
+    \item \textbf{Minimize} $\mathcal{C}_{cost}$: total operational cost (rangers + UAVs + cameras)
+    \item \textbf{Minimize} $\mathcal{G}_{gap}$: protection gap from target levels
+\end{itemize}
+
+These objectives conflict—higher protection requires more resources. Our framework finds the \textit{Pareto-optimal} trade-off frontier.
 
 subject to:
 
@@ -283,6 +294,15 @@ subject to:
 \sum_{k} A_{ik} \cdot x_{ijk} + \beta_{camera} \cdot \sum_{j} y_{ij} + \beta_{UAV} \cdot \sum_{k} z_{ik} \geq \tau_{min} \quad \forall i \in \mathcal{L}_{high}
 \label{eq:coverage_requirement}
 \end{equation}
+
+\noindent \textbf{Intuition:} This constraint ensures \textit{all} high-priority zones achieve minimum protection $\tau_{min} = 0.75$. The left side sums three monitoring contributions:
+\begin{itemize}
+    \item $A_{ik} \cdot x_{ijk}$: Ranger patrol coverage (accessibility-weighted)
+    * $\beta_{camera} \cdot \sum_{j} y_{ij}$: Camera trap surveillance ($\beta_{camera} = 0.15$ per camera)
+    \item $\beta_{UAV} \cdot \sum_{k} z_{ik}$: UAV aerial monitoring ($\beta_{UAV} = 0.25$ per UAV)
+\end{itemize}
+
+The constraint forces the manager to allocate enough resources to meet protection targets—eliminating under-protection of critical zones.
 
 \noindent \textbf{Temporal Constraints:}
 \begin{align}
