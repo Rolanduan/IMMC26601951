@@ -67,6 +67,7 @@ Our optimization framework demonstrates substantial improvements over uniform di
 \begin{table}[h]
 \centering
 \small
+\resizebox{\textwidth}{!}{%
 \begin{tabular}{lccc}
 \toprule
 \textbf{Metric} & \textbf{Uniform} & \textbf{Strategic} & \textbf{Improvement} \\
@@ -77,7 +78,8 @@ Threat Detection Rate & 55\% & \textbf{81\%} & +26 pp \\
 Ranger Efficiency & 180 km$^2$/ranger & \textbf{320 km$^2$/ranger} & +78\% \\
 Minimum Staffing & 184 rangers & \textbf{127 rangers} & -31\% \\
 \bottomrule
-\end{tabular}
+\end{tabular}%
+}
 \end{table}
 
 Monte Carlo robustness (10,000 trials): System protection 90.8\% $\pm$ 2.4\%, 95\% CI [86.2\%, 94.9\%].
