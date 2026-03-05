@@ -19,9 +19,35 @@
 \usepackage{cite}
 \usepackage{url}
 \usepackage{setspace}
-\usepackage{tikz}
-\usetikzlibrary{shapes,arrows,positioning,fit,calc}
 \usepackage{etoolbox}
+
+% ============================================================================
+% PGFPlots for Scientific Figures (CRITICAL - Missing in original)
+% ============================================================================
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepgfplotslibrary{fillbetween} % For confidence bands
+\usepgfplotslibrary{statistics} % For box plots, error bars
+
+% ============================================================================
+% TikZ for Advanced Diagrams (Enhanced)
+% ============================================================================
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning,fit,calc,shadows,trees,matrix}
+\usetikzlibrary{decorations.pathreplacing,decorations.markings}
+\usetikzlibrary{arrows.meta,backgrounds}
+\usetikzlibrary{intersections,through}
+
+% ============================================================================
+% Additional Professional Packages
+% ============================================================================
+\usepackage{array}      % Enhanced table formatting
+\usepackage{longtable}  % Multi-page tables
+\usepackage{tabularx}   % Auto-width tables
+\usepackage{rotating}   % Rotated figures/tables
+\usepackage{lscape}     % Landscape pages
+\usepackage{hyperref}   % Hyperlinks
+\usepackage{bookmark}   % PDF bookmarks
 
 % ============================================================================
 % Compact Professional Formatting
@@ -56,6 +82,19 @@
 \newtheorem{definition}{Definition}
 \theoremstyle{remark}
 \newtheorem{remark}{Remark}
+
+% ============================================================================
+% Hyperlink Setup (Must be last package)
+% ============================================================================
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=blue,
+    pdftitle={Protecting Wildlife at Scale: Strategic Resource Allocation for National Park Conservation},
+    pdfauthor={IMMC26601951},
+    pdfkeywords={IMMC, mathematical modeling, wildlife conservation, optimization, resource allocation},
+}
 
 % ============================================================================
 % Title Page Information (Nature Style)
