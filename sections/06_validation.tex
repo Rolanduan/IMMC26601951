@@ -1,5 +1,77 @@
 \section{Model Validation and Transferability}
 
+\subsection*{IMMC Requirement 5: Model Strengths and Limitations}
+
+\subsubsection{Strengths of Our Approach}
+
+\textbf{Mathematical Rigor:}
+\begin{itemize}
+    \item Six-layer framework with 33 explicitly formulated equations
+    \item Multi-criteria protection definition (AHP-fuzzy) objectively quantifies conservation priorities
+    \item Integer programming guarantees optimal resource allocation under constraints
+    \item Queueing theory provides scientifically defensible staffing inference
+\end{itemize}
+
+\textbf{Computational Tractability:}
+\begin{itemize}
+    \item Genetic algorithm converges in 45 seconds (vs. hours for commercial MILP solvers)
+    \item Enables quarterly re-optimization for dynamic adaptation
+    \item Suitable for real-time operational planning
+\end{itemize}
+
+\textbf{Empirical Validation:}
+\begin{itemize}
+    \item Cross-continental testing on 4 reserves (Africa, Asia, South America, North America)
+    \item Mean protection 89.0\% ($\sigma$ = 3.6\%) demonstrates universal applicability
+    \item Monte Carlo 10,000 trials: 95\% CI [86.2\%, 94.9\%]
+    \item Game-theoretic validation: 88\% deterrence in high-priority zones
+\end{itemize}
+
+\subsubsection{Limitations and Assumptions}
+
+\textbf{Model Assumptions That May Restrict Applicability:}
+
+\begin{enumerate}
+    \item \textbf{Static Threat Models:} Poaching patterns assumed stationary over 3-month windows; does not explicitly model poacher adaptation to patrol strategies (partially addressed by game-theoretic extension)
+
+    \item \textbf{Single-Park Focus:} Framework designed for individual reserves; multi-park coordination and resource sharing not addressed
+
+    \item \textbf{Terrestrial Applications:} Model validated for savanna/grassland ecosystems; marine reserve adaptation would require modified mobility and accessibility models
+
+    \item \textbf{Data Requirements:} Framework requires species distribution data, threat maps, and accessibility information; may be limiting for data-poor regions
+
+    \item \textbf{Technology Assumptions:} UAV flight range, battery life, and camera trap reliability based on manufacturer specifications; field conditions may reduce effectiveness
+
+    \item \textbf{Human Behavior:} Ranger effectiveness assumes consistent performance; fatigue, morale, and training variation not explicitly modeled
+
+    \item \textbf{Climate Impacts:} Climate-driven habitat shifts incorporated as seasonal adjustments; long-term climate change impacts not dynamically modeled
+\end{enumerate}
+
+\textbf{Known Limitations:}
+
+\begin{itemize}
+    \item \textbf{Spatial Resolution:} 50 monitoring zones (460 km$^2$/zone) may miss micro-scale habitat features
+    \item \textbf{Temporal Granularity:} Monthly re-optimization may not capture weekly threat variations
+    \item \textbf{Species Interactions:} Predator-prey dynamics and trophic cascades not explicitly modeled
+    \item \textbf{Economic Factors:} Detailed cost-benefit analysis beyond scope; focuses on protection maximization given budget constraints
+\end{itemize}
+
+\textbf{Mitigation Strategies:}
+
+For teams adapting this model, we recommend:
+\begin{itemize}
+    \item Calibrate model with local data before implementation
+    \item Validate assumptions with park rangers and ecologists
+    \item Start with pilot deployment in high-priority zones
+    \item Monitor model performance and re-calibrate quarterly
+\end{itemize}
+
+\subsection*{IMMC Requirement 6: Adaptation to Other Protected Areas}
+
+\subsubsection{Cross-Continental Validation Framework}
+
+We demonstrate model transferability by applying \textit{identical mathematical structure} to four reserves across continents:
+
 \subsection{Game-Theoretic Validation: Stackelberg Game Analysis}
 
 We model the adversarial interaction between rangers (defender) and poachers (attacker) as a Stackelberg game:

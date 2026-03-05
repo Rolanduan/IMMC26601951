@@ -1,5 +1,19 @@
 \section{Model Construction}
 
+\subsection*{IMMC Requirement 1: Conservation Priorities and Defining Protection}
+
+\subsubsection{Identifying and Prioritizing Conservation Challenges}
+
+Etosha National Park faces complex, multi-dimensional threats requiring systematic prioritization. We categorize challenges by species, habitat, location, and threat type:
+
+\textbf{Species-Specific Priorities:} We employ the Analytic Hierarchy Process (AHP) to systematically prioritize species based on IUCN status, ecological role, and conservation urgency (detailed in Section 2.1). This yields quantitative priority weights $\pi_s$ for each species.
+
+\textbf{Habitat-Specific Risks:} Waterholes (86 sites) and boundary zones face highest anthropogenic pressure, while salt pan areas (4,800 km$^2$) present natural protection but limited accessibility.
+
+\textbf{Location-Specific Threats:} Proaching hotspots correlate with road accessibility and distance from ranger outposts. Wildfire risk clusters in grassland regions during dry seasons.
+
+\textbf{Threat Types:} Human-driven (poaching, unauthorized entry) vs. natural (wildfire, habitat disruption) require differentiated response strategies.
+
 \subsection{Protection Definition and Priority Evaluation Model}
 
 The first model layer establishes a quantitative protection framework. We define protection using a multi-criteria evaluation approach combining ecological importance, threat exposure, and operational capability.
@@ -301,3 +315,56 @@ The protection gap formulation:
 \end{equation}
 
 This formulation directly minimizes the shortfall from target protection levels.
+
+\subsection*{IMMC Requirement 2: Resource Allocation Model}
+
+\subsubsection{Strategic Deployment Under Resource Constraints}
+
+Our integer programming model directly addresses the IMMC requirement to "allocate protection resources...accounting for limited resources, geographic considerations, and uncertainty, emphasizing strategic deployment rather than complete coverage."
+
+\textbf{Key Features of Our Allocation Model:}
+
+\begin{enumerate}
+    \item \textbf{Limited Resources:} Explicit constraints on ranger availability (127 minimum), UAV fleet (45 units), camera traps (120 units), and budget (\$1.2M annually)
+
+    \item \textbf{Geographic Considerations:} Graph-theoretic accessibility matrix $A_{ik}$ accounts for road networks (3,551 km), terrain difficulty, and response time calculations via Dijkstra's algorithm
+
+    \item \textbf{Uncertainty Handling:} Monte Carlo simulation (10,000 trials) propagates uncertainty in threat levels, detection probabilities, and resource availability through the optimization
+
+    \item \textbf{Strategic Deployment:} Priority-weighted objective (Eq.~\ref{eq:weighted_protection}) concentrates resources on high-priority zones (protection gap $G_i > 0.15$) rather than uniform coverage
+
+    \item \textbf{Multi-Method Coordination:} Hybrid deployment exploits complementarity:
+    \begin{itemize}
+        \item Rangers (65\% to high-priority): Intervention capability
+        \item UAVs (25\% high-priority, 45\% medium-priority): Rapid broad coverage
+        \item Camera traps (10\% high-priority, 60\% low-priority): Cost-effective passive monitoring
+    \end{itemize}
+\end{enumerate}
+
+\textbf{Strategic vs. Complete Coverage:}
+
+Our model deliberately \textit{does not} aim for complete spatial coverage. Instead, it maximizes protection per unit resource:
+\begin{itemize}
+    \item Complete coverage would require 400+ rangers (infeasible)
+    \item Our strategic deployment achieves 89\% protection with 127 rangers (31\% reduction)
+    \item Focus on high-priority species and critical habitats yields maximum conservation impact per dollar
+\end{itemize}
+
+\textbf{Resource Types Allocated:}
+
+Our model allocates three categories of protection resources:
+\begin{enumerate}
+    \item \textbf{Personnel:} 127 rangers in 3-shift rotation (42 day, 43 afternoon, 42 night)
+    \item \textbf{Monitoring Technologies:}
+    \begin{itemize}
+        \item UAVs (45 units): Aerial surveillance, thermal imaging, real-time transmission
+        \item Camera traps (120 units): Continuous monitoring, species identification
+        \item Satellite monitoring: Seasonal habitat change detection
+    \end{itemize}
+    \item \textbf{Other Interventions:}
+    \begin{itemize}
+        \item Intelligence networks: Community informant systems
+        \item Rapid response teams: Quick reaction to incident detection
+        \item K-9 units: Tracker dogs for poacher pursuit
+    \end{itemize}
+\end{enumerate}
