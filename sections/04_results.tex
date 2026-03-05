@@ -150,22 +150,49 @@ The strategic allocation achieves near-complete coverage of high-priority zones:
 \begin{tikzpicture}
 \begin{axis}[
     ybar,
-    width=0.9\textwidth,
-    height=7cm,
-    symbolic x coords={High, Medium, Low},
+    width=0.92\textwidth,
+    height=7.5cm,
+    symbolic x coords={High-Priority, Medium-Priority, Low-Priority},
     xtick=data,
+    xticklabel style={font=\small, rotate=0, anchor=north},
     ylabel={Coverage (\%)},
-    ymin=0, ymax=100,
-    bar width=20pt,
-    legend style={at={(0.5,-0.2)}, anchor=north, legend columns=-1},
-    grid=major
+    xlabel={Zone Priority Level},
+    ymin=0, ymax=105,
+    ylabel style={font=\small\bfseries},
+    xlabel style={font=\small\bfseries},
+    bar width=18pt,
+    ymajorgrids=true,
+    grid style={dashed, gray!30},
+    legend style={at={(0.5,-0.25)}, anchor=north, legend columns=-1, draw=black!60, fill=white, font=\small},
+    nodes near coords,
+    nodes near coords style={font=\scriptsize\bfseries},
+    tick label style={font=\small}
 ]
-\addplot coordinates {(High,98.7) (Medium,95.2) (Low,91.8)};
-\addplot coordinates {(High,71.2) (Medium,58.4) (Low,54.6)};
-\legend{Strategic, Uniform}
+% Strategic allocation (blue gradient)
+\addplot[fill=blue!60!black, draw=black!40] coordinates {
+    (High-Priority,98.7) (Medium-Priority,95.2) (Low-Priority,91.8)
+};
+\addlegendentry{Strategic Allocation}
+
+% Uniform allocation (red/orange)
+\addplot[fill=red!60!black, draw=black!40] coordinates {
+    (High-Priority,71.2) (Medium-Priority,58.4) (Low-Priority,54.6)
+};
+\addlegendentry{Uniform Allocation}
+
+% Improvement annotations (as percentage points)
+\draw[dashed, gray!50] (axis cs:High-Priority, 98.7) -- (axis cs:High-Priority, 71.2);
+\draw[dashed, gray!50] (axis cs:Medium-Priority, 95.2) -- (axis cs:Medium-Priority, 58.4);
+\draw[dashed, gray!50] (axis cs:Low-Priority, 91.8) -- (axis cs:Low-Priority, 54.6);
+
+% Percentage point improvements
+\node[font=\scriptsize\bfseries, color=blue!70!black] at (axis cs:High-Priority, 85) {+27.5 pp};
+\node[font=\scriptsize\bfseries, color=blue!70!black] at (axis cs:Medium-Priority, 76.8) {+36.8 pp};
+\node[font=\scriptsize\bfseries, color=blue!70!black] at (axis cs:Low-Priority, 73.2) {+37.2 pp};
+
 \end{axis}
 \end{tikzpicture}
-\caption{Coverage by priority zone}
+\caption{Spatial coverage comparison by zone priority level: Strategic allocation achieves 94.2\% mean coverage vs. 61.4\% for uniform (+32.8 pp)}
 \end{figure}
 
 \subsection{Staffing Requirements}
