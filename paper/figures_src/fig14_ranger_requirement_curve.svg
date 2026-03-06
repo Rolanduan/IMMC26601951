@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3000 1289" width="3000" height="1289">
+  <defs>
+    <linearGradient id="legendGrad" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="rgb(255,247,188)"/>
+      <stop offset="25%" stop-color="rgb(254,227,145)"/>
+      <stop offset="50%" stop-color="rgb(254,196,79)"/>
+      <stop offset="75%" stop-color="rgb(244,124,32)"/>
+      <stop offset="100%" stop-color="rgb(206,45,37)"/>
+    </linearGradient>
+    <linearGradient id="paperBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fbfdff"/>
+      <stop offset="100%" stop-color="#f2f6fb"/>
+    </linearGradient>
+    <linearGradient id="headerAccent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#3b4992"/>
+      <stop offset="45%" stop-color="#4dbbd5"/>
+      <stop offset="100%" stop-color="#008280"/>
+    </linearGradient>
+    <radialGradient id="mapVignette" cx="50%" cy="38%" r="80%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.00"/>
+      <stop offset="100%" stop-color="#081220" stop-opacity="0.20"/>
+    </radialGradient>
+    <filter id="cardShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#a8b7c8" flood-opacity="0.23"/>
+    </filter>
+  </defs>
+  <rect x="0" y="0" width="3000" height="1289" fill="url(#paperBg)"/>
+  <rect x="28" y="26" width="2944" height="112" rx="18" fill="#ffffff" fill-opacity="0.94" stroke="#d4dce6" stroke-width="1.8" filter="url(#cardShadow)"/>
+  <rect x="52" y="42" width="840.0000000000001" height="8" rx="4" fill="url(#headerAccent)"/>
+  <text x="60" y="78" font-family="Times New Roman, Georgia, serif" font-size="56" font-weight="700" fill="#18324a">Ranger Requirement Curve</text>
+  <text x="60" y="115" font-family="Times New Roman, Georgia, serif" font-size="30" fill="#405d78">Nonlinear staffing floor curve with uncertainty and feasibility bands</text>
+  
+  <rect x="90" y="180" width="2820" height="1020" rx="22" fill="#ffffff" stroke="#d8e0ea" stroke-width="3"/>
+  <rect x="160" y="250" width="1820" height="850" rx="18" fill="#fbfdff" stroke="#e2eaf2" stroke-width="2"/>
+  <rect x="180" y="206" width="330" height="34" rx="17" fill="#008b45" fill-opacity="0.96" />
+    <text x="345" y="230.48" text-anchor="middle" font-family="Times New Roman, Georgia, serif" font-size="22" font-weight="700" fill="#ffffff">Staffing threshold for PI >= 0.70</text>
+  <rect x="240" y="300" width="1660" height="374.0000000000001" fill="#eef8f1"/>
+  <rect x="240" y="674.0000000000001" width="1660" height="373.9999999999999" fill="#fff3f0"/>
+  <line x1="240" y1="1048" x2="1900" y2="1048" stroke="#e5ecf4" stroke-width="2"/>
+    <text x="180" y="1056" font-family="Times New Roman, Georgia, serif" font-size="24" fill="#405d78">0.55</text><line x1="240" y1="923.3333333333335" x2="1900" y2="923.3333333333335" stroke="#e5ecf4" stroke-width="2"/>
+    <text x="180" y="931.3333333333335" font-family="Times New Roman, Georgia, serif" font-size="24" fill="#405d78">0.60</text><line x1="240" y1="798.6666666666667" x2="1900" y2="798.6666666666667" stroke="#e5ecf4" stroke-width="2"/>
+    <text x="180" y="806.6666666666667" font-family="Times New Roman, Georgia, serif" font-size="24" fill="#405d78">0.65</text><line x1="240" y1="674.0000000000001" x2="1900" y2="674.0000000000001" stroke="#e5ecf4" stroke-width="2"/>
+    <text x="180" y="682.0000000000001" font-family="Times New Roman, Georgia, serif" font-size="24" fill="#405d78">0.70</text><line x1="240" y1="549.3333333333334" x2="1900" y2="549.3333333333334" stroke="#e5ecf4" stroke-width="2"/>
+    <text x="180" y="557.3333333333334" font-family="Times New Roman, Georgia, serif" font-size="24" fill="#405d78">0.75</text><line x1="240" y1="424.6666666666665" x2="1900" y2="424.6666666666665" stroke="#e5ecf4" stroke-width="2"/>
+    <text x="180" y="432.6666666666665" font-family="Times New Roman, Georgia, serif" font-size="24" fill="#405d78">0.80</text><line x1="240" y1="300" x2="1900" y2="300" stroke="#e5ecf4" stroke-width="2"/>
+    <text x="180" y="308" font-family="Times New Roman, Georgia, serif" font-size="24" fill="#405d78">0.85</text><line x1="240" y1="1048" x2="240" y2="300" stroke="#edf2f7" stroke-width="2"/>
+    <text x="240" y="1090" text-anchor="middle" font-family="Times New Roman, Georgia, serif" font-size="24" fill="#405d78">20</text><line x1="516.6666666666666" y1="1048" x2="516.6666666666666" y2="300" stroke="#edf2f7" stroke-width="2"/>
+    <text x="516.6666666666666" y="1090" text-anchor="middle" font-family="Times New Roman, Georgia, serif" font-size="24" fill="#405d78">25</text><line x1="793.3333333333333" y1="1048" x2="793.3333333333333" y2="300" stroke="#edf2f7" stroke-width="2"/>
+    <text x="793.3333333333333" y="1090" text-anchor="middle" font-family="Times New Roman, Georgia, serif" font-size="24" fill="#405d78">30</text><line x1="1070" y1="1048" x2="1070" y2="300" stroke="#edf2f7" stroke-width="2"/>
+    <text x="1070" y="1090" text-anchor="middle" font-family="Times New Roman, Georgia, serif" font-size="24" fill="#405d78">35</text><line x1="1346.6666666666665" y1="1048" x2="1346.6666666666665" y2="300" stroke="#edf2f7" stroke-width="2"/>
+    <text x="1346.6666666666665" y="1090" text-anchor="middle" font-family="Times New Roman, Georgia, serif" font-size="24" fill="#405d78">40</text><line x1="1623.3333333333335" y1="1048" x2="1623.3333333333335" y2="300" stroke="#edf2f7" stroke-width="2"/>
+    <text x="1623.3333333333335" y="1090" text-anchor="middle" font-family="Times New Roman, Georgia, serif" font-size="24" fill="#405d78">45</text><line x1="1900" y1="1048" x2="1900" y2="300" stroke="#edf2f7" stroke-width="2"/>
+    <text x="1900" y="1090" text-anchor="middle" font-family="Times New Roman, Georgia, serif" font-size="24" fill="#405d78">50</text>
+  <line x1="240" y1="1048" x2="1900" y2="1048" stroke="#62768a" stroke-width="3"/>
+  <line x1="240" y1="300" x2="240" y2="1048" stroke="#62768a" stroke-width="3"/>
+  <path d="M 240 981.7550071832076 L 240 891.9950071832075 L 295.3333333333333 878.5179592372205 L 350.6666666666667 863.3137125641061 L 406 846.2808512530838 L 461.33333333333337 827.3487941747809 L 516.6666666666666 806.4886816388023 L 572 783.7240895880686 L 627.3333333333333 759.1403329259203 L 682.6666666666667 732.8909050422701 L 738 705.1995937476875 L 793.3333333333333 676.3570972860176 L 848.6666666666666 646.7115640646273 L 904 616.6533333333332 L 959.3333333333334 586.595102602039 L 1014.6666666666666 556.9495693806489 L 1070 528.1070729189788 L 1125.3333333333335 500.4157616243964 L 1180.6666666666665 474.1663337407459 L 1236 449.58257707859775 L 1291.3333333333333 426.8179850278643 L 1346.6666666666665 405.9578724918854 L 1402 387.0258154135828 L 1457.3333333333333 369.99295410256013 L 1512.6666666666667 354.78870742944605 L 1568 341.31165948345904 L 1623.3333333333335 329.43970228350065 L 1678.6666666666667 319.03885993251674 L 1734 309.9705213673601 L 1789.3333333333333 302.097040557966 L 1844.6666666666667 300 L 1900 300 L 1900 379.17206803225906 L 1844.6666666666667 385.04581837796377 L 1789.3333333333333 391.8570405579661 L 1734 399.7305213673602 L 1678.6666666666667 408.79885993251696 L 1623.3333333333335 419.19970228350076 L 1568 431.07165948345914 L 1512.6666666666667 444.54870742944615 L 1457.3333333333333 459.75295410256024 L 1402 476.7858154135828 L 1346.6666666666665 495.7178724918855 L 1291.3333333333333 516.5779850278644 L 1236 539.342577078598 L 1180.6666666666665 563.926333740746 L 1125.3333333333335 590.1757616243965 L 1070 617.8670729189789 L 1014.6666666666666 646.7095693806491 L 959.3333333333334 676.3551026020391 L 904 706.4133333333332 L 848.6666666666666 736.4715640646273 L 793.3333333333333 766.1170972860177 L 738 794.9595937476874 L 682.6666666666667 822.6509050422702 L 627.3333333333333 848.9003329259205 L 572 873.4840895880689 L 516.6666666666666 896.2486816388024 L 461.33333333333337 917.108794174781 L 406 936.0408512530839 L 350.6666666666667 953.0737125641062 L 295.3333333333333 968.2779592372206 L 240 981.7550071832076 Z" fill="#3b4992" fill-opacity="0.14"/>
+  <path d="M 240 936.8750071832075 L 295.3333333333333 923.3979592372206 L 350.6666666666667 908.1937125641061 L 406 891.1608512530838 L 461.33333333333337 872.2287941747809 L 516.6666666666666 851.3686816388024 L 572 828.6040895880687 L 627.3333333333333 804.0203329259203 L 682.6666666666667 777.7709050422702 L 738 750.0795937476875 L 793.3333333333333 721.2370972860176 L 848.6666666666666 691.5915640646273 L 904 661.5333333333332 L 959.3333333333334 631.475102602039 L 1014.6666666666666 601.829569380649 L 1070 572.9870729189788 L 1125.3333333333335 545.2957616243964 L 1180.6666666666665 519.046333740746 L 1236 494.46257707859786 L 1291.3333333333333 471.6979850278643 L 1346.6666666666665 450.8378724918854 L 1402 431.9058154135828 L 1457.3333333333333 414.87295410256013 L 1512.6666666666667 399.66870742944604 L 1568 386.19165948345915 L 1623.3333333333335 374.31970228350076 L 1678.6666666666667 363.91885993251697 L 1734 354.8505213673601 L 1789.3333333333333 346.9770405579661 L 1844.6666666666667 340.16581837796355 L 1900 334.29206803225907" fill="none" stroke="#3b4992" stroke-width="8" stroke-linecap="round"/>
+  <line x1="240" y1="674.0000000000001" x2="1900" y2="674.0000000000001" stroke="#c73e1d" stroke-width="4" stroke-dasharray="14 10"/>
+  <line x1="1014.6666666666666" y1="300" x2="1014.6666666666666" y2="1048" stroke="#c73e1d" stroke-width="4" stroke-dasharray="14 10"/>
+  <circle cx="1014.6666666666666" cy="674.0000000000001" r="11" fill="#c73e1d" stroke="#ffffff" stroke-width="3"/>
+  <rect x="1070" y="548.2666666666667" width="360" height="62" rx="16" fill="#ffffff" fill-opacity="0.94" stroke="#f0d3ce" stroke-width="1.8"/>
+  <text x="1090" y="586.2666666666667" font-family="Times New Roman, Georgia, serif" font-size="28" font-weight="700" fill="#c73e1d">Critical floor = 34 rangers</text>
+  <rect x="406" y="960.7333333333335" width="170" height="34" rx="17" fill="#c73e1d" fill-opacity="0.96" />
+    <text x="491" y="985.2133333333335" text-anchor="middle" font-family="Times New Roman, Georgia, serif" font-size="22" font-weight="700" fill="#ffffff">Fragile zone</text>
+  <rect x="1291.3333333333333" y="399.7333333333331" width="230" height="34" rx="17" fill="#008b45" fill-opacity="0.96" />
+    <text x="1406.3333333333333" y="424.21333333333314" text-anchor="middle" font-family="Times New Roman, Georgia, serif" font-size="22" font-weight="700" fill="#ffffff">Mission-capable zone</text>
+  <rect x="2080" y="250" width="700" height="216" rx="16" fill="#ffffff" fill-opacity="0.93" stroke="#d5dee9" stroke-width="1.8" filter="url(#cardShadow)"/><text x="2104" y="292" font-family="Times New Roman, Georgia, serif" font-size="28" font-weight="700" fill="#18324a">Curve Components</text><line x1="2104" y1="318" x2="2156" y2="318" stroke="#3b4992" stroke-width="8" /><circle cx="2130" cy="318" r="6" fill="#3b4992"/><text x="2168" y="322" font-family="Times New Roman, Georgia, serif" font-size="21" fill="#405d78">Mean protection curve</text><rect x="2104" y="344" width="24" height="18" rx="4" fill="#dfeafb" /><text x="2168" y="362" font-family="Times New Roman, Georgia, serif" font-size="21" fill="#405d78">Uncertainty band around expected PI</text><line x1="2104" y1="398" x2="2156" y2="398" stroke="#c73e1d" stroke-width="8" stroke-dasharray="14 10"/><text x="2168" y="402" font-family="Times New Roman, Georgia, serif" font-size="21" fill="#405d78">Command minimum PI = 0.70</text>
+  <rect x="2080" y="540" width="700" height="220" rx="16" fill="#ffffff" fill-opacity="0.94" stroke="#d5dee9" stroke-width="1.8" filter="url(#cardShadow)"/><text x="2104" y="582" font-family="Times New Roman, Georgia, serif" font-size="28" font-weight="700" fill="#18324a">Interpretation</text><text x="2104" y="618" font-family="Times New Roman, Georgia, serif" font-size="22" fill="#405d78">The staffing-response curve is nonlinear: below the floor, every missing ranger costs disproportionately more protection.</text><text x="2104" y="649" font-family="Times New Roman, Georgia, serif" font-size="22" fill="#405d78">After the threshold, the curve flattens, so additional staff still help but no longer change feasibility as sharply.</text><text x="2104" y="680" font-family="Times New Roman, Georgia, serif" font-size="22" fill="#405d78">This gives judges a concrete, defensible staffing rule rather than only a qualitative claim.</text>
+  <rect x="2080" y="818" width="300" height="144" rx="16" fill="#eef8f1" stroke="#cfe6d7" stroke-width="1.8"/>
+  <text x="2110" y="858" font-family="Times New Roman, Georgia, serif" font-size="24" fill="#405d78">Minimum safe staffing</text>
+  <text x="2110" y="915" font-family="Times New Roman, Georgia, serif" font-size="54" font-weight="700" fill="#008b45">34</text>
+  <text x="2110" y="944" font-family="Times New Roman, Georgia, serif" font-size="22" fill="#405d78">field rangers</text>
+  <rect x="2420" y="818" width="300" height="144" rx="16" fill="#f1f6fb" stroke="#d6e2ee" stroke-width="1.8"/>
+  <text x="2450" y="858" font-family="Times New Roman, Georgia, serif" font-size="24" fill="#405d78">PI at 40 rangers</text>
+  <text x="2450" y="915" font-family="Times New Roman, Georgia, serif" font-size="54" font-weight="700" fill="#3b4992">0.77</text>
+  <text x="2450" y="944" font-family="Times New Roman, Georgia, serif" font-size="22" fill="#405d78">baseline technology</text>
+  <text x="930" y="1140" font-family="Times New Roman, Georgia, serif" font-size="31" fill="#18324a">Field ranger count</text>
+  <text x="94" y="504" transform="rotate(-90 94 504)" font-family="Times New Roman, Georgia, serif" font-size="29" fill="#18324a">Protection index</text>
+</svg>

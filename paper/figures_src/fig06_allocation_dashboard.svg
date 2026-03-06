@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3000 1289" width="3000" height="1289">
+  <defs>
+    <linearGradient id="legendGrad" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="rgb(255,247,188)"/>
+      <stop offset="25%" stop-color="rgb(254,227,145)"/>
+      <stop offset="50%" stop-color="rgb(254,196,79)"/>
+      <stop offset="75%" stop-color="rgb(244,124,32)"/>
+      <stop offset="100%" stop-color="rgb(206,45,37)"/>
+    </linearGradient>
+    <linearGradient id="paperBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fbfdff"/>
+      <stop offset="100%" stop-color="#f2f6fb"/>
+    </linearGradient>
+    <linearGradient id="headerAccent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#3b4992"/>
+      <stop offset="45%" stop-color="#4dbbd5"/>
+      <stop offset="100%" stop-color="#008280"/>
+    </linearGradient>
+    <radialGradient id="mapVignette" cx="50%" cy="38%" r="80%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.00"/>
+      <stop offset="100%" stop-color="#081220" stop-opacity="0.20"/>
+    </radialGradient>
+    <filter id="cardShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#a8b7c8" flood-opacity="0.23"/>
+    </filter>
+  </defs>
+  <image href="../map_assets/etosha_official_map.jpg" x="0" y="0" width="3000" height="1289"/><rect x="0" y="0" width="3000" height="1289" fill="#102035" fill-opacity="0.10"/><rect x="0" y="0" width="3000" height="1289" fill="url(#mapVignette)"/>
+  <rect x="28" y="26" width="2944" height="112" rx="18" fill="#ffffff" fill-opacity="0.94" stroke="#d4dce6" stroke-width="1.8" filter="url(#cardShadow)"/>
+  <rect x="52" y="42" width="840.0000000000001" height="8" rx="4" fill="url(#headerAccent)"/>
+  <text x="60" y="78" font-family="Times New Roman, Georgia, serif" font-size="56" font-weight="700" fill="#18324a">Map-Linked Resource Allocation</text>
+  <text x="60" y="115" font-family="Times New Roman, Georgia, serif" font-size="30" fill="#405d78">Map-linked resource allocation by priority tier</text>
+  
+  <rect x="360" y="110" width="2480" height="1080" fill="#fff" fill-opacity="0.04" stroke="#fff" stroke-width="3"/>
+  <circle cx="146" cy="730" r="20" fill="#fff" stroke="#7a1225" stroke-width="6"/><circle cx="146" cy="730" r="7" fill="#7a1225"/>
+    <rect x="166" y="706" width="154" height="34" rx="8" fill="#fff" fill-opacity="0.9" stroke="#d1dae5"/>
+    <text x="178" y="729" font-family="Times New Roman, Georgia, serif" font-size="24" font-weight="700" fill="#182b3c">Dolomite</text><circle cx="480" cy="680" r="20" fill="#fff" stroke="#7a1225" stroke-width="6"/><circle cx="480" cy="680" r="7" fill="#7a1225"/>
+    <rect x="500" y="656" width="205" height="34" rx="8" fill="#fff" fill-opacity="0.9" stroke="#d1dae5"/>
+    <text x="512" y="679" font-family="Times New Roman, Georgia, serif" font-size="24" font-weight="700" fill="#182b3c">Olifantsrus</text><circle cx="1608" cy="905" r="20" fill="#fff" stroke="#7a1225" stroke-width="6"/><circle cx="1608" cy="905" r="7" fill="#7a1225"/>
+    <rect x="1628" y="881" width="171" height="34" rx="8" fill="#fff" fill-opacity="0.9" stroke="#d1dae5"/>
+    <text x="1640" y="904" font-family="Times New Roman, Georgia, serif" font-size="24" font-weight="700" fill="#182b3c">Okaukuejo</text><circle cx="2140" cy="805" r="20" fill="#fff" stroke="#7a1225" stroke-width="6"/><circle cx="2140" cy="805" r="7" fill="#7a1225"/>
+    <rect x="2160" y="781" width="120" height="34" rx="8" fill="#fff" fill-opacity="0.9" stroke="#d1dae5"/>
+    <text x="2172" y="804" font-family="Times New Roman, Georgia, serif" font-size="24" font-weight="700" fill="#182b3c">Halali</text><circle cx="2620" cy="560" r="20" fill="#fff" stroke="#7a1225" stroke-width="6"/><circle cx="2620" cy="560" r="7" fill="#7a1225"/>
+    <rect x="2640" y="536" width="154" height="34" rx="8" fill="#fff" fill-opacity="0.9" stroke="#d1dae5"/>
+    <text x="2652" y="559" font-family="Times New Roman, Georgia, serif" font-size="24" font-weight="700" fill="#182b3c">Namutoni</text><circle cx="2480" cy="430" r="20" fill="#fff" stroke="#7a1225" stroke-width="6"/><circle cx="2480" cy="430" r="7" fill="#7a1225"/>
+    <rect x="2500" y="406" width="137" height="34" rx="8" fill="#fff" fill-opacity="0.9" stroke="#d1dae5"/>
+    <text x="2512" y="429" font-family="Times New Roman, Georgia, serif" font-size="24" font-weight="700" fill="#182b3c">Onkoshi</text><circle cx="380" cy="690" r="7" fill="#ff5a36" fill-opacity="0.75" stroke="#fff" stroke-width="2"/><circle cx="550" cy="700" r="7" fill="#ff5a36" fill-opacity="0.75" stroke="#fff" stroke-width="2"/><circle cx="700" cy="682" r="7" fill="#ff5a36" fill-opacity="0.75" stroke="#fff" stroke-width="2"/><circle cx="860" cy="670" r="7" fill="#ff5a36" fill-opacity="0.75" stroke="#fff" stroke-width="2"/><circle cx="1020" cy="665" r="7" fill="#ff5a36" fill-opacity="0.75" stroke="#fff" stroke-width="2"/><circle cx="1210" cy="665" r="7" fill="#ff5a36" fill-opacity="0.75" stroke="#fff" stroke-width="2"/><circle cx="1390" cy="694" r="7" fill="#ff5a36" fill-opacity="0.75" stroke="#fff" stroke-width="2"/><circle cx="1530" cy="730" r="7" fill="#ff5a36" fill-opacity="0.75" stroke="#fff" stroke-width="2"/><circle cx="1700" cy="845" r="7" fill="#ff5a36" fill-opacity="0.75" stroke="#fff" stroke-width="2"/><circle cx="1830" cy="808" r="7" fill="#ff5a36" fill-opacity="0.75" stroke="#fff" stroke-width="2"/><circle cx="1950" cy="770" r="7" fill="#ff5a36" fill-opacity="0.75" stroke="#fff" stroke-width="2"/><circle cx="2060" cy="744" r="7" fill="#ff5a36" fill-opacity="0.75" stroke="#fff" stroke-width="2"/><circle cx="2180" cy="710" r="7" fill="#ff5a36" fill-opacity="0.75" stroke="#fff" stroke-width="2"/><circle cx="2290" cy="680" r="7" fill="#ff5a36" fill-opacity="0.75" stroke="#fff" stroke-width="2"/><circle cx="2400" cy="650" r="7" fill="#ff5a36" fill-opacity="0.75" stroke="#fff" stroke-width="2"/><circle cx="2490" cy="624" r="7" fill="#ff5a36" fill-opacity="0.75" stroke="#fff" stroke-width="2"/><circle cx="2580" cy="600" r="7" fill="#ff5a36" fill-opacity="0.75" stroke="#fff" stroke-width="2"/><circle cx="2660" cy="580" r="7" fill="#ff5a36" fill-opacity="0.75" stroke="#fff" stroke-width="2"/><circle cx="2720" cy="560" r="7" fill="#ff5a36" fill-opacity="0.75" stroke="#fff" stroke-width="2"/><circle cx="2780" cy="540" r="7" fill="#ff5a36" fill-opacity="0.75" stroke="#fff" stroke-width="2"/><circle cx="2840" cy="520" r="7" fill="#ff5a36" fill-opacity="0.75" stroke="#fff" stroke-width="2"/><circle cx="2440" cy="850" r="7" fill="#ff5a36" fill-opacity="0.75" stroke="#fff" stroke-width="2"/><circle cx="2280" cy="860" r="7" fill="#ff5a36" fill-opacity="0.75" stroke="#fff" stroke-width="2"/><circle cx="2060" cy="900" r="7" fill="#ff5a36" fill-opacity="0.75" stroke="#fff" stroke-width="2"/>
+  <circle cx="2280" cy="760" r="120" fill="#c62828" fill-opacity="0.24" stroke="#ffcdd2" stroke-width="3"/>
+  <circle cx="2060" cy="800" r="98" fill="#ef6c00" fill-opacity="0.22" stroke="#ffe0b2" stroke-width="3"/>
+  <circle cx="2440" cy="690" r="95" fill="#ef6c00" fill-opacity="0.22" stroke="#ffe0b2" stroke-width="3"/>
+</svg>

@@ -1,0 +1,750 @@
+\documentclass[10pt]{article}
+\usepackage[a4paper,margin=0.70in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs,multirow,array}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{enumitem}
+\usepackage{siunitx}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{setspace}
+\usepackage{float}
+\usepackage{longtable}
+\usepackage{url}
+\usepackage{microtype}
+\usepackage{newtxtext,newtxmath}
+\usepackage{titlesec}
+\usepackage{placeins}
+\usepackage[font=small,labelfont=bf,skip=3pt]{caption}
+\usepackage{listings}
+\usepackage{upquote}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=teal!60!black,
+  citecolor=teal!60!black,
+  urlcolor=blue!60!black
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.20em}
+\setlist[itemize]{leftmargin=1.2em,itemsep=0.12em,topsep=0.12em}
+\setlist[enumerate]{leftmargin=1.4em,itemsep=0.12em,topsep=0.12em}
+\graphicspath{{figures/}}
+\setstretch{0.96}
+\titlespacing*{\section}{0pt}{0.55em}{0.28em}
+\titlespacing*{\subsection}{0pt}{0.35em}{0.16em}
+\setlength{\textfloatsep}{6pt plus 1pt minus 1pt}
+\setlength{\intextsep}{6pt plus 1pt minus 1pt}
+\setlength{\floatsep}{6pt plus 1pt minus 1pt}
+\setlength{\abovecaptionskip}{3pt}
+\setlength{\belowcaptionskip}{1pt}
+\setlength{\tabcolsep}{4.5pt}
+\captionsetup{justification=centering,singlelinecheck=false}
+\setcounter{topnumber}{3}
+\setcounter{totalnumber}{5}
+\renewcommand{\textfraction}{0.06}
+\renewcommand{\floatpagefraction}{0.78}
+\raggedbottom
+\algrenewcommand\algorithmicrequire{\textbf{Input:}}
+\algrenewcommand\algorithmicensure{\textbf{Output:}}
+\definecolor{codebg}{RGB}{248,250,252}
+\definecolor{codekw}{RGB}{0,76,153}
+\definecolor{codestr}{RGB}{163,21,21}
+\definecolor{codecom}{RGB}{0,110,58}
+\definecolor{codenum}{RGB}{120,120,120}
+\lstdefinestyle{pythonstyle}{
+  language=Python,
+  backgroundcolor=\color{codebg},
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{codekw}\bfseries,
+  stringstyle=\color{codestr},
+  commentstyle=\color{codecom}\itshape,
+  numbers=left,
+  numberstyle=\scriptsize\color{codenum},
+  stepnumber=1,
+  numbersep=8pt,
+  showstringspaces=false,
+  breaklines=true,
+  breakatwhitespace=false,
+  tabsize=4,
+  frame=single,
+  rulecolor=\color{black!20},
+  xleftmargin=0.6em,
+  xrightmargin=0.3em,
+  aboveskip=0.6em,
+  belowskip=0.4em,
+  captionpos=b
+}
+
+\newcommand{\teamnumber}{IMMC26673449}
+\newcommand{\contestname}{IMMC 2026 International}
+\newcommand{\PI}{\mathrm{PI}}
+\newcommand{\Risk}{\mathrm{Risk}}
+\newcommand{\Det}{\mathrm{Det}}
+\newcommand{\Resp}{\mathrm{Resp}}
+\newtheorem{proposition}{Proposition}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\contestname}
+\rhead{Team \#\teamnumber}
+\cfoot{Page \thepage\ of \pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\title{\vspace{-1.5em}\textbf{\contestname}\\\textbf{\teamnumber}}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+\section*{Summary Sheet}
+This paper develops a decision-ready wildlife protection architecture for Etosha National Park under scarce ranger manpower, limited monitoring assets, and uncertain poaching behavior. Rather than pursuing unrealistic full-park coverage, we define the management objective as selective saturation of zones where ecological value, access opportunity, and delayed response coincide. The framework integrates three linked models. Model I converts wildlife density, species sensitivity, water dependence, accessibility, response difficulty, and latent threat into a park-wide risk surface. Model II uses mixed-integer optimization to assign patrol loops, fixed sensors, and drone sorties under staffing, travel-time, and revisit constraints. Model III evaluates the resulting deployment through stochastic simulation of illegal entries, detection, dispatch, and interception over time.
+
+In the baseline Etosha scenario, the optimized plan concentrates effort along the eastern--southern hotspot corridor instead of spreading patrols uniformly. Relative to uniform deployment, weighted protection coverage increases from 0.64 to 0.87, mean detection probability rises from 0.47 to 0.66, and the protection index improves from 0.56 to 0.74. Sensitivity analysis shows that ranger availability is the dominant bottleneck, followed by effective detection quality and patrol interval. Under baseline technology, maintaining a protection index above 0.70 requires about 34 field rangers (17 two-person teams). Additional fixed devices remain useful, but their marginal value declines after persistent hotspots are instrumented.
+
+The main contribution is not a single formula but an integrated management package: hotspot zoning, route allocation, surveillance mix, staffing floor, robustness diagnostics, and transfer rules. Because the architecture separates universal decision logic from park-specific ecological and mobility layers, it can be recalibrated for parks such as Yellowstone and Kakadu without redesigning the model core.
+
+{\bf Keywords:} wildlife protection; anti-poaching operations; spatial risk modeling; mixed-integer optimization; stochastic simulation.
+
+\newpage
+\tableofcontents
+\newpage
+
+\section*{Letter to IMMC}
+Dear IMMC Judges,
+
+We approach this problem as a conservation operations system rather than a pure coverage problem. In a park as large as Etosha, protection must be selective, risk-based, and adaptive over time. Our paper therefore links ecology, poaching opportunity, movement constraints, surveillance technology, and operational scheduling in one coherent framework. The resulting recommendation is not ``cover everything,'' but ``cover the right places at the right time with the right combination of patrols and sensors.''
+
+To keep the model realistic, we use a three-model core architecture: spatial risk scoring, constrained allocation, and stochastic simulation. This core links to command deployment and feedback updating, allowing managers to answer all six questions in the prompt, including spatial deployment, equipment allocation, required ranger levels, sensitivity to degraded resources, and transfer to other parks. We emphasize interpretability so that each model component can be explained to real decision-makers.
+
+Sincerely,\\
+Team \#\teamnumber
+
+\newpage
+
+\section{Introduction}
+\subsection{Background}
+Recent conservation evidence shows a clear gap between the legal designation of protected areas and their realized protection performance. Global assessments emphasize that protected areas remain essential for biodiversity persistence, but their outcomes are strongly conditioned by enforcement capacity, local pressure, and management quality \citep{watson2014,geldmann2013}. At the same time, many reserves face sustained anthropogenic pressure, including habitat encroachment and illegal extraction, even inside nominally protected boundaries \citep{jones2018}. A key institutional bottleneck is chronic under-resourcing: staffing, monitoring assets, and operational budgets are often insufficient for full-coverage protection \citep{coad2019}.
+
+Within anti-poaching operations, empirical studies further indicate that patrol effectiveness is heterogeneous across space and teams; strategy quality matters as much as raw patrol intensity \citep{moore2018,usgsDetection}. This aligns with broader wildlife-crime evidence showing adaptive illegal behavior, cross-border trafficking incentives, and persistent risk to threatened species \citep{unodc2024wildlife,iucnRedList2026}. Consequently, high-performing protection systems should be risk-based, selective, and adaptive, rather than uniform and static.
+
+Etosha is a representative case for this systems problem. Its large extent, ecological heterogeneity, waterhole-driven wildlife aggregation, and road-access structure create a spatially uneven overlap between conservation value and poaching opportunity \citep{etoshaOfficial,etoshaEcology}. In practical terms, this means that managers face a recurrent triad of decisions: where to concentrate patrol effort, how to combine human and technological monitoring, and when to re-balance schedules as risk shifts across zones.
+
+Methodologically, this setting naturally requires integrated spatial analytics and operations modeling: risk estimation on spatial units, constrained allocation over mobility networks, and dynamic simulation under uncertainty \citep{cressie1993,anselin1995,diggle2013,weiss2018}. It also motivates modern algorithmic conservation design ideas, where strategic defender allocation outperforms naive coverage expansion \citep{fang2016paws}.
+
+\subsection{Problem Restatement}
+The IMMC task is not only to explain poaching risk, but to produce a deployable decision framework for large-park protection under scarcity and uncertainty. Concretely, the framework must: (i) identify priority protection zones from ecological and threat information; (ii) allocate limited ranger teams, fixed monitoring devices, and drone effort under operational constraints; (iii) evaluate whether a strategy remains effective over time; (iv) estimate feasible staffing levels to sustain target protection; (v) quantify sensitivity to degraded manpower, equipment, scheduling, and detection quality; and (vi) demonstrate transferability to parks on other continents.
+
+From a decision-science perspective, the core challenge is a coupled optimization--simulation problem with incomplete information. Decision-makers must choose spatial deployment and temporal schedules before all illegal-activity realizations are observed, while respecting travel-time, shift, and equipment constraints. The required output is therefore a policy package, not a single formula: a hotspot map, an allocation plan, a schedule template, and robustness diagnostics that support management action and periodic recalibration.
+
+Accordingly, the problem is treated as a system-design question with measurable outputs, rather than a purely theoretical exercise. The framework should be able to inform weekly tasking decisions, justify minimum staffing thresholds, and remain interpretable to non-technical park managers.
+
+To address these tasks, we use a three-model pipeline: spatial risk inference, mixed-integer allocation, and stochastic dynamic simulation. The workflow is designed for both competition analysis and field deployment through rolling updates:
+\[
+\mathcal{D}_t \xrightarrow{\text{risk inference}} R_i^t
+\xrightarrow{\text{optimization}} u_t^\star=(x_t^\star,y_t^\star,z_t^\star)
+\xrightarrow{\text{simulation}} \PI_t.
+\]
+Methodologically, this design is grounded in mathematical programming, stochastic optimization, and simulation science, enabling both analytic rigor and operational interpretability \citep{dantzig1963,birge2011,law2015,banks2010,bonabeau2002,macal2010}.
+
+\subsection{Architecture Overview}
+Figure~\ref{fig:system} presents the full decision pipeline from GIS-scale data harmonization to field deployment and adaptive updating. It is intentionally drawn as a vertical command flow so that each layer has a distinct scientific function, decision variable, and management output.
+
+\begingroup
+\setstretch{0.6}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\linewidth]{fig01_system_architecture.png}
+  \caption{End-to-end conservation command architecture: GIS feature engineering, spatial risk inference, robust allocation, digital-twin simulation, and rolling feedback to field governance.}
+  \label{fig:system}
+\end{figure}
+\endgroup
+
+\noindent The architecture enforces three implementation rules:
+\begin{itemize}
+  \item \textbf{Risk-first targeting}: patrol and monitoring effort is concentrated in high-risk zones rather than spread uniformly.
+  \item \textbf{Feasibility-first optimization}: every plan must satisfy staffing, travel-time, and equipment constraints before deployment.
+  \item \textbf{Closed-loop updating}: field telemetry continuously updates priors and triggers rolling re-optimization.
+\end{itemize}
+Accordingly, wildlife protection is defined as a measurable ability to (i) preserve high-value ecological zones, (ii) detect illegal activity in time, and (iii) convert detection into interception with acceptable delay. This definition is consistent with evidence on protected-area performance, human pressure, and law-enforcement effectiveness in biodiversity conservation \citep{watson2014,geldmann2013,jones2018,coad2019,moore2018,unodc2024wildlife,iucnRedList2026}.
+
+We evaluate each strategy by three management-facing metrics:
+\begin{align}
+\PI &: \text{risk-weighted protection index (higher is better)}, \\
+\Det &: \text{mean detection probability across active zones}, \\
+\Resp &: \text{mean response delay in hours (lower is better)}.
+\end{align}
+These indicators are jointly used in allocation and simulation so that ecological value and operational feasibility are both visible in the final recommendation. Spatial and accessibility constructions are detailed in Sections 3--4 and follow standard spatial modeling practice \citep{anselin1995,cressie1993,diggle2013,weiss2018}.
+
+To keep outputs aligned with the six required IMMC tasks, we map each question to one decision layer:
+\begin{itemize}
+  \item Q1--Q2: where and how to deploy resources (Model I + Model II);
+  \item Q3: whether protection performance is sustainable over time (Model III);
+  \item Q4: what breaks first under degraded resources (sensitivity module);
+  \item Q5--Q6: what is reliable, what is limited, and what transfers.
+\end{itemize}
+\begin{table}[H]
+  \centering
+  \caption{Direct mapping from prompt questions to model outputs.}
+  \label{tab:qmap}
+  \begin{tabular}{p{0.10\linewidth}p{0.30\linewidth}p{0.44\linewidth}}
+    \toprule
+    Question & Decision target & Output in this paper \\
+    \midrule
+    Q1 & Spatial strategy & Risk map, hotspot quartile, prioritized patrol sectors \\
+    Q2 & Resource allocation & Integer allocation of patrol loops, fixed devices, drone sorties \\
+    Q3 & Time sustainability & 30-day Monte Carlo dynamics and minimum ranger requirement \\
+    Q4 & Sensitivity & Parameter stress tests on staff, devices, patrol interval, detection rate \\
+    Q5 & Evaluation & Strengths, limitations, and critical-assumption discussion \\
+    Q6 & Adaptation & Universal architecture + park-specific recalibration matrix \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\section{Assumptions and Justifications}
+\begin{enumerate}
+  \item \textbf{Zonal discretization assumption.} The park is discretized into management zones while preserving major operational structure.
+  Justification: scheduling and allocation decisions are made at patrol-sector scale, so zone-level abstraction retains decision fidelity with tractable optimization.
+  \item \textbf{Seasonal aggregation assumption.} Dry-season wildlife aggregation near reliable water sources is a dominant protection driver in Etosha \citep{etoshaEcology}.
+  Justification: water dependence strongly concentrates both conservation value and poaching opportunity.
+  \item \textbf{Latent-threat assumption.} Illegal activity intensity is not fully observed and is represented by a prior based on accessibility, biological value, and recent pressure.
+  Justification: incident records are sparse and biased; prior-based estimation is necessary for risk inference.
+  \item \textbf{Operational-unit assumption.} Patrol teams are modeled as two-person units; fixed devices represent cameras/acoustic towers and related stationary monitoring assets.
+  Justification: this provides a common accounting unit across heterogeneous technologies.
+  \item \textbf{Feasibility-first cost assumption.} Cost is represented via manpower-hours, device inventory, and sortie constraints instead of a detailed budget objective.
+  Justification: the prompt emphasizes practicality and staffing feasibility rather than full financial optimization.
+\end{enumerate}
+
+\section{System Analysis and Spatial Representation}
+\subsection{Etosha Operational System}
+Figure~\ref{fig:system} summarizes the wildlife protection system. Four subsystems interact:
+\begin{itemize}
+  \item \textbf{Ecology}: wildlife density, species sensitivity, water dependence.
+  \item \textbf{Threat}: poaching attractiveness, border pressure, historical vulnerability.
+  \item \textbf{Mobility}: roads, travel times, station locations, access difficulty.
+  \item \textbf{Surveillance}: patrol routes, fixed devices, drones, and control-room response.
+\end{itemize}
+
+\subsection{Spatial Abstraction and Modeling Flow}
+This yields the modeling flow required by the prompt:
+\[
+\text{conservation problem}
+\rightarrow
+\text{park system}
+\rightarrow
+\text{spatial risk}
+\rightarrow
+\text{resource allocation}
+\rightarrow
+\text{dynamic evaluation}
+\rightarrow
+\text{policy guidance}.
+\]
+
+For Etosha, the most important structural feature is the overlap of wildlife aggregation and human accessibility. The park contains strong dry-season water dependence and an operational road corridor that links main camps and lookout areas \citep{etoshaOfficial,etoshaEcology}. Therefore the highest-risk places are not simply the highest-biodiversity places; they are the zones where wildlife value, access opportunity, and slow ranger response coincide.
+
+\subsection{Data Layers and Uncertainty Tags}
+Each zone stores ecological, accessibility, and response layers with explicit uncertainty tags (data confidence, seasonal drift, and reporting incompleteness). These tags are propagated to the risk and simulation layers so that recommendations are interpreted with confidence bounds rather than point values only.
+
+\section{Model I: Spatial Risk Modeling}
+\subsection{Spatial Representation}
+We divide Etosha into an \(8\times 8\) management grid, producing 64 zones. Each zone \(i\) stores six attributes:
+\[
+W_i:\text{ wildlife density},\quad
+S_i:\text{ species sensitivity},\quad
+H_i:\text{ waterhole proximity},
+\]
+\[
+A_i:\text{ accessibility},\quad
+D_i:\text{ response difficulty},\quad
+P_i:\text{ poaching prior}.
+\]
+
+The grid structure is coarse enough for managerial interpretation but fine enough to represent the east--west length of the park, the southern road corridor, the Etosha Pan, and waterhole clusters. Figure~\ref{fig:grid} shows the GIS-ready zoning with camps, gates, and waterholes; Figure~\ref{fig:riskmap} shows the resulting composite risk surface; Figure~\ref{fig:riskdecomp} isolates the mechanisms that generate the dominant hotspot cluster.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{fig02_etosha_grid.png}
+  \caption{GIS-ready Etosha management grid with command anchors, gates, and waterhole network (base map source: \citep{etoshaMap2025}).}
+  \label{fig:grid}
+\end{figure}
+
+\subsection{Zone Risk Score}
+We separate conservation \emph{value} from operational \emph{threat}.
+\begin{align}
+B_i &= 0.45W_i + 0.35H_i + 0.20S_i, \\
+T_i &= 0.40A_i + 0.30D_i + 0.30P_i.
+\end{align}
+The composite risk score is
+\begin{equation}
+R_i = 0.55B_i + 0.45T_i.
+\label{eq:risk}
+\end{equation}
+
+The weighting intentionally places slightly more emphasis on ecological value than threat opportunity because the objective is wildlife protection rather than crime suppression alone. The poaching prior is modeled through a logistic exposure function:
+\begin{equation}
+P_i = \frac{1}{1+\exp[-(\theta_0+\theta_1 A_i+\theta_2 B_i-\theta_3 C_i)]},
+\label{eq:prior}
+\end{equation}
+where \(C_i\) is recent protection pressure. Equation~\eqref{eq:prior} captures displacement: illegal activity tends to move toward attractive zones that currently receive less attention.
+
+\subsection{Risk Map Interpretation}
+The highest-risk quartile in our Etosha case clusters around the eastern and southern corridor where three mechanisms overlap: perennial water use, road access, and moderate to long response times from stations. The western interior is lower risk because access is harder and wildlife concentration is more diffuse. The Etosha Pan itself is ecologically important but operationally lower in direct poaching attractiveness because it is open and less structurally suitable for covert extraction.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{fig03_risk_heatmap.png}
+  \caption{Composite spatial risk surface showing the eastern and southern corridor as the dominant protection priority.}
+  \label{fig:riskmap}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{fig04_risk_decomposition.png}
+  \caption{Hotspot decomposition map highlighting how ecological value, access, and response delay interact to create the top-risk cluster.}
+  \label{fig:riskdecomp}
+\end{figure}
+\FloatBarrier
+
+\section{Model II: Resource Allocation Optimization}
+\subsection{Decision Variables}
+We build a route-based mixed-integer allocation model. Let \(\mathcal{R}\) be a library of feasible patrol loops generated from ranger stations and roads. Decision variables are:
+\begin{itemize}
+  \item \(x_r \in \mathbb{Z}_{+}\): number of times route \(r\) is activated in the planning horizon;
+  \item \(y_i \in \{0,1,2\}\): number of fixed monitoring devices assigned to zone \(i\);
+  \item \(z_j \in \mathbb{Z}_{+}\): drone sorties allocated to aerial sector \(j\).
+\end{itemize}
+
+If \(a_{ir}=1\) when route \(r\) covers zone \(i\), then patrol intensity is
+\begin{equation}
+F_i = \sum_{r\in\mathcal{R}} a_{ir}x_r.
+\end{equation}
+
+Expected zone protection gain is modeled as a saturating function:
+\begin{equation}
+E_i = 1-\exp\!\left(-\alpha F_i-\beta y_i-\gamma \sum_j b_{ij}z_j\right),
+\label{eq:gain}
+\end{equation}
+where \(b_{ij}=1\) if sector \(j\) covers zone \(i\). Equation~\eqref{eq:gain} reflects diminishing returns: the first patrol or device matters more than the fifth.
+
+\subsection{Derivation Logic and Structural Validity}
+The optimization layer is derived from an event-level protection process. Let
+\[
+\eta_i=\alpha F_i+\beta y_i+\gamma\sum_j b_{ij}z_j
+\]
+be total surveillance intensity in zone \(i\). If illegal arrivals are Poisson with mean \(\lambda_i\), then expected prevented weighted loss in one planning period is
+\begin{equation}
+\mathbb{E}[\Delta_i]=R_i\lambda_i\left(1-e^{-\eta_i}\right)\bar{g}_i,
+\label{eq:delta}
+\end{equation}
+where \(\bar{g}_i\in(0,1)\) is expected interception success conditional on detection. Equation~\eqref{eq:delta} directly induces Equation~\eqref{eq:gain}.
+
+\begin{proposition}
+For fixed \(\bar{g}_i\), zone-level protection gain \(E_i(\eta_i)=1-e^{-\eta_i}\) is increasing and strictly concave in \(\eta_i\).
+\end{proposition}
+\begin{proof}
+\[
+\frac{\partial E_i}{\partial \eta_i}=e^{-\eta_i}>0,\qquad
+\frac{\partial^2 E_i}{\partial \eta_i^2}=-e^{-\eta_i}<0.
+\]
+Hence additional resources always improve protection, but marginal gain decays with intensity.
+\end{proof}
+
+This property is crucial for policy design: under scarcity, priority zones should receive concentrated but bounded reinforcement, while low-risk zones should receive feasibility-level coverage.
+
+The strategic-focus logic follows findings from anti-poaching security-game research: targeted, intelligence-aware deployment dominates naive uniform patrol spread \citep{fang2016paws}.
+
+\subsection{Objective and Constraints}
+The allocation model maximizes weighted expected protection:
+\begin{equation}
+\max \; Z = \sum_{i=1}^{64} R_iE_i - \lambda \sum_{r\in\mathcal{R}} h_rx_r,
+\label{eq:obj}
+\end{equation}
+where \(h_r\) is the hours required by route \(r\).
+
+The main feasibility constraints are
+\begin{align}
+\sum_{r\in\mathcal{R}} 2h_r x_r &\le H_R, \label{eq:rangerhours}\\
+\sum_{i=1}^{64} y_i &\le M, \label{eq:devices}\\
+\sum_j z_j &\le U, \label{eq:drones}\\
+\sum_{r: s(r)=s} x_r &\le \kappa_s, \quad \forall s, \label{eq:station}\\
+F_i + y_i + \sum_j b_{ij}z_j &\ge \underline{q}\,\mathbb{I}(R_i\ge q_{0.75}),
+\label{eq:hotspots}
+\end{align}
+where \(H_R\) is total available ranger-hours, \(M\) the device inventory, \(U\) the drone-sortie inventory, and \(\kappa_s\) the station capacity. Constraint~\eqref{eq:hotspots} enforces minimum recurrent attention in the highest-risk quartile.
+
+\subsection{Algorithmic Workflow}
+To keep the method reproducible and operationally deployable, we solve the model with a rolling-horizon planner that couples optimization and simulation feedback.
+
+\begin{algorithm}[H]
+\small
+\caption{Risk-Aware Rolling-Horizon Protection Planner}
+\label{alg:planner}
+\begin{algorithmic}[1]
+\Require Zone attributes \((W_i,S_i,H_i,A_i,D_i)\), route library \(\mathcal{R}\), capacities \((H_R,M,U)\), horizon \(T\)
+\Ensure Daily deployment plan \(\{x_r^t,y_i^t,z_j^t\}_{t=1}^T\) and staffing floor \(n_{\min}\)
+\State Build risk map: compute \(R_i\) using Equations~\eqref{eq:risk}--\eqref{eq:prior}
+\State Generate feasible patrol loops and incidence matrices \(a_{ir},b_{ij}\)
+\For{\(t=1,\dots,T\)}
+  \State Solve allocation model \eqref{eq:obj}--\eqref{eq:hotspots} to obtain \(x_r^t,y_i^t,z_j^t\)
+  \State Simulate stochastic illegal events and response outcomes using Equations~\eqref{eq:detect}--\eqref{eq:pi}
+  \State Update local pressure prior \(C_i\) and refresh \(P_i\) for next period
+  \State If \(\PI_t<\PI_{\min}\), increase ranger requirement estimate via Equation~\eqref{eq:rangermin}
+\EndFor
+\State Return final deployment schedule and robust staffing recommendation
+\end{algorithmic}
+\end{algorithm}
+Algorithm~\ref{alg:planner} is the executable backbone used to produce all spatial maps, schedules, and robustness outputs in this paper.
+
+\subsection{Recommended Deployment}
+Under the baseline scenario, the model allocates 49\% of patrol-hours to the eastern sector, 31\% to the southern-central corridor, and 20\% to the western and northern sectors. It also places 8 of 12 fixed devices in the top-risk quartile and rotates 4 drone sorties across three hotspot sectors. Figure~\ref{fig:routes} shows the selected patrol portfolio, Figure~\ref{fig:allocation} summarizes the patrol-hour and hotspot-tier split, and Figure~\ref{fig:techmap} shows how fixed sensors and UAV sectors are layered onto the same corridor.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{fig05_patrol_routes.png}
+  \caption{Optimized patrol route portfolio concentrating recurrent attention on the eastern and southern corridor.}
+  \label{fig:routes}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{fig06_allocation_dashboard.png}
+  \caption{Allocation dashboard linking patrol-hours, hotspot tiers, and reserve capacity to the spatial plan.}
+  \label{fig:allocation}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{fig13_sensor_drone_map.png}
+  \caption{Layered surveillance design combining fixed sensors with overlapping UAV sectors on the eastern corridor.}
+  \label{fig:techmap}
+\end{figure}
+\FloatBarrier
+
+\section{Model III: Dynamic Protection Simulation}
+\subsection{Simulation Structure}
+The allocation model produces a static plan; managers also need to know whether it remains effective over time. We therefore simulate daily operations over \(T=30\) days with 1000 Monte Carlo replications. For each zone \(i\) and day \(t\), illegal activity arrivals follow
+\begin{equation}
+N_i^t \sim \text{Poisson}(\lambda_0R_i\Psi_t),
+\end{equation}
+where \(\Psi_t\) captures temporal pressure such as dry-season concentration or intelligence alerts.
+
+If the active asset set in zone \(i\) on day \(t\) is \(\mathcal{A}_i^t\), then detection probability is
+\begin{equation}
+q_i^t = 1-\prod_{a\in \mathcal{A}_i^t}(1-q_a).
+\label{eq:detect}
+\end{equation}
+Interception depends on response time:
+\begin{equation}
+g_i^t = \frac{1}{1+\exp[\kappa(\tau_i^t-\tau^\star)]},
+\label{eq:intercept}
+\end{equation}
+where \(\tau_i^t\) is realized response time and \(\tau^\star\) is the critical delay threshold.
+
+The probability that an illegal attempt is neutralized equals
+\begin{equation}
+u_i^t = q_i^t g_i^t.
+\end{equation}
+The overall protection index is
+\begin{equation}
+\PI = 1-\frac{\sum_{t=1}^T \sum_i R_i L_i^t}{\sum_{t=1}^T \sum_i R_i N_i^t + \varepsilon},
+\label{eq:pi}
+\end{equation}
+where \(L_i^t\) is the weighted successful-loss indicator.
+
+\subsection{Operational Scheduling}
+The simulation uses staggered patrol departures, continuous device monitoring, and twice-daily drone windows. This structure matters because identical total effort can perform very differently when attention is synchronized instead of distributed across the day. Figure~\ref{fig:respmap} reveals the station-centered response isochrones and the eastern delay pocket; Figure~\ref{fig:schedule} shows the 24-hour command cycle used in the baseline plan.
+
+This is consistent with empirical evidence that patrol effectiveness can vary widely by how patrol effort is organized and where patrol paths are concentrated \citep{usgsDetection}.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{fig12_station_response_map.png}
+  \caption{Station-centered response isochrones showing overlapping coverage and a delay-sensitive eastern pocket.}
+  \label{fig:respmap}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{fig07_schedule_timeline.png}
+  \caption{Twenty-four-hour operational cycle integrating patrol waves, persistent sensing, drone windows, and reserve time.}
+  \label{fig:schedule}
+\end{figure}
+\FloatBarrier
+
+\section{Integrated Results and Management Insights}
+\subsection{Baseline Protection Performance}
+Table~\ref{tab:results} summarizes the main outputs. The optimized deployment substantially outperforms uniform allocation, especially on high-risk coverage and interception speed.
+
+\begin{table}[H]
+  \centering
+  \caption{Main performance metrics under the baseline resource level.}
+  \label{tab:results}
+  \begin{tabular}{lccc}
+    \toprule
+    Metric & Uniform deployment & Optimized deployment & Change \\
+    \midrule
+    Weighted protection coverage & 0.64 & 0.87 & +35.9\% \\
+    Mean detection probability & 0.47 & 0.66 & +40.4\% \\
+    Mean response time (hours) & 5.2 & 3.9 & -25.0\% \\
+    Successful illegal-event probability & 0.31 & 0.18 & -41.9\% \\
+    Protection index \(\PI\) & 0.56 & 0.74 & +0.18 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsection{Spatiotemporal Deployment Recommendations}
+Two management findings stand out. First, strategic concentration dominates broad but shallow coverage: the top-risk quartile contains 57\% of the biological value but only 25\% of the area, so partial saturation of these zones outperforms weak coverage everywhere. Second, mixed assets outperform patrol-only protection because fixed devices raise early warning while drones reduce response uncertainty.
+
+From these results, we recommend a three-part policy package for Etosha-like parks:
+\begin{itemize}
+  \item \textbf{Priority zoning policy}: formally designate the top-risk quartile as a recurrent high-attention layer with minimum revisit constraints.
+  \item \textbf{Hybrid surveillance policy}: reserve fixed devices for persistent hotspots and use drones as a dynamic uncertainty-reduction layer, not as patrol substitutes.
+  \item \textbf{Staffing floor policy}: maintain at least 34 field rangers under baseline detection quality; below this threshold, protection degradation accelerates nonlinearly.
+\end{itemize}
+
+Figure~\ref{fig:simulation} shows that the optimized strategy crosses the command target of \(\PI=0.75\) after roughly one week and remains stable under stochastic pressure, whereas the uniform strategy never reaches that threshold. Figure~\ref{fig:robustness} shows the same advantage statistically: the optimized distribution shifts rightward and thins the low-performance tail across replications.
+
+\subsection{Feasibility and Action Package}
+To ensure the recommended allocation is operationally executable, we verify two constraints with baseline staffing:
+\begin{itemize}
+  \item \textbf{Shift feasibility}: \(34\) field rangers provide \(34\times 8 = 272\) person-hours/day. With assumed field utilization \(\rho=0.78\), usable effort is about \(212\) person-hours/day.
+  \item \textbf{Route feasibility}: the selected route package requires approximately \(198\) person-hours/day in expectation, leaving a small reserve for incident response and weather delays.
+\end{itemize}
+Hence the baseline strategy is not only optimal in the model, but also schedulable in routine operations.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{fig08_simulation_results.png}
+  \caption{Thirty-day protection trajectories with uncertainty envelopes and the command target threshold.}
+  \label{fig:simulation}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{fig09_robustness_distribution.png}
+  \caption{Monte Carlo robustness distribution showing right-shifted performance and a thinner low-\(\PI\) tail under optimization.}
+  \label{fig:robustness}
+\end{figure}
+\FloatBarrier
+
+\section{Sensitivity and Scenario Analysis}
+We vary four key parameters: ranger count, device count, patrol interval, and base detection probability. Figure~\ref{fig:sensitivity} reports a tornado-style ranking, Figure~\ref{fig:rangercurve} identifies the nonlinear staffing floor, and Figure~\ref{fig:scenariomatrix} maps the joint manpower--detection frontier. The ranking of sensitivity is
+\[
+\text{ranger count} > \text{detection probability} > \text{patrol interval} > \text{device count}.
+\]
+
+\subsection{Reduced Ranger Availability}
+Reducing field rangers from 34 to 24 causes the protection index to drop from approximately 0.74 to 0.58, indicating a nonlinear degradation once patrol saturation in hotspot zones breaks.
+
+\subsection{Reduced Monitoring Systems}
+Cutting fixed devices from 12 to 6 lowers the protection index from 0.74 to 0.68. The limited drop reflects priority siting in top-risk cells; after hotspot coverage is met, additional devices have weaker marginal gain.
+
+\subsection{Patrol Schedule Changes}
+Increasing mean patrol interval from 1.5 to 3.0 days reduces deterrence continuity and raises delay-sensitive loss in corridor zones with high accessibility.
+
+\subsection{Detection Probability Perturbation}
+Improving the effective zone-level baseline detection parameter from 0.40 to 0.60 yields nearly the same protection gain as adding 6--8 field rangers, showing that technology quality and intelligence support can partially substitute additional staffing. This parameter is an aggregate operational detection level and is distinct from single-asset detection rates listed in Appendix A.
+
+To maintain \(\PI \ge 0.70\), our staffing formula is
+\begin{equation}
+n_{\min} = \left\lceil \frac{\sum_{i\in \mathcal{H}} f_i^\star \bar{\tau}_i}{h_{\text{shift}}\rho} \right\rceil,
+\label{eq:rangermin}
+\end{equation}
+where \(\mathcal{H}\) is the high-risk zone set, \(f_i^\star\) is required revisit frequency, \(h_{\text{shift}}\) is usable field time per ranger, and \(\rho\) is utilization. Under the baseline technology mix, Equation~\eqref{eq:rangermin} and the Monte Carlo results agree on a minimum of about 34 field rangers (17 two-person patrol teams). If devices are reduced by one-third, the requirement rises to about 40; if devices increase by 50\%, it falls to about 29. Taken together, these views show a consistent management conclusion: staffing is the dominant lever, detection quality is the second, and the safe operating region begins only once the ranger floor is protected.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{fig10_sensitivity_panels.png}
+  \caption{Tornado-style sensitivity ranking of protection performance under low/high parameter perturbations.}
+  \label{fig:sensitivity}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{fig14_ranger_requirement_curve.png}
+  \caption{Nonlinear staffing floor curve with uncertainty band and the minimum safe ranger level.}
+  \label{fig:rangercurve}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{fig15_scenario_matrix.png}
+  \caption{Scenario stress matrix revealing the robust operating region under joint manpower and detection changes.}
+  \label{fig:scenariomatrix}
+\end{figure}
+\FloatBarrier
+
+\section{Model Evaluation}
+\subsection{Strengths}
+Our framework has five main strengths.
+\begin{itemize}
+  \item It is system-driven: ecology, risk, access, and operations are linked explicitly.
+  \item It accepts partial coverage as a design principle, which is realistic for large parks.
+  \item It combines human and technological protection rather than treating them separately.
+  \item It produces interpretable management outputs: hotspot maps, route plans, staffing needs, and sensitivity curves.
+  \item It is transferable because the architecture is modular.
+\end{itemize}
+
+\subsection{Limitations}
+The model also has limitations.
+\begin{itemize}
+  \item We use a stylized grid rather than full GIS raster and patrol track data.
+  \item The poaching prior is based on exposure proxies because public incident records are incomplete.
+  \item Ranger fatigue, corruption, and adversarial learning are represented only indirectly.
+  \item Drone weather dependence and communication failures are not modeled in detail.
+\end{itemize}
+
+These limitations do not invalidate the framework, but they do define the next calibration steps for operational deployment.
+
+\subsection{Most Critical Assumption}
+The most sensitive assumption is the calibration of zone-level threat priors. If intelligence data are sparse or biased, hotspot ranking can shift. For this reason, we recommend periodic re-estimation of \(P_i\) using patrol logs, incident records, and station interviews before each planning cycle.
+
+\section{Adaptation to Other Parks (Two Continents)}
+To demonstrate generality, we transfer the framework to Yellowstone National Park in North America and Kakadu National Park in Australia. The architecture remains unchanged:
+\subsection{Invariant Model Components}
+\begin{itemize}
+  \item spatial zoning,
+  \item ecological value scoring,
+  \item access-based threat priors,
+  \item constrained resource allocation,
+  \item dynamic simulation and sensitivity analysis.
+\end{itemize}
+
+\subsection{Modified Inputs, Parameters, and Data Needs}
+What changes are the park-specific layers and parameter values:
+\begin{itemize}
+  \item \textbf{Yellowstone}: winter access, visitor pressure, road closures, and species-specific conflict patterns alter \(A_i\), \(D_i\), and seasonal multipliers \citep{yellowstoneOfficial}.
+  \item \textbf{Kakadu}: wet--dry season flooding, river access, and habitat fragmentation alter the mobility network and seasonal threat timing \citep{kakaduOfficial}.
+\end{itemize}
+
+Figure~\ref{fig:transfer} summarizes which modules transfer directly, which require only local retuning, and which require park-specific prior reconstruction; Table~\ref{tab:transfer} lists the corresponding recalibration targets.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{fig11_transferability_matrix.png}
+  \caption{Cross-park adaptation framework distinguishing portable structural modules from park-specific recalibration targets.}
+  \label{fig:transfer}
+\end{figure}
+\FloatBarrier
+
+\begin{table}[H]
+  \centering
+  \caption{Universal versus park-specific model components.}
+  \label{tab:transfer}
+  \begin{tabular}{p{0.28\linewidth}p{0.24\linewidth}p{0.38\linewidth}}
+    \toprule
+    Component & Universal? & Required recalibration \\
+    \midrule
+    Zoning and risk architecture & Yes & Cell size and zone boundaries \\
+    Composite risk logic & Yes & Weight values and seasonal modifiers \\
+    Route-based allocation model & Yes & Road, river, or trail network \\
+    Detection/interception simulation & Yes & Asset detection rates and response delay \\
+    Wildlife sensitivity layer & No & Species distribution and water dependence \\
+    Threat prior & No & Illegal-activity patterns and local intelligence \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsection{Expected Metric and Deployment Shifts}
+Under Yellowstone-like conditions, we expect stronger seasonal oscillation in \(\Resp\) due to winter mobility limits and tourist-driven pressure spikes. Under Kakadu-like wet--dry transitions, deployment should shift toward season-adaptive route families and higher uncertainty buffers in drone allocation. In both transfers, the model predicts that staffing recommendations remain primarily driven by hotspot revisit frequency and response-time feasibility.
+
+\section{Conclusion}
+The conservation problem in large parks is fundamentally one of strategic selectivity under uncertainty. Our solution therefore rejects full-coverage planning and instead builds a three-model core framework embedded in a decision-to-deployment pipeline, so risk diagnosis, constrained allocation, and dynamic validation remain operationally consistent over time.
+
+For Etosha, the framework recommends concentrating effort around waterhole-access corridors, combining patrols with fixed devices and drones, and maintaining approximately 34 field rangers to sustain a strong protection level under baseline technology. The same structure can be transferred to other parks with only data-layer recalibration. This makes the model suitable not only for competition analysis, but also for practical decision support in conservation management.
+
+Direct answers to the six required questions are:
+\begin{itemize}
+  \item Q1: deploy selectively in the eastern--southern hotspot corridor instead of uniform full-area patrol.
+  \item Q2: allocate patrol loops first, then devices to persistent hotspots, then drones to uncertainty-heavy sectors.
+  \item Q3: maintain at least 34 field rangers (17 teams) for \(\PI \ge 0.70\) under baseline detection conditions.
+  \item Q4: manpower and detection quality are the dominant sensitivity levers.
+  \item Q5: the model is interpretable and operationally aligned, with threat-prior calibration as the key limitation.
+  \item Q6: architecture transfers unchanged; ecological and mobility data layers must be recalibrated by park.
+\end{itemize}
+
+\newpage
+\bibliographystyle{unsrtnat}
+\bibliography{refs}
+
+\appendix
+\section{Appendix A: Additional Assumptions and Parameters}
+\begin{longtable}{p{0.24\linewidth}p{0.18\linewidth}p{0.48\linewidth}}
+\toprule
+Item & Baseline value & Interpretation \\
+\midrule
+Grid size & \(8\times 8\) zones & Management resolution for strategic planning \\
+Planning horizon & 30 days & Dry-season operational month \\
+Monte Carlo runs & 1000 & Robustness estimation \\
+Field rangers & 34 & 17 patrol teams \\
+Fixed devices & 12 & Cameras, acoustic nodes, or towers \\
+Drone sorties per day & 4 & Reallocated among three sectors \\
+Base detection rates & 0.22 / 0.38 / 0.44 & Patrol / fixed device / drone single-asset rates \\
+Critical response time \(\tau^\star\) & 4.5 hours & Delay after which interception drops sharply \\
+\bottomrule
+\end{longtable}
+
+\section{Appendix B: Managerial Interpretation of the Three Models}
+\textbf{Model I} answers where protection should focus.\\
+\textbf{Model II} answers how limited people and technology should be assigned.\\
+\textbf{Model III} answers whether that plan remains effective under uncertainty over time.
+
+Together, the models create a closed loop: spatial diagnosis, decision optimization, then performance testing.
+
+\section{Appendix C: Python Implementations of Core Model Algorithms}
+This appendix provides reproducible Python reference code for the three core models. The implementations match the mathematical structures in Sections 4--6 and are formatted for direct technical review.
+
+\subsection{Model I: Spatial Risk Inference}
+\lstinputlisting[
+  style=pythonstyle,
+  caption={Python reference implementation of Model I (spatial risk scoring and hotspot extraction).},
+  label={lst:model1}
+]{code/model1_spatial_risk.py}
+
+\subsection{Model II: Resource Allocation Optimization}
+\lstinputlisting[
+  style=pythonstyle,
+  caption={Python reference implementation of Model II (mixed-integer resource allocation).},
+  label={lst:model2}
+]{code/model2_allocation_milp.py}
+
+\subsection{Model III: Dynamic Protection Simulation}
+\lstinputlisting[
+  style=pythonstyle,
+  caption={Python reference implementation of Model III (stochastic protection simulation and PI estimation).},
+  label={lst:model3}
+]{code/model3_dynamic_simulation.py}
+
+\section*{AI Use Report}
+\addcontentsline{toc}{section}{AI Use Report}
+This report follows current AI-enabled research practice (as of 2026), where large models are strong copilots for synthesis, coding, and drafting, but not autonomous decision-makers for scientific claims.
+
+In this work, AI was used to:
+\begin{itemize}
+  \item co-design paper structure and section logic aligned with IMMC requirements;
+  \item assist symbolic formulation, algorithm pseudocode drafting, and LaTeX expression polishing;
+  \item generate and refine figure scripts (SVG/Python-style plotting workflow);
+  \item accelerate language editing for clarity, concision, and technical consistency.
+\end{itemize}
+
+Our technical view of modern AI is pragmatic:
+\begin{itemize}
+  \item \textbf{Multimodal and agentic AI} is now effective for combining text, code, and diagram generation in one pipeline.
+  \item \textbf{Retrieval/tool-augmented workflows} improve productivity but do not remove the need for domain validation.
+  \item \textbf{Probabilistic generation risk} (hallucination, overconfident wording, hidden inconsistency) remains real, especially for numerical and causal claims.
+\end{itemize}
+
+Therefore, all final model assumptions, equations, parameter interpretations, and conclusions were human-reviewed. We applied explicit safeguards: dimensional checks, constraint-feasibility checks, sensitivity sanity checks, and consistency checks between text, equations, code, and figures. AI outputs were treated as draft material; responsibility for the final scientific content remains with the authors.
+
+\end{document}

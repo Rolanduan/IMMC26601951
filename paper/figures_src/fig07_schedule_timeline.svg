@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3000 1289" width="3000" height="1289">
+  <defs>
+    <linearGradient id="legendGrad" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="rgb(255,247,188)"/>
+      <stop offset="25%" stop-color="rgb(254,227,145)"/>
+      <stop offset="50%" stop-color="rgb(254,196,79)"/>
+      <stop offset="75%" stop-color="rgb(244,124,32)"/>
+      <stop offset="100%" stop-color="rgb(206,45,37)"/>
+    </linearGradient>
+    <linearGradient id="paperBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fbfdff"/>
+      <stop offset="100%" stop-color="#f2f6fb"/>
+    </linearGradient>
+    <linearGradient id="headerAccent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#3b4992"/>
+      <stop offset="45%" stop-color="#4dbbd5"/>
+      <stop offset="100%" stop-color="#008280"/>
+    </linearGradient>
+    <radialGradient id="mapVignette" cx="50%" cy="38%" r="80%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.00"/>
+      <stop offset="100%" stop-color="#081220" stop-opacity="0.20"/>
+    </radialGradient>
+    <filter id="cardShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#a8b7c8" flood-opacity="0.23"/>
+    </filter>
+  </defs>
+  <rect x="0" y="0" width="3000" height="1289" fill="url(#paperBg)"/>
+  <rect x="28" y="26" width="2944" height="112" rx="18" fill="#ffffff" fill-opacity="0.94" stroke="#d4dce6" stroke-width="1.8" filter="url(#cardShadow)"/>
+  <rect x="52" y="42" width="840.0000000000001" height="8" rx="4" fill="url(#headerAccent)"/>
+  <text x="60" y="78" font-family="Times New Roman, Georgia, serif" font-size="56" font-weight="700" fill="#18324a">24-Hour Operational Schedule</text>
+  <text x="60" y="115" font-family="Times New Roman, Georgia, serif" font-size="30" fill="#405d78">Staggered patrol, sensor, UAV, and response schedule</text>
+  
+  <rect x="120" y="180" width="2760" height="1020" rx="20" fill="#fff" stroke="#d8e0ea" stroke-width="3"/>
+  <text x="220" y="250" font-family="Times New Roman, Georgia, serif" font-size="40" font-weight="700" fill="#172b40">Operational cycle (24h)</text>
+  <line x1="500" y1="310" x2="2650" y2="310" stroke="#607d94" stroke-width="2.5"/>
+  <text x="500" y="290" font-family="Times New Roman, Georgia, serif" font-size="25" fill="#2b435a">06</text>
+  <text x="760" y="290" font-family="Times New Roman, Georgia, serif" font-size="25" fill="#2b435a">08</text>
+  <text x="1020" y="290" font-family="Times New Roman, Georgia, serif" font-size="25" fill="#2b435a">10</text>
+  <text x="1280" y="290" font-family="Times New Roman, Georgia, serif" font-size="25" fill="#2b435a">12</text>
+  <text x="1540" y="290" font-family="Times New Roman, Georgia, serif" font-size="25" fill="#2b435a">14</text>
+  <text x="1800" y="290" font-family="Times New Roman, Georgia, serif" font-size="25" fill="#2b435a">16</text>
+  <text x="2060" y="290" font-family="Times New Roman, Georgia, serif" font-size="25" fill="#2b435a">18</text>
+  <text x="2320" y="290" font-family="Times New Roman, Georgia, serif" font-size="25" fill="#2b435a">20</text>
+  <text x="2580" y="290" font-family="Times New Roman, Georgia, serif" font-size="25" fill="#2b435a">22</text>
+  <text x="220" y="390" font-family="Times New Roman, Georgia, serif" font-size="30" font-weight="700" fill="#1f354a">West patrol</text>
+  <text x="220" y="500" font-family="Times New Roman, Georgia, serif" font-size="30" font-weight="700" fill="#1f354a">Central patrol</text>
+  <text x="220" y="610" font-family="Times New Roman, Georgia, serif" font-size="30" font-weight="700" fill="#1f354a">East patrol</text>
+  <text x="220" y="720" font-family="Times New Roman, Georgia, serif" font-size="30" font-weight="700" fill="#1f354a">Sensor watch</text>
+  <rect x="580" y="355" width="760" height="46" rx="10" fill="#43a047"/><rect x="1460" y="355" width="380" height="46" rx="10" fill="#43a047"/>
+  <rect x="740" y="465" width="700" height="46" rx="10" fill="#1e88e5"/><rect x="1620" y="465" width="420" height="46" rx="10" fill="#1e88e5"/>
+  <rect x="920" y="575" width="650" height="46" rx="10" fill="#e53935"/><rect x="1740" y="575" width="330" height="46" rx="10" fill="#e53935"/>
+  <rect x="400" y="685" width="2280" height="46" rx="10" fill="#3949ab"/>
+  <text x="420" y="780" font-family="Times New Roman, Georgia, serif" font-size="28" fill="#304c67">Staggered departure removes blind windows and stabilizes interception probability.</text>
+</svg>
