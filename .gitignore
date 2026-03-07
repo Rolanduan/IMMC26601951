@@ -6,8 +6,10 @@
 *.fls
 *.log
 *.out
+*.pdfsync
 *.synctex.gz
 *.toc
+paper/main.pdf
 
 # OS / editor
 Thumbs.db

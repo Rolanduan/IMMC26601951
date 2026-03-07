@@ -14,19 +14,18 @@ This folder contains a complete LaTeX paper package:
 ## Regenerate figure sources
 
 ```powershell
-node .\paper\generate_professional_figures.js
+node .\generate_professional_figures.js
 ```
 
 ## Re-export figures
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\paper\export_figures.ps1
+powershell -ExecutionPolicy Bypass -File .\export_figures.ps1
 ```
 
 ## Compile (when TeX is installed)
 
 ```powershell
-cd .\paper
 xelatex main.tex
 bibtex main
 xelatex main.tex
