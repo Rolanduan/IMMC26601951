@@ -125,7 +125,7 @@ Dear IMMC Judges,
 
 We approach this problem as a conservation operations system rather than a pure coverage problem. In a park as large as Etosha, protection must be selective, risk-based, and adaptive over time. Our paper therefore links ecology, poaching opportunity, movement constraints, surveillance technology, and operational scheduling in one coherent framework. The resulting recommendation is not ``cover everything,'' but ``cover the right places at the right time with the right combination of patrols and sensors.''
 
-To keep the model realistic, we use a three-model core architecture: spatial risk scoring, constrained allocation, and stochastic simulation. This core links to command deployment and feedback updating, allowing managers to answer all six questions in the prompt, including spatial deployment, equipment allocation, required ranger levels, sensitivity to degraded resources, and transfer to other parks. We emphasize interpretability so that each model component can be explained to real decision-makers.
+To keep the model realistic, we use a three-model core architecture: spatial risk scoring, constrained allocation, and stochastic simulation. This core links to command deployment and feedback updating, allowing managers to answer the six analytical tasks in the prompt, including spatial deployment, equipment allocation, required ranger levels, sensitivity to degraded resources, and transfer to other parks. We emphasize interpretability so that each model component can be explained to real decision-makers.
 
 Sincerely,\\
 Team \#\teamnumber
@@ -184,39 +184,39 @@ We evaluate each strategy by three management-facing metrics:
 \Det &: \text{mean detection probability across active zones}, \\
 \Resp &: \text{mean response delay in hours (lower is better)}.
 \end{align}
-These indicators are jointly used in allocation and simulation so that ecological value and operational feasibility are both visible in the final recommendation. Spatial and accessibility constructions are detailed in Sections 3--4 and follow standard spatial modeling practice \citep{anselin1995,cressie1993,diggle2013,weiss2018}.
+These indicators are jointly used in allocation and simulation so that ecological value and operational feasibility are both visible in the final recommendation. Spatial and accessibility constructions are detailed in Sections 2--4 and follow standard spatial modeling practice \citep{anselin1995,cressie1993,diggle2013,weiss2018}.
 
-To keep outputs aligned with the six required IMMC tasks, we map each question to one decision layer:
-\begin{itemize}
-  \item Q1--Q2: where and how to deploy resources (Model I + Model II);
-  \item Q3: whether protection performance is sustainable over time (Model III);
-  \item Q4: what breaks first under degraded resources (sensitivity module);
-  \item Q5--Q6: what is reliable, what is limited, and what transfers.
-\end{itemize}
+To keep the manuscript aligned with the seven required IMMC components, the main report is organized around Tasks 1--6, while Task 7 (the non-technical communication deliverable) is provided as the front-matter letter. Table~\ref{tab:qmap} maps each prompt task to its concrete output in this paper.
 \begin{table}[H]
   \centering
-  \caption{Direct mapping from prompt questions to model outputs.}
+  \caption{Direct mapping from prompt tasks to report outputs.}
   \label{tab:qmap}
-  \begin{tabular}{p{0.10\linewidth}p{0.30\linewidth}p{0.44\linewidth}}
+  \begin{tabular}{p{0.12\linewidth}p{0.27\linewidth}p{0.45\linewidth}}
     \toprule
-    Question & Decision target & Output in this paper \\
+    Task & Decision target & Output in this paper \\
     \midrule
-    Q1 & Spatial strategy & Risk map, hotspot quartile, prioritized patrol sectors \\
-    Q2 & Resource allocation & Integer allocation of patrol loops, fixed devices, drone sorties \\
-    Q3 & Time sustainability & 30-day Monte Carlo dynamics and minimum ranger requirement \\
-    Q4 & Sensitivity & Parameter stress tests on staff, devices, patrol interval, detection rate \\
-    Q5 & Evaluation & Strengths, limitations, and critical-assumption discussion \\
-    Q6 & Adaptation & Universal architecture + park-specific recalibration matrix \\
+    Task 1 & Conservation priorities and protection definition & Priority threats, Etosha risk map, hotspot quartile, and measurable protection metrics \\
+    Task 2 & Resource allocation & Integer allocation of patrol loops, fixed devices, and drone sorties \\
+    Task 3 & Protection over time and staffing & 30-day Monte Carlo dynamics, feasible schedule, and minimum ranger requirement \\
+    Task 4 & Sensitivity & Stress tests on staff, devices, patrol interval, and detection rate \\
+    Task 5 & Strengths and limitations & Assumptions, strengths, limitations, and critical-assumption discussion \\
+    Task 6 & Adaptation & Universal architecture plus park-specific recalibration matrix \\
+    Task 7 & Communication deliverable & Two-page Letter to IMMC placed before the main report \\
     \bottomrule
   \end{tabular}
 \end{table}
 
-\section{Assumptions and Justifications}
+\section{Conservation Priorities and Defining Protection}
+Etosha does not face a single uniform conservation threat. In operational terms, the park must manage four interacting challenge types: concentrated poaching risk in accessible wildlife corridors, ecological exposure around dry-season water dependence, delayed response caused by long travel distances, and localized human pressure near gates and road-linked zones. In this paper, poaching-centered protection is treated as the dominant baseline task because it is the threat most directly shaped by deployable patrol and monitoring decisions; other threats remain as transferable extensions of the same framework.
+
+\subsection{Assumptions and Justifications}
 \begin{enumerate}
   \item \textbf{Zonal discretization assumption.} The park is discretized into management zones while preserving major operational structure.
   Justification: scheduling and allocation decisions are made at patrol-sector scale, so zone-level abstraction retains decision fidelity with tractable optimization.
   \item \textbf{Seasonal aggregation assumption.} Dry-season wildlife aggregation near reliable water sources is a dominant protection driver in Etosha \citep{etoshaEcology}.
   Justification: water dependence strongly concentrates both conservation value and poaching opportunity.
+  \item \textbf{Threat-priority assumption.} Illegal extraction and poaching pressure are modeled as the dominant baseline threat, while natural hazards and visitor-conflict shocks are treated as exogenous modifiers.
+  Justification: the prompt requires strategic deployment of patrol and monitoring resources, and Etosha's management geometry most directly couples those decisions to poaching deterrence.
   \item \textbf{Latent-threat assumption.} Illegal activity intensity is not fully observed and is represented by a prior based on accessibility, biological value, and recent pressure.
   Justification: incident records are sparse and biased; prior-based estimation is necessary for risk inference.
   \item \textbf{Operational-unit assumption.} Patrol teams are modeled as two-person units; fixed devices represent cameras/acoustic towers and related stationary monitoring assets.
@@ -225,8 +225,7 @@ To keep outputs aligned with the six required IMMC tasks, we map each question t
   Justification: the prompt emphasizes practicality and staffing feasibility rather than full financial optimization.
 \end{enumerate}
 
-\section{System Analysis and Spatial Representation}
-\subsection{Etosha Operational System}
+\subsection{Etosha Operational Priorities}
 Figure~\ref{fig:system} summarizes the wildlife protection system. Four subsystems interact:
 \begin{itemize}
   \item \textbf{Ecology}: wildlife density, species sensitivity, water dependence.
@@ -234,8 +233,9 @@ Figure~\ref{fig:system} summarizes the wildlife protection system. Four subsyste
   \item \textbf{Mobility}: roads, travel times, station locations, access difficulty.
   \item \textbf{Surveillance}: patrol routes, fixed devices, drones, and control-room response.
 \end{itemize}
+These interacting subsystems imply that the park's highest conservation priority is not simply the biologically richest location. Priority should instead be assigned to zones where ecological value, poaching opportunity, and slow response overlap. That criterion directly defines where scarce protection effort should concentrate.
 
-\subsection{Spatial Abstraction and Modeling Flow}
+\subsection{Spatial Abstraction and Modeling Logic}
 This yields the modeling flow required by the prompt:
 \[
 \text{conservation problem}
@@ -253,11 +253,11 @@ This yields the modeling flow required by the prompt:
 
 For Etosha, the most important structural feature is the overlap of wildlife aggregation and human accessibility. The park contains strong dry-season water dependence and an operational road corridor that links main camps and lookout areas \citep{etoshaOfficial,etoshaEcology}. Therefore the highest-risk places are not simply the highest-biodiversity places; they are the zones where wildlife value, access opportunity, and slow ranger response coincide.
 
-\subsection{Data Layers and Uncertainty Tags}
-Each zone stores ecological, accessibility, and response layers with explicit uncertainty tags (data confidence, seasonal drift, and reporting incompleteness). These tags are propagated to the risk and simulation layers so that recommendations are interpreted with confidence bounds rather than point values only.
+\subsection{Protection Definition, Data Layers, and Uncertainty Tags}
+Operationally, wildlife in a zone is treated as protected when high ecological value receives recurrent attention, illegal activity can be detected with high probability, and response delay remains below the local interception threshold. Each zone therefore stores ecological, accessibility, and response layers with explicit uncertainty tags (data confidence, seasonal drift, and reporting incompleteness). These tags are propagated to the risk and simulation layers so that recommendations are interpreted with confidence bounds rather than point values only.
 
-\section{Model I: Spatial Risk Modeling}
-\subsection{Spatial Representation}
+\subsection{Spatial Risk Inference and Priority Zones}
+\subsubsection{Spatial Representation}
 We divide Etosha into an \(8\times 8\) management grid, producing 64 zones. Each zone \(i\) stores six attributes:
 \[
 W_i:\text{ wildlife density},\quad
@@ -279,7 +279,7 @@ The grid structure is coarse enough for managerial interpretation but fine enoug
   \label{fig:grid}
 \end{figure}
 
-\subsection{Zone Risk Score}
+\subsubsection{Zone Risk Score}
 We separate conservation \emph{value} from operational \emph{threat}.
 \begin{align}
 B_i &= 0.45W_i + 0.35H_i + 0.20S_i, \\
@@ -298,7 +298,7 @@ P_i = \frac{1}{1+\exp[-(\theta_0+\theta_1 A_i+\theta_2 B_i-\theta_3 C_i)]},
 \end{equation}
 where \(C_i\) is recent protection pressure. Equation~\eqref{eq:prior} captures displacement: illegal activity tends to move toward attractive zones that currently receive less attention.
 
-\subsection{Risk Map Interpretation}
+\subsubsection{Risk Map Interpretation}
 The highest-risk quartile in our Etosha case clusters around the eastern and southern corridor where three mechanisms overlap: perennial water use, road access, and moderate to long response times from stations. The western interior is lower risk because access is harder and wildlife concentration is more diffuse. The Etosha Pan itself is ecologically important but operationally lower in direct poaching attractiveness because it is open and less structurally suitable for covert extraction.
 
 \begin{figure}[H]
@@ -316,7 +316,7 @@ The highest-risk quartile in our Etosha case clusters around the eastern and sou
 \end{figure}
 \FloatBarrier
 
-\section{Model II: Resource Allocation Optimization}
+\section{Resource Allocation Model}
 \subsection{Decision Variables}
 We build a route-based mixed-integer allocation model. Let \(\mathcal{R}\) be a library of feasible patrol loops generated from ranger stations and roads. Decision variables are:
 \begin{itemize}
@@ -431,8 +431,8 @@ Under the baseline scenario, the model allocates 49\% of patrol-hours to the eas
 \end{figure}
 \FloatBarrier
 
-\section{Model III: Dynamic Protection Simulation}
-\subsection{Simulation Structure}
+\section{Protection Over Time and Staffing Need}
+\subsection{Dynamic Protection Simulation Structure}
 The allocation model produces a static plan; managers also need to know whether it remains effective over time. We therefore simulate daily operations over \(T=30\) days with 1000 Monte Carlo replications. For each zone \(i\) and day \(t\), illegal activity arrivals follow
 \begin{equation}
 N_i^t \sim \text{Poisson}(\lambda_0R_i\Psi_t),
@@ -482,8 +482,8 @@ This is consistent with empirical evidence that patrol effectiveness can vary wi
 \end{figure}
 \FloatBarrier
 
-\section{Integrated Results and Management Insights}
-\subsection{Baseline Protection Performance}
+\subsection{Protection Outcomes, Feasibility, and Staffing}
+\subsubsection{Baseline Protection Performance}
 Table~\ref{tab:results} summarizes the main outputs. The optimized deployment substantially outperforms uniform allocation, especially on high-risk coverage and interception speed.
 
 \begin{table}[H]
@@ -503,7 +503,7 @@ Table~\ref{tab:results} summarizes the main outputs. The optimized deployment su
   \end{tabular}
 \end{table}
 
-\subsection{Spatiotemporal Deployment Recommendations}
+\subsubsection{Spatiotemporal Deployment Recommendations}
 Two management findings stand out. First, strategic concentration dominates broad but shallow coverage: the top-risk quartile contains 57\% of the biological value but only 25\% of the area, so partial saturation of these zones outperforms weak coverage everywhere. Second, mixed assets outperform patrol-only protection because fixed devices raise early warning while drones reduce response uncertainty.
 
 From these results, we recommend a three-part policy package for Etosha-like parks:
@@ -515,13 +515,18 @@ From these results, we recommend a three-part policy package for Etosha-like par
 
 Figure~\ref{fig:simulation} shows that the optimized strategy crosses the command target of \(\PI=0.75\) after roughly one week and remains stable under stochastic pressure, whereas the uniform strategy never reaches that threshold. Figure~\ref{fig:robustness} shows the same advantage statistically: the optimized distribution shifts rightward and thins the low-performance tail across replications.
 
-\subsection{Feasibility and Action Package}
+\subsubsection{Feasibility, Staffing Requirement, and Action Package}
 To ensure the recommended allocation is operationally executable, we verify two constraints with baseline staffing:
 \begin{itemize}
   \item \textbf{Shift feasibility}: \(34\) field rangers provide \(34\times 8 = 272\) person-hours/day. With assumed field utilization \(\rho=0.78\), usable effort is about \(212\) person-hours/day.
   \item \textbf{Route feasibility}: the selected route package requires approximately \(198\) person-hours/day in expectation, leaving a small reserve for incident response and weather delays.
 \end{itemize}
-Hence the baseline strategy is not only optimal in the model, but also schedulable in routine operations.
+To maintain \(\PI \ge 0.70\), the minimum field staffing level is estimated by
+\begin{equation}
+n_{\min} = \left\lceil \frac{\sum_{i\in \mathcal{H}} f_i^\star \bar{\tau}_i}{h_{\text{shift}}\rho} \right\rceil,
+\label{eq:rangermin}
+\end{equation}
+where \(\mathcal{H}\) is the high-risk zone set, \(f_i^\star\) is the required revisit frequency, \(h_{\text{shift}}\) is usable field time per ranger, and \(\rho\) is field utilization. Under the baseline technology mix, Equation~\eqref{eq:rangermin} and the Monte Carlo outputs agree on a minimum of about 34 field rangers (17 two-person patrol teams). Hence the baseline strategy is not only optimal in the model, but also schedulable in routine operations.
 
 \begin{figure}[H]
   \centering
@@ -556,12 +561,7 @@ Increasing mean patrol interval from 1.5 to 3.0 days reduces deterrence continui
 \subsection{Detection Probability Perturbation}
 Improving the effective zone-level baseline detection parameter from 0.40 to 0.60 yields nearly the same protection gain as adding 6--8 field rangers, showing that technology quality and intelligence support can partially substitute additional staffing. This parameter is an aggregate operational detection level and is distinct from single-asset detection rates listed in Appendix A.
 
-To maintain \(\PI \ge 0.70\), our staffing formula is
-\begin{equation}
-n_{\min} = \left\lceil \frac{\sum_{i\in \mathcal{H}} f_i^\star \bar{\tau}_i}{h_{\text{shift}}\rho} \right\rceil,
-\label{eq:rangermin}
-\end{equation}
-where \(\mathcal{H}\) is the high-risk zone set, \(f_i^\star\) is required revisit frequency, \(h_{\text{shift}}\) is usable field time per ranger, and \(\rho\) is utilization. Under the baseline technology mix, Equation~\eqref{eq:rangermin} and the Monte Carlo results agree on a minimum of about 34 field rangers (17 two-person patrol teams). If devices are reduced by one-third, the requirement rises to about 40; if devices increase by 50\%, it falls to about 29. Taken together, these views show a consistent management conclusion: staffing is the dominant lever, detection quality is the second, and the safe operating region begins only once the ranger floor is protected.
+Using the staffing floor relation in Equation~\eqref{eq:rangermin}, we obtain a baseline minimum of about 34 field rangers (17 two-person patrol teams). If devices are reduced by one-third, the requirement rises to about 40; if devices increase by 50\%, it falls to about 29. Taken together, these views show a consistent management conclusion: staffing is the dominant lever, detection quality is the second, and the safe operating region begins only once the ranger floor is protected.
 
 \begin{figure}[H]
   \centering
@@ -585,7 +585,7 @@ where \(\mathcal{H}\) is the high-risk zone set, \(f_i^\star\) is required revis
 \end{figure}
 \FloatBarrier
 
-\section{Model Evaluation}
+\section{Model Strengths and Limitations}
 \subsection{Strengths}
 Our framework has five main strengths.
 \begin{itemize}
@@ -610,7 +610,7 @@ These limitations do not invalidate the framework, but they do define the next c
 \subsection{Most Critical Assumption}
 The most sensitive assumption is the calibration of zone-level threat priors. If intelligence data are sparse or biased, hotspot ranking can shift. For this reason, we recommend periodic re-estimation of \(P_i\) using patrol logs, incident records, and station interviews before each planning cycle.
 
-\section{Adaptation to Other Parks (Two Continents)}
+\section{Adaptation to Other Protected Areas}
 To demonstrate generality, we transfer the framework to Yellowstone National Park in North America and Kakadu National Park in Australia. The architecture remains unchanged:
 \subsection{Invariant Model Components}
 \begin{itemize}
@@ -664,14 +664,14 @@ The conservation problem in large parks is fundamentally one of strategic select
 
 For Etosha, the framework recommends concentrating effort around waterhole-access corridors, combining patrols with fixed devices and drones, and maintaining approximately 34 field rangers to sustain a strong protection level under baseline technology. The same structure can be transferred to other parks with only data-layer recalibration. This makes the model suitable not only for competition analysis, but also for practical decision support in conservation management.
 
-Direct answers to the six required questions are:
+Direct answers to Tasks 1--6, with Task 7 delivered in the front-matter letter, are:
 \begin{itemize}
-  \item Q1: deploy selectively in the eastern--southern hotspot corridor instead of uniform full-area patrol.
-  \item Q2: allocate patrol loops first, then devices to persistent hotspots, then drones to uncertainty-heavy sectors.
-  \item Q3: maintain at least 34 field rangers (17 teams) for \(\PI \ge 0.70\) under baseline detection conditions.
-  \item Q4: manpower and detection quality are the dominant sensitivity levers.
-  \item Q5: the model is interpretable and operationally aligned, with threat-prior calibration as the key limitation.
-  \item Q6: architecture transfers unchanged; ecological and mobility data layers must be recalibrated by park.
+  \item Task 1: prioritize the eastern--southern hotspot corridor and define protection through recurrent attention, detection probability, and response delay.
+  \item Task 2: allocate patrol loops first, then fixed devices to persistent hotspots, then drones to uncertainty-heavy sectors.
+  \item Task 3: maintain at least 34 field rangers (17 teams) for \(\PI \ge 0.70\) under baseline detection conditions.
+  \item Task 4: manpower and detection quality are the dominant sensitivity levers.
+  \item Task 5: the model is interpretable and operationally aligned, with threat-prior calibration as the key limitation.
+  \item Task 6: the architecture transfers unchanged; ecological and mobility data layers must be recalibrated by park.
 \end{itemize}
 
 \newpage
@@ -703,23 +703,23 @@ Critical response time \(\tau^\star\) & 4.5 hours & Delay after which intercepti
 Together, the models create a closed loop: spatial diagnosis, decision optimization, then performance testing.
 
 \section{Appendix C: Python Implementations of Core Model Algorithms}
-This appendix provides reproducible Python reference code for the three core models. The implementations match the mathematical structures in Sections 4--6 and are formatted for direct technical review.
+This appendix provides reproducible Python reference code for the three core models. The implementations match the mathematical structures in Sections 2--4 and are formatted for direct technical review.
 
-\subsection{Model I: Spatial Risk Inference}
+\subsection{Spatial Risk Inference}
 \lstinputlisting[
   style=pythonstyle,
   caption={Python reference implementation of Model I (spatial risk scoring and hotspot extraction).},
   label={lst:model1}
 ]{code/model1_spatial_risk.py}
 
-\subsection{Model II: Resource Allocation Optimization}
+\subsection{Resource Allocation Optimization}
 \lstinputlisting[
   style=pythonstyle,
   caption={Python reference implementation of Model II (mixed-integer resource allocation).},
   label={lst:model2}
 ]{code/model2_allocation_milp.py}
 
-\subsection{Model III: Dynamic Protection Simulation}
+\subsection{Dynamic Protection Simulation}
 \lstinputlisting[
   style=pythonstyle,
   caption={Python reference implementation of Model III (stochastic protection simulation and PI estimation).},
