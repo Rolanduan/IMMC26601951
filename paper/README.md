@@ -1,9 +1,9 @@
 # IMMC Wildlife Protection Paper (Etosha Case)
 
-This folder contains a complete LaTeX paper package:
+This folder contains a compile-oriented LaTeX paper package:
 
 - `main.tex`: full manuscript (summary sheet, letter, sections 1--11, appendix, AI use report)
-- `refs.bib`: bibliography entries
+- `refs.bib`: source bibliography data archive (the manuscript now compiles without BibTeX)
 - `code/`: reference implementations for GIS preprocessing, risk scoring, allocation, and simulation
 - `map_assets/`: downloaded base map used for map-based figure reprocessing
 - `figures_src/*.svg`: editable figure sources
@@ -26,10 +26,8 @@ powershell -ExecutionPolicy Bypass -File .\export_figures.ps1
 ## Compile (when TeX is installed)
 
 ```powershell
-xelatex main.tex
-bibtex main
-xelatex main.tex
-xelatex main.tex
+pdflatex main.tex
+pdflatex main.tex
 ```
 
-`pdflatex/xelatex/bibtex` were not available in the current shell environment, so compilation was not executed here.
+This version is refactored to avoid BibTeX and package-heavy source listings, so a standard `pdflatex` workflow is sufficient.

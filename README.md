@@ -1,11 +1,12 @@
 # IMMC26601951
 
-This repository is cleaned for IMMC submission and contains only the competition paper package.
+This repository is cleaned for IMMC submission and contains a compile-oriented competition paper package.
 
 ## Structure
 
 - `paper/main.tex` - full manuscript
-- `paper/refs.bib` - bibliography
+- `main.tex` - root compile entry for Overleaf or local LaTeX
+- `paper/refs.bib` - source bibliography archive
 - `paper/figures/` - rendered figures used in the paper
 - `paper/figures_src/` - editable SVG figure sources
 - `paper/map_assets/` - Etosha base-map assets
@@ -18,9 +19,6 @@ This repository is cleaned for IMMC submission and contains only the competition
 When TeX is available:
 
 ```powershell
-cd .\paper
-xelatex main.tex
-bibtex main
-xelatex main.tex
-xelatex main.tex
+pdflatex main.tex
+pdflatex main.tex
 ```

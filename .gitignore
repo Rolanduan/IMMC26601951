@@ -9,6 +9,7 @@
 *.pdfsync
 *.synctex.gz
 *.toc
+main.pdf
 paper/main.pdf
 
 # OS / editor

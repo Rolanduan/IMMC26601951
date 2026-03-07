@@ -1,13 +1,11 @@
 \documentclass[10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
 \usepackage[a4paper,margin=0.70in]{geometry}
 \usepackage{amsmath,amssymb,amsthm}
-\usepackage{booktabs,multirow,array}
+\usepackage{booktabs,array,longtable}
 \usepackage{graphicx}
-\usepackage{subcaption}
-\usepackage{algorithm}
-\usepackage{algpseudocode}
 \usepackage{enumitem}
-\usepackage{siunitx}
 \usepackage{xcolor}
 \usepackage{hyperref}
 \usepackage[numbers,sort&compress]{natbib}
@@ -15,15 +13,8 @@
 \usepackage{lastpage}
 \usepackage{setspace}
 \usepackage{float}
-\usepackage{longtable}
 \usepackage{url}
-\usepackage{microtype}
-\usepackage{newtxtext,newtxmath}
-\usepackage{titlesec}
-\usepackage{placeins}
 \usepackage[font=small,labelfont=bf,skip=3pt]{caption}
-\usepackage{listings}
-\usepackage{upquote}
 
 \hypersetup{
   colorlinks=true,
@@ -36,10 +27,8 @@
 \setlength{\parskip}{0.20em}
 \setlist[itemize]{leftmargin=1.2em,itemsep=0.12em,topsep=0.12em}
 \setlist[enumerate]{leftmargin=1.4em,itemsep=0.12em,topsep=0.12em}
-\graphicspath{{figures/}}
+\graphicspath{{figures/}{paper/figures/}}
 \setstretch{0.96}
-\titlespacing*{\section}{0pt}{0.55em}{0.28em}
-\titlespacing*{\subsection}{0pt}{0.35em}{0.16em}
 \setlength{\textfloatsep}{6pt plus 1pt minus 1pt}
 \setlength{\intextsep}{6pt plus 1pt minus 1pt}
 \setlength{\floatsep}{6pt plus 1pt minus 1pt}
@@ -51,40 +40,16 @@
 \setcounter{totalnumber}{5}
 \renewcommand{\textfraction}{0.06}
 \renewcommand{\floatpagefraction}{0.78}
+\setlength{\headheight}{16pt}
 \raggedbottom
-\algrenewcommand\algorithmicrequire{\textbf{Input:}}
-\algrenewcommand\algorithmicensure{\textbf{Output:}}
-\definecolor{codebg}{RGB}{248,250,252}
-\definecolor{codekw}{RGB}{0,76,153}
-\definecolor{codestr}{RGB}{163,21,21}
-\definecolor{codecom}{RGB}{0,110,58}
-\definecolor{codenum}{RGB}{120,120,120}
-\lstdefinestyle{pythonstyle}{
-  language=Python,
-  backgroundcolor=\color{codebg},
-  basicstyle=\ttfamily\footnotesize,
-  keywordstyle=\color{codekw}\bfseries,
-  stringstyle=\color{codestr},
-  commentstyle=\color{codecom}\itshape,
-  numbers=left,
-  numberstyle=\scriptsize\color{codenum},
-  stepnumber=1,
-  numbersep=8pt,
-  showstringspaces=false,
-  breaklines=true,
-  breakatwhitespace=false,
-  tabsize=4,
-  frame=single,
-  rulecolor=\color{black!20},
-  xleftmargin=0.6em,
-  xrightmargin=0.3em,
-  aboveskip=0.6em,
-  belowskip=0.4em,
-  captionpos=b
-}
+\sloppy
+\providecommand{\FloatBarrier}{}
 
-\newcommand{\teamnumber}{IMMC26673449}
+\newcommand{\controlnumber}{IMMC26601951}
+\newcommand{\teamnumber}{\controlnumber}
 \newcommand{\contestname}{IMMC 2026 International}
+\newcommand{\shortcontestname}{2026 IM$^2$C}
+\newcommand{\papertitle}{Protecting Wildlife at Scale}
 \newcommand{\PI}{\mathrm{PI}}
 \newcommand{\Risk}{\mathrm{Risk}}
 \newcommand{\Det}{\mathrm{Det}}
@@ -93,18 +58,13 @@
 
 \pagestyle{fancy}
 \fancyhf{}
-\lhead{\contestname}
-\rhead{Team \#\teamnumber}
-\cfoot{Page \thepage\ of \pageref{LastPage}}
+\lhead{Page \thepage\ of \pageref{LastPage}}
+\chead{\shortcontestname\ /\ \papertitle}
+\rhead{\controlnumber}
 \renewcommand{\headrulewidth}{0.4pt}
 \renewcommand{\footrulewidth}{0pt}
 
-\title{\vspace{-1.5em}\textbf{\contestname}\\\textbf{\teamnumber}}
-\author{}
-\date{}
-
 \begin{document}
-\maketitle
 \thispagestyle{fancy}
 
 \section*{Summary Sheet}
@@ -116,8 +76,6 @@ The main contribution is not a single formula but an integrated management packa
 
 {\bf Keywords:} wildlife protection; anti-poaching operations; spatial risk modeling; mixed-integer optimization; stochastic simulation.
 
-\newpage
-\tableofcontents
 \newpage
 
 \section*{Letter to IMMC}
@@ -275,7 +233,7 @@ The grid structure is coarse enough for managerial interpretation but fine enoug
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{fig02_etosha_grid.png}
-  \caption{GIS-ready Etosha management grid with command anchors, gates, and waterhole network (base map source: \citep{etoshaMap2025}).}
+  \caption{GIS-ready Etosha management grid with command anchors, gates, and waterhole network, derived from the official 2025 Etosha map.}
   \label{fig:grid}
 \end{figure}
 
@@ -386,24 +344,24 @@ where \(H_R\) is total available ranger-hours, \(M\) the device inventory, \(U\)
 \subsection{Algorithmic Workflow}
 To keep the method reproducible and operationally deployable, we solve the model with a rolling-horizon planner that couples optimization and simulation feedback.
 
-\begin{algorithm}[H]
-\small
-\caption{Risk-Aware Rolling-Horizon Protection Planner}
+\begin{table}[H]
+\centering
+\caption{Risk-aware rolling-horizon protection planner.}
 \label{alg:planner}
-\begin{algorithmic}[1]
-\Require Zone attributes \((W_i,S_i,H_i,A_i,D_i)\), route library \(\mathcal{R}\), capacities \((H_R,M,U)\), horizon \(T\)
-\Ensure Daily deployment plan \(\{x_r^t,y_i^t,z_j^t\}_{t=1}^T\) and staffing floor \(n_{\min}\)
-\State Build risk map: compute \(R_i\) using Equations~\eqref{eq:risk}--\eqref{eq:prior}
-\State Generate feasible patrol loops and incidence matrices \(a_{ir},b_{ij}\)
-\For{\(t=1,\dots,T\)}
-  \State Solve allocation model \eqref{eq:obj}--\eqref{eq:hotspots} to obtain \(x_r^t,y_i^t,z_j^t\)
-  \State Simulate stochastic illegal events and response outcomes using Equations~\eqref{eq:detect}--\eqref{eq:pi}
-  \State Update local pressure prior \(C_i\) and refresh \(P_i\) for next period
-  \State If \(\PI_t<\PI_{\min}\), increase ranger requirement estimate via Equation~\eqref{eq:rangermin}
-\EndFor
-\State Return final deployment schedule and robust staffing recommendation
-\end{algorithmic}
-\end{algorithm}
+\begin{tabular}{p{0.95\linewidth}}
+\toprule
+\textbf{Input:} zone attributes \((W_i,S_i,H_i,A_i,D_i)\), route library \(\mathcal{R}\), capacities \((H_R,M,U)\), and horizon \(T\). \\
+\textbf{Output:} daily deployment plan \(\{x_r^t,y_i^t,z_j^t\}_{t=1}^T\) and staffing floor \(n_{\min}\). \\
+\midrule
+1. Compute the risk map \(R_i\) using Equations~\eqref{eq:risk}--\eqref{eq:prior}. \\
+2. Generate feasible patrol loops and coverage matrices \(a_{ir}\) and \(b_{ij}\). \\
+3. For each day \(t=1,\dots,T\), solve the allocation model \eqref{eq:obj}--\eqref{eq:hotspots}. \\
+4. Simulate illegal events, detection, response, and interception using Equations~\eqref{eq:detect}--\eqref{eq:pi}. \\
+5. Update local pressure \(C_i\), refresh \(P_i\), and raise staffing if \(\PI_t < \PI_{\min}\). \\
+6. Return the final deployment schedule and robust staffing recommendation. \\
+\bottomrule
+\end{tabular}
+\end{table}
 Algorithm~\ref{alg:planner} is the executable backbone used to produce all spatial maps, schedules, and robustness outputs in this paper.
 
 \subsection{Recommended Deployment}
@@ -675,8 +633,137 @@ Direct answers to Tasks 1--6, with Task 7 delivered in the front-matter letter, 
 \end{itemize}
 
 \newpage
-\bibliographystyle{unsrtnat}
-\bibliography{refs}
+\begin{thebibliography}{99}
+
+\bibitem[Etosha National Park(2026)]{etoshaOfficial}
+Etosha National Park.
+\newblock \emph{Etosha National Park}.
+\newblock 2026.
+\newblock \url{https://www.etoshanationalpark.org/}. Accessed March 4, 2026.
+
+\bibitem[Etosha National Park(2025)]{etoshaMap2025}
+Etosha National Park.
+\newblock \emph{Etosha National Park Map}.
+\newblock 2025.
+\newblock \url{https://etoshanationalpark.co.za/wp-content/uploads/sites/16/2025/03/Etosha-National-Park-Map.jpg}. Accessed March 5, 2026.
+
+\bibitem[van Wijngaarden(1985)]{etoshaEcology}
+Fransje van Wijngaarden.
+\newblock \emph{Environmental and Vegetation Gradients in the Etosha National Park}.
+\newblock 1985.
+\newblock \url{https://www.scielo.org.za/scielo.php?script=sci_arttext&pid=S0075-64581985000100009}. Accessed March 4, 2026.
+
+\bibitem[Fang et~al.(2016)Fang, Stone, and Tambe]{fang2016paws}
+Fei Fang, Peter Stone, and Milind Tambe.
+\newblock When security games go green: Designing defender strategies to prevent poaching and illegal fishing.
+\newblock In \emph{Proceedings of the Twenty-Fifth International Joint Conference on Artificial Intelligence}, pages 2589--2595, 2016.
+
+\bibitem[U.S. Geological Survey(2018)]{usgsDetection}
+U.S. Geological Survey.
+\newblock \emph{Some Anti-Poaching Patrols Are Much More Efficient Than Others}.
+\newblock 2018.
+\newblock \url{https://www.usgs.gov/news/featured-story/some-anti-poaching-patrols-are-much-more-efficient-others}. Accessed March 4, 2026.
+
+\bibitem[National Park Service(2026)]{yellowstoneOfficial}
+National Park Service.
+\newblock \emph{Yellowstone National Park}.
+\newblock 2026.
+\newblock \url{https://www.nps.gov/yell/index.htm}. Accessed March 4, 2026.
+
+\bibitem[Parks Australia(2026)]{kakaduOfficial}
+Parks Australia.
+\newblock \emph{Kakadu National Park}.
+\newblock 2026.
+\newblock \url{https://parksaustralia.gov.au/kakadu/}. Accessed March 4, 2026.
+
+\bibitem[Dantzig(1963)]{dantzig1963}
+George B. Dantzig.
+\newblock \emph{Linear Programming and Extensions}.
+\newblock Princeton University Press, Princeton, NJ, 1963.
+
+\bibitem[Birge and Louveaux(2011)]{birge2011}
+John R. Birge and Francois Louveaux.
+\newblock \emph{Introduction to Stochastic Programming}.
+\newblock 2nd edition, Springer, New York, 2011.
+
+\bibitem[Law(2015)]{law2015}
+Averill M. Law.
+\newblock \emph{Simulation Modeling and Analysis}.
+\newblock 5th edition, McGraw-Hill Education, New York, 2015.
+
+\bibitem[Banks et~al.(2010)Banks, Carson, Nelson, and Nicol]{banks2010}
+Jerry Banks, John S. Carson, Barry L. Nelson, and David M. Nicol.
+\newblock \emph{Discrete-Event System Simulation}.
+\newblock 5th edition, Prentice Hall, Upper Saddle River, NJ, 2010.
+
+\bibitem[Bonabeau(2002)]{bonabeau2002}
+Eric Bonabeau.
+\newblock Agent-based modeling: Methods and techniques for simulating human systems.
+\newblock \emph{Proceedings of the National Academy of Sciences}, 99(suppl. 3):7280--7287, 2002.
+
+\bibitem[Macal and North(2010)]{macal2010}
+Charles M. Macal and Michael J. North.
+\newblock Tutorial on agent-based modelling and simulation.
+\newblock \emph{Journal of Simulation}, 4(3):151--162, 2010.
+
+\bibitem[Cressie(1993)]{cressie1993}
+Noel A. C. Cressie.
+\newblock \emph{Statistics for Spatial Data}.
+\newblock Revised edition, Wiley, New York, 1993.
+
+\bibitem[Anselin(1995)]{anselin1995}
+Luc Anselin.
+\newblock Local indicators of spatial association---LISA.
+\newblock \emph{Geographical Analysis}, 27(2):93--115, 1995.
+
+\bibitem[Diggle and Ribeiro(2013)]{diggle2013}
+Peter J. Diggle and Paulo J. Ribeiro.
+\newblock \emph{Model-based Geostatistics}.
+\newblock 2nd edition, Springer, New York, 2013.
+
+\bibitem[Weiss et~al.(2018)]{weiss2018}
+D. J. Weiss, A. Nelson, H. S. Gibson, W. Temperley, S. Peedell, A. Lieber, M. Hancher, E. Poyart, S. Belchior, N. Fullman, B. Mappin, U. Dalrymple, J. Rozier, T. C. D. Lucas, R. E. Howes, L. S. Tusting, S. Y. Kang, E. Cameron, D. Bisanzio, K. E. Battle, S. Bhatt, and P. W. Gething.
+\newblock A global map of travel time to cities to assess inequalities in accessibility in 2015.
+\newblock \emph{Nature}, 553(7688):333--336, 2018.
+
+\bibitem[Watson et~al.(2014)Watson, Dudley, Segan, and Hockings]{watson2014}
+James E. M. Watson, Nigel Dudley, Daniel B. Segan, and Marc Hockings.
+\newblock The performance and potential of protected areas.
+\newblock \emph{Nature}, 515(7525):67--73, 2014.
+
+\bibitem[Geldmann et~al.(2013)Geldmann, Barnes, Coad, Craigie, Hockings, and Burgess]{geldmann2013}
+Jonas Geldmann, Megan Barnes, Lauren Coad, Ian D. Craigie, Marc Hockings, and Neil D. Burgess.
+\newblock Effectiveness of terrestrial protected areas in reducing habitat loss and population declines.
+\newblock \emph{Biological Conservation}, 161:230--238, 2013.
+
+\bibitem[Jones et~al.(2018)Jones, Venter, Fuller, Allan, Maxwell, Negret, and Watson]{jones2018}
+Kendall R. Jones, Oscar Venter, Richard A. Fuller, James R. Allan, Sean L. Maxwell, Pablo J. Negret, and James E. M. Watson.
+\newblock One-third of global protected land is under intense human pressure.
+\newblock \emph{Science}, 360(6390):788--791, 2018.
+
+\bibitem[Coad et~al.(2019)Coad, Watson, Geldmann, Burgess, Leverington, Hockings, Knights, and Di Marco]{coad2019}
+Lauren Coad, James E. M. Watson, Jonas Geldmann, Neil D. Burgess, Fiona Leverington, Marc Hockings, Katie Knights, and Moreno Di Marco.
+\newblock Widespread shortfalls in protected area resourcing undermine efforts to conserve biodiversity.
+\newblock \emph{Frontiers in Ecology and the Environment}, 17(5):259--264, 2019.
+
+\bibitem[Moore et~al.(2018)Moore, Mulindahabi, Masozera, Nichols, Hines, Turikunkiko, and Oli]{moore2018}
+Jennifer F. Moore, Felix Mulindahabi, Michel K. Masozera, James D. Nichols, James E. Hines, Ezechiel Turikunkiko, and Madan K. Oli.
+\newblock Are ranger patrols effective in reducing poaching-related threats within protected areas?
+\newblock \emph{Journal of Applied Ecology}, 55(1):99--107, 2018.
+
+\bibitem[IUCN(2026)]{iucnRedList2026}
+IUCN.
+\newblock \emph{The IUCN Red List of Threatened Species}.
+\newblock 2026.
+\newblock \url{https://www.iucnredlist.org/}. Accessed March 6, 2026.
+
+\bibitem[UNODC(2024)]{unodc2024wildlife}
+United Nations Office on Drugs and Crime.
+\newblock \emph{World Wildlife Crime Report 2024: Trafficking in Protected Species}.
+\newblock 2024.
+\newblock \url{https://www.unodc.org/unodc/en/data-and-analysis/wildlife.html}. Accessed March 6, 2026.
+
+\end{thebibliography}
 
 \appendix
 \section{Appendix A: Additional Assumptions and Parameters}
@@ -702,29 +789,20 @@ Critical response time \(\tau^\star\) & 4.5 hours & Delay after which intercepti
 
 Together, the models create a closed loop: spatial diagnosis, decision optimization, then performance testing.
 
-\section{Appendix C: Python Implementations of Core Model Algorithms}
-This appendix provides reproducible Python reference code for the three core models. The implementations match the mathematical structures in Sections 2--4 and are formatted for direct technical review.
+\section{Appendix C: Repository Code Map}
+This appendix identifies the repository files that implement the core models used in the paper. Keeping the code external avoids package-heavy source listings and makes the document more robust to compile on standard LaTeX installations.
 
-\subsection{Spatial Risk Inference}
-\lstinputlisting[
-  style=pythonstyle,
-  caption={Python reference implementation of Model I (spatial risk scoring and hotspot extraction).},
-  label={lst:model1}
-]{code/model1_spatial_risk.py}
-
-\subsection{Resource Allocation Optimization}
-\lstinputlisting[
-  style=pythonstyle,
-  caption={Python reference implementation of Model II (mixed-integer resource allocation).},
-  label={lst:model2}
-]{code/model2_allocation_milp.py}
-
-\subsection{Dynamic Protection Simulation}
-\lstinputlisting[
-  style=pythonstyle,
-  caption={Python reference implementation of Model III (stochastic protection simulation and PI estimation).},
-  label={lst:model3}
-]{code/model3_dynamic_simulation.py}
+\begin{longtable}{p{0.30\linewidth}p{0.60\linewidth}}
+\toprule
+File & Purpose \\
+\midrule
+\texttt{code/model0\_gis\_pipeline.py} & GIS-style preprocessing and zone-feature construction from the Etosha base map and management grid. \\
+\texttt{code/model1\_spatial\_risk.py} & Spatial risk scoring, hotspot ranking, and priority-zone extraction. \\
+\texttt{code/model2\_allocation\_milp.py} & Resource-allocation model for patrol loops, fixed devices, and drone sorties. \\
+\texttt{code/model3\_dynamic\_simulation.py} & Stochastic simulation of detection, response, interception, and protection-index outcomes. \\
+\texttt{generate\_professional\_figures.js} & Regeneration of all publication figures used in the manuscript. \\
+\bottomrule
+\end{longtable}
 
 \section*{AI Use Report}
 \addcontentsline{toc}{section}{AI Use Report}
