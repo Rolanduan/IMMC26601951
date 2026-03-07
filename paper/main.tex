@@ -79,11 +79,25 @@ The main contribution is not a single formula but an integrated management packa
 \newpage
 
 \section*{Letter to IMMC}
-Dear IMMC Judges,
+Dear International Mission for Monitoring Conservation (IMMC),
 
-We approach this problem as a conservation operations system rather than a pure coverage problem. In a park as large as Etosha, protection must be selective, risk-based, and adaptive over time. Our paper therefore links ecology, poaching opportunity, movement constraints, surveillance technology, and operational scheduling in one coherent framework. The resulting recommendation is not ``cover everything,'' but ``cover the right places at the right time with the right combination of patrols and sensors.''
+Large wildlife reserves cannot be protected by trying to be everywhere at once. In a park as large as Etosha, protection succeeds only when limited people and equipment are repeatedly sent to the places that matter most. Our central conclusion is therefore straightforward: effective protection in large parks should be focused, layered, and regularly updated, rather than spread thinly across the whole landscape.
 
-To keep the model realistic, we use a three-model core architecture: spatial risk scoring, constrained allocation, and stochastic simulation. This core links to command deployment and feedback updating, allowing managers to answer the six analytical tasks in the prompt, including spatial deployment, equipment allocation, required ranger levels, sensitivity to degraded resources, and transfer to other parks. We emphasize interpretability so that each model component can be explained to real decision-makers.
+Etosha is a strong case study because risk is uneven across the park. Wildlife gathers near waterholes, some parts of the park are easier for intruders to reach, and some places are slower for rangers to reach in time. This means that the real management question is not ``How can we cover the whole park?'' but ``Which areas most need repeated protection, and what combination of patrols and monitoring should be sent there?''
+
+Our approach is designed to support practical management decisions. It first identifies the areas where wildlife importance, access opportunity, and delayed response overlap. It then assigns ranger patrols, stationary monitoring, and drone effort to those areas in a way that can actually be carried out with limited staff and equipment. Finally, it checks whether the plan can remain effective over time when conditions change. In management terms, the result is a protection priority map, a workable deployment plan, and a clear view of what level of staffing is needed to keep protection strong.
+
+Using this approach, we find that Etosha should focus its main protection effort on an eastern--southern hotspot corridor rather than distribute attention evenly across the whole park. Under the baseline scenario in our study, nearly half of patrol time should go to the eastern sector, about one-third to the southern-central corridor, and the remainder to lower-risk western and northern areas. Monitoring devices should be concentrated in persistent hotspots, while drones should be used to widen visibility and reduce uncertainty in the same decisive corridor. This is not a full-coverage plan; it is a priority-based protection plan that better matches the realities of scarce resources.
+
+The benefits of this strategy are substantial. Compared with a uniform patrol plan, the recommended approach improves protection coverage, improves the chance of detecting illegal activity, and lowers the chance that an illegal event succeeds. Overall protection rises from 0.56 to 0.74 in our baseline analysis. These gains do not come from assuming unlimited new resources. They come from using scarce resources in the right places, with the right frequency, and with better coordination between patrols and monitoring tools.
+
+Our recommendations for park managers are direct. First, formally designate the highest-risk quarter of the park as a standing high-attention layer that must receive repeated visits and monitoring. Second, treat monitoring devices and drones as support tools for patrol teams, not substitutes for them. Devices are best for persistent hotspots, while drones are best for flexible observation and uncertainty reduction. Third, protect minimum staffing levels. In our baseline Etosha analysis, maintaining a strong level of protection requires about 34 field rangers, or 17 two-person teams. Below that level, protection begins to weaken much more quickly.
+
+We also find that staffing is the most sensitive management lever. If ranger numbers fall sharply, protection weakens more quickly than it does under comparable reductions in monitoring equipment. Detection quality is the second most important lever, which means that better intelligence, better equipment placement, and stronger coordination can partly offset some shortages. This matters because it tells decision-makers where limited improvement efforts will produce the greatest return.
+
+Finally, this framework is transferable. The same decision logic can be applied to other reserves on different continents, including parks such as Yellowstone and Kakadu. What changes are the local maps, species priorities, access networks, and seasonal patterns. What stays the same is the management structure: identify the most important zones, assign scarce resources strategically, check whether protection remains strong over time, and update the plan as new information arrives.
+
+In summary, our recommendation to the IMMC is not ``protect everything equally.'' It is to build a repeatable protection system that identifies priority areas, concentrates effort there, combines patrols with technology, preserves a minimum staffing floor, and updates the plan continuously. We believe this is the most realistic way to protect wildlife at scale in large reserves where resources are limited but the cost of weak protection is high.
 
 Sincerely,\\
 Team \#\teamnumber
@@ -233,7 +247,7 @@ The grid structure is coarse enough for managerial interpretation but fine enoug
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{fig02_etosha_grid.png}
-  \caption{GIS-ready Etosha management grid with command anchors, gates, and waterhole network, derived from the official 2025 Etosha map.}
+  \caption{Atlas-style Etosha management grid with command anchors, gates, and waterhole network, reconstructed from Etosha feature geometry for analytical zoning.}
   \label{fig:grid}
 \end{figure}
 
@@ -377,7 +391,7 @@ Under the baseline scenario, the model allocates 49\% of patrol-hours to the eas
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{fig06_allocation_dashboard.png}
-  \caption{Allocation dashboard linking patrol-hours, hotspot tiers, and reserve capacity to the spatial plan.}
+  \caption{Allocation summary panels linking patrol-hours, hotspot tiers, and reserve capacity to the spatial plan.}
   \label{fig:allocation}
 \end{figure}
 
