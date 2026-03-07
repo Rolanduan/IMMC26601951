@@ -12,66 +12,47 @@ const REF = { w: 3000, h: 1289 };
 const extent = { x: 360, y: 110, w: 2480, h: 1080 };
 
 const palette = {
-  paper: "#faf7f0",
-  paperShade: "#f1ece1",
-  ink: "#243240",
-  muted: "#6a7682",
-  frame: "#cfd6dc",
-  grid: "#d7dbdf",
-  blue: "#3f678e",
-  green: "#5f805d",
-  amber: "#b77735",
-  red: "#9f473b",
-  purple: "#7a6a92",
-  teal: "#3e7f83",
-  gold: "#c6a151",
-  land: "#e4ead9",
-  land2: "#d7dfca",
-  pan: "#e7e1d3",
-  water: "#4f7ea7",
-  road: "#7b6c60",
-  route: "#2f557d",
-  route2: "#a5652e",
-  route3: "#5e7a4f",
-  hotspot: "#8e2f2f",
-  highlight: "#ece1c5",
+  paper: "#f5efe3",
+  paperShade: "#ece2d1",
+  salt: "#fbf8f1",
   white: "#ffffff",
+  ink: "#20303d",
+  ash: "#687682",
+  line: "#bcc4c5",
+  sand: "#d8cab1",
+  dune: "#c6b087",
+  pan: "#e8dbc1",
+  corridor: "#d6c3a0",
+  moss: "#88996f",
+  sage: "#6d8368",
+  indigo: "#405b74",
+  sky: "#8fa7b4",
+  water: "#5d87ae",
+  gold: "#b89443",
+  clay: "#b26a48",
+  rust: "#8f4637",
+  plum: "#7a6887",
+  teal: "#4f7d78",
+  safe: "#d9e6d7",
+  warn: "#ebd8a7",
 };
 
-const titleMap = {
-  "fig01_system_architecture.png": "Layered Conservation Decision Architecture",
-  "fig02_etosha_grid.png": "Analytical Atlas of Etosha Management Zones",
-  "fig03_risk_heatmap.png": "Risk Surface on Stylized Etosha Atlas",
-  "fig04_risk_decomposition.png": "Hotspot Decomposition by Dominant Driver",
-  "fig05_patrol_routes.png": "Route Portfolio on Atlas Base Map",
-  "fig06_allocation_dashboard.png": "Allocation Summary Panels with Spatial Context",
-  "fig07_schedule_timeline.png": "Twenty-Four-Hour Command Schedule",
-  "fig08_simulation_results.png": "Protection Trajectories with Confidence Bands",
-  "fig09_robustness_distribution.png": "Robustness Distribution under Strategy Stress",
-  "fig10_sensitivity_panels.png": "Nature-Style Tornado Sensitivity Ranking",
-  "fig11_transferability_matrix.png": "Cross-Park Transferability Matrix",
-  "fig12_station_response_map.png": "Response-Time Atlas by Ranger Station",
-  "fig13_sensor_drone_map.png": "Sensor and Drone Surveillance Atlas",
-  "fig14_ranger_requirement_curve.png": "Minimum Ranger Requirement Curve",
-  "fig15_scenario_matrix.png": "Scenario Frontier over Staffing and Detection",
-};
-
-const subtitleMap = {
-  "fig01_system_architecture.png": "Layered command logic from GIS diagnosis to field governance",
-  "fig02_etosha_grid.png": "Vector atlas reconstructed from Etosha feature geometry",
-  "fig03_risk_heatmap.png": "Risk atlas highlighting the eastern-southern hotspot corridor",
-  "fig04_risk_decomposition.png": "Ecological value, access opportunity, and delay separated on one base map",
-  "fig05_patrol_routes.png": "Patrol families redrawn as scholarly map overlays with route legends",
-  "fig06_allocation_dashboard.png": "Spatial plan paired with patrol-hour, hotspot-tier, and reserve summaries",
-  "fig07_schedule_timeline.png": "Compact publication-grade operational rhythm diagram",
-  "fig08_simulation_results.png": "Confidence envelopes and threshold lines in an academic plotting style",
-  "fig09_robustness_distribution.png": "Kernel-style performance densities with restrained color treatment",
-  "fig10_sensitivity_panels.png": "Centered tornado bars styled after classical manuscript graphics",
-  "fig11_transferability_matrix.png": "Portable modules versus local recalibration in journal-table form",
-  "fig12_station_response_map.png": "Delay pockets highlighted through atlas shading and contour annotations",
-  "fig13_sensor_drone_map.png": "Monitoring stack shown with a calmer map grammar and cleaner legend",
-  "fig14_ranger_requirement_curve.png": "Staffing threshold and safe region with subdued axis treatment",
-  "fig15_scenario_matrix.png": "Feasible operating frontier in a manuscript heatmap convention",
+const meta = {
+  "fig01_system_architecture.png": { tag: "COMMAND CHAIN", accent: palette.indigo, title: "Operational Protection Chain", subtitle: "A reserve-specific workflow linking diagnosis, deployment, validation, and governance" },
+  "fig02_etosha_grid.png": { tag: "PLANNING MESH", accent: palette.sage, title: "Planning Mesh and Command Anchors", subtitle: "Etosha is discretized as a corridor-aware management lattice rather than a generic atlas plate" },
+  "fig03_risk_heatmap.png": { tag: "HOTSPOT ATLAS", accent: palette.rust, title: "Hotspot Atlas and Corridor Transect", subtitle: "Risk is shown as a reserve-specific corridor ridge with a supporting transect rather than a stock heatmap" },
+  "fig04_risk_decomposition.png": { tag: "DRIVER TRIPTYCH", accent: palette.gold, title: "Driver Triptych for Risk Formation", subtitle: "Ecology pull, access pressure, and delay penalty are separated as three linked map studies" },
+  "fig05_patrol_routes.png": { tag: "PATROL NETWORK", accent: palette.indigo, title: "Patrol Network and Cadence Ledger", subtitle: "Route families are paired with cadence logic and coverage roles in one operational plate" },
+  "fig06_allocation_dashboard.png": { tag: "RESOURCE LEDGER", accent: palette.clay, title: "Resource Ledger from Assets to Sectors", subtitle: "Manpower, devices, and UAV effort are traced into sector commitments instead of shown as dashboard tiles" },
+  "fig07_schedule_timeline.png": { tag: "COMMAND CYCLE", accent: palette.teal, title: "Twenty-Four-Hour Operational Dial", subtitle: "The daily plan is expressed as a duty cycle with recurring patrol waves, sensor watch, and drone windows" },
+  "fig08_simulation_results.png": { tag: "TRAJECTORY CHECK", accent: palette.indigo, title: "Protection Trajectory with Control Thresholds", subtitle: "Weekly milestones and threshold crossing matter more than a generic before-versus-after line chart" },
+  "fig09_robustness_distribution.png": { tag: "TAIL RISK", accent: palette.rust, title: "Replication Envelope and Tail Risk", subtitle: "Simulation replications are summarized as ridge envelopes so the low-performance tail stays visible" },
+  "fig10_sensitivity_panels.png": { tag: "INFLUENCE LADDER", accent: palette.gold, title: "Sensitivity Influence Ladder", subtitle: "Management levers are ranked as outcome spans instead of reusing a standard tornado template" },
+  "fig11_transferability_matrix.png": { tag: "TRANSFER WHEEL", accent: palette.plum, title: "Transferability Wheel", subtitle: "Portable core modules, local retuning, and park-specific priors are organized as a concentric deployment wheel" },
+  "fig12_station_response_map.png": { tag: "RESPONSE REACH", accent: palette.sky, title: "Response Reach and Delay Pocket", subtitle: "The eastward delay pocket is shown through station reach bands and a corridor response profile" },
+  "fig13_sensor_drone_map.png": { tag: "SURVEILLANCE STACK", accent: palette.teal, title: "Sensor-Drone Layering Plan", subtitle: "Persistent sensor eyes and adaptive drone fans are mapped as two different coverage grammars" },
+  "fig14_ranger_requirement_curve.png": { tag: "STAFFING REGIME", accent: palette.sage, title: "Minimum Ranger Requirement Curve", subtitle: "The staffing threshold is expressed as a regime change from fragile coverage to stable protection" },
+  "fig15_scenario_matrix.png": { tag: "PROTECTION FRONTIER", accent: palette.clay, title: "Protection Frontier under Manpower and Detection", subtitle: "Iso-protection bands and a safe frontier replace the usual scenario matrix heatmap" },
 };
 
 const camps = {
@@ -146,31 +127,32 @@ const droneSectors = [
 ];
 
 const riskStops = [
-  { t: 0.00, rgb: [245, 242, 223] },
-  { t: 0.25, rgb: [229, 214, 173] },
-  { t: 0.50, rgb: [203, 166, 99] },
-  { t: 0.75, rgb: [171, 104, 63] },
-  { t: 1.00, rgb: [128, 50, 47] },
+  { t: 0.00, rgb: [247, 241, 223] },
+  { t: 0.25, rgb: [227, 208, 162] },
+  { t: 0.50, rgb: [205, 164, 105] },
+  { t: 0.75, rgb: [176, 113, 71] },
+  { t: 1.00, rgb: [143, 70, 55] },
 ];
 
 const responseStops = [
-  { t: 0.00, rgb: [229, 239, 247] },
-  { t: 0.25, rgb: [187, 212, 230] },
-  { t: 0.50, rgb: [127, 169, 201] },
-  { t: 0.75, rgb: [85, 126, 170] },
-  { t: 1.00, rgb: [50, 85, 125] },
+  { t: 0.00, rgb: [223, 233, 239] },
+  { t: 0.25, rgb: [184, 207, 220] },
+  { t: 0.50, rgb: [134, 170, 194] },
+  { t: 0.75, rgb: [91, 132, 170] },
+  { t: 1.00, rgb: [60, 92, 122] },
 ];
 
 function esc(text) {
-  return String(text)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
+  return String(text).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
 function figNo(name) {
-  const m = name.match(/fig(\d{2})/);
-  return m ? `FIG. ${m[1]}` : "FIG.";
+  const match = name.match(/fig(\d{2})/);
+  return match ? `FIG. ${match[1]}` : "FIG.";
+}
+
+function clamp(value, min, max) {
+  return Math.max(min, Math.min(max, value));
 }
 
 function lerp(a, b, t) {
@@ -178,21 +160,21 @@ function lerp(a, b, t) {
 }
 
 function rgbToString(rgb) {
-  return `rgb(${rgb.map((v) => Math.round(v)).join(",")})`;
+  return `rgb(${rgb.map((value) => Math.round(value)).join(",")})`;
 }
 
 function rampColor(stops, value) {
-  const v = Math.max(0, Math.min(1, value));
+  const v = clamp(value, 0, 1);
   if (v <= stops[0].t) return rgbToString(stops[0].rgb);
-  for (let i = 1; i < stops.length; i += 1) {
-    if (v <= stops[i].t) {
-      const prev = stops[i - 1];
-      const next = stops[i];
-      const local = (v - prev.t) / (next.t - prev.t);
+  for (let index = 1; index < stops.length; index += 1) {
+    if (v <= stops[index].t) {
+      const left = stops[index - 1];
+      const right = stops[index];
+      const local = (v - left.t) / (right.t - left.t);
       return rgbToString([
-        lerp(prev.rgb[0], next.rgb[0], local),
-        lerp(prev.rgb[1], next.rgb[1], local),
-        lerp(prev.rgb[2], next.rgb[2], local),
+        lerp(left.rgb[0], right.rgb[0], local),
+        lerp(left.rgb[1], right.rgb[1], local),
+        lerp(left.rgb[2], right.rgb[2], local),
       ]);
     }
   }
@@ -200,820 +182,821 @@ function rampColor(stops, value) {
 }
 
 function pathFromPoints(points, close = false) {
-  return `${points.map(([x, y], i) => `${i ? "L" : "M"} ${x} ${y}`).join(" ")}${close ? " Z" : ""}`;
+  return `${points.map(([x, y], index) => `${index ? "L" : "M"} ${x} ${y}`).join(" ")}${close ? " Z" : ""}`;
 }
 
 function shift(points, dx = MAP_SHIFT.x, dy = MAP_SHIFT.y) {
   return points.map(([x, y]) => [x + dx, y + dy]);
 }
 
-function cx(x) {
-  return x + MAP_SHIFT.x;
-}
-
-function cy(y) {
-  return y + MAP_SHIFT.y;
-}
-
-function card(x, y, w, h, title, lines, opts = {}) {
-  const fill = opts.fill || palette.white;
-  const stroke = opts.stroke || palette.frame;
-  const titleColor = opts.titleColor || palette.ink;
-  const bodyColor = opts.bodyColor || palette.muted;
-  const bodySize = opts.bodySize || 34;
-  const titleSize = opts.titleSize || 42;
-  const lineGap = opts.lineGap || bodySize + 10;
-  let out = `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${opts.radius || 22}" fill="${fill}" stroke="${stroke}" stroke-width="${opts.strokeWidth || 2.2}" filter="url(#shadow)"/>`;
-  if (title) {
-    out += `<text x="${x + 34}" y="${y + 56}" font-family="Helvetica Neue, Arial, sans-serif" font-size="${titleSize}" font-weight="700" fill="${titleColor}">${esc(title)}</text>`;
-  }
-  lines.forEach((line, i) => {
-    out += `<text x="${x + 34}" y="${y + (title ? 108 : 58) + i * lineGap}" font-family="Helvetica Neue, Arial, sans-serif" font-size="${bodySize}" fill="${bodyColor}">${esc(line)}</text>`;
-  });
-  return out;
-}
-
-function pill(x, y, text, fill, color = palette.ink) {
-  const width = Math.max(128, text.length * 18 + 36);
-  return `<rect x="${x}" y="${y}" width="${width}" height="48" rx="24" fill="${fill}" stroke="${fill}" stroke-width="1.5"/>
-    <text x="${x + width / 2}" y="${y + 32}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" font-weight="700" fill="${color}">${esc(text)}</text>`;
-}
-
-function road(points, opts = {}) {
-  const pts = shift(points);
-  const d = pathFromPoints(pts);
-  return `<path d="${d}" fill="none" stroke="${opts.base || "#eee8df"}" stroke-width="${opts.baseWidth || 18}" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="${d}" fill="none" stroke="${opts.top || palette.road}" stroke-width="${opts.topWidth || 8}" stroke-linecap="round" stroke-linejoin="round" ${opts.dash ? `stroke-dasharray="${opts.dash}"` : ""}/>`;
-}
-
-function route(points, color, width = 13, dash = "") {
-  return `<path d="${pathFromPoints(shift(points))}" fill="none" stroke="#ffffff" stroke-width="${width + 8}" stroke-linecap="round" stroke-linejoin="round" opacity="0.88"/>
-    <path d="${pathFromPoints(shift(points))}" fill="none" stroke="${color}" stroke-width="${width}" stroke-linecap="round" stroke-linejoin="round" ${dash ? `stroke-dasharray="${dash}"` : ""}/>`;
-}
-
-function drawCamps() {
-  return Object.entries(camps).map(([name, [x, y]]) => `
-    <circle cx="${cx(x)}" cy="${cy(y)}" r="20" fill="${palette.white}" stroke="${palette.hotspot}" stroke-width="5"/>
-    <circle cx="${cx(x)}" cy="${cy(y)}" r="7" fill="${palette.hotspot}"/>
-    <rect x="${cx(x) + 24}" y="${cy(y) - 25}" width="${name.length * 19 + 26}" height="42" rx="12" fill="${palette.white}" fill-opacity="0.96" stroke="${palette.frame}" stroke-width="1.5"/>
-    <text x="${cx(x) + 38}" y="${cy(y) + 4}" font-family="Helvetica Neue, Arial, sans-serif" font-size="26" font-weight="700" fill="${palette.ink}">${esc(name)}</text>
-  `).join("");
-}
-
-function drawGates() {
-  return Object.entries(gates).map(([name, [x, y]]) => `
-    <circle cx="${cx(x)}" cy="${cy(y)}" r="17" fill="#eef5ec" stroke="${palette.green}" stroke-width="4.5"/>
-    <text x="${cx(x)}" y="${cy(y) + 8}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="21" font-weight="700" fill="${palette.green}">G</text>
-    <text x="${cx(x) + 22}" y="${cy(y) + 7}" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" fill="${palette.ink}">${esc(name)}</text>
-  `).join("");
-}
-
-function drawWaterholes(opacity = 0.95) {
-  return waterholes.map(([x, y]) => `
-    <circle cx="${cx(x)}" cy="${cy(y)}" r="8" fill="${palette.water}" fill-opacity="${opacity}" stroke="${palette.white}" stroke-width="2.4"/>
-  `).join("");
-}
-
-function northArrow(x = 2850, y = 310) {
-  return `<g>
-    <line x1="${x}" y1="${y + 72}" x2="${x}" y2="${y}" stroke="${palette.ink}" stroke-width="5"/>
-    <path d="M ${x - 14} ${y + 24} L ${x} ${y} L ${x + 14} ${y + 24} Z" fill="${palette.ink}"/>
-    <text x="${x}" y="${y - 16}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="28" font-weight="700" fill="${palette.ink}">N</text>
-  </g>`;
-}
-
-function scaleBar(x = 2490, y = 1485) {
-  return `<g>
-    <rect x="${x}" y="${y}" width="220" height="18" rx="3" fill="${palette.ink}"/>
-    <rect x="${x + 110}" y="${y}" width="110" height="18" rx="0" fill="${palette.white}" stroke="${palette.ink}" stroke-width="2"/>
-    <line x1="${x}" y1="${y}" x2="${x}" y2="${y + 30}" stroke="${palette.ink}" stroke-width="3"/>
-    <line x1="${x + 110}" y1="${y}" x2="${x + 110}" y2="${y + 30}" stroke="${palette.ink}" stroke-width="3"/>
-    <line x1="${x + 220}" y1="${y}" x2="${x + 220}" y2="${y + 30}" stroke="${palette.ink}" stroke-width="3"/>
-    <text x="${x}" y="${y + 62}" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" fill="${palette.ink}">0</text>
-    <text x="${x + 97}" y="${y + 62}" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" fill="${palette.ink}">25</text>
-    <text x="${x + 205}" y="${y + 62}" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" fill="${palette.ink}">50 km</text>
-  </g>`;
-}
-
-function parkBase() {
-  const park = pathFromPoints(shift(parkOutline), true);
-  const pan = pathFromPoints(shift(panOutline), true);
-  return `
-    <rect x="84" y="218" width="3032" height="1332" rx="26" fill="${palette.white}" stroke="${palette.frame}" stroke-width="2.4" filter="url(#shadow)"/>
-    <rect x="102" y="236" width="2996" height="1296" rx="20" fill="${palette.paperShade}"/>
-    <g clip-path="url(#parkClip)">
-      <rect x="${MAP_SHIFT.x}" y="${MAP_SHIFT.y}" width="${REF.w}" height="${REF.h}" fill="#ecf0e4"/>
-      <path d="${park}" fill="${palette.land}" stroke="none"/>
-      <path d="${pathFromPoints(shift(veget1), true)}" fill="${palette.land2}" opacity="0.9"/>
-      <path d="${pathFromPoints(shift(veget2), true)}" fill="${palette.land2}" opacity="0.85"/>
-      <path d="${pathFromPoints(shift(veget3), true)}" fill="${palette.land2}" opacity="0.9"/>
-      <path d="${pan}" fill="${palette.pan}" opacity="0.98"/>
-      <path d="M ${cx(240)} ${cy(1010)} C ${cx(980)} ${cy(940)} ${cx(1600)} ${cy(905)} ${cx(2810)} ${cy(590)}" fill="none" stroke="#dbd1bb" stroke-width="40" stroke-linecap="round" opacity="0.82"/>
-      <path d="M ${cx(220)} ${cy(790)} C ${cx(980)} ${cy(650)} ${cx(1840)} ${cy(720)} ${cx(2730)} ${cy(560)}" fill="none" stroke="#e9dfcb" stroke-width="24" stroke-linecap="round" opacity="0.9"/>
-    </g>
-    <path d="${park}" fill="none" stroke="${palette.ink}" stroke-width="5"/>
-    ${road(trunkRoad)}
-    ${road(panRoad, { baseWidth: 14, topWidth: 6, base: "#f2ebdf", top: "#98877a" })}
-    ${road(northRoad, { baseWidth: 14, topWidth: 6, base: "#f2ebdf", top: "#98877a", dash: "18 10" })}
-    ${road(westLink, { baseWidth: 14, topWidth: 6, base: "#f2ebdf", top: "#98877a" })}
-    ${drawWaterholes()}
-    ${drawCamps()}
-    ${drawGates()}
-    <text x="${cx(1720)}" y="${cy(420)}" font-family="Helvetica Neue, Arial, sans-serif" font-size="42" font-weight="700" fill="#8f8777" opacity="0.9">Etosha Pan</text>
-    <text x="${cx(820)}" y="${cy(980)}" font-family="Helvetica Neue, Arial, sans-serif" font-size="30" fill="${palette.muted}">Southern patrol corridor</text>
-    ${northArrow()}
-    ${scaleBar()}
-  `;
-}
-
-function riskCellData() {
-  const cells = [];
-  const cw = extent.w / 8;
-  const ch = extent.h / 8;
-  for (let r = 0; r < 8; r += 1) {
-    for (let c = 0; c < 8; c += 1) {
-      const x = extent.x + c * cw;
-      const y = extent.y + r * ch;
-      const midX = x + cw / 2;
-      const midY = y + ch / 2;
-      const east = c / 7;
-      const southCorridor = Math.exp(-Math.pow((midY - 760) / 190, 2));
-      const panInfluence = Math.exp(-Math.pow((midX - 1800) / 620, 2) - Math.pow((midY - 400) / 250, 2));
-      const gateInfluence = Math.exp(-Math.pow((midX - 2700) / 330, 2)) + 0.7 * Math.exp(-Math.pow((midX - 1650) / 420, 2) - Math.pow((midY - 1040) / 210, 2));
-      const waterInfluence = Math.max(...waterholes.map(([wx, wy]) => Math.exp(-Math.pow((midX - wx) / 270, 2) - Math.pow((midY - wy) / 220, 2))));
-      const ecology = 0.52 * waterInfluence + 0.30 * panInfluence + 0.18 * (1 - r / 7);
-      const access = 0.45 * east + 0.30 * southCorridor + 0.25 * Math.min(1, gateInfluence);
-      const nearestCamp = Math.min(...Object.values(camps).map(([cx0, cy0]) => Math.hypot(midX - cx0, midY - cy0)));
-      const responseTime = Math.max(1.8, Math.min(6.3, 1.55 + nearestCamp / 360 + 0.75 * east));
-      const delay = (responseTime - 1.8) / 4.5;
-      const risk = 0.48 * ecology + 0.30 * access + 0.22 * delay;
-      const dominant = [
-        ["Ecology", ecology],
-        ["Access", access],
-        ["Delay", delay],
-      ].sort((a, b) => b[1] - a[1])[0][0];
-      cells.push({ r, c, x, y, w: cw, h: ch, ecology, access, delay, responseTime, risk, dominant });
-    }
-  }
-  const sorted = [...cells].sort((a, b) => b.risk - a.risk);
-  const q = sorted[Math.floor(sorted.length * 0.25) - 1].risk;
-  cells.forEach((cell) => {
-    cell.hot = cell.risk >= q;
-  });
-  return cells;
-}
-
-const cells = riskCellData();
-
-function cellRect(cell, fill, opacity = 1, stroke = palette.white, strokeOpacity = 0.75, strokeWidth = 1.8) {
-  return `<rect x="${cx(cell.x)}" y="${cy(cell.y)}" width="${cell.w}" height="${cell.h}" fill="${fill}" fill-opacity="${opacity}" stroke="${stroke}" stroke-opacity="${strokeOpacity}" stroke-width="${strokeWidth}"/>`;
-}
-
-function gridOverlay(mode = "outline") {
-  let out = "";
-  cells.forEach((cell) => {
-    if (mode === "outline") {
-      out += cellRect(cell, "none", 1, palette.grid, 1, 1.8);
-    } else if (mode === "risk") {
-      out += cellRect(cell, rampColor(riskStops, cell.risk), 0.68, palette.white, 0.55, 1.5);
-    } else if (mode === "tier") {
-      const fill = cell.hot ? "#b35e49" : cell.risk > 0.48 ? "#d9c08a" : "#dce5e7";
-      out += cellRect(cell, fill, cell.hot ? 0.58 : 0.42, palette.white, 0.65, 1.4);
-    } else if (mode === "dominant") {
-      const fill = cell.dominant === "Ecology" ? "#98b58d" : cell.dominant === "Access" ? "#d4a36c" : "#a59ac6";
-      out += cellRect(cell, fill, cell.hot ? 0.60 : 0.34, palette.white, 0.65, 1.4);
-    } else if (mode === "response") {
-      const value = (cell.responseTime - 1.8) / 4.5;
-      out += cellRect(cell, rampColor(responseStops, value), 0.70, palette.white, 0.55, 1.4);
-    }
-  });
-  out += `<rect x="${cx(extent.x)}" y="${cy(extent.y)}" width="${extent.w}" height="${extent.h}" fill="none" stroke="${palette.ink}" stroke-width="3"/>`;
-  const letters = "ABCDEFGH".split("");
-  letters.forEach((letter, i) => {
-    out += `<text x="${cx(extent.x + i * extent.w / 8 + extent.w / 16)}" y="${cy(extent.y - 18)}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" font-weight="700" fill="${palette.muted}">${letter}</text>`;
-    out += `<text x="${cx(extent.x - 24)}" y="${cy(extent.y + i * extent.h / 8 + extent.h / 16 + 8)}" text-anchor="end" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" font-weight="700" fill="${palette.muted}">${i + 1}</text>`;
-  });
-  return out;
-}
-
-function hotspotOutline() {
-  return cells.filter((cell) => cell.hot).map((cell) => `
-    <rect x="${cx(cell.x) + 8}" y="${cy(cell.y) + 8}" width="${cell.w - 16}" height="${cell.h - 16}" rx="12" fill="none" stroke="#fff6de" stroke-width="3.8" stroke-dasharray="10 8"/>
-  `).join("");
-}
-
-function legendGradient(x, y, h, title, stops, labels) {
-  const id = `grad_${x}_${y}`.replace(/[^\w]/g, "_");
-  const defs = `
-    <linearGradient id="${id}" x1="0" y1="1" x2="0" y2="0">
-      ${stops.map((s) => `<stop offset="${s.t * 100}%" stop-color="${rgbToString(s.rgb)}"/>`).join("")}
-    </linearGradient>
-  `;
-  const labelStep = h / (labels.length - 1);
-  return {
-    defs,
-    body: `
-      <rect x="${x}" y="${y}" width="30" height="${h}" rx="15" fill="url(#${id})" stroke="${palette.frame}" stroke-width="1.5"/>
-      <text x="${x - 4}" y="${y - 14}" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" font-weight="700" fill="${palette.ink}">${esc(title)}</text>
-      ${labels.map((label, i) => `
-        <text x="${x + 48}" y="${y + h - i * labelStep + 8}" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="${palette.muted}">${esc(label)}</text>
-      `).join("")}
-    `,
-  };
-}
+function cx(x) { return x + MAP_SHIFT.x; }
+function cy(y) { return y + MAP_SHIFT.y; }
 
 function linePath(points) {
-  return points.map(([x, y], i) => `${i ? "L" : "M"} ${x} ${y}`).join(" ");
+  return points.map(([x, y], index) => `${index ? "L" : "M"} ${x} ${y}`).join(" ");
 }
 
 function bandPath(xs, upper, lower, sx, sy) {
   const first = `M ${sx(xs[0])} ${sy(lower[0])}`;
-  const top = upper.map((v, i) => `L ${sx(xs[i])} ${sy(v)}`).join(" ");
-  const bottom = lower.slice().reverse().map((v, idx) => {
-    const i = xs.length - 1 - idx;
-    return `L ${sx(xs[i])} ${sy(v)}`;
+  const top = upper.map((value, index) => `L ${sx(xs[index])} ${sy(value)}`).join(" ");
+  const bottom = lower.slice().reverse().map((value, reverseIndex) => {
+    const index = xs.length - 1 - reverseIndex;
+    return `L ${sx(xs[index])} ${sy(value)}`;
   }).join(" ");
   return `${first} ${top} ${bottom} Z`;
 }
 
-function axisBox(x, y, w, h, xTicks, yTicks, xLabel, yLabel) {
-  let out = `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="22" fill="${palette.white}" stroke="${palette.frame}" stroke-width="2.2" filter="url(#shadow)"/>`;
-  yTicks.forEach((tick) => {
-    const py = y + h - tick.pos * h;
-    out += `<line x1="${x + 100}" y1="${py}" x2="${x + w - 50}" y2="${py}" stroke="${palette.grid}" stroke-width="2" stroke-dasharray="6 10"/>
-      <text x="${x + 76}" y="${py + 9}" text-anchor="end" font-family="Helvetica Neue, Arial, sans-serif" font-size="25" fill="${palette.muted}">${esc(tick.label)}</text>`;
-  });
-  xTicks.forEach((tick) => {
-    const px = x + 100 + tick.pos * (w - 150);
-    out += `<line x1="${px}" y1="${y + 70}" x2="${px}" y2="${y + h - 70}" stroke="${palette.grid}" stroke-width="1.6" stroke-dasharray="6 12"/>
-      <text x="${px}" y="${y + h - 24}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="25" fill="${palette.muted}">${esc(tick.label)}</text>`;
-  });
-  out += `<line x1="${x + 100}" y1="${y + h - 70}" x2="${x + w - 50}" y2="${y + h - 70}" stroke="${palette.ink}" stroke-width="3"/>
-    <line x1="${x + 100}" y1="${y + 70}" x2="${x + 100}" y2="${y + h - 70}" stroke="${palette.ink}" stroke-width="3"/>
-    <text x="${x + w / 2}" y="${y + h - 5}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="28" font-weight="700" fill="${palette.ink}">${esc(xLabel)}</text>
-    <text x="${x + 24}" y="${y + h / 2}" transform="rotate(-90 ${x + 24} ${y + h / 2})" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="28" font-weight="700" fill="${palette.ink}">${esc(yLabel)}</text>`;
-  return out;
+function gaussian(x, mu, sigma) {
+  const z = (x - mu) / sigma;
+  return Math.exp(-0.5 * z * z);
 }
 
-function plotLegend(x, y, entries) {
-  return `<g>
-    ${entries.map((entry, i) => `
-      <line x1="${x}" y1="${y + i * 44}" x2="${x + 54}" y2="${y + i * 44}" stroke="${entry.color}" stroke-width="8" stroke-linecap="round"/>
-      <text x="${x + 72}" y="${y + i * 44 + 8}" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" fill="${palette.ink}">${esc(entry.label)}</text>
-    `).join("")}
-  </g>`;
+function polar(cx0, cy0, radius, degrees) {
+  const angle = ((degrees - 90) * Math.PI) / 180;
+  return [cx0 + radius * Math.cos(angle), cy0 + radius * Math.sin(angle)];
+}
+
+function arcBand(cx0, cy0, r0, r1, startDeg, endDeg) {
+  const large = endDeg - startDeg > 180 ? 1 : 0;
+  const [x1, y1] = polar(cx0, cy0, r1, startDeg);
+  const [x2, y2] = polar(cx0, cy0, r1, endDeg);
+  const [x3, y3] = polar(cx0, cy0, r0, endDeg);
+  const [x4, y4] = polar(cx0, cy0, r0, startDeg);
+  return [`M ${x1} ${y1}`, `A ${r1} ${r1} 0 ${large} 1 ${x2} ${y2}`, `L ${x3} ${y3}`, `A ${r0} ${r0} 0 ${large} 0 ${x4} ${y4}`, "Z"].join(" ");
+}
+
+function dossierBoard(x = 58, y = 236, w = 3084, h = 1502) {
+  return `
+    <rect x="${x}" y="${y}" width="${w}" height="${h}" rx="34" fill="${palette.salt}" stroke="${palette.line}" stroke-width="2.3" filter="url(#shadow)"/>
+    <rect x="${x + 16}" y="${y + 16}" width="${w - 32}" height="${h - 32}" rx="28" fill="#f8f3ea" stroke="#dad3c4" stroke-width="1.5"/>
+  `;
+}
+
+function headerRule(x, y, w, accent) {
+  return `<rect x="${x}" y="${y}" width="${w}" height="7" rx="4" fill="${accent}"/><rect x="${x}" y="${y + 10}" width="${w * 0.66}" height="2" rx="1" fill="${palette.line}"/>`;
+}
+
+function tagPill(x, y, text, fill, color = palette.ink, width = null) {
+  const computed = width || Math.max(176, text.length * 14 + 34);
+  return `
+    <rect x="${x}" y="${y}" width="${computed}" height="42" rx="21" fill="${fill}" stroke="${fill}" stroke-width="1.2"/>
+    <text x="${x + computed / 2}" y="${y + 28}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="19" font-weight="700" letter-spacing="2" fill="${color}">${esc(text)}</text>
+  `;
+}
+
+function panel(x, y, w, h, title, lines, opts = {}) {
+  const accent = opts.accent || palette.indigo;
+  const fill = opts.fill || palette.white;
+  const bodyColor = opts.bodyColor || palette.ash;
+  const titleSize = opts.titleSize || 34;
+  const bodySize = opts.bodySize || 24;
+  const lineGap = opts.lineGap || bodySize + 12;
+  const radius = opts.radius || 24;
+  const titleY = y + 58;
+  const bodyStart = title ? y + 106 : y + 58;
+  return `
+    <rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${radius}" fill="${fill}" stroke="${palette.line}" stroke-width="2" filter="url(#shadow)"/>
+    <rect x="${x}" y="${y}" width="${w}" height="12" rx="${radius}" fill="${accent}" opacity="0.92"/>
+    ${title ? `<text x="${x + 26}" y="${titleY}" font-family="Helvetica Neue, Arial, sans-serif" font-size="${titleSize}" font-weight="700" fill="${palette.ink}">${esc(title)}</text>` : ""}
+    ${lines.map((line, index) => `<text x="${x + 26}" y="${bodyStart + index * lineGap}" font-family="Helvetica Neue, Arial, sans-serif" font-size="${bodySize}" fill="${bodyColor}">${esc(line)}</text>`).join("")}
+  `;
+}
+
+function smallMetric(x, y, w, title, value, detail, accent) {
+  return `
+    <rect x="${x}" y="${y}" width="${w}" height="118" rx="20" fill="${palette.white}" stroke="${palette.line}" stroke-width="1.8"/>
+    <rect x="${x}" y="${y}" width="${w}" height="10" rx="20" fill="${accent}"/>
+    <text x="${x + 22}" y="${y + 44}" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" fill="${palette.ash}">${esc(title)}</text>
+    <text x="${x + 22}" y="${y + 86}" font-family="Helvetica Neue, Arial, sans-serif" font-size="42" font-weight="700" fill="${palette.ink}">${esc(value)}</text>
+    <text x="${x + w - 22}" y="${y + 86}" text-anchor="end" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="${palette.ash}">${esc(detail)}</text>
+  `;
+}
+
+function road(points, opts = {}) {
+  const shifted = shift(points);
+  const d = pathFromPoints(shifted);
+  return `<path d="${d}" fill="none" stroke="${opts.base || "#efe7da"}" stroke-width="${opts.baseWidth || 16}" stroke-linecap="round" stroke-linejoin="round"/><path d="${d}" fill="none" stroke="${opts.top || "#8b7868"}" stroke-width="${opts.topWidth || 6}" stroke-linecap="round" stroke-linejoin="round" ${opts.dash ? `stroke-dasharray="${opts.dash}"` : ""}/>`;
+}
+
+function route(points, color, width = 12, dash = "") {
+  const d = pathFromPoints(shift(points));
+  return `<path d="${d}" fill="none" stroke="${palette.salt}" stroke-width="${width + 8}" stroke-linecap="round" stroke-linejoin="round" opacity="0.88"/><path d="${d}" fill="none" stroke="${color}" stroke-width="${width}" stroke-linecap="round" stroke-linejoin="round" ${dash ? `stroke-dasharray="${dash}"` : ""}/>`;
+}
+
+function drawWaterholes(opacity = 0.92) {
+  return waterholes.map(([x, y]) => `<circle cx="${cx(x)}" cy="${cy(y)}" r="7" fill="${palette.water}" fill-opacity="${opacity}" stroke="${palette.salt}" stroke-width="2"/>`).join("");
+}
+
+function drawCamps(showNames = true) {
+  return Object.entries(camps).map(([name, [x, y]]) => `
+    <rect x="${cx(x) - 15}" y="${cy(y) - 15}" width="30" height="30" rx="8" fill="${palette.salt}" stroke="${palette.rust}" stroke-width="4"/>
+    <circle cx="${cx(x)}" cy="${cy(y)}" r="5.5" fill="${palette.rust}"/>
+    ${showNames ? `<rect x="${cx(x) + 22}" y="${cy(y) - 20}" width="${name.length * 18 + 28}" height="38" rx="11" fill="${palette.salt}" stroke="${palette.line}" stroke-width="1.4"/><text x="${cx(x) + 38}" y="${cy(y) + 6}" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" font-weight="700" fill="${palette.ink}">${esc(name)}</text>` : ""}
+  `).join("");
+}
+
+function drawGates(showNames = true) {
+  return Object.entries(gates).map(([name, [x, y]]) => `
+    <path d="M ${cx(x)} ${cy(y) - 16} L ${cx(x) + 16} ${cy(y)} L ${cx(x)} ${cy(y) + 16} L ${cx(x) - 16} ${cy(y)} Z" fill="#edf4eb" stroke="${palette.sage}" stroke-width="3.2"/>
+    ${showNames ? `<text x="${cx(x) + 22}" y="${cy(y) + 7}" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="${palette.ink}">${esc(name)}</text>` : ""}
+  `).join("");
+}
+
+function northArrow(x = 2890, y = 332) {
+  return `<g><line x1="${x}" y1="${y + 70}" x2="${x}" y2="${y}" stroke="${palette.ink}" stroke-width="4"/><path d="M ${x - 13} ${y + 24} L ${x} ${y} L ${x + 13} ${y + 24} Z" fill="${palette.ink}"/><text x="${x}" y="${y - 14}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="26" font-weight="700" fill="${palette.ink}">N</text></g>`;
+}
+
+function scaleBar(x = 2502, y = 1478) {
+  return `<g><rect x="${x}" y="${y}" width="220" height="16" rx="3" fill="${palette.ink}"/><rect x="${x + 110}" y="${y}" width="110" height="16" fill="${palette.salt}" stroke="${palette.ink}" stroke-width="1.8"/><line x1="${x}" y1="${y}" x2="${x}" y2="${y + 27}" stroke="${palette.ink}" stroke-width="2.4"/><line x1="${x + 110}" y1="${y}" x2="${x + 110}" y2="${y + 27}" stroke="${palette.ink}" stroke-width="2.4"/><line x1="${x + 220}" y1="${y}" x2="${x + 220}" y2="${y + 27}" stroke="${palette.ink}" stroke-width="2.4"/><text x="${x}" y="${y + 54}" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="${palette.ink}">0</text><text x="${x + 99}" y="${y + 54}" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="${palette.ink}">25</text><text x="${x + 203}" y="${y + 54}" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="${palette.ink}">50 km</text></g>`;
+}
+
+function contourLines() {
+  const lines = [
+    `M ${cx(170)} ${cy(1000)} C ${cx(700)} ${cy(880)} ${cx(1500)} ${cy(910)} ${cx(2820)} ${cy(620)}`,
+    `M ${cx(190)} ${cy(860)} C ${cx(780)} ${cy(760)} ${cx(1520)} ${cy(730)} ${cx(2790)} ${cy(545)}`,
+    `M ${cx(250)} ${cy(680)} C ${cx(820)} ${cy(610)} ${cx(1510)} ${cy(540)} ${cx(2770)} ${cy(440)}`,
+    `M ${cx(300)} ${cy(480)} C ${cx(860)} ${cy(430)} ${cx(1580)} ${cy(360)} ${cx(2720)} ${cy(330)}`,
+  ];
+  return lines.map((d, index) => `<path d="${d}" fill="none" stroke="${index % 2 === 0 ? "#d9cfbb" : "#e4dbc9"}" stroke-width="${index === 0 ? 5 : 3.4}" opacity="${index === 0 ? 0.55 : 0.48}" stroke-dasharray="${index % 2 === 0 ? "16 12" : "8 14"}"/>`).join("");
+}
+
+function corridorRibbon() {
+  const upper = `M ${cx(200)} ${cy(820)} C ${cx(780)} ${cy(700)} ${cx(1480)} ${cy(730)} ${cx(2760)} ${cy(535)}`;
+  const lower = `M ${cx(200)} ${cy(1025)} C ${cx(840)} ${cy(940)} ${cx(1540)} ${cy(895)} ${cx(2790)} ${cy(650)}`;
+  return `<path d="${upper}" fill="none" stroke="${palette.corridor}" stroke-width="68" opacity="0.55" stroke-linecap="round"/><path d="${lower}" fill="none" stroke="${palette.corridor}" stroke-width="38" opacity="0.36" stroke-linecap="round"/>`;
+}
+
+function gridLabels() {
+  const letters = "ABCDEFGH".split("");
+  let output = "";
+  const cellW = extent.w / 8;
+  const cellH = extent.h / 8;
+  letters.forEach((letter, index) => {
+    output += `<text x="${cx(extent.x + cellW * (index + 0.5))}" y="${cy(extent.y) - 14}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" font-weight="700" fill="${palette.ash}">${letter}</text>`;
+  });
+  Array.from({ length: 8 }, (_, index) => index + 1).forEach((number, index) => {
+    output += `<text x="${cx(extent.x) - 18}" y="${cy(extent.y + cellH * (index + 0.58))}" text-anchor="end" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" font-weight="700" fill="${palette.ash}">${number}</text>`;
+  });
+  return output;
+}
+
+function mapField(opts = {}) {
+  const showNames = opts.showNames !== false;
+  const showCompass = opts.showCompass !== false;
+  const showScale = opts.showScale !== false;
+  const showCorridorLabel = opts.showCorridorLabel !== false;
+  const showGrid = opts.showGridLabels === true;
+  const park = pathFromPoints(shift(parkOutline), true);
+  const pan = pathFromPoints(shift(panOutline), true);
+  return `
+    <rect x="88" y="242" width="3024" height="1298" rx="28" fill="#efe8db" stroke="${palette.line}" stroke-width="1.6"/>
+    <path d="${park}" fill="${palette.sand}" stroke="none"/>
+    <path d="${pathFromPoints(shift(veget1), true)}" fill="#cfd6be" opacity="0.88"/>
+    <path d="${pathFromPoints(shift(veget2), true)}" fill="#c9d1ba" opacity="0.88"/>
+    <path d="${pathFromPoints(shift(veget3), true)}" fill="#ced7c1" opacity="0.88"/>
+    <path d="${pan}" fill="${palette.pan}" opacity="0.96"/>
+    ${contourLines()}
+    ${corridorRibbon()}
+    <path d="${park}" fill="none" stroke="${palette.ink}" stroke-width="4.2"/>
+    ${road(trunkRoad, { baseWidth: 16, topWidth: 6.5, top: "#826f61" })}
+    ${road(panRoad, { baseWidth: 14, topWidth: 5.5, top: "#978474" })}
+    ${road(northRoad, { baseWidth: 14, topWidth: 5.5, top: "#978474", dash: "14 10" })}
+    ${road(westLink, { baseWidth: 14, topWidth: 5.5, top: "#978474" })}
+    ${drawWaterholes()}
+    ${drawCamps(showNames)}
+    ${drawGates(showNames)}
+    <text x="${cx(1710)}" y="${cy(428)}" font-family="Helvetica Neue, Arial, sans-serif" font-size="42" font-weight="700" fill="#8f8675">Etosha Pan</text>
+    ${showCorridorLabel ? `<text x="${cx(840)}" y="${cy(990)}" font-family="Helvetica Neue, Arial, sans-serif" font-size="30" fill="${palette.ash}">southern operations corridor</text>` : ""}
+    ${showGrid ? gridLabels() : ""}
+    ${showCompass ? northArrow() : ""}
+    ${showScale ? scaleBar() : ""}
+  `;
+}
+
+function riskCellData() {
+  const cells0 = [];
+  const cellW = extent.w / 8;
+  const cellH = extent.h / 8;
+  for (let row = 0; row < 8; row += 1) {
+    for (let col = 0; col < 8; col += 1) {
+      const x = extent.x + col * cellW;
+      const y = extent.y + row * cellH;
+      const midX = x + cellW / 2;
+      const midY = y + cellH / 2;
+      const east = col / 7;
+      const southCorridor = Math.exp(-Math.pow((midY - 760) / 190, 2));
+      const panInfluence = Math.exp(-Math.pow((midX - 1800) / 620, 2) - Math.pow((midY - 400) / 250, 2));
+      const gateInfluence = Math.exp(-Math.pow((midX - 2700) / 330, 2)) + 0.7 * Math.exp(-Math.pow((midX - 1650) / 420, 2) - Math.pow((midY - 1040) / 210, 2));
+      const waterInfluence = Math.max(...waterholes.map(([wx, wy]) => Math.exp(-Math.pow((midX - wx) / 270, 2) - Math.pow((midY - wy) / 220, 2))));
+      const ecology = 0.52 * waterInfluence + 0.30 * panInfluence + 0.18 * (1 - row / 7);
+      const access = 0.45 * east + 0.30 * southCorridor + 0.25 * Math.min(1, gateInfluence);
+      const nearestCamp = Math.min(...Object.values(camps).map(([campX, campY]) => Math.hypot(midX - campX, midY - campY)));
+      const responseTime = Math.max(1.8, Math.min(6.3, 1.55 + nearestCamp / 360 + 0.75 * east));
+      const delay = (responseTime - 1.8) / 4.5;
+      const risk = 0.48 * ecology + 0.30 * access + 0.22 * delay;
+      const dominant = [["Ecology", ecology], ["Access", access], ["Delay", delay]].sort((left, right) => right[1] - left[1])[0][0];
+      cells0.push({ row, col, x, y, w: cellW, h: cellH, ecology, access, delay, responseTime, risk, dominant });
+    }
+  }
+  const sorted = [...cells0].sort((left, right) => right.risk - left.risk);
+  const cutoff = sorted[Math.floor(sorted.length * 0.25) - 1].risk;
+  cells0.forEach((cell) => {
+    cell.hot = cell.risk >= cutoff;
+  });
+  return cells0;
+}
+
+const cells = riskCellData();
+
+function cellRect(cell, fill, opacity = 1, stroke = palette.salt, strokeOpacity = 0.7, strokeWidth = 1.4) {
+  return `<rect x="${cx(cell.x)}" y="${cy(cell.y)}" width="${cell.w}" height="${cell.h}" fill="${fill}" fill-opacity="${opacity}" stroke="${stroke}" stroke-opacity="${strokeOpacity}" stroke-width="${strokeWidth}"/>`;
+}
+
+function meshOverlay(mode = "outline") {
+  let output = "";
+  cells.forEach((cell) => {
+    if (mode === "outline") {
+      output += cellRect(cell, "none", 1, "#efe9da", 1, 1.6);
+    } else if (mode === "risk") {
+      output += cellRect(cell, rampColor(riskStops, cell.risk), 0.66, palette.salt, 0.6, 1.2);
+    } else if (mode === "tier") {
+      const fill = cell.hot ? palette.rust : cell.risk > 0.48 ? palette.warn : "#d7e0de";
+      output += cellRect(cell, fill, cell.hot ? 0.54 : 0.38, palette.salt, 0.6, 1.2);
+    } else if (mode === "ecology") {
+      output += cellRect(cell, rampColor([{ t: 0, rgb: [228, 239, 221] }, { t: 1, rgb: [108, 139, 104] }], cell.ecology), 0.7, palette.salt, 0.55, 1.2);
+    } else if (mode === "access") {
+      output += cellRect(cell, rampColor([{ t: 0, rgb: [244, 235, 213] }, { t: 1, rgb: [191, 129, 72] }], cell.access), 0.7, palette.salt, 0.55, 1.2);
+    } else if (mode === "delay") {
+      output += cellRect(cell, rampColor([{ t: 0, rgb: [230, 228, 241] }, { t: 1, rgb: [118, 104, 150] }], cell.delay), 0.72, palette.salt, 0.55, 1.2);
+    } else if (mode === "response") {
+      const value = (cell.responseTime - 1.8) / 4.5;
+      output += cellRect(cell, rampColor(responseStops, value), 0.70, palette.salt, 0.55, 1.2);
+    }
+  });
+  output += `<rect x="${cx(extent.x)}" y="${cy(extent.y)}" width="${extent.w}" height="${extent.h}" fill="none" stroke="${palette.ink}" stroke-width="2.4"/>`;
+  return output;
+}
+
+function hotspotOutline() {
+  return cells.filter((cell) => cell.hot).map((cell) => `<rect x="${cx(cell.x) + 8}" y="${cy(cell.y) + 8}" width="${cell.w - 16}" height="${cell.h - 16}" rx="14" fill="none" stroke="#fff5d9" stroke-width="3.2" stroke-dasharray="9 8"/>`).join("");
+}
+
+function legendRamp(x, y, w, h, title, stops, labels, horizontal = false) {
+  const id = `legend_${x}_${y}_${w}_${h}`.replace(/[^\w]/g, "_");
+  const defs = horizontal
+    ? `<linearGradient id="${id}" x1="0" y1="0" x2="1" y2="0">${stops.map((stop) => `<stop offset="${stop.t * 100}%" stop-color="${rgbToString(stop.rgb)}"/>`).join("")}</linearGradient>`
+    : `<linearGradient id="${id}" x1="0" y1="1" x2="0" y2="0">${stops.map((stop) => `<stop offset="${stop.t * 100}%" stop-color="${rgbToString(stop.rgb)}"/>`).join("")}</linearGradient>`;
+  const body = horizontal
+    ? `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${h / 2}" fill="url(#${id})" stroke="${palette.line}" stroke-width="1.4"/><text x="${x}" y="${y - 16}" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" font-weight="700" fill="${palette.ink}">${esc(title)}</text>${labels.map((label, index) => `<text x="${x + (w * index) / (labels.length - 1)}" y="${y + h + 28}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="20" fill="${palette.ash}">${esc(label)}</text>`).join("")}`
+    : `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${w / 2}" fill="url(#${id})" stroke="${palette.line}" stroke-width="1.4"/><text x="${x - 2}" y="${y - 14}" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" font-weight="700" fill="${palette.ink}">${esc(title)}</text>${labels.map((label, index) => `<text x="${x + w + 18}" y="${y + h - (h * index) / (labels.length - 1) + 7}" font-family="Helvetica Neue, Arial, sans-serif" font-size="20" fill="${palette.ash}">${esc(label)}</text>`).join("")}`;
+  return { defs, body };
+}
+
+function axisFrame(x, y, w, h, xTicks, yTicks, xLabel, yLabel) {
+  let output = `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="26" fill="${palette.white}" stroke="${palette.line}" stroke-width="2" filter="url(#shadow)"/>`;
+  yTicks.forEach((tick) => {
+    const py = y + h - 80 - tick.pos * (h - 140);
+    output += `<line x1="${x + 96}" y1="${py}" x2="${x + w - 44}" y2="${py}" stroke="#d9dedf" stroke-width="1.7" stroke-dasharray="5 9"/><text x="${x + 78}" y="${py + 8}" text-anchor="end" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="${palette.ash}">${esc(tick.label)}</text>`;
+  });
+  xTicks.forEach((tick) => {
+    const px = x + 96 + tick.pos * (w - 140);
+    output += `<line x1="${px}" y1="${y + 50}" x2="${px}" y2="${y + h - 80}" stroke="#e2e5e6" stroke-width="1.5" stroke-dasharray="5 11"/><text x="${px}" y="${y + h - 26}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="${palette.ash}">${esc(tick.label)}</text>`;
+  });
+  output += `<line x1="${x + 96}" y1="${y + h - 80}" x2="${x + w - 44}" y2="${y + h - 80}" stroke="${palette.ink}" stroke-width="2.6"/><line x1="${x + 96}" y1="${y + 50}" x2="${x + 96}" y2="${y + h - 80}" stroke="${palette.ink}" stroke-width="2.6"/><text x="${x + w / 2}" y="${y + h - 2}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="27" font-weight="700" fill="${palette.ink}">${esc(xLabel)}</text><text x="${x + 22}" y="${y + h / 2}" transform="rotate(-90 ${x + 22} ${y + h / 2})" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="27" font-weight="700" fill="${palette.ink}">${esc(yLabel)}</text>`;
+  return output;
+}
+
+function miniMapPanel(id, x, y, w, h, title, accent, overlay, footnote) {
+  const clipId = `clip_${id}`;
+  const sceneX = 88;
+  const sceneY = 242;
+  const sceneW = 3024;
+  const sceneH = 1298;
+  const scale = Math.min((w - 36) / sceneW, (h - 104) / sceneH);
+  const tx = x + (w - sceneW * scale) / 2 - sceneX * scale;
+  const ty = y + 70 + (h - 104 - sceneH * scale) / 2 - sceneY * scale;
+  return `
+    <defs><clipPath id="${clipId}"><rect x="${x + 18}" y="${y + 62}" width="${w - 36}" height="${h - 114}" rx="18"/></clipPath></defs>
+    <rect x="${x}" y="${y}" width="${w}" height="${h}" rx="26" fill="${palette.white}" stroke="${palette.line}" stroke-width="2" filter="url(#shadow)"/>
+    <rect x="${x}" y="${y}" width="${w}" height="12" rx="26" fill="${accent}"/>
+    <text x="${x + 24}" y="${y + 48}" font-family="Helvetica Neue, Arial, sans-serif" font-size="30" font-weight="700" fill="${palette.ink}">${esc(title)}</text>
+    <g clip-path="url(#${clipId})" transform="translate(${tx} ${ty}) scale(${scale})">
+      ${mapField({ showNames: false, showCompass: false, showScale: false, showCorridorLabel: false })}
+      ${overlay}
+    </g>
+    <text x="${x + 24}" y="${y + h - 24}" font-family="Helvetica Neue, Arial, sans-serif" font-size="20" fill="${palette.ash}">${esc(footnote)}</text>
+  `;
+}
+
+function bezierConnector(x1, y1, x2, y2, width, color, opacity = 0.72) {
+  const cx1 = lerp(x1, x2, 0.38);
+  const cx2 = lerp(x1, x2, 0.68);
+  return `<path d="M ${x1} ${y1} C ${cx1} ${y1}, ${cx2} ${y2}, ${x2} ${y2}" fill="none" stroke="${color}" stroke-width="${width}" stroke-linecap="round" opacity="${opacity}"/>`;
 }
 
 function write(name, body, opts = {}) {
   const canvas = opts.canvas || { w: W, h: H };
-  const title = opts.title || titleMap[name] || name;
-  const subtitle = opts.subtitle || subtitleMap[name] || "";
+  const current = meta[name];
   const svg = `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${canvas.w} ${canvas.h}" width="${canvas.w}" height="${canvas.h}">
   <defs>
-    <linearGradient id="paperBg" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="${palette.paper}"/>
-      <stop offset="100%" stop-color="${palette.paperShade}"/>
-    </linearGradient>
-    <linearGradient id="headerRule" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="${palette.blue}"/>
-      <stop offset="35%" stop-color="${palette.green}"/>
-      <stop offset="68%" stop-color="${palette.amber}"/>
-      <stop offset="100%" stop-color="${palette.red}"/>
-    </linearGradient>
-    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#a6afb7" flood-opacity="0.20"/>
-    </filter>
-    <clipPath id="parkClip" clipPathUnits="userSpaceOnUse">
-      <path d="${pathFromPoints(shift(parkOutline), true)}"/>
-    </clipPath>
+    <linearGradient id="pageBg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${palette.paper}"/><stop offset="100%" stop-color="${palette.paperShade}"/></linearGradient>
+    <pattern id="paperGrain" width="18" height="18" patternUnits="userSpaceOnUse"><circle cx="4" cy="5" r="0.9" fill="#d8d0c0" opacity="0.28"/><circle cx="13" cy="8" r="0.7" fill="#cfc7b7" opacity="0.24"/><circle cx="9" cy="14" r="0.8" fill="#d8d0c0" opacity="0.22"/></pattern>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#8c948f" flood-opacity="0.18"/></filter>
   </defs>
-  <rect x="0" y="0" width="${canvas.w}" height="${canvas.h}" fill="url(#paperBg)"/>
-  <rect x="68" y="54" width="${canvas.w - 136}" height="144" rx="28" fill="${palette.white}" stroke="${palette.frame}" stroke-width="2" filter="url(#shadow)"/>
-  <rect x="98" y="86" width="${canvas.w - 196}" height="10" rx="5" fill="url(#headerRule)"/>
-  ${pill(canvas.w - 258, 104, figNo(name), palette.highlight)}
-  <text x="104" y="145" font-family="Helvetica Neue, Arial, sans-serif" font-size="56" font-weight="700" fill="${palette.ink}">${esc(title)}</text>
-  <text x="104" y="184" font-family="Helvetica Neue, Arial, sans-serif" font-size="28" fill="${palette.muted}">${esc(subtitle)}</text>
+  <rect x="0" y="0" width="${canvas.w}" height="${canvas.h}" fill="url(#pageBg)"/>
+  <rect x="0" y="0" width="${canvas.w}" height="${canvas.h}" fill="url(#paperGrain)" opacity="0.44"/>
+  <rect x="54" y="48" width="${canvas.w - 108}" height="162" rx="32" fill="${palette.salt}" stroke="${palette.line}" stroke-width="2.2" filter="url(#shadow)"/>
+  ${tagPill(92, 78, current.tag, current.accent, palette.salt, 248)}
+  ${tagPill(canvas.w - 286, 78, figNo(name), "#efe5cb", palette.ink, 174)}
+  <text x="92" y="152" font-family="Helvetica Neue, Arial, sans-serif" font-size="60" font-weight="700" fill="${palette.ink}">${esc(current.title)}</text>
+  <text x="92" y="189" font-family="Helvetica Neue, Arial, sans-serif" font-size="26" fill="${palette.ash}">${esc(current.subtitle)}</text>
+  ${headerRule(92, 98, canvas.w - 432, current.accent)}
   ${body}
 </svg>`;
   fs.writeFileSync(path.join(SRC, name.replace(".png", ".svg")), svg, "utf8");
 }
 
 function figure01() {
-  const canvas = { w: 3200, h: 2150 };
-  const layer = (y, fill, title, boxes, footer) => `
-    <rect x="220" y="${y}" width="2760" height="248" rx="28" fill="${fill}" stroke="${palette.frame}" stroke-width="2"/>
-    <text x="260" y="${y + 56}" font-family="Helvetica Neue, Arial, sans-serif" font-size="38" font-weight="700" fill="${palette.ink}">${esc(title)}</text>
-    ${boxes.map((box, i) => `
-      <rect x="${350 + i * 840}" y="${y + 82}" width="620" height="104" rx="18" fill="${palette.white}" stroke="${palette.frame}" stroke-width="2"/>
-      <text x="${660 + i * 840}" y="${y + 128}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="31" font-weight="700" fill="${palette.ink}">${esc(box[0])}</text>
-      <text x="${660 + i * 840}" y="${y + 168}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" fill="${palette.muted}">${esc(box[1])}</text>
-    `).join("")}
-    <text x="260" y="${y + 220}" font-family="Helvetica Neue, Arial, sans-serif" font-size="26" fill="${palette.muted}">${esc(footer)}</text>
-  `;
-
-  const body = `
-    <rect x="150" y="255" width="2900" height="1780" rx="32" fill="${palette.white}" stroke="${palette.frame}" stroke-width="2.4" filter="url(#shadow)"/>
-    ${layer(320, "#e8eef6", "Layer 1 · GIS Foundation", [["Atlas zoning", "vector park base + 8×8 command grid"], ["Feature engineering", "water, access, threat, travel proxies"], ["Uncertainty tags", "season drift and data confidence"]], "Output: harmonized planning cells with interpretable spatial attributes")}
-    ${layer(615, "#e6efe3", "Layer 2 · Spatial Risk Inference", [["Ecological value", "wildlife and water dependence"], ["Threat opportunity", "road-linked poaching exposure"], ["Delay penalty", "response feasibility by station"]], "Output: hotspot quartiles, dominant drivers, and map-based priority surfaces")}
-    ${layer(910, "#f3ead8", "Layer 3 · Allocation and Scheduling", [["Route library", "patrol loops from camps and roads"], ["Mixed assets", "fixed sensors + drone windows"], ["Feasibility screen", "hours, shifts, and revisit constraints"]], "Output: deployable patrol portfolio and command schedule")}
-    ${layer(1205, "#f0e4e1", "Layer 4 · Dynamic Evaluation", [["Monte Carlo pressure", "illegal entries over 30 days"], ["Detection and dispatch", "signal to interception chain"], ["Staffing floor", "safe operating threshold"]], "Output: PI trajectories, robustness bands, and minimum ranger requirement")}
-    ${layer(1500, "#ebe6f3", "Layer 5 · Transfer and Governance", [["Weekly command packet", "maps, routes, and exceptions"], ["Cross-park matrix", "portable core versus local retuning"], ["Review cycle", "feedback to the GIS prior layer"]], "Output: executable management package and transfer rules")}
-    <path d="M 1600 568 L 1600 610 M 1600 863 L 1600 905 M 1600 1158 L 1600 1200 M 1600 1453 L 1600 1495" stroke="${palette.ink}" stroke-width="6" stroke-linecap="round"/>
-    <path d="M 1600 605 L 1588 587 L 1612 587 Z M 1600 900 L 1588 882 L 1612 882 Z M 1600 1195 L 1588 1177 L 1612 1177 Z M 1600 1490 L 1588 1472 L 1612 1472 Z" fill="${palette.ink}"/>
-    <path d="M 2880 1620 C 2950 1620 3000 1380 3000 1110" fill="none" stroke="${palette.muted}" stroke-width="4" stroke-dasharray="14 12"/>
-    <path d="M 3000 1110 L 2980 1124 L 2986 1098 Z" fill="${palette.muted}"/>
-    <text x="3020" y="1380" transform="rotate(90 3020 1380)" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" fill="${palette.muted}">rolling feedback and recalibration</text>
-    ${card(232, 1788, 980, 170, "Style Shift", [
-      "Inspired by the old TikZ framework figure rather than a web dashboard",
-      "Layer colors, arrows, and outputs are now publication-oriented",
-    ], { fill: "#f8f6ef", bodySize: 24, titleSize: 30, lineGap: 34 })}
-    ${card(1320, 1788, 780, 170, "Decision Rule", [
-      "Protect decisive corridors, not the whole park uniformly",
-      "Keep GIS diagnosis, allocation, and simulation in one loop",
-    ], { fill: "#f8f6ef", bodySize: 24, titleSize: 30, lineGap: 34 })}
-    ${card(2140, 1788, 820, 170, "Deliverables", [
-      "hotspot atlas · route plan · staffing floor · transfer matrix",
-      "all tied back to the same command architecture",
-    ], { fill: "#f8f6ef", bodySize: 24, titleSize: 30, lineGap: 34 })}
-  `;
-  write("fig01_system_architecture.png", body, { canvas });
+  const steps = [
+    { x: 126, y: 390, w: 532, h: 238, color: palette.indigo, title: "1. GIS diagnosis", lines: ["Command mesh, access field, water dependence", "Outputs: interpretable planning cells and uncertainty tags"] },
+    { x: 710, y: 348, w: 532, h: 280, color: palette.sage, title: "2. Risk synthesis", lines: ["Ecology pull, threat opportunity, response delay", "Outputs: hotspot quartile, corridor thesis, target cells"] },
+    { x: 1294, y: 390, w: 532, h: 238, color: palette.gold, title: "3. Allocation logic", lines: ["Routes, sensors, UAV sorties, feasibility screens", "Outputs: weekly tasking package and reserve capacity"] },
+    { x: 1878, y: 348, w: 532, h: 280, color: palette.teal, title: "4. Dynamic check", lines: ["30-day illegal pressure, detection chain, dispatch lag", "Outputs: PI trajectory, robustness, staffing floor"] },
+    { x: 2462, y: 390, w: 532, h: 238, color: palette.plum, title: "5. Governance loop", lines: ["Review cycle, transfer rules, exceptions and updates", "Outputs: management packet for repeated deployment"] },
+  ];
+  let body = dossierBoard(58, 256, 3084, 1482);
+  body += `<path d="M 320 808 C 720 720, 1080 700, 1560 706 C 1950 710, 2320 712, 2860 808" fill="none" stroke="#d6ccbb" stroke-width="24" stroke-linecap="round"/>`;
+  steps.forEach((step, index) => {
+    body += `
+      <path d="M ${step.x + step.w} ${step.y + step.h / 2} C ${step.x + step.w + 28} ${step.y + step.h / 2}, ${step.x + step.w + 54} ${step.y + step.h / 2 - 4}, ${step.x + step.w + 76} ${step.y + step.h / 2}" fill="none" stroke="${index < steps.length - 1 ? "#cbbfa6" : "none"}" stroke-width="10" stroke-linecap="round"/>
+      ${index < steps.length - 1 ? `<path d="M ${step.x + step.w + 66} ${step.y + step.h / 2 - 12} L ${step.x + step.w + 90} ${step.y + step.h / 2} L ${step.x + step.w + 66} ${step.y + step.h / 2 + 12} Z" fill="#cbbfa6"/>` : ""}
+      <path d="M ${step.x + 18} ${step.y} H ${step.x + step.w - 40} L ${step.x + step.w} ${step.y + step.h / 2} L ${step.x + step.w - 40} ${step.y + step.h} H ${step.x + 18} Q ${step.x} ${step.y + step.h} ${step.x} ${step.y + step.h - 18} V ${step.y + 18} Q ${step.x} ${step.y} ${step.x + 18} ${step.y} Z" fill="${step.color}" fill-opacity="0.14" stroke="${step.color}" stroke-width="2.4"/>
+      <text x="${step.x + 26}" y="${step.y + 58}" font-family="Helvetica Neue, Arial, sans-serif" font-size="34" font-weight="700" fill="${palette.ink}">${esc(step.title)}</text>
+      <text x="${step.x + 26}" y="${step.y + 108}" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" fill="${palette.ash}">${esc(step.lines[0])}</text>
+      <text x="${step.x + 26}" y="${step.y + 144}" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" fill="${palette.ash}">${esc(step.lines[1])}</text>
+      <rect x="${step.x + 26}" y="${step.y + step.h - 62}" width="${step.w - 110}" height="34" rx="17" fill="${step.color}" opacity="0.18"/>
+      <text x="${step.x + 42}" y="${step.y + step.h - 39}" font-family="Helvetica Neue, Arial, sans-serif" font-size="20" font-weight="700" fill="${step.color}">${index === 0 ? "input discipline" : index === 1 ? "priority discipline" : index === 2 ? "feasibility discipline" : index === 3 ? "robustness discipline" : "review discipline"}</text>
+    `;
+  });
+  body += `<path d="M 2842 980 C 2980 1020, 3020 1170, 2910 1282 C 2790 1402, 2480 1460, 2120 1422" fill="none" stroke="${palette.rust}" stroke-width="5" stroke-dasharray="10 12"/><text x="2880" y="1264" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="${palette.rust}" transform="rotate(68 2880 1264)">feedback and weekly recalibration</text>`;
+  body += panel(140, 1080, 906, 228, "Non-negotiable design rules", [
+    "Protect decisive corridors first; do not distribute effort uniformly.",
+    "Accept only plans that satisfy staff time, travel lag, and asset capacity.",
+    "Let field telemetry update the next planning cycle rather than lock a static policy.",
+  ], { accent: palette.indigo, bodySize: 24, lineGap: 34 });
+  body += panel(1100, 1080, 864, 228, "Outputs sent to managers", [
+    "priority mesh",
+    "route package",
+    "command dial",
+    "staffing floor",
+    "transfer rules",
+  ], { accent: palette.gold, bodySize: 28, lineGap: 34 });
+  body += panel(2020, 1080, 980, 228, "Why this figure is bespoke to the paper", [
+    "The workflow mirrors the exact protection logic of this manuscript instead of citing a generic GIS or dashboard template.",
+    "Every stage emits a competition-facing deliverable and a field-facing management product.",
+  ], { accent: palette.plum, bodySize: 23, lineGap: 34 });
+  body += smallMetric(206, 1360, 440, "weekly packet", "7-day cycle", "maps and tasking", palette.indigo);
+  body += smallMetric(682, 1360, 440, "hotspot focus", "top quartile", "minimum revisit rule", palette.gold);
+  body += smallMetric(1158, 1360, 440, "resource lens", "mixed assets", "patrol + sensors + UAV", palette.teal);
+  body += smallMetric(1634, 1360, 440, "validation lens", "30 days", "Monte Carlo pressure", palette.rust);
+  body += smallMetric(2110, 1360, 440, "governance lens", "transferable", "local priors updated", palette.plum);
+  write("fig01_system_architecture.png", body);
 }
 
 function figure02() {
-  const body = `
-    ${parkBase()}
-    ${gridOverlay("outline")}
-    ${hotspotOutline()}
-    ${card(2360, 330, 630, 285, "Atlas Legend", [
-      "Blue points: waterholes anchoring dry-season wildlife concentration",
-      "Red-ring points: ranger camps and command anchors",
-      "Green gates: main access points into the park system",
-      "A–H × 1–8 grid: analytical planning cells for subsequent models",
-    ], { fill: "#fcfbf7", bodySize: 24, titleSize: 34, lineGap: 34 })}
-    ${card(2360, 1230, 630, 220, "Grid Design", [
-      "64 planning zones · corridor-aware resolution",
-      "Map style changed to a vector atlas derived from official geometry",
-      "Purpose: cleaner analytical reading before model overlays",
-    ], { fill: "#fcfbf7", bodySize: 24, titleSize: 34, lineGap: 34 })}
-  `;
+  const meshLegend = legendRamp(2480, 470, 260, 30, "priority reference", riskStops, ["low", "mid", "high"], true);
+  let body = dossierBoard(58, 256, 3084, 1482);
+  body += meshLegend.defs;
+  body += mapField({ showGridLabels: true, showNames: true, showCompass: true, showScale: true, showCorridorLabel: true });
+  body += meshOverlay("outline");
+  body += hotspotOutline();
+  body += `<path d="M ${cx(250)} ${cy(920)} C ${cx(980)} ${cy(860)} ${cx(1780)} ${cy(832)} ${cx(2770)} ${cy(610)}" fill="none" stroke="${palette.rust}" stroke-width="6" stroke-dasharray="18 10"/><text x="${cx(940)}" y="${cy(860)}" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" font-weight="700" fill="${palette.rust}">command corridor thesis</text>`;
+  body += panel(136, 312, 578, 244, "Mesh design choices", [
+    "64 cells are coarse enough for a management packet and fine enough for the east-south risk corridor.",
+    "Camps, gates, and waterholes are all visible on the same planning surface.",
+    "The figure emphasizes command anchors rather than decorative terrain.",
+  ], { accent: palette.sage, bodySize: 23, lineGap: 33 });
+  body += panel(2304, 1138, 734, 248, "How this map is used later", [
+    "Risk scoring reads from the same cells.",
+    "Allocation routes start from the same camps.",
+    "Simulation response lag is computed on the same operational geometry.",
+  ], { accent: palette.indigo, bodySize: 23, lineGap: 34 });
+  body += meshLegend.body;
+  body += tagPill(2360, 312, "A-H x 1-8 mesh", "#efe7cf", palette.ink, 226);
+  body += tagPill(2360, 362, "hot quartile outlined", "#f2e0d7", palette.ink, 286);
   write("fig02_etosha_grid.png", body);
 }
 
 function figure03() {
-  const riskLegend = legendGradient(2580, 386, 380, "Risk score", riskStops, ["High", "", "", "", "Low"]);
-  const body = `
-    ${riskLegend.defs}
-    ${parkBase()}
-    ${gridOverlay("risk")}
-    ${hotspotOutline()}
-    ${card(2360, 330, 630, 230, "Risk Reading", [
-      "Muted heat colors replace the previous bright dashboard palette",
-      "Highest-risk cluster remains on the eastern–southern corridor",
-      "Map base stays visible, so geography is readable under the model",
-    ], { fill: "#fcfbf7", bodySize: 24, titleSize: 34, lineGap: 34 })}
-    ${card(2360, 1110, 630, 250, "Top Quartile", [
-      "57% of biological value lies in 25% of area",
-      "Access + water + delay create the decisive corridor",
-      "Western interior remains lower intensity under the baseline prior",
-    ], { fill: "#fcfbf7", bodySize: 24, titleSize: 34, lineGap: 34 })}
-    ${riskLegend.body}
-  `;
+  const riskLegend = legendRamp(2706, 458, 34, 300, "risk score", riskStops, ["low", "", "high"], false);
+  const transectX = [0, 1, 2, 3, 4, 5];
+  const transectY = [0.38, 0.47, 0.59, 0.67, 0.74, 0.78];
+  const tx = (value) => 400 + value * 320;
+  const ty = (value) => 1430 - value * 240;
+  let body = dossierBoard(58, 256, 3084, 1482);
+  body += riskLegend.defs;
+  body += mapField({ showGridLabels: false, showNames: true, showCompass: true, showScale: true, showCorridorLabel: false });
+  body += meshOverlay("risk");
+  body += hotspotOutline();
+  body += `<path d="M ${cx(260)} ${cy(890)} C ${cx(940)} ${cy(820)} ${cx(1640)} ${cy(786)} ${cx(2740)} ${cy(548)}" fill="none" stroke="${palette.rust}" stroke-width="8" stroke-linecap="round"/><circle cx="${cx(272)}" cy="${cy(890)}" r="9" fill="${palette.rust}"/><circle cx="${cx(2740)}" cy="${cy(548)}" r="9" fill="${palette.rust}"/><text x="${cx(290)}" y="${cy(870)}" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" font-weight="700" fill="${palette.rust}">transect A</text><text x="${cx(2690)}" y="${cy(530)}" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" font-weight="700" fill="${palette.rust}">A'</text>`;
+  body += panel(2344, 322, 640, 206, "What the map is saying", [
+    "Risk is not diffuse.",
+    "It condenses into an east-south ridge where water, access, and lag overlap.",
+    "The ridge justifies concentrated patrol recurrence.",
+  ], { accent: palette.rust, bodySize: 24, lineGap: 34 });
+  body += panel(190, 1198, 1960, 268, "Corridor transect A-A'", [
+    "The lower strip translates the map into a west-to-east risk climb so the hotspot claim is not read only as color.",
+  ], { accent: palette.gold, bodySize: 22 });
+  body += `<line x1="360" y1="1430" x2="2050" y2="1430" stroke="${palette.ink}" stroke-width="2.6"/><line x1="360" y1="1188" x2="360" y2="1430" stroke="${palette.ink}" stroke-width="2.6"/>${[0.4, 0.6, 0.8].map((value) => `<text x="332" y="${ty(value) + 8}" text-anchor="end" font-family="Helvetica Neue, Arial, sans-serif" font-size="20" fill="${palette.ash}">${value.toFixed(1)}</text><line x1="360" y1="${ty(value)}" x2="2050" y2="${ty(value)}" stroke="#ddd9cf" stroke-width="1.5" stroke-dasharray="5 9"/>`).join("")}${["west gate","Olifantsrus","Okaukuejo","Halali","Namutoni","east gate"].map((label, index) => `<text x="${tx(index)}" y="1464" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="21" fill="${palette.ash}">${label}</text>`).join("")}<path d="${linePath(transectX.map((value, index) => [tx(value), ty(transectY[index])]))}" fill="none" stroke="${palette.rust}" stroke-width="7" stroke-linecap="round"/>${transectX.map((value, index) => `<circle cx="${tx(value)}" cy="${ty(transectY[index])}" r="8" fill="${palette.rust}" stroke="${palette.salt}" stroke-width="3"/>`).join("")}<text x="368" y="1170" font-family="Helvetica Neue, Arial, sans-serif" font-size="21" font-weight="700" fill="${palette.ink}">risk score along the corridor</text>`;
+  body += riskLegend.body;
   write("fig03_risk_heatmap.png", body);
 }
 
 function figure04() {
-  const body = `
-    ${parkBase()}
-    ${gridOverlay("dominant")}
-    ${hotspotOutline()}
-    ${card(225, 1310, 780, 168, "Ecological concentration", [
-      "Green cells are driven mainly by wildlife value and water dependence",
-      "These cells require persistent attention even when access is modest",
-    ], { fill: "#f7fbf3", bodySize: 24, titleSize: 32, lineGap: 34, stroke: "#d7e2d2" })}
-    ${card(1120, 1310, 780, 168, "Access opportunity", [
-      "Amber cells are shaped most by roads, gates, and easy approach paths",
-      "These corridors carry the strongest displacement and deterrence logic",
-    ], { fill: "#fbf6ef", bodySize: 24, titleSize: 32, lineGap: 34, stroke: "#e4d8c2" })}
-    ${card(2015, 1310, 780, 168, "Response delay", [
-      "Purple cells reflect slower interception from current station geometry",
-      "Delay matters most in the eastern pocket where travel distances compound risk",
-    ], { fill: "#f6f3fb", bodySize: 24, titleSize: 32, lineGap: 34, stroke: "#dbd3ea" })}
-    ${pill(310, 1220, "Ecology", "#dce7d5")}
-    ${pill(1205, 1220, "Access", "#e7d2b3")}
-    ${pill(2100, 1220, "Delay", "#ded7ee")}
-  `;
+  let body = dossierBoard(58, 256, 3084, 1482);
+  body += miniMapPanel("eco", 122, 338, 930, 974, "Ecology pull", palette.sage, meshOverlay("ecology"), "Water dependence and biological concentration dominate the center-east band.");
+  body += miniMapPanel("acc", 1135, 338, 930, 974, "Access pressure", palette.gold, meshOverlay("access"), "Road-linked opportunity thickens the same corridor from the south and east.");
+  body += miniMapPanel("del", 2148, 338, 930, 974, "Delay penalty", palette.plum, meshOverlay("delay"), "Travel lag is most severe in the eastern pocket where interception is slower.");
+  body += panel(132, 1348, 924, 210, "Weight structure in the composite score", [
+    "Ecology 0.48",
+    "Access 0.30",
+    "Delay 0.22",
+  ], { accent: palette.rust, bodySize: 27, lineGap: 34 });
+  body += panel(1128, 1348, 950, 210, "Why these three maps are paired", [
+    "The hotspot is not attributed to one cause only.",
+    "The corridor persists because all three forces point to the same cells.",
+  ], { accent: palette.indigo, bodySize: 24, lineGap: 34 });
+  body += panel(2150, 1348, 912, 210, "Managerial reading", [
+    "Cells where all three components align deserve repeated patrols, not one-time sweeps.",
+    "This triptych explains the later route and sensor choices.",
+  ], { accent: palette.teal, bodySize: 24, lineGap: 34 });
   write("fig04_risk_decomposition.png", body);
 }
 
 function figure05() {
-  const body = `
-    ${parkBase()}
-    ${route(routeFamilies.EastLoop, palette.route, 14)}
-    ${route(routeFamilies.SouthLoop, palette.route2, 12)}
-    ${route(routeFamilies.WestLoop, palette.route3, 11, "22 12")}
-    ${route(routeFamilies.PanArc, palette.purple, 10)}
-    ${route(routeFamilies.RapidResponse, palette.red, 10, "16 10")}
-    ${card(2325, 330, 670, 345, "Route Portfolio", [
-      "East Loop: repeated coverage of the highest-risk corridor",
-      "South Loop: reconnects camps with the main waterhole chain",
-      "West Loop: low-frequency deterrence and gate linkage",
-      "Rapid Response: direct corridor for dispatch reinforcement",
-    ], { fill: "#fcfbf7", bodySize: 24, titleSize: 34, lineGap: 38 })}
-    ${plotLegend(2395, 740, [
-      { color: palette.route, label: "East Loop" },
-      { color: palette.route2, label: "South Loop" },
-      { color: palette.route3, label: "West Loop" },
-      { color: palette.purple, label: "Pan Arc" },
-      { color: palette.red, label: "Rapid Response" },
-    ])}
-    ${card(2325, 1108, 670, 250, "Style Change", [
-      "Routes are no longer embedded in a dashboard card layout",
-      "The map now reads like an atlas plate with a route legend",
-      "This is closer to the old manuscript’s diagram language",
-    ], { fill: "#fcfbf7", bodySize: 24, titleSize: 34, lineGap: 34 })}
-  `;
+  let body = dossierBoard(58, 256, 3084, 1482);
+  body += mapField({ showGridLabels: false, showNames: true, showCompass: true, showScale: true, showCorridorLabel: false });
+  body += route(routeFamilies.EastLoop, palette.indigo, 14);
+  body += route(routeFamilies.SouthLoop, palette.clay, 12);
+  body += route(routeFamilies.WestLoop, palette.sage, 11, "18 12");
+  body += route(routeFamilies.PanArc, palette.plum, 10);
+  body += route(routeFamilies.RapidResponse, palette.rust, 10, "12 10");
+  body += `<text x="${cx(1780)}" y="${cy(804)}" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" font-weight="700" fill="${palette.indigo}">east loop</text><text x="${cx(990)}" y="${cy(650)}" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" font-weight="700" fill="${palette.clay}">south loop</text><text x="${cx(270)}" y="${cy(845)}" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" font-weight="700" fill="${palette.sage}">west loop</text><text x="${cx(2310)}" y="${cy(722)}" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" font-weight="700" fill="${palette.rust}">rapid response</text>`;
+  body += panel(128, 1206, 2920, 278, "Cadence ledger", [
+    "East Loop - high-frequency route, 7 patrol blocks/week, locks onto the hotspot ridge.",
+    "South Loop - 5 patrol blocks/week, binds camps to the waterhole chain.",
+    "West Loop - 2 patrol blocks/week, deterrence and gate linkage.",
+    "Pan Arc - selective pass-through coverage where visibility is high but extraction risk is lower.",
+    "Rapid Response - dispatch corridor used when the eastern pocket requires reinforcement.",
+  ], { accent: palette.indigo, bodySize: 23, lineGap: 42 });
   write("fig05_patrol_routes.png", body);
 }
-
 function figure06() {
-  const tierBars = [
-    ["Eastern corridor patrol hours", 0.49, palette.blue],
-    ["Southern-central patrol hours", 0.31, palette.green],
-    ["West+north reserve hours", 0.20, palette.amber],
+  const insetScale = 0.32;
+  const sceneX = 88;
+  const sceneY = 242;
+  let body = dossierBoard(58, 256, 3084, 1482);
+  body += panel(126, 328, 500, 176, "Asset pool", [
+    "34 field rangers",
+    "12 fixed devices",
+    "4 UAV sorties",
+  ], { accent: palette.indigo, bodySize: 30, lineGap: 34 });
+  body += smallMetric(126, 560, 450, "patrol-hours", "100%", "time budget", palette.indigo);
+  body += smallMetric(126, 700, 450, "device stock", "12", "persistent monitors", palette.teal);
+  body += smallMetric(126, 840, 450, "UAV stock", "4", "mobile sweeps", palette.gold);
+  const sectors = [
+    { x: 1170, y: 468, title: "Eastern sector", accent: palette.indigo, pct: "49%", note: "primary hotspot shield" },
+    { x: 1170, y: 726, title: "South-central corridor", accent: palette.clay, pct: "31%", note: "link corridor control" },
+    { x: 1170, y: 984, title: "West and north reserve", accent: palette.sage, pct: "20%", note: "deterrence and fallback" },
   ];
-  let bars = "";
-  tierBars.forEach(([label, value, color], i) => {
-    const y = 510 + i * 95;
-    bars += `<text x="2240" y="${y - 12}" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" fill="${palette.ink}">${esc(label)}</text>
-      <rect x="2240" y="${y}" width="620" height="24" rx="12" fill="#edf1f4"/>
-      <rect x="2240" y="${y}" width="${620 * value}" height="24" rx="12" fill="${color}"/>
-      <text x="2880" y="${y + 20}" text-anchor="end" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" font-weight="700" fill="${palette.ink}">${Math.round(value * 100)}%</text>`;
+  sectors.forEach((sector) => {
+    body += `<rect x="${sector.x}" y="${sector.y}" width="520" height="172" rx="28" fill="${palette.white}" stroke="${palette.line}" stroke-width="2" filter="url(#shadow)"/><rect x="${sector.x}" y="${sector.y}" width="520" height="12" rx="28" fill="${sector.accent}"/><text x="${sector.x + 26}" y="${sector.y + 58}" font-family="Helvetica Neue, Arial, sans-serif" font-size="34" font-weight="700" fill="${palette.ink}">${esc(sector.title)}</text><text x="${sector.x + 26}" y="${sector.y + 104}" font-family="Helvetica Neue, Arial, sans-serif" font-size="52" font-weight="700" fill="${sector.accent}">${esc(sector.pct)}</text><text x="${sector.x + 192}" y="${sector.y + 104}" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" fill="${palette.ash}">${esc(sector.note)}</text>`;
   });
-
-  const body = `
-    ${parkBase()}
-    ${gridOverlay("tier")}
-    ${hotspotOutline()}
-    ${card(2200, 330, 760, 130, "Allocation Logic", [
-      "Map cells are shaded by final field attention tier after optimization",
-    ], { fill: "#fcfbf7", bodySize: 24, titleSize: 34 })}
-    ${card(2200, 470, 760, 345, "Patrol-hour split", [], { fill: "#fcfbf7", titleSize: 34 })}
-    ${bars}
-    ${card(2200, 850, 760, 220, "Monitoring mix", [
-      "Fixed devices: 8 high-risk, 3 medium-risk, 1 reserve",
-      "Drone sorties: 2 east, 1 south-central, 1 adaptive reserve",
-      "Reserve hours retained for weather and incident shocks",
-    ], { fill: "#fcfbf7", bodySize: 24, titleSize: 34, lineGap: 34 })}
-    ${card(2200, 1095, 760, 230, "Managerial reading", [
-      "Eastern patrol weight, hotspot devices, and reserve hours stay visible together",
-      "The panel ties numerical balance back to the same spatial plan",
-    ], { fill: "#fcfbf7", bodySize: 24, titleSize: 34, lineGap: 34 })}
-  `;
+  body += bezierConnector(576, 618, 1170, 556, 24, palette.indigo, 0.7);
+  body += bezierConnector(576, 618, 1170, 814, 16, palette.indigo, 0.48);
+  body += bezierConnector(576, 618, 1170, 1072, 11, palette.indigo, 0.35);
+  body += bezierConnector(576, 758, 1170, 564, 14, palette.teal, 0.62);
+  body += bezierConnector(576, 758, 1170, 822, 9, palette.teal, 0.52);
+  body += bezierConnector(576, 898, 1170, 572, 12, palette.gold, 0.58);
+  body += bezierConnector(576, 898, 1170, 830, 10, palette.gold, 0.46);
+  body += bezierConnector(576, 898, 1170, 1080, 7, palette.gold, 0.32);
+  body += panel(770, 1266, 980, 192, "Read this figure as a ledger, not a dashboard", [
+    "The widths of the connectors encode how much of each asset family is committed to each sector.",
+    "This makes the sector plan unique to the model rather than a decorative summary card.",
+  ], { accent: palette.clay, bodySize: 24, lineGap: 34 });
+  body += panel(1788, 1228, 1230, 230, "Inset map of final field attention", [
+    "The inset shows the same corridor logic in spatial form so the ledger stays tied to geography.",
+  ], { accent: palette.sage, bodySize: 24 });
+  body += `<g transform="translate(${2060 - sceneX * insetScale} ${320 - sceneY * insetScale}) scale(${insetScale})">${mapField({ showNames: false, showCompass: false, showScale: false, showCorridorLabel: false })}${meshOverlay("tier")}${hotspotOutline()}</g>`;
   write("fig06_allocation_dashboard.png", body);
 }
 
 function figure07() {
-  const x0 = 240;
-  const y0 = 350;
-  const w = 2700;
-  const h = 1120;
-  const lanes = [
-    ["East corridor patrol", palette.blue, [[0, 3.5], [7, 10.5], [15, 19.5]]],
-    ["South corridor patrol", palette.green, [[4, 7.5], [12, 15.5], [20, 23]]],
-    ["Rapid response reserve", palette.red, [[0, 24]]],
-    ["Drone windows", palette.amber, [[6, 8], [16, 18]]],
-    ["Control-room sync", palette.purple, [[5.5, 6], [13.5, 14], [21.5, 22]]],
-  ];
-  const laneH = 150;
-  const px = (hr) => x0 + 170 + (hr / 24) * (w - 260);
-  let grid = `<rect x="${x0}" y="${y0}" width="${w}" height="${h}" rx="24" fill="${palette.white}" stroke="${palette.frame}" stroke-width="2.4" filter="url(#shadow)"/>`;
-  for (let hr = 0; hr <= 24; hr += 2) {
-    const x = px(hr);
-    grid += `<line x1="${x}" y1="${y0 + 110}" x2="${x}" y2="${y0 + h - 80}" stroke="${palette.grid}" stroke-width="2" stroke-dasharray="6 12"/>
-      <text x="${x}" y="${y0 + 72}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="26" fill="${palette.muted}">${String(hr).padStart(2, "0")}:00</text>`;
-  }
-  const bodyBars = lanes.map((lane, i) => {
-    const y = y0 + 135 + i * 185;
-    let out = `<text x="${x0 + 34}" y="${y + 48}" font-family="Helvetica Neue, Arial, sans-serif" font-size="28" font-weight="700" fill="${palette.ink}">${esc(lane[0])}</text>
-      <rect x="${x0 + 300}" y="${y}" width="${w - 390}" height="${laneH}" rx="22" fill="#f4f6f7"/>`;
-    lane[2].forEach(([a, b]) => {
-      out += `<rect x="${px(a)}" y="${y + 20}" width="${px(b) - px(a)}" height="${laneH - 40}" rx="18" fill="${lane[1]}" opacity="${lane[0] === "Rapid response reserve" ? 0.28 : 0.86}"/>`;
-    });
-    return out;
-  }).join("");
-  const notes = card(2280, 1510, 690, 170, "Schedule Rationale", [
-    "Patrol waves are staggered to preserve detection continuity",
-    "Reserve time is explicit instead of hidden in staffing averages",
-  ], { fill: "#fcfbf7", bodySize: 24, titleSize: 34, lineGap: 34 });
-  write("fig07_schedule_timeline.png", `${grid}${bodyBars}${notes}`);
+  const centerX = 1210;
+  const centerY = 970;
+  const outer = 450;
+  const body = `
+    ${dossierBoard(58, 256, 3084, 1482)}
+    <circle cx="${centerX}" cy="${centerY}" r="${outer + 56}" fill="#f8f3ea" stroke="${palette.line}" stroke-width="2" filter="url(#shadow)"/>
+    <circle cx="${centerX}" cy="${centerY}" r="${outer}" fill="${palette.white}" stroke="${palette.line}" stroke-width="2"/>
+    <path d="${arcBand(centerX, centerY, 330, 430, 5, 82)}" fill="${palette.indigo}" fill-opacity="0.78"/>
+    <path d="${arcBand(centerX, centerY, 330, 430, 108, 180)}" fill="${palette.clay}" fill-opacity="0.78"/>
+    <path d="${arcBand(centerX, centerY, 330, 430, 206, 290)}" fill="${palette.sage}" fill-opacity="0.78"/>
+    <path d="${arcBand(centerX, centerY, 220, 304, 0, 360)}" fill="${palette.teal}" fill-opacity="0.18"/>
+    <path d="${arcBand(centerX, centerY, 142, 210, 44, 72)}" fill="${palette.gold}" fill-opacity="0.82"/>
+    <path d="${arcBand(centerX, centerY, 142, 210, 226, 254)}" fill="${palette.gold}" fill-opacity="0.82"/>
+    <path d="${arcBand(centerX, centerY, 66, 128, 300, 348)}" fill="${palette.rust}" fill-opacity="0.22"/>
+    ${Array.from({ length: 24 }, (_, hour) => {
+      const angle = (hour / 24) * 360;
+      const [x1, y1] = polar(centerX, centerY, outer - 14, angle);
+      const [x2, y2] = polar(centerX, centerY, outer + 20, angle);
+      const [xt, yt] = polar(centerX, centerY, outer + 50, angle);
+      return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${hour % 6 === 0 ? palette.ink : "#bfc5c6"}" stroke-width="${hour % 6 === 0 ? 3.2 : 1.4}"/>${hour % 3 === 0 ? `<text x="${xt}" y="${yt + 7}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" fill="${palette.ash}">${hour}:00</text>` : ""}`;
+    }).join("")}
+    <text x="${centerX}" y="${centerY - 12}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="40" font-weight="700" fill="${palette.ink}">daily command cycle</text>
+    <text x="${centerX}" y="${centerY + 28}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" fill="${palette.ash}">outer ring patrol waves - middle ring sensors - inner gold drone windows</text>
+    ${panel(2020, 390, 930, 282, "Cycle logic", [
+      "05:00-08:00 east loop deployment",
+      "09:00-11:00 sensor watch and report review",
+      "11:00-13:00 first UAV window",
+      "14:00-18:00 south and west patrol rotation",
+      "19:00-21:00 second UAV window and exception handling",
+      "late hours kept as reserve or rapid response",
+    ], { accent: palette.teal, bodySize: 24, lineGap: 34 })}
+    ${panel(2020, 736, 930, 222, "Why a dial instead of a line", [
+      "This figure emphasizes recurrence and overlap across the full day, which is the operational issue the simulation cares about.",
+      "A straight timeline hides how patrol waves and drone windows wrap into the next day.",
+    ], { accent: palette.gold, bodySize: 24, lineGap: 34 })}
+    ${tagPill(2060, 1030, "patrol waves", "#dee8f0", palette.ink, 188)}
+    ${tagPill(2268, 1030, "sensor watch", "#dfe9df", palette.ink, 194)}
+    ${tagPill(2484, 1030, "UAV windows", "#efe3c5", palette.ink, 196)}
+    ${tagPill(2704, 1030, "reserve", "#f0dfdb", palette.ink, 154)}
+  `;
+  write("fig07_schedule_timeline.png", body);
 }
 
 function figure08() {
-  const x = 180;
-  const y = 330;
-  const w = 2860;
-  const h = 1180;
-  const xs = Array.from({ length: 30 }, (_, i) => i + 1);
-  const optimized = xs.map((d) => 0.58 + 0.18 * (1 - Math.exp(-d / 5.3)));
-  const optimizedUpper = optimized.map((v) => Math.min(0.83, v + 0.026));
-  const optimizedLower = optimized.map((v) => Math.max(0.54, v - 0.026));
-  const uniform = xs.map((d) => 0.55 + 0.08 * (1 - Math.exp(-d / 8.2)));
-  const uniformUpper = uniform.map((v) => v + 0.018);
-  const uniformLower = uniform.map((v) => v - 0.018);
-  const sx = (d) => x + 100 + ((d - 1) / 29) * (w - 160);
-  const sy = (v) => y + h - 90 - ((v - 0.50) / 0.35) * (h - 190);
-  const axis = axisBox(x, y, w, h,
-    [1, 5, 10, 15, 20, 25, 30].map((d) => ({ pos: (d - 1) / 29, label: String(d) })),
-    [0.50, 0.60, 0.70, 0.80].map((v) => ({ pos: (v - 0.50) / 0.35, label: v.toFixed(2) })),
-    "Simulation day",
-    "Protection index"
+  const days = Array.from({ length: 30 }, (_, index) => index + 1);
+  const optimized = days.map((day) => 0.60 + 0.145 * (1 - Math.exp(-day / 6.4)));
+  const uniform = days.map((day) => 0.57 + 0.065 * (1 - Math.exp(-day / 9.5)));
+  const optimizedUpper = optimized.map((value) => value + 0.025);
+  const optimizedLower = optimized.map((value) => value - 0.02);
+  const uniformUpper = uniform.map((value) => value + 0.015);
+  const uniformLower = uniform.map((value) => value - 0.015);
+  const x = 150;
+  const y = 344;
+  const w = 2230;
+  const h = 1120;
+  const sx = (day) => x + 96 + ((day - 1) / 29) * (w - 140);
+  const sy = (value) => y + h - 80 - ((value - 0.52) / 0.33) * (h - 140);
+  let body = dossierBoard(58, 256, 3084, 1482);
+  body += axisFrame(
+    x, y, w, h,
+    [1, 7, 14, 21, 30].map((day) => ({ pos: (day - 1) / 29, label: `day ${day}` })),
+    [0.55, 0.60, 0.65, 0.70, 0.75, 0.80].map((value) => ({ pos: (value - 0.52) / 0.33, label: value.toFixed(2) })),
+    "simulation day",
+    "protection index"
   );
-  const body = `
-    ${axis}
-    <path d="${bandPath(xs, optimizedUpper, optimizedLower, sx, sy)}" fill="${palette.blue}" opacity="0.16"/>
-    <path d="${bandPath(xs, uniformUpper, uniformLower, sx, sy)}" fill="${palette.amber}" opacity="0.16"/>
-    <path d="${linePath(xs.map((d, i) => [sx(d), sy(optimized[i])]))}" fill="none" stroke="${palette.blue}" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="${linePath(xs.map((d, i) => [sx(d), sy(uniform[i])]))}" fill="none" stroke="${palette.amber}" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
-    <line x1="${sx(1)}" y1="${sy(0.75)}" x2="${sx(30)}" y2="${sy(0.75)}" stroke="${palette.red}" stroke-width="4" stroke-dasharray="14 12"/>
-    <text x="${sx(24)}" y="${sy(0.75) - 18}" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" font-weight="700" fill="${palette.red}">command target = 0.75</text>
-    ${plotLegend(2220, 470, [
-      { color: palette.blue, label: "Optimized package" },
-      { color: palette.amber, label: "Uniform deployment" },
-    ])}
-    ${card(2170, 350, 710, 100, "Reading", [
-      "Bands show uncertainty envelopes, not just mean paths",
-    ], { fill: "#fcfbf7", bodySize: 24, titleSize: 34 })}
-  `;
+  body += `<rect x="${x + 96}" y="${sy(0.75)}" width="${w - 140}" height="${sy(0.73) - sy(0.75)}" fill="${palette.warn}" opacity="0.18"/><line x1="${x + 96}" y1="${sy(0.75)}" x2="${x + w - 44}" y2="${sy(0.75)}" stroke="${palette.rust}" stroke-width="3" stroke-dasharray="10 10"/><path d="${bandPath(days, optimizedUpper, optimizedLower, sx, sy)}" fill="${palette.indigo}" opacity="0.16"/><path d="${bandPath(days, uniformUpper, uniformLower, sx, sy)}" fill="${palette.gold}" opacity="0.18"/><path d="${linePath(days.map((day, index) => [sx(day), sy(optimized[index])]))}" fill="none" stroke="${palette.indigo}" stroke-width="8" stroke-linecap="round"/><path d="${linePath(days.map((day, index) => [sx(day), sy(uniform[index])]))}" fill="none" stroke="${palette.clay}" stroke-width="7" stroke-linecap="round"/>${[7, 15, 30].map((day) => {
+    const px = sx(day);
+    const py = sy(optimized[day - 1]);
+    return `<line x1="${px}" y1="${py}" x2="${px}" y2="${py - 80}" stroke="${palette.ash}" stroke-width="2"/><rect x="${px - 44}" y="${py - 132}" width="88" height="34" rx="17" fill="${palette.salt}" stroke="${palette.line}" stroke-width="1.2"/><text x="${px}" y="${py - 108}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700" fill="${palette.ink}">day ${day}</text>`;
+  }).join("")}<text x="${sx(18)}" y="${sy(0.75) - 12}" font-family="Helvetica Neue, Arial, sans-serif" font-size="20" font-weight="700" fill="${palette.rust}">command target = 0.75</text>`;
+  body += panel(2450, 396, 546, 260, "Reading the trajectory", [
+    "The optimized plan clears the command target after the first week.",
+    "The uniform plan improves slightly but never enters the target band.",
+    "The shaded envelopes show that the gap persists under stochastic noise.",
+  ], { accent: palette.indigo, bodySize: 23, lineGap: 34 });
+  body += panel(2450, 712, 546, 202, "Milestones", [
+    "day 7 - target crossed",
+    "day 15 - gains stabilize",
+    "day 30 - plateau maintained",
+  ], { accent: palette.gold, bodySize: 24, lineGap: 34 });
+  body += tagPill(2470, 1000, "optimized package", "#dce5ef", palette.ink, 238);
+  body += tagPill(2720, 1000, "uniform deployment", "#efe1c9", palette.ink, 242);
   write("fig08_simulation_results.png", body);
 }
 
 function figure09() {
-  const x = 180;
-  const y = 330;
-  const w = 2860;
-  const h = 1140;
-  const xs = Array.from({ length: 140 }, (_, i) => 0.48 + i * 0.003);
-  const gaussian = (xv, m, s, a) => a * Math.exp(-Math.pow(xv - m, 2) / (2 * s * s));
-  const optimized = xs.map((v) => gaussian(v, 0.742, 0.030, 4.2) + gaussian(v, 0.695, 0.020, 0.9));
-  const uniform = xs.map((v) => gaussian(v, 0.626, 0.036, 3.5) + gaussian(v, 0.692, 0.024, 0.7));
-  const reduced = xs.map((v) => gaussian(v, 0.583, 0.032, 2.8) + gaussian(v, 0.645, 0.022, 0.8));
-  const yMax = Math.max(...optimized) * 1.15;
-  const sx = (v) => x + 100 + ((v - 0.48) / 0.42) * (w - 160);
-  const sy = (v) => y + h - 90 - (v / yMax) * (h - 170);
-  const axis = axisBox(x, y, w, h,
-    [0.50, 0.60, 0.70, 0.80, 0.90].map((v) => ({ pos: (v - 0.48) / 0.42, label: v.toFixed(2) })),
-    [0, yMax * 0.25, yMax * 0.50, yMax * 0.75, yMax].map((v) => ({ pos: v / yMax, label: v === 0 ? "0" : v.toFixed(1) })),
-    "Protection index",
-    "Density"
-  );
-  const area = (ys, color) => `
-    <path d="M ${sx(xs[0])} ${sy(0)} ${ys.map((v, i) => `L ${sx(xs[i])} ${sy(v)}`).join(" ")} L ${sx(xs[xs.length - 1])} ${sy(0)} Z" fill="${color}" opacity="0.16"/>
-    <path d="${linePath(xs.map((v, i) => [sx(v), sy(ys[i])]))}" fill="none" stroke="${color}" stroke-width="8" stroke-linecap="round"/>`;
-  const body = `
-    ${axis}
-    ${area(optimized, palette.blue)}
-    ${area(uniform, palette.amber)}
-    ${area(reduced, palette.red)}
-    ${plotLegend(2150, 425, [
-      { color: palette.blue, label: "Optimized package" },
-      { color: palette.amber, label: "Uniform deployment" },
-      { color: palette.red, label: "Reduced staffing stress" },
-    ])}
-    ${card(2125, 330, 760, 90, "Distribution shift", [
-      "The whole optimized density moves right and thins its low-performance tail",
-    ], { fill: "#fcfbf7", bodySize: 24, titleSize: 34 })}
-  `;
+  const values = Array.from({ length: 220 }, (_, index) => 0.48 + (index / 219) * 0.34);
+  const optimized = values.map((value) => 1.3 * gaussian(value, 0.74, 0.028) + 0.4 * gaussian(value, 0.69, 0.02));
+  const uniform = values.map((value) => 1.1 * gaussian(value, 0.61, 0.038) + 0.4 * gaussian(value, 0.56, 0.022));
+  const maxDensity = Math.max(...optimized, ...uniform);
+  const x = 220;
+  const y = 408;
+  const w = 2220;
+  const h = 930;
+  const sx = (value) => x + 110 + ((value - 0.48) / 0.34) * (w - 180);
+  const ridgeY1 = y + 360;
+  const ridgeY2 = y + 690;
+  const scale = 200 / maxDensity;
+  const ridge = (densities, baseY, color) => {
+    const top = values.map((value, index) => [sx(value), baseY - densities[index] * scale]);
+    const bottom = values.slice().reverse().map((value) => [sx(value), baseY]);
+    return `<path d="${pathFromPoints([...top, ...bottom], true)}" fill="${color}" fill-opacity="0.22" stroke="none"/><path d="${linePath(top)}" fill="none" stroke="${color}" stroke-width="6" stroke-linecap="round"/>`;
+  };
+  const jitterPoints = (baseY, mu, sigma, color) => Array.from({ length: 22 }, (_, index) => {
+    const xValue = mu + (index - 11) * sigma * 0.17 + Math.sin(index * 1.7) * sigma * 0.08;
+    const yValue = baseY + (index % 2 === 0 ? 18 : 34) + (index % 3) * 9;
+    return `<circle cx="${sx(clamp(xValue, 0.49, 0.83))}" cy="${yValue}" r="5.8" fill="${color}" fill-opacity="0.72"/>`;
+  }).join("");
+  let body = dossierBoard(58, 256, 3084, 1482);
+  body += `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="26" fill="${palette.white}" stroke="${palette.line}" stroke-width="2" filter="url(#shadow)"/><rect x="${sx(0.48)}" y="${y + 42}" width="${sx(0.60) - sx(0.48)}" height="${h - 98}" fill="#f3e2dc" opacity="0.5"/><text x="${sx(0.54)}" y="${y + 78}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" font-weight="700" fill="${palette.rust}">low-performance tail</text>${[0.50, 0.60, 0.70, 0.80].map((value) => `<line x1="${sx(value)}" y1="${y + 60}" x2="${sx(value)}" y2="${y + h - 70}" stroke="#dfe4e5" stroke-width="1.5" stroke-dasharray="5 10"/><text x="${sx(value)}" y="${y + h - 28}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="${palette.ash}">${value.toFixed(2)}</text>`).join("")}<text x="${x + w / 2}" y="${y + h - 2}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="28" font-weight="700" fill="${palette.ink}">replication PI</text>${ridge(optimized, ridgeY1, palette.indigo)}${ridge(uniform, ridgeY2, palette.clay)}${jitterPoints(ridgeY1, 0.73, 0.06, palette.indigo)}${jitterPoints(ridgeY2, 0.60, 0.08, palette.clay)}<text x="${x + 34}" y="${ridgeY1 - 18}" font-family="Helvetica Neue, Arial, sans-serif" font-size="28" font-weight="700" fill="${palette.ink}">optimized package</text><text x="${x + 34}" y="${ridgeY2 - 18}" font-family="Helvetica Neue, Arial, sans-serif" font-size="28" font-weight="700" fill="${palette.ink}">uniform deployment</text>`;
+  body += panel(2512, 430, 470, 238, "What matters here", [
+    "The optimized ridge shifts rightward and leaves a much thinner low tail.",
+    "Tail-risk reduction is visible without collapsing all replications into one mean.",
+  ], { accent: palette.rust, bodySize: 23, lineGap: 34 });
+  body += panel(2512, 724, 470, 210, "Tail reading", [
+    "PI below 0.60 is operationally fragile.",
+    "That region is common under uniform deployment and rare under optimization.",
+  ], { accent: palette.indigo, bodySize: 23, lineGap: 34 });
   write("fig09_robustness_distribution.png", body);
 }
 
 function figure10() {
-  const body = `
-    <rect x="170" y="300" width="2860" height="1220" rx="24" fill="${palette.white}" stroke="${palette.frame}" stroke-width="2.2" filter="url(#shadow)"/>
-    <text x="520" y="410" font-family="Helvetica Neue, Arial, sans-serif" font-size="28" font-weight="700" fill="${palette.muted}">Lower than baseline</text>
-    <text x="2430" y="410" font-family="Helvetica Neue, Arial, sans-serif" font-size="28" font-weight="700" fill="${palette.muted}" text-anchor="end">Higher than baseline</text>
-    <line x1="1600" y1="430" x2="1600" y2="1415" stroke="${palette.ink}" stroke-width="3"/>
-    ${[
-      ["Ranger count", 0.16, 0.11],
-      ["Detection quality", 0.10, 0.08],
-      ["Patrol interval", 0.07, 0.05],
-      ["Fixed devices", 0.04, 0.03],
-    ].map(([label, left, right], i) => {
-      const y = 560 + i * 210;
-      return `
-        <text x="640" y="${y + 14}" text-anchor="end" font-family="Helvetica Neue, Arial, sans-serif" font-size="34" font-weight="700" fill="${palette.ink}">${esc(label)}</text>
-        <rect x="${1600 - left * 2100}" y="${y - 34}" width="${left * 2100}" height="68" rx="18" fill="${palette.red}" opacity="0.82"/>
-        <rect x="1600" y="${y - 34}" width="${right * 2100}" height="68" rx="18" fill="${palette.blue}" opacity="0.82"/>
-        <text x="${1600 - left * 2100 - 16}" y="${y + 10}" text-anchor="end" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" fill="${palette.muted}">-${left.toFixed(2)}</text>
-        <text x="${1600 + right * 2100 + 16}" y="${y + 10}" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" fill="${palette.muted}">+${right.toFixed(2)}</text>
-      `;
-    }).join("")}
-    ${card(2250, 1170, 640, 220, "Interpretation", [
-      "Bar lengths show change in PI under low/high perturbation",
-      "The ordering reproduces the main management sensitivity hierarchy",
-      "The visual language now matches classical tornado charts",
-    ], { fill: "#fcfbf7", bodySize: 24, titleSize: 34, lineGap: 34 })}
-  `;
+  const rows = [
+    { label: "Ranger count", low: -0.16, high: 0.11, accent: palette.rust },
+    { label: "Detection quality", low: -0.10, high: 0.08, accent: palette.gold },
+    { label: "Patrol interval", low: -0.07, high: 0.05, accent: palette.indigo },
+    { label: "Fixed devices", low: -0.04, high: 0.03, accent: palette.sage },
+  ];
+  const x = 320;
+  const y = 410;
+  const rowGap = 220;
+  const center = 1640;
+  const spanScale = 440 / 0.16;
+  let body = dossierBoard(58, 256, 3084, 1482);
+  body += `<rect x="160" y="334" width="2880" height="1220" rx="28" fill="${palette.white}" stroke="${palette.line}" stroke-width="2" filter="url(#shadow)"/><line x1="${center}" y1="470" x2="${center}" y2="1380" stroke="${palette.ink}" stroke-width="2.4"/><text x="${center - 330}" y="420" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" font-weight="700" fill="${palette.ash}">worse than baseline</text><text x="${center + 330}" y="420" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" font-weight="700" fill="${palette.ash}">better than baseline</text>`;
+  rows.forEach((row, index) => {
+    const y0 = y + index * rowGap;
+    body += `<circle cx="${x}" cy="${y0}" r="24" fill="${row.accent}"/><text x="${x}" y="${y0 + 8}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="20" font-weight="700" fill="${palette.salt}">${index + 1}</text><text x="${x + 56}" y="${y0 + 8}" font-family="Helvetica Neue, Arial, sans-serif" font-size="34" font-weight="700" fill="${palette.ink}">${esc(row.label)}</text><line x1="${center + row.low * spanScale}" y1="${y0}" x2="${center + row.high * spanScale}" y2="${y0}" stroke="${row.accent}" stroke-width="16" stroke-linecap="round" opacity="0.82"/><circle cx="${center + row.low * spanScale}" cy="${y0}" r="11" fill="${palette.rust}"/><circle cx="${center + row.high * spanScale}" cy="${y0}" r="11" fill="${palette.indigo}"/><text x="${center + row.low * spanScale - 18}" y="${y0 + 8}" text-anchor="end" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" fill="${palette.ash}">${row.low.toFixed(2)}</text><text x="${center + row.high * spanScale + 18}" y="${y0 + 8}" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" fill="${palette.ash}">+${row.high.toFixed(2)}</text>`;
+  });
+  body += panel(2300, 1100, 640, 260, "Interpretation", [
+    "The span length is the full management swing around baseline PI.",
+    "Ranger count dominates, detection quality is second, and devices remain the smallest lever.",
+  ], { accent: palette.gold, bodySize: 23, lineGap: 34 });
   write("fig10_sensitivity_panels.png", body);
 }
-
 function figure11() {
-  const rows = [
-    ["GIS zoning architecture", "Direct", "Only cell size and park boundary need retuning"],
-    ["Risk formula structure", "Direct", "Weights are re-estimated from local ecology and access"],
-    ["Route allocation core", "Retune", "Road/river/trail networks must be rebuilt"],
-    ["Simulation engine", "Retune", "Detection, delay, and sortie assumptions are local"],
-    ["Threat prior", "Rebuild", "Needs local intelligence, incident, and species data"],
+  const centerX = 1370;
+  const centerY = 1010;
+  const spokes = [
+    { label: "Zoning", angle: -90, radius: 210, level: "Direct", color: palette.sage },
+    { label: "Risk logic", angle: -30, radius: 210, level: "Direct", color: palette.sage },
+    { label: "Allocation", angle: 30, radius: 210, level: "Direct", color: palette.sage },
+    { label: "Simulation", angle: 90, radius: 210, level: "Direct", color: palette.sage },
+    { label: "Ecology layer", angle: 150, radius: 354, level: "Retune", color: palette.gold },
+    { label: "Threat prior", angle: 210, radius: 508, level: "Rebuild", color: palette.rust },
   ];
-  const statusColor = { Direct: "#dce8d9", Retune: "#ece1c8", Rebuild: "#ead8d8" };
-  let table = `<rect x="190" y="330" width="2820" height="1120" rx="24" fill="${palette.white}" stroke="${palette.frame}" stroke-width="2.2" filter="url(#shadow)"/>
-    <rect x="220" y="380" width="760" height="86" fill="#eef2f5"/><rect x="980" y="380" width="420" height="86" fill="#eef2f5"/><rect x="1400" y="380" width="1580" height="86" fill="#eef2f5"/>
-    <text x="258" y="434" font-family="Helvetica Neue, Arial, sans-serif" font-size="30" font-weight="700" fill="${palette.ink}">Module</text>
-    <text x="1018" y="434" font-family="Helvetica Neue, Arial, sans-serif" font-size="30" font-weight="700" fill="${palette.ink}">Status</text>
-    <text x="1438" y="434" font-family="Helvetica Neue, Arial, sans-serif" font-size="30" font-weight="700" fill="${palette.ink}">Transfer rule</text>`;
-  rows.forEach((row, i) => {
-    const y = 466 + i * 172;
-    table += `
-      <rect x="220" y="${y}" width="760" height="148" fill="${i % 2 ? "#fbfbf8" : "#f6f8fa"}"/>
-      <rect x="980" y="${y}" width="420" height="148" fill="${statusColor[row[1]]}"/>
-      <rect x="1400" y="${y}" width="1580" height="148" fill="${i % 2 ? "#fbfbf8" : "#f6f8fa"}"/>
-      <text x="258" y="${y + 60}" font-family="Helvetica Neue, Arial, sans-serif" font-size="30" font-weight="700" fill="${palette.ink}">${esc(row[0])}</text>
-      <text x="1190" y="${y + 82}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="30" font-weight="700" fill="${palette.ink}">${esc(row[1])}</text>
-      <text x="1438" y="${y + 58}" font-family="Helvetica Neue, Arial, sans-serif" font-size="26" fill="${palette.muted}">${esc(row[2])}</text>
-    `;
+  let body = dossierBoard(58, 256, 3084, 1482);
+  body += `<circle cx="${centerX}" cy="${centerY}" r="520" fill="#f7f1e7" stroke="${palette.line}" stroke-width="2" filter="url(#shadow)"/><circle cx="${centerX}" cy="${centerY}" r="520" fill="none" stroke="${palette.rust}" stroke-width="36" opacity="0.16"/><circle cx="${centerX}" cy="${centerY}" r="365" fill="none" stroke="${palette.gold}" stroke-width="36" opacity="0.18"/><circle cx="${centerX}" cy="${centerY}" r="210" fill="none" stroke="${palette.sage}" stroke-width="36" opacity="0.22"/><circle cx="${centerX}" cy="${centerY}" r="124" fill="${palette.white}" stroke="${palette.line}" stroke-width="2"/><text x="${centerX}" y="${centerY - 10}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="36" font-weight="700" fill="${palette.ink}">portable core</text><text x="${centerX}" y="${centerY + 28}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="${palette.ash}">same architecture across parks</text>`;
+  spokes.forEach((spoke) => {
+    const [x2, y2] = polar(centerX, centerY, spoke.radius, spoke.angle);
+    const [xt, yt] = polar(centerX, centerY, 610, spoke.angle);
+    body += `<line x1="${centerX}" y1="${centerY}" x2="${x2}" y2="${y2}" stroke="${spoke.color}" stroke-width="6" stroke-linecap="round"/><circle cx="${x2}" cy="${y2}" r="16" fill="${spoke.color}" stroke="${palette.salt}" stroke-width="4"/><text x="${xt}" y="${yt + 8}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="27" font-weight="700" fill="${palette.ink}">${esc(spoke.label)}</text><text x="${xt}" y="${yt + 40}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="21" fill="${palette.ash}">${esc(spoke.level)}</text>`;
   });
-  table += `${pill(2260, 1405, "Direct", "#dce8d9")}${pill(2440, 1405, "Retune", "#ece1c8")}${pill(2650, 1405, "Rebuild", "#ead8d8")}`;
-  write("fig11_transferability_matrix.png", table);
+  body += panel(2230, 420, 700, 244, "Ring meaning", [
+    "Inner ring - transfers directly with the same mathematical structure.",
+    "Middle ring - same structure, but local calibration is needed.",
+    "Outer ring - reserve-specific priors must be rebuilt.",
+  ], { accent: palette.plum, bodySize: 23, lineGap: 34 });
+  body += panel(2230, 728, 700, 210, "Why a wheel", [
+    "Transferability is radial rather than tabular because every module depends on the same core architecture at the center.",
+    "The figure therefore avoids looking like a generic policy matrix.",
+  ], { accent: palette.indigo, bodySize: 23, lineGap: 34 });
+  body += tagPill(2248, 1012, "direct", "#dce8d7", palette.ink, 142);
+  body += tagPill(2408, 1012, "retune", "#efe4be", palette.ink, 160);
+  body += tagPill(2590, 1012, "rebuild", "#f0ddd8", palette.ink, 170);
+  write("fig11_transferability_matrix.png", body);
 }
 
 function figure12() {
-  const responseLegend = legendGradient(2580, 386, 380, "Delay", responseStops, ["6h+", "", "", "", "2h"]);
+  const responseLegend = legendRamp(2710, 418, 30, 290, "response lag", responseStops, ["2h", "", "6h"], false);
   const slowCells = cells.filter((cell) => cell.responseTime >= 4.5);
-  const body = `
-    ${responseLegend.defs}
-    ${parkBase()}
-    ${gridOverlay("response")}
-    ${slowCells.map((cell) => `<rect x="${cx(cell.x) + 8}" y="${cy(cell.y) + 8}" width="${cell.w - 16}" height="${cell.h - 16}" rx="12" fill="none" stroke="${palette.red}" stroke-width="3.8"/>`).join("")}
-    ${card(2360, 330, 630, 250, "Response reading", [
-      "Blue cells indicate faster interception from existing stations",
-      "The eastern pocket crosses the 4.5-hour concern threshold",
-      "This is the spatial reason delay remains part of the risk score",
-    ], { fill: "#fcfbf7", bodySize: 24, titleSize: 34, lineGap: 34 })}
-    ${card(2360, 1110, 630, 250, "Map redesign", [
-      "Delay is shown through atlas shading, not dashboard isochrone widgets",
-      "The same grid is now visually consistent with the risk and allocation maps",
-    ], { fill: "#fcfbf7", bodySize: 24, titleSize: 34, lineGap: 34 })}
-    ${responseLegend.body}
-  `;
+  const eastProfile = [2.5, 2.8, 3.3, 4.1, 4.7, 5.0];
+  const px = (index) => 360 + index * 240;
+  const py = (value) => 1440 - ((value - 2.0) / 3.4) * 220;
+  let body = dossierBoard(58, 256, 3084, 1482);
+  body += responseLegend.defs;
+  body += mapField({ showGridLabels: false, showNames: true, showCompass: true, showScale: true, showCorridorLabel: false });
+  body += meshOverlay("response");
+  body += slowCells.map((cell) => `<rect x="${cx(cell.x) + 9}" y="${cy(cell.y) + 9}" width="${cell.w - 18}" height="${cell.h - 18}" rx="13" fill="none" stroke="${palette.rust}" stroke-width="3" stroke-dasharray="8 9"/>`).join("");
+  Object.values(camps).forEach(([x, y], index) => {
+    const outer = 150 + index * 6;
+    body += `<circle cx="${cx(x)}" cy="${cy(y)}" r="${outer}" fill="none" stroke="${palette.sky}" stroke-width="2.2" opacity="0.26"/><circle cx="${cx(x)}" cy="${cy(y)}" r="${outer * 0.63}" fill="none" stroke="${palette.sky}" stroke-width="2.2" opacity="0.18"/>`;
+  });
+  body += panel(2310, 330, 674, 230, "What the bands show", [
+    "Reach bands approximate how station geometry shapes intercept time.",
+    "The highlighted eastern cells sit outside the most comfortable response envelope.",
+  ], { accent: palette.sky, bodySize: 23, lineGap: 34 });
+  body += panel(180, 1200, 1940, 266, "Eastward response profile", [
+    "The lower strip converts map-based reach into an explicit delay climb from west to east.",
+  ], { accent: palette.rust, bodySize: 22 });
+  body += `<line x1="340" y1="1440" x2="1960" y2="1440" stroke="${palette.ink}" stroke-width="2.4"/><line x1="340" y1="1204" x2="340" y2="1440" stroke="${palette.ink}" stroke-width="2.4"/>${[2.5, 3.5, 4.5, 5.5].map((value) => `<text x="312" y="${py(value) + 7}" text-anchor="end" font-family="Helvetica Neue, Arial, sans-serif" font-size="20" fill="${palette.ash}">${value.toFixed(1)}</text><line x1="340" y1="${py(value)}" x2="1960" y2="${py(value)}" stroke="#dfe4e5" stroke-width="1.5" stroke-dasharray="5 9"/>`).join("")}${eastProfile.map((value, index) => `<circle cx="${px(index)}" cy="${py(value)}" r="8" fill="${palette.rust}" stroke="${palette.salt}" stroke-width="3"/>`).join("")}<path d="${linePath(eastProfile.map((value, index) => [px(index), py(value)]))}" fill="none" stroke="${palette.rust}" stroke-width="6" stroke-linecap="round"/>${["west","Olifantsrus","Okaukuejo","Halali","Namutoni","east gate"].map((label, index) => `<text x="${px(index)}" y="1470" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="20" fill="${palette.ash}">${label}</text>`).join("")}`;
+  body += responseLegend.body;
   write("fig12_station_response_map.png", body);
 }
 
 function figure13() {
-  const body = `
-    ${parkBase()}
-    ${gridOverlay("outline")}
-    ${droneSectors.map((sector) => `<path d="${pathFromPoints(shift(sector), true)}" fill="${palette.amber}" fill-opacity="0.18" stroke="${palette.amber}" stroke-width="4" stroke-dasharray="10 8"/>`).join("")}
-    ${sensorSites.map(([x, y]) => `
-      <rect x="${cx(x) - 12}" y="${cy(y) - 12}" width="24" height="24" rx="5" fill="${palette.blue}" stroke="${palette.white}" stroke-width="3"/>
-      <circle cx="${cx(x)}" cy="${cy(y)}" r="70" fill="none" stroke="${palette.blue}" stroke-width="2.2" opacity="0.22"/>
-    `).join("")}
-    ${card(2290, 330, 700, 250, "Monitoring stack", [
-      "Blue squares: fixed sensors placed on persistent hotspots",
-      "Amber polygons: drone sectors used for uncertainty reduction",
-      "Map styling is calmer so coverage geometry is easier to read",
-    ], { fill: "#fcfbf7", bodySize: 24, titleSize: 34, lineGap: 34 })}
-    ${plotLegend(2365, 690, [
-      { color: palette.blue, label: "Fixed sensors" },
-      { color: palette.amber, label: "Drone sectors" },
-    ])}
-    ${card(2290, 1100, 700, 250, "Deployment logic", [
-      "Sensors stay where hotspots persist across weeks",
-      "Drones sweep sectors with stronger intelligence uncertainty",
-      "Both are layered onto the same corridor-focused atlas base",
-    ], { fill: "#fcfbf7", bodySize: 24, titleSize: 34, lineGap: 34 })}
-  `;
+  let body = dossierBoard(58, 256, 3084, 1482);
+  body += mapField({ showGridLabels: false, showNames: true, showCompass: true, showScale: true, showCorridorLabel: false });
+  body += meshOverlay("outline");
+  body += sensorSites.map(([x, y]) => `<circle cx="${cx(x)}" cy="${cy(y)}" r="88" fill="${palette.indigo}" opacity="0.11"/><circle cx="${cx(x)}" cy="${cy(y)}" r="48" fill="${palette.indigo}" opacity="0.16"/><rect x="${cx(x) - 12}" y="${cy(y) - 12}" width="24" height="24" rx="6" fill="${palette.indigo}" stroke="${palette.salt}" stroke-width="3"/>`).join("");
+  body += droneSectors.map((sector, index) => `<path d="${pathFromPoints(shift(sector), true)}" fill="${index === 0 ? palette.gold : index === 1 ? palette.clay : palette.teal}" fill-opacity="0.18" stroke="${index === 0 ? palette.gold : index === 1 ? palette.clay : palette.teal}" stroke-width="4" stroke-dasharray="10 8"/>`).join("");
+  body += panel(126, 316, 620, 208, "Persistent eyes", [
+    "Blue squares are fixed sensors placed where hotspot persistence is strongest.",
+    "Their halos indicate stable watch zones rather than full interception reach.",
+  ], { accent: palette.indigo, bodySize: 23, lineGap: 34 });
+  body += panel(126, 554, 620, 208, "Adaptive sweeps", [
+    "Colored fans are drone sectors used where intelligence uncertainty stays high.",
+    "They widen the view over the same corridor but do not replace patrol recurrence.",
+  ], { accent: palette.gold, bodySize: 23, lineGap: 34 });
+  body += panel(2260, 1188, 756, 240, "Layering logic", [
+    "Persistent hotspots receive sensors.",
+    "Ambiguous hotspot edges receive UAV sweeps.",
+    "Both layers are tied back to the patrol corridor, not scattered evenly across the park.",
+  ], { accent: palette.teal, bodySize: 23, lineGap: 34 });
   write("fig13_sensor_drone_map.png", body);
 }
 
 function figure14() {
-  const x = 180;
-  const y = 320;
-  const w = 2860;
-  const h = 1150;
-  const rangers = Array.from({ length: 25 }, (_, i) => 22 + i);
-  const values = rangers.map((r) => 0.54 + 0.22 / (1 + Math.exp(-(r - 33.5) / 2.7)));
-  const upper = values.map((v) => Math.min(0.81, v + 0.02));
-  const lower = values.map((v) => Math.max(0.52, v - 0.02));
-  const sx = (r) => x + 100 + ((r - 22) / 24) * (w - 160);
-  const sy = (v) => y + h - 90 - ((v - 0.50) / 0.35) * (h - 170);
-  const axis = axisBox(x, y, w, h,
-    [22, 26, 30, 34, 38, 42, 46].map((r) => ({ pos: (r - 22) / 24, label: String(r) })),
-    [0.50, 0.60, 0.70, 0.80].map((v) => ({ pos: (v - 0.50) / 0.35, label: v.toFixed(2) })),
-    "Field rangers",
-    "Protection index"
+  const x = 170;
+  const y = 338;
+  const w = 2230;
+  const h = 1120;
+  const rangers = Array.from({ length: 25 }, (_, index) => 22 + index);
+  const values = rangers.map((ranger) => 0.56 + 0.19 / (1 + Math.exp(-(ranger - 34) / 2.8)));
+  const upper = values.map((value) => Math.min(0.80, value + 0.02));
+  const lower = values.map((value) => Math.max(0.54, value - 0.02));
+  const sx = (ranger) => x + 96 + ((ranger - 22) / 24) * (w - 140);
+  const sy = (value) => y + h - 80 - ((value - 0.52) / 0.31) * (h - 140);
+  let body = dossierBoard(58, 256, 3084, 1482);
+  body += axisFrame(
+    x, y, w, h,
+    [22, 26, 30, 34, 38, 42, 46].map((ranger) => ({ pos: (ranger - 22) / 24, label: String(ranger) })),
+    [0.55, 0.60, 0.65, 0.70, 0.75, 0.80].map((value) => ({ pos: (value - 0.52) / 0.31, label: value.toFixed(2) })),
+    "field rangers",
+    "protection index"
   );
-  const body = `
-    ${axis}
-    <path d="${bandPath(rangers, upper, lower, sx, sy)}" fill="${palette.green}" opacity="0.18"/>
-    <path d="${linePath(rangers.map((r, i) => [sx(r), sy(values[i])]))}" fill="none" stroke="${palette.green}" stroke-width="9" stroke-linecap="round"/>
-    <line x1="${sx(34)}" y1="${sy(0.50)}" x2="${sx(34)}" y2="${sy(0.80)}" stroke="${palette.red}" stroke-width="4" stroke-dasharray="14 12"/>
-    <line x1="${sx(22)}" y1="${sy(0.70)}" x2="${sx(46)}" y2="${sy(0.70)}" stroke="${palette.red}" stroke-width="4" stroke-dasharray="14 12"/>
-    <rect x="${sx(34)}" y="${sy(0.70)}" width="${sx(46) - sx(34)}" height="${sy(0.50) - sy(0.70)}" fill="${palette.green}" opacity="0.08"/>
-    <text x="${sx(34) + 16}" y="${sy(0.73)}" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" font-weight="700" fill="${palette.red}">minimum safe staffing ≈ 34</text>
-    ${card(2140, 360, 760, 140, "Threshold interpretation", [
-      "Safe region begins once both the 34-ranger floor and PI ≥ 0.70 are met",
-    ], { fill: "#fcfbf7", bodySize: 24, titleSize: 34 })}
-  `;
+  body += `<rect x="${sx(22)}" y="${sy(0.70)}" width="${sx(34) - sx(22)}" height="${sy(0.52) - sy(0.70)}" fill="#f2e2dc" opacity="0.38"/><rect x="${sx(34)}" y="${sy(0.70)}" width="${sx(37) - sx(34)}" height="${sy(0.52) - sy(0.70)}" fill="#f1e9cf" opacity="0.42"/><rect x="${sx(37)}" y="${sy(0.70)}" width="${sx(46) - sx(37)}" height="${sy(0.52) - sy(0.70)}" fill="#dfe9dc" opacity="0.42"/><path d="${bandPath(rangers, upper, lower, sx, sy)}" fill="${palette.sage}" opacity="0.18"/><path d="${linePath(rangers.map((ranger, index) => [sx(ranger), sy(values[index])]))}" fill="none" stroke="${palette.sage}" stroke-width="8" stroke-linecap="round"/><line x1="${sx(34)}" y1="${sy(0.52)}" x2="${sx(34)}" y2="${sy(0.79)}" stroke="${palette.rust}" stroke-width="3" stroke-dasharray="10 10"/><line x1="${sx(22)}" y1="${sy(0.70)}" x2="${sx(46)}" y2="${sy(0.70)}" stroke="${palette.rust}" stroke-width="3" stroke-dasharray="10 10"/><text x="${sx(34) + 12}" y="${sy(0.73)}" font-family="Helvetica Neue, Arial, sans-serif" font-size="20" font-weight="700" fill="${palette.rust}">minimum safe staffing = 34</text><text x="${sx(27)}" y="${sy(0.78)}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" font-weight="700" fill="${palette.rust}">fragile</text><text x="${sx(35.5)}" y="${sy(0.78)}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" font-weight="700" fill="${palette.gold}">transition</text><text x="${sx(41.5)}" y="${sy(0.78)}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" font-weight="700" fill="${palette.sage}">stable</text>`;
+  body += panel(2460, 404, 520, 232, "Reading the regimes", [
+    "Below 34, the hotspot corridor loses repeat coverage quickly.",
+    "Between 34 and 37, marginal gains remain steep.",
+    "Beyond 37, gains still exist but flatten into stability.",
+  ], { accent: palette.sage, bodySize: 23, lineGap: 34 });
   write("fig14_ranger_requirement_curve.png", body);
 }
 
 function figure15() {
-  const x = 260;
-  const y = 320;
-  const w = 2500;
-  const h = 1180;
-  const rangerLevels = [24, 28, 32, 36, 40, 44];
-  const detectLevels = [0.35, 0.40, 0.45, 0.50, 0.55, 0.60];
-  const pi = (r, d) => Math.max(0.52, Math.min(0.84, 0.43 + 0.0072 * r + 0.62 * (d - 0.35)));
-  const cellW = w / rangerLevels.length;
-  const cellH = h / detectLevels.length;
-  const sx = (i) => x + i * cellW;
-  const sy = (j) => y + j * cellH;
-  let heat = `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="24" fill="${palette.white}" stroke="${palette.frame}" stroke-width="2.2" filter="url(#shadow)"/>`;
-  detectLevels.forEach((d, j) => {
-    rangerLevels.forEach((r, i) => {
-      const value = (pi(r, d) - 0.52) / 0.32;
-      heat += `<rect x="${sx(i)}" y="${sy(detectLevels.length - 1 - j)}" width="${cellW}" height="${cellH}" fill="${rampColor(riskStops, value)}" fill-opacity="0.84" stroke="${palette.white}" stroke-width="2.2"/>`;
-      heat += `<text x="${sx(i) + cellW / 2}" y="${sy(detectLevels.length - 1 - j) + cellH / 2 + 10}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="28" font-weight="700" fill="${value > 0.58 ? "#fff9ed" : palette.ink}">${pi(r, d).toFixed(2)}</text>`;
-    });
-  });
-  rangerLevels.forEach((r, i) => {
-    heat += `<text x="${sx(i) + cellW / 2}" y="${y + h + 46}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="26" fill="${palette.ink}">${r}</text>`;
-  });
-  detectLevels.forEach((d, j) => {
-    heat += `<text x="${x - 28}" y="${sy(detectLevels.length - 1 - j) + cellH / 2 + 10}" text-anchor="end" font-family="Helvetica Neue, Arial, sans-serif" font-size="26" fill="${palette.ink}">${d.toFixed(2)}</text>`;
-  });
-  heat += `
-    <text x="${x + w / 2}" y="${y + h + 92}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="30" font-weight="700" fill="${palette.ink}">Field rangers</text>
-    <text x="${x - 130}" y="${y + h / 2}" transform="rotate(-90 ${x - 130} ${y + h / 2})" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="30" font-weight="700" fill="${palette.ink}">Detection baseline</text>
-    <rect x="${sx(2)}" y="${sy(2)}" width="${cellW * 4}" height="${cellH * 3}" fill="none" stroke="${palette.blue}" stroke-width="5" stroke-dasharray="18 12"/>
-  `;
-  const legend = legendGradient(2880, 430, 420, "PI", riskStops, ["0.84", "", "", "", "0.52"]);
-  const body = `
-    ${legend.defs}
-    ${heat}
-    ${card(2840, 330, 280, 84, "Robust region", ["PI ≥ 0.70"], { fill: "#fcfbf7", bodySize: 24, titleSize: 28 })}
-    ${card(2820, 930, 320, 260, "Interpretation", [
-      "Cells inside the dashed box remain inside the safe operating region",
-      "This matrix replaces the older dashboard-style stress panel with a manuscript heatmap",
-    ], { fill: "#fcfbf7", bodySize: 22, titleSize: 32, lineGap: 32 })}
-    ${legend.body}
-  `;
-  write("fig15_scenario_matrix.png", body);
-}
-
-function cleanGeneratedSvgs() {
-  const replacements = [
-    [/Layer 1[^<]*GIS Foundation/g, "Layer 1: GIS Foundation"],
-    [/Layer 2[^<]*Spatial Risk Inference/g, "Layer 2: Spatial Risk Inference"],
-    [/Layer 3[^<]*Allocation and Scheduling/g, "Layer 3: Allocation and Scheduling"],
-    [/Layer 4[^<]*Dynamic Evaluation/g, "Layer 4: Dynamic Evaluation"],
-    [/Layer 5[^<]*Transfer and Governance/g, "Layer 5: Transfer and Governance"],
-    [/vector park base \+ 8[^<]* command grid/g, "vector park base + 8x8 command grid"],
-    [/Style Shift/g, "Command logic"],
-    [/Inspired by the old TikZ framework figure rather than a web dashboard/g, "Each layer adds one management decision before handing outputs downward"],
-    [/Layer colors, arrows, and outputs are now publication-oriented/g, "Maps, schedules, staffing, and transfer rules remain inside one framework"],
-    [/hotspot atlas[^<]*transfer matrix/g, "hotspot atlas, route plan, staffing floor, and transfer matrix"],
-    [/<text x="2394" y="540"[^>]*>[^<]*grid: analytical planning cells for subsequent models<\/text>/g, '<text x="2394" y="540" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" fill="#6a7682">A-H x 1-8 grid: analytical planning cells for subsequent models</text>'],
-    [/64 planning zones[^<]*corridor-aware resolution/g, "64 planning zones with corridor-aware resolution"],
-    [/Map style changed to a vector atlas derived from official geometry/g, "Command anchors, access points, and waterholes share one base map"],
-    [/Purpose: cleaner analytical reading before model overlays/g, "The same grid supports risk, allocation, and simulation layers"],
-    [/Muted heat colors replace the previous bright dashboard palette/g, "Highest values cluster on the eastern-southern corridor"],
-    [/Highest-risk cluster remains on the eastern[^<]*corridor/g, "Muted color steps preserve geographic context under the overlay"],
-    [/Map base stays visible, so geography is readable under the model/g, "The hotspot remains interpretable relative to roads and camps"],
-    [/Style Change/g, "Route Logic"],
-    [/Routes are no longer embedded in a dashboard card layout/g, "East and south loops receive the most recurrent patrol pressure"],
-    [/The map now reads like an atlas plate with a route legend/g, "Rapid-response links shorten reinforcement time to hotspot cells"],
-    [/This is closer to the old manuscript[^<]*/g, "The legend separates persistent loops from dispatch corridors"],
-    [/Map redesign/g, "Operational implication"],
-    [/Delay is shown through atlas shading, not dashboard isochrone widgets/g, "Delay shading marks the cells least reachable within the response target"],
-    [/The same grid is now visually consistent with the risk and allocation maps/g, "These cells need added patrol recurrence or sensor support"],
-    [/minimum safe staffing[^<]*/g, "minimum safe staffing >= 34"],
-    [/Safe region begins once both the 34-ranger floor and PI[^<]*/g, "Safe region begins once both the 34-ranger floor and PI >= 0.70 are met"],
-    [/PI [^<]*0\.70/g, "PI >= 0.70"],
-    [/This matrix replaces the older dashboard-style stress panel with a manuscript heatmap/g, "Joint staffing and detection shortfalls push the system outside that box"],
+  const x = 220;
+  const y = 350;
+  const w = 2220;
+  const h = 1110;
+  const rangerMin = 24;
+  const rangerMax = 44;
+  const detectMin = 0.35;
+  const detectMax = 0.60;
+  const sx = (ranger) => x + 110 + ((ranger - rangerMin) / (rangerMax - rangerMin)) * (w - 170);
+  const sy = (detect) => y + h - 82 - ((detect - detectMin) / (detectMax - detectMin)) * (h - 140);
+  const detectFromPi = (ranger, pi) => clamp((pi - 0.213 - 0.0072 * ranger) / 0.62, detectMin, detectMax);
+  const bandLevels = [
+    { low: 0.60, high: 0.65, color: "#e9ddbf" },
+    { low: 0.65, high: 0.70, color: "#d8c08f" },
+    { low: 0.70, high: 0.75, color: "#caa06d" },
+    { low: 0.75, high: 0.80, color: "#b77a57" },
+    { low: 0.80, high: 0.84, color: "#99524a" },
   ];
-
-  fs.readdirSync(SRC)
-    .filter((file) => file.endsWith(".svg"))
-    .forEach((file) => {
-      const target = path.join(SRC, file);
-      let content = fs.readFileSync(target, "utf8");
-      replacements.forEach(([pattern, replacement]) => {
-        content = content.replace(pattern, replacement);
-      });
-      fs.writeFileSync(target, content);
-    });
+  const rangerSamples = Array.from({ length: 18 }, (_, index) => rangerMin + ((rangerMax - rangerMin) * index) / 17);
+  let body = dossierBoard(58, 256, 3084, 1482);
+  body += axisFrame(
+    x, y, w, h,
+    [24, 28, 32, 36, 40, 44].map((ranger) => ({ pos: (ranger - rangerMin) / (rangerMax - rangerMin), label: String(ranger) })),
+    [0.35, 0.40, 0.45, 0.50, 0.55, 0.60].map((detect) => ({ pos: (detect - detectMin) / (detectMax - detectMin), label: detect.toFixed(2) })),
+    "field rangers",
+    "detection baseline"
+  );
+  bandLevels.forEach((band) => {
+    const upper = rangerSamples.map((ranger) => [sx(ranger), sy(detectFromPi(ranger, band.high))]);
+    const lower = rangerSamples.slice().reverse().map((ranger) => [sx(ranger), sy(detectFromPi(ranger, band.low))]);
+    body += `<path d="${pathFromPoints([...upper, ...lower], true)}" fill="${band.color}" opacity="0.92" stroke="none"/>`;
+  });
+  const frontier = rangerSamples.map((ranger) => [sx(ranger), sy(detectFromPi(ranger, 0.70))]);
+  const safePoly = [...frontier, [sx(rangerMax), sy(detectMax)], [sx(rangerMin), sy(detectMax)]];
+  body += `<path d="${pathFromPoints(safePoly, true)}" fill="${palette.safe}" opacity="0.20"/><path d="${linePath(frontier)}" fill="none" stroke="${palette.indigo}" stroke-width="6" stroke-linecap="round"/><text x="${sx(33)}" y="${sy(detectFromPi(33, 0.70)) - 14}" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" font-weight="700" fill="${palette.indigo}">PI = 0.70 frontier</text>${[0.62, 0.68, 0.74, 0.80].map((value, index) => {
+    const ranger = 41 - index * 4;
+    const detect = detectFromPi(ranger, value);
+    return `<text x="${sx(ranger)}" y="${sy(detect) - 8}" font-family="Helvetica Neue, Arial, sans-serif" font-size="20" fill="${value >= 0.74 ? palette.salt : palette.ink}">PI ${value.toFixed(2)}</text>`;
+  }).join("")}`;
+  body += panel(2486, 414, 478, 238, "How to read the bands", [
+    "Each diagonal band is an iso-protection zone.",
+    "Moving up or right both improve PI, but the blue frontier marks the minimum safe region.",
+  ], { accent: palette.clay, bodySize: 23, lineGap: 34 });
+  body += panel(2486, 724, 478, 210, "Management implication", [
+    "Detection gains can partly offset manpower loss, but only until the frontier is crossed.",
+    "The safest operating region stays above and to the right of the line.",
+  ], { accent: palette.indigo, bodySize: 23, lineGap: 34 });
+  write("fig15_scenario_matrix.png", body);
 }
 
 figure01();
@@ -1031,6 +1014,5 @@ figure12();
 figure13();
 figure14();
 figure15();
-cleanGeneratedSvgs();
 
-console.log("Atlas-style publication figures regenerated.");
+console.log("Bespoke dossier-style figures regenerated.");
