@@ -1,25 +1,24 @@
-﻿\section{Model Strengths and Limitations}
-\subsection{Strengths}
-Our framework has five main strengths.
+\section{Strengths, Failure Modes, and Validation Limits}
+\subsection{System Strengths}
+The proposed operating system has five structural strengths.
 \begin{itemize}
-  \item It is system-driven: ecology, risk, access, and operations are linked explicitly.
-  \item It accepts partial coverage as a design principle, which is realistic for large parks.
-  \item It combines human and technological protection rather than treating them separately.
-  \item It produces interpretable management outputs: hotspot maps, route plans, staffing needs, and sensitivity curves.
-  \item It is transferable because the architecture is modular.
+  \item It connects ecology, access, response, and surveillance in one decision language rather than optimizing each in isolation.
+  \item It accepts selective saturation as a realistic design principle for large protected areas.
+  \item It couples optimization with stochastic validation, so the recommended plan is stress tested rather than assumed to work.
+  \item It yields management-facing outputs: hotspot doctrine, route package, staffing floor, and safe operating envelope.
+  \item Its architecture is modular, which makes transfer across parks more defensible.
 \end{itemize}
 
-\subsection{Limitations}
-The model also has limitations.
+\subsection{Primary Failure Modes}
+The model also has real limits, and they matter operationally.
 \begin{itemize}
-  \item We use a stylized grid rather than full GIS raster and patrol track data.
-  \item The poaching prior is based on exposure proxies because public incident records are incomplete.
-  \item Ranger fatigue, corruption, and adversarial learning are represented only indirectly.
-  \item Drone weather dependence and communication failures are not modeled in detail.
+  \item We use a stylized management grid rather than a full-resolution raster, so some fine-scale terrain effects are compressed.
+  \item The intrusion prior relies on exposure proxies because public incident data are incomplete and biased.
+  \item Ranger fatigue, corruption risk, adversarial learning, and informal intelligence quality are only partially represented.
+  \item Drone weather dependence, communication failures, and maintenance downtime are simplified rather than modeled in engineering detail.
 \end{itemize}
 
-These limitations do not invalidate the framework, but they do define the next calibration steps for operational deployment.
+The most dangerous failure mode is false confidence from stale priors. If \(P_i\) is not refreshed as pressure shifts, the controller can continue servicing yesterday's hotspots while today's pressure migrates elsewhere.
 
-\subsection{Most Critical Assumption}
-The most sensitive assumption is the calibration of zone-level threat priors. If intelligence data are sparse or biased, hotspot ranking can shift. For this reason, we recommend periodic re-estimation of \(P_i\) using patrol logs, incident records, and station interviews before each planning cycle.
-
+\subsection{Validation Boundary}
+For that reason, the model should be read as a decision-support system rather than an oracle. It is strongest when used with rolling recalibration, patrol logs, and station-level knowledge. It is weakest when managers treat the initial hotspot map as fixed truth. The appropriate validation discipline is therefore periodic re-estimation of the latent-pressure layer, regular comparison of predicted and observed response times, and continuous checking of whether the hotspot floor is actually being met in the field.

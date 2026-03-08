@@ -1,33 +1,43 @@
-# IMMC Wildlife Protection Paper
+# IMMC Protected-Area Operating System Paper
 
-This folder is now organized as a maintainable paper package rather than a single LaTeX file.
+This folder contains the full source package for the Etosha manuscript. The paper is organized as a protected-area operating system: digital twin, priority engine, resource controller, stress test, and transfer protocol.
 
-## Structure
+## Package Layout
 
-- `main.tex`: thin entry point that assembles the manuscript
-- `tex/preamble.tex`: document class, packages, layout, macros, and page style
+- `main.tex`: top-level assembly file
+- `tex/preamble.tex`: layout, macros, and page-style definitions
 - `tex/frontmatter.tex`: summary sheet and letter to IMMC
-- `tex/body.tex`: thin aggregator for the main technical report
-- `tex/sections/`: chapter-level source files for the main report
+- `tex/body.tex`: aggregator for the main report
+- `tex/sections/`: chapter-level manuscript sources
 - `tex/references.tex`: inline bibliography block
 - `tex/appendices.tex`: appendices and AI use report
-- `code/`: reference implementations for GIS preprocessing, risk scoring, allocation, and simulation
-- `figures_src/`: editable SVG figure sources
-- `figures/`: exported PNG figures consumed by LaTeX
-- `map_assets/`: base-map assets used by the figure pipeline
-- `generate_professional_figures.js`: regenerates figure source SVGs
-- `export_figures.ps1`: exports PNG figures from SVG
-- `build.ps1`: compile wrapper with engine detection and optional cleanup
+- `code/`: reference implementations for the four analytic layers
+- `figures_src/`: editable SVG source plates
+- `figures/`: exported PNG figures included by LaTeX
+- `map_assets/`: map resources used by the figure pipeline
+- `generate_professional_figures.js`: regenerates the visual plates
+- `export_figures.ps1`: exports the PNG figure set
+- `build.ps1`: compile wrapper with engine detection and cleanup support
+
+## Manuscript Logic
+
+The paper is structured around one closed loop:
+
+1. Build a digital twin of the park.
+2. Diagnose a spatial priority field.
+3. Allocate patrols, sensors, and UAVs under real constraints.
+4. Stress test the plan under uncertainty.
+5. Update the next planning cycle from observed pressure and delay.
 
 ## Figure Workflow
 
-Regenerate figure sources:
+Regenerate figure source plates:
 
 ```powershell
 node .\generate_professional_figures.js
 ```
 
-Export the figures used by the paper:
+Export the PNG figures used by the manuscript:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\export_figures.ps1
@@ -35,7 +45,7 @@ powershell -ExecutionPolicy Bypass -File .\export_figures.ps1
 
 ## Build Workflow
 
-Compile the paper with automatic engine detection:
+Compile with automatic engine detection:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\build.ps1
@@ -47,10 +57,10 @@ Clean auxiliary files first, then compile:
 powershell -ExecutionPolicy Bypass -File .\build.ps1 -Clean
 ```
 
-If no LaTeX engine is installed, `build.ps1` stops with an explicit error message instead of failing silently.
+If no LaTeX engine is installed, `build.ps1` stops with a clear actionable error instead of failing silently.
 
 ## Notes
 
-- The bibliography remains inline for portability and to avoid a BibTeX dependency.
-- The appendix pages are intentionally separated from the main report page count.
-- Generated compile artifacts are ignored by `paper/.gitignore`.
+- The bibliography is inline for portability and to avoid a BibTeX dependency.
+- Appendix pages are intentionally separated from the main report page count.
+- Compile artifacts are ignored by `paper/.gitignore`.
