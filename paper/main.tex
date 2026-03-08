@@ -287,6 +287,14 @@ P_i = \frac{1}{1+\exp[-(\theta_0+\theta_1 A_i+\theta_2 B_i-\theta_3 C_i)]},
 \end{equation}
 where \(C_i\) is recent protection pressure. Equation~\eqref{eq:prior} captures displacement: illegal activity tends to move toward attractive zones that currently receive less attention.
 
+\subsubsection{Prior Form and Identifiability Insight}
+Let \(\Omega_i = \log\left(\frac{P_i}{1-P_i}\right)\) be the log-odds of illegal activity. The logistic form \eqref{eq:prior} corresponds to a linear log-odds model
+\begin{equation}
+\Omega_i = \theta_0+\theta_1 A_i+\theta_2 B_i-\theta_3 C_i,
+\label{eq:logodds}
+\end{equation}
+which is identifiable up to affine scaling when the covariates \(A_i,B_i,C_i\) are standardized. This makes the prior interpretable: positive \(\theta_1,\theta_2\) increase odds via access and value, while \(\theta_3>0\) captures displacement from patrol pressure.
+
 \subsubsection{Risk Map Interpretation}
 The highest-risk quartile in our Etosha case clusters around the eastern and southern corridor where three mechanisms overlap: perennial water use, road access, and moderate to long response times from stations. The western interior is lower risk because access is harder and wildlife concentration is more diffuse. The Etosha Pan itself is ecologically important but operationally lower in direct poaching attractiveness because it is open and less structurally suitable for covert extraction.
 
@@ -365,6 +373,14 @@ e_i &\le 1. \label{eq:lin2}
 \end{align}
 This preserves monotonicity and concavity while keeping the optimization linear and reproducible. The resulting allocation is conservative: if a plan is optimal under the linear cap, it remains feasible and close to optimal under the true concave response. This is the same linearization used in the reference implementation in Appendix A.
 
+\subsubsection{Continuous Relaxation Insight}
+Ignoring integrality and the hotspot floor, the continuous relaxation is a concave program. The stationarity condition implies a balancing rule: for any two zones \(i,k\) that receive positive marginal allocation,
+\begin{equation}
+R_i e^{-\eta_i} \approx R_k e^{-\eta_k}.
+\label{eq:balancing}
+\end{equation}
+The optimizer therefore equalizes weighted marginal gains across active zones. This explains why the corridor concentrates resources under scarcity: only zones with large \(R_i\) can justify larger \(\eta_i\).
+
 \subsection{Objective and Constraints}
 The allocation model maximizes weighted expected protection:
 \begin{equation}
@@ -384,6 +400,14 @@ F_i + y_i + \sum_j b_{ij}z_j &\ge \underline{q}\,\mathbb{I}(R_i\ge q_{0.75}),
 \label{eq:hotspots}
 \end{align}
 where \(H_R\) is total available ranger-hours, \(M\) the device inventory, \(U\) the drone-sortie inventory, and \(\kappa_s\) the station capacity. Constraint~\eqref{eq:hotspots} enforces minimum recurrent attention in the highest-risk quartile.
+
+\subsubsection{Staffing Floor Derivation}
+Let \(\mathcal{H}\) be the hotspot set and \(f_i^\star\) the required revisit frequency in hotspot zones. If each patrol activation consumes \(2h_r\) ranger-hours and usable field time per ranger per planning period is \(h_{\text{shift}}\rho\), then a conservative staffing floor is
+\begin{equation}
+n_{\min} \ge \frac{\sum_{i\in\mathcal{H}} f_i^\star \bar{h}_i}{h_{\text{shift}}\rho},
+\label{eq:rangermin2}
+\end{equation}
+where \(\bar{h}_i\) is the representative route-hours needed to cover hotspot zone \(i\). Equation~\eqref{eq:rangermin2} closes the loop between the hotspot constraint \eqref{eq:hotspots} and the staffing requirement in Section 6, and it matches the empirical 34-ranger floor in our baseline scenario.
 
 \subsection{Algorithmic Workflow}
 To keep the method reproducible and operationally deployable, we solve the model with a rolling-horizon planner that couples optimization and simulation feedback.
@@ -472,6 +496,9 @@ P_i^{t+1}=\sigma(\theta_0+\theta_1A_i+\theta_2B_i-\theta_3C_i^{t+1}),
 \label{eq:priorupdate}
 \end{equation}
 where \(\sigma(\cdot)\) is the logistic function. Allocation increases \(C_i\), which suppresses \(P_i\), which then reshapes the next optimization in the rolling horizon. This closes the risk--deployment--simulation loop.
+
+\subsubsection{Monotonicity of Protection with Effort}
+Holding arrivals fixed, the model is monotone in effort: increasing patrol intensity \(F_i\), devices \(y_i\), or UAV coverage \(z_j\) weakly increases \(\eta_i\), which increases \(q_i^t\) and therefore \(u_i^t\). Since \(\PI\) is decreasing in the weighted loss numerator, \(\PI\) is non-decreasing in any effort variable. This guarantees that the optimization and simulation layers are directionally consistent and prevents pathological feedback in the rolling horizon.
 
 \subsection{Operational Scheduling}
 The simulation uses staggered patrol departures, continuous device monitoring, and twice-daily drone windows. This structure matters because identical total effort can perform very differently when attention is synchronized instead of distributed across the day. Figure~\ref{fig:respmap} reveals the station-centered response isochrones and the eastern delay pocket; Figure~\ref{fig:schedule} shows the 24-hour command cycle used in the baseline plan.
