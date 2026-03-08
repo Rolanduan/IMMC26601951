@@ -355,6 +355,15 @@ a_{ir} =
 \end{equation}
 This construction ensures that \(F_i=\sum_r a_{ir}x_r\) reflects feasible, schedulable loops rather than abstract coverage counts.
 
+\subsubsection{Route Enumeration and Pruning Details}
+Let the road network be a weighted graph \(\mathcal{G}=(V,E)\) with edge weights as travel time. For each station \(s\), we generate a candidate path set using the \(K\)-shortest paths from \(s\) to all other stations and major waypoints. A loop \(r\) is built by concatenating a forward path and its return, with a zone-visit list \(Z(r)\). We prune routes by:
+\begin{enumerate}
+  \item time feasibility: keep only paths satisfying \eqref{eq:route};
+  \item coverage novelty: remove routes whose \(Z(r)\) is a strict subset of an existing route with lower \(h_r\);
+  \item overlap control: limit the Jaccard overlap between routes from the same station to avoid redundant patterns.
+\end{enumerate}
+This yields a compact but diverse route library \(\mathcal{R}\) that captures operationally distinct patrol options.
+
 If \(a_{ir}=1\) when route \(r\) covers zone \(i\), then patrol intensity is
 \begin{equation}
 F_i = \sum_{r\in\mathcal{R}} a_{ir}x_r.
@@ -533,6 +542,14 @@ Taking expectations in \eqref{eq:pi} yields the interpretable approximation
 \end{equation}
 which shows that maximizing \(\PI\) is equivalent to minimizing a risk-weighted average of \(1-u_i^t\). This links the simulation outcome to the allocation objective and closes the loop between Model II and Model III.
 
+\subsubsection{Response-Time Distribution}
+Response time is modeled as a minimum travel-time base plus dispatch and terrain noise. Let \(t_{si}\) be station-to-zone travel time and \(\delta_t\) be a time-of-day dispatch delay. We model
+\begin{equation}
+\tau_i^t = \min_s t_{si} + \delta_t + \xi_i^t,
+\label{eq:taudist}
+\end{equation}
+where \(\delta_t \sim \mathcal{N}(\mu_\delta,\sigma_\delta^2)\) and \(\xi_i^t \sim \text{LogNormal}(\mu_\xi,\sigma_\xi^2)\) captures terrain and communication variability. This produces the right-skewed delay profile observed in field operations and aligns with the logistic interception decay in \eqref{eq:intercept}.
+
 \subsubsection{Closed-Loop Prior Update}
 Simulation outputs feed back into the risk prior used by Model I. We use a stable update that blends patrol pressure and local incident signals:
 \begin{equation}
@@ -549,6 +566,26 @@ Holding arrivals fixed, the model is monotone in effort: increasing patrol inten
 The simulation uses staggered patrol departures, continuous device monitoring, and twice-daily drone windows. This structure matters because identical total effort can perform very differently when attention is synchronized instead of distributed across the day. Figure~\ref{fig:respmap} reveals the station-centered response isochrones and the eastern delay pocket; Figure~\ref{fig:schedule} shows the 24-hour command cycle used in the baseline plan.
 
 This is consistent with empirical evidence that patrol effectiveness can vary widely by how patrol effort is organized and where patrol paths are concentrated \citep{usgsDetection}.
+
+\subsubsection{Dispatch Scheduler Pseudocode}
+The daily tasking policy balances hotspot revisit frequency with station capacity. A minimal scheduler is:
+\begin{table}[H]
+\centering
+\caption{Daily dispatch scheduler for patrol routes and UAV windows.}
+\label{alg:scheduler}
+\begin{tabular}{p{0.95\linewidth}}
+\toprule
+\textbf{Input:} route library \(\mathcal{R}\), station capacities \(\kappa_s\), hotspot set \(\mathcal{H}\), and daily time slots. \\
+\textbf{Output:} route activations \(\{x_r^t\}\) and UAV windows \(\{z_j^t\}\). \\
+\midrule
+1. Rank hotspot zones by \(R_i\) and required revisit \(f_i^\star\). \\
+2. For each station \(s\), allocate its top \(\kappa_s\) routes that cover the highest-ranked unmet hotspots. \\
+3. Fill remaining slots with routes that maximize marginal gain \(R_i e^{-\eta_i}\) (Eq.~\eqref{eq:balancing}). \\
+4. Assign UAV windows to sectors with highest uncertainty or highest \(R_i(1-q_i^t)\). \\
+5. Smooth departures to stagger start times and reduce synchronized gaps. \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \begin{figure}[H]
   \centering
