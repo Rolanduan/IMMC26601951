@@ -3,7 +3,11 @@ const path = require("path");
 
 const ROOT = __dirname;
 const SRC = path.join(ROOT, "figures_src");
+const OFFICIAL_MAP_PATH = path.join(ROOT, "map_assets", "etosha_official_map.jpg");
 if (!fs.existsSync(SRC)) fs.mkdirSync(SRC, { recursive: true });
+const OFFICIAL_MAP_DATA = fs.existsSync(OFFICIAL_MAP_PATH)
+  ? fs.readFileSync(OFFICIAL_MAP_PATH).toString("base64")
+  : null;
 
 const W = 3200;
 const H = 1800;
@@ -322,6 +326,18 @@ function contourLines() {
   return lines.map((d, index) => `<path d="${d}" fill="none" stroke="${index % 2 === 0 ? "#d9cfbb" : "#e4dbc9"}" stroke-width="${index === 0 ? 5 : 3.4}" opacity="${index === 0 ? 0.55 : 0.48}" stroke-dasharray="${index % 2 === 0 ? "16 12" : "8 14"}"/>`).join("");
 }
 
+function officialMapUnderlay(opts = {}) {
+  if (!OFFICIAL_MAP_DATA) return "";
+  const opacity = opts.opacity ?? 0.84;
+  const washOpacity = opts.washOpacity ?? 0.18;
+  return `
+    <image href="data:image/jpeg;base64,${OFFICIAL_MAP_DATA}" x="${MAP_SHIFT.x}" y="${MAP_SHIFT.y}" width="${REF.w}" height="${REF.h}" preserveAspectRatio="none" opacity="${opacity}"/>
+    <rect x="${MAP_SHIFT.x}" y="${MAP_SHIFT.y}" width="${REF.w}" height="${REF.h}" fill="${palette.salt}" opacity="${washOpacity}"/>
+    <rect x="${MAP_SHIFT.x - 2}" y="${MAP_SHIFT.y - 2}" width="620" height="518" rx="24" fill="${palette.salt}" opacity="0.52"/>
+    <rect x="${MAP_SHIFT.x + REF.w - 430}" y="${MAP_SHIFT.y + REF.h - 360}" width="390" height="320" rx="22" fill="${palette.salt}" opacity="0.34"/>
+  `;
+}
+
 function corridorRibbon() {
   const upper = `M ${cx(200)} ${cy(820)} C ${cx(780)} ${cy(700)} ${cx(1480)} ${cy(730)} ${cx(2760)} ${cy(535)}`;
   const lower = `M ${cx(200)} ${cy(1025)} C ${cx(840)} ${cy(940)} ${cx(1540)} ${cy(895)} ${cx(2790)} ${cy(650)}`;
@@ -351,15 +367,11 @@ function mapField(opts = {}) {
   const park = pathFromPoints(shift(parkOutline), true);
   const pan = pathFromPoints(shift(panOutline), true);
   return `
-    <rect x="88" y="242" width="3024" height="1298" rx="28" fill="#efe8db" stroke="${palette.line}" stroke-width="1.6"/>
-    <path d="${park}" fill="${palette.sand}" stroke="none"/>
-    <path d="${pathFromPoints(shift(veget1), true)}" fill="#cfd6be" opacity="0.88"/>
-    <path d="${pathFromPoints(shift(veget2), true)}" fill="#c9d1ba" opacity="0.88"/>
-    <path d="${pathFromPoints(shift(veget3), true)}" fill="#ced7c1" opacity="0.88"/>
-    <path d="${pan}" fill="${palette.pan}" opacity="0.96"/>
-    ${contourLines()}
-    ${corridorRibbon()}
+    <rect x="88" y="242" width="3024" height="1298" rx="28" fill="#f5f1e8" stroke="${palette.line}" stroke-width="1.6"/>
+    ${officialMapUnderlay()}
     <path d="${park}" fill="none" stroke="${palette.ink}" stroke-width="4.2"/>
+    <path d="${pan}" fill="none" stroke="${palette.salt}" stroke-width="3.2" opacity="0.75"/>
+    ${corridorRibbon()}
     ${road(trunkRoad, { baseWidth: 16, topWidth: 6.5, top: "#826f61" })}
     ${road(panRoad, { baseWidth: 14, topWidth: 5.5, top: "#978474" })}
     ${road(northRoad, { baseWidth: 14, topWidth: 5.5, top: "#978474", dash: "14 10" })}
@@ -420,19 +432,19 @@ function meshOverlay(mode = "outline") {
     if (mode === "outline") {
       output += cellRect(cell, "none", 1, "#efe9da", 1, 1.6);
     } else if (mode === "risk") {
-      output += cellRect(cell, rampColor(riskStops, cell.risk), 0.66, palette.salt, 0.6, 1.2);
+      output += cellRect(cell, rampColor(riskStops, cell.risk), 0.50, palette.salt, 0.6, 1.2);
     } else if (mode === "tier") {
       const fill = cell.hot ? palette.rust : cell.risk > 0.48 ? palette.warn : "#d7e0de";
-      output += cellRect(cell, fill, cell.hot ? 0.54 : 0.38, palette.salt, 0.6, 1.2);
+      output += cellRect(cell, fill, cell.hot ? 0.42 : 0.28, palette.salt, 0.6, 1.2);
     } else if (mode === "ecology") {
-      output += cellRect(cell, rampColor([{ t: 0, rgb: [228, 239, 221] }, { t: 1, rgb: [108, 139, 104] }], cell.ecology), 0.7, palette.salt, 0.55, 1.2);
+      output += cellRect(cell, rampColor([{ t: 0, rgb: [228, 239, 221] }, { t: 1, rgb: [108, 139, 104] }], cell.ecology), 0.56, palette.salt, 0.55, 1.2);
     } else if (mode === "access") {
-      output += cellRect(cell, rampColor([{ t: 0, rgb: [244, 235, 213] }, { t: 1, rgb: [191, 129, 72] }], cell.access), 0.7, palette.salt, 0.55, 1.2);
+      output += cellRect(cell, rampColor([{ t: 0, rgb: [244, 235, 213] }, { t: 1, rgb: [191, 129, 72] }], cell.access), 0.56, palette.salt, 0.55, 1.2);
     } else if (mode === "delay") {
-      output += cellRect(cell, rampColor([{ t: 0, rgb: [230, 228, 241] }, { t: 1, rgb: [118, 104, 150] }], cell.delay), 0.72, palette.salt, 0.55, 1.2);
+      output += cellRect(cell, rampColor([{ t: 0, rgb: [230, 228, 241] }, { t: 1, rgb: [118, 104, 150] }], cell.delay), 0.58, palette.salt, 0.55, 1.2);
     } else if (mode === "response") {
       const value = (cell.responseTime - 1.8) / 4.5;
-      output += cellRect(cell, rampColor(responseStops, value), 0.70, palette.salt, 0.55, 1.2);
+      output += cellRect(cell, rampColor(responseStops, value), 0.58, palette.salt, 0.55, 1.2);
     }
   });
   output += `<rect x="${cx(extent.x)}" y="${cy(extent.y)}" width="${extent.w}" height="${extent.h}" fill="none" stroke="${palette.ink}" stroke-width="2.4"/>`;

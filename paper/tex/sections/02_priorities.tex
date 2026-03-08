@@ -49,6 +49,7 @@ D_i:\text{ response difficulty},\quad
 P_i:\text{ latent intrusion prior}.
 \]
 The grid is coarse enough to remain interpretable to managers and fine enough to preserve the eastern corridor, southern road system, Etosha Pan, and station geometry.
+All map plates in this section are anchored to the official Etosha basemap and then upgraded with GIS-style overlays, control grids, and analytical layers so that the figures remain cartographically grounded rather than purely schematic.
 
 \subsubsection{Response Friction from the Mobility Layer}
 Let \(t_{si}\) be the travel time from station \(s\) to zone \(i\) along the road network. Response difficulty is derived from the fastest feasible travel time and normalized to \([0,1]\):
@@ -61,7 +62,7 @@ This step is important because it converts geography into controllability. A rem
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{fig02_etosha_grid.png}
-  \caption{Etosha digital twin: management cells, command anchors, and corridor-aware spatial structure used by the priority engine.}
+  \caption{Etosha digital twin built on the official park map as a basemap, with GIS-style management cells, command anchors, and corridor-aware spatial structure overlaid for analysis.}
   \label{fig:grid}
 \end{figure}
 
@@ -105,14 +106,14 @@ This diagnosis is the first major system output. It tells managers that Etosha s
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{fig03_risk_heatmap.png}
-  \caption{Priority field for Etosha, showing a corridor-shaped hotspot structure rather than uniform park-wide risk.}
+  \caption{Priority field for Etosha over the official basemap, showing a corridor-shaped hotspot structure rather than uniform park-wide risk.}
   \label{fig:riskmap}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{fig04_risk_decomposition.png}
-  \caption{Decomposition of the priority field into ecological consequence, operational exposure, and response friction.}
+  \caption{GIS-style decomposition of the priority field into ecological consequence, operational exposure, and response friction on a real Etosha map base.}
   \label{fig:riskdecomp}
 \end{figure}
 \FloatBarrier
