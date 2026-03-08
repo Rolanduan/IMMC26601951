@@ -101,9 +101,16 @@ Dear International Mission for Monitoring Conservation (IMMC),
   \item \textbf{Rebalance quarterly.} Refresh the priority map and deployment plan as access patterns and pressure change.
 \end{itemize}
 
-\textbf{Why this is better than uniform patrols.} The recommended strategy increases protection coverage, improves detection, and reduces successful illegal events. In our analysis, overall protection rises from 0.56 to 0.74 without assuming additional resources. The gains come from concentration, repetition, and coordination. Equally important, the plan is more feasible operationally: it avoids overextending teams across long travel distances and reduces the number of low-impact patrol hours in low-risk zones.
+\textbf{Performance promise (what this changes).} The recommended strategy increases protection coverage, improves detection, and reduces successful illegal events. In our analysis, overall protection rises from 0.56 to 0.74 without assuming additional resources. The gains come from concentration, repetition, and coordination. Equally important, the plan is more feasible operationally: it avoids overextending teams across long travel distances and reduces low-impact patrol hours in low-risk zones.
 
-\textbf{What to do first if resources are tight.} Preserve field staffing before adding equipment. If staffing cannot be protected, focus on improving detection quality through intelligence, placement, and coordination rather than spreading limited devices thinly. When resource trade-offs are necessary, prioritize repeated coverage of hotspots over occasional visits to low-risk zones.
+\textbf{Operational guardrails (non-technical KPIs).}
+\begin{itemize}
+  \item \textbf{Hotspot coverage rate:} the top-risk quarter must receive repeated visits each cycle.
+  \item \textbf{Response time reliability:} high-risk zones should see consistent response within the acceptable window.
+  \item \textbf{Detection quality:} maintain device uptime and intelligence flow so detection does not degrade.
+\end{itemize}
+
+\textbf{What to do first if resources are tight.} Preserve field staffing before adding equipment. If staffing cannot be protected, focus on improving detection quality through intelligence, placement, and coordination rather than spreading limited devices thinly. When trade-offs are necessary, prioritize repeated coverage of hotspots over occasional visits to low-risk zones.
 
 \textbf{Implementation path (two to four quarters).}
 \begin{itemize}
@@ -111,6 +118,8 @@ Dear International Mission for Monitoring Conservation (IMMC),
   \item \textbf{Quarter 2:} deploy the initial hotspot plan and align devices/drones with that layer; institute a weekly review rhythm.
   \item \textbf{Quarter 3--4:} refine routes based on observed pressure shifts; validate whether the staffing floor holds under seasonal variation.
 \end{itemize}
+
+\textbf{Risk if not adopted.} Uniform coverage dilutes patrol impact, slows response in decisive zones, and creates false confidence. Over time, this leads to higher loss in the very areas that matter most.
 
 \textbf{Transferability.} The same decision logic applies to other reserves on different continents. The local maps, species priorities, and access networks change; the management logic does not. Identify decisive zones, concentrate scarce resources, test performance over time, and update the plan regularly.
 
@@ -261,6 +270,14 @@ P_i:\text{ poaching prior}.
 
 The grid structure is coarse enough for managerial interpretation but fine enough to represent the east--west length of the park, the southern road corridor, the Etosha Pan, and waterhole clusters. Figure~\ref{fig:grid} shows the GIS-ready zoning with camps, gates, and waterholes; Figure~\ref{fig:riskmap} shows the resulting composite risk surface; Figure~\ref{fig:riskdecomp} isolates the mechanisms that generate the dominant hotspot cluster.
 
+\subsubsection{Response Difficulty from GIS Travel Times}
+Let \(t_{si}\) be the travel time from station \(s\) to zone \(i\) along the road network. Response difficulty is derived from the shortest station travel time and normalized to \([0,1]\):
+\begin{equation}
+D_i = \frac{\min_s t_{si}-\min_k \min_s t_{sk}}{\max_k \min_s t_{sk}-\min_k \min_s t_{sk}+\varepsilon}.
+\label{eq:response}
+\end{equation}
+This ties the spatial risk layer to the operational map: zones that are far from any station receive larger \(D_i\) and therefore larger composite risk in Equation~\eqref{eq:risk}.
+
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{fig02_etosha_grid.png}
@@ -321,6 +338,22 @@ We build a route-based mixed-integer allocation model. Let \(\mathcal{R}\) be a 
   \item \(y_i \in \{0,1,2\}\): number of fixed monitoring devices assigned to zone \(i\);
   \item \(z_j \in \mathbb{Z}_{+}\): drone sorties allocated to aerial sector \(j\).
 \end{itemize}
+
+\subsubsection{Route Library Construction and Coverage Matrices}
+Each candidate patrol loop \(r\) is a closed path that starts and ends at a station, visits a connected set of zones, and respects the daily time budget:
+\begin{equation}
+h_r = \frac{L_r}{v} + t_{\text{stop}} \le h_{\max},
+\label{eq:route}
+\end{equation}
+where \(L_r\) is loop length, \(v\) is patrol speed, and \(t_{\text{stop}}\) includes observation and report time. We generate loops by enumerating short station-to-station paths over the road graph and retaining those that satisfy \eqref{eq:route}. The coverage matrix is then
+\begin{equation}
+a_{ir} =
+\begin{cases}
+1, & \text{if route } r \text{ traverses zone } i,\\
+0, & \text{otherwise}.
+\end{cases}
+\end{equation}
+This construction ensures that \(F_i=\sum_r a_{ir}x_r\) reflects feasible, schedulable loops rather than abstract coverage counts.
 
 If \(a_{ir}=1\) when route \(r\) covers zone \(i\), then patrol intensity is
 \begin{equation}
@@ -487,6 +520,18 @@ The overall protection index is
 \label{eq:pi}
 \end{equation}
 where \(L_i^t\) is the weighted successful-loss indicator.
+
+\subsubsection{Expected Protection Index (Closed-Form Insight)}
+Let \(\lambda_i^t = \lambda_0 R_i \Psi_t\). Because \(N_i^t\) is Poisson and each event is neutralized with probability \(u_i^t\), the expected loss satisfies
+\[
+\mathbb{E}[L_i^t] = \lambda_i^t(1-u_i^t).
+\]
+Taking expectations in \eqref{eq:pi} yields the interpretable approximation
+\begin{equation}
+\mathbb{E}[\PI] \approx 1-\frac{\sum_{t=1}^T \sum_i R_i \lambda_i^t (1-u_i^t)}{\sum_{t=1}^T \sum_i R_i \lambda_i^t},
+\label{eq:piexp}
+\end{equation}
+which shows that maximizing \(\PI\) is equivalent to minimizing a risk-weighted average of \(1-u_i^t\). This links the simulation outcome to the allocation objective and closes the loop between Model II and Model III.
 
 \subsubsection{Closed-Loop Prior Update}
 Simulation outputs feed back into the risk prior used by Model I. We use a stable update that blends patrol pressure and local incident signals:
