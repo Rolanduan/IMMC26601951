@@ -1,0 +1,25 @@
+﻿\section{Model Strengths and Limitations}
+\subsection{Strengths}
+Our framework has five main strengths.
+\begin{itemize}
+  \item It is system-driven: ecology, risk, access, and operations are linked explicitly.
+  \item It accepts partial coverage as a design principle, which is realistic for large parks.
+  \item It combines human and technological protection rather than treating them separately.
+  \item It produces interpretable management outputs: hotspot maps, route plans, staffing needs, and sensitivity curves.
+  \item It is transferable because the architecture is modular.
+\end{itemize}
+
+\subsection{Limitations}
+The model also has limitations.
+\begin{itemize}
+  \item We use a stylized grid rather than full GIS raster and patrol track data.
+  \item The poaching prior is based on exposure proxies because public incident records are incomplete.
+  \item Ranger fatigue, corruption, and adversarial learning are represented only indirectly.
+  \item Drone weather dependence and communication failures are not modeled in detail.
+\end{itemize}
+
+These limitations do not invalidate the framework, but they do define the next calibration steps for operational deployment.
+
+\subsection{Most Critical Assumption}
+The most sensitive assumption is the calibration of zone-level threat priors. If intelligence data are sparse or biased, hotspot ranking can shift. For this reason, we recommend periodic re-estimation of \(P_i\) using patrol logs, incident records, and station interviews before each planning cycle.
+

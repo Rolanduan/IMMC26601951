@@ -1,0 +1,164 @@
+﻿\section{Protection Over Time and Staffing Need}
+\subsection{Dynamic Protection Simulation Structure}
+The allocation model produces a static plan; managers also need to know whether it remains effective over time. We therefore simulate daily operations over \(T=30\) days with 1000 Monte Carlo replications. For each zone \(i\) and day \(t\), illegal activity arrivals follow
+\begin{equation}
+N_i^t \sim \text{Poisson}(\lambda_0R_i\Psi_t),
+\end{equation}
+where \(\Psi_t\) captures temporal pressure such as dry-season concentration or intelligence alerts.
+
+If the active asset set in zone \(i\) on day \(t\) is \(\mathcal{A}_i^t\), then detection probability is
+\begin{equation}
+q_i^t = 1-\prod_{a\in \mathcal{A}_i^t}(1-q_a).
+\label{eq:detect}
+\end{equation}
+Interception depends on response time:
+\begin{equation}
+g_i^t = \frac{1}{1+\exp[\kappa(\tau_i^t-\tau^\star)]},
+\label{eq:intercept}
+\end{equation}
+where \(\tau_i^t\) is realized response time and \(\tau^\star\) is the critical delay threshold.
+
+The probability that an illegal attempt is neutralized equals
+\begin{equation}
+u_i^t = q_i^t g_i^t.
+\end{equation}
+The overall protection index is
+\begin{equation}
+\PI = 1-\frac{\sum_{t=1}^T \sum_i R_i L_i^t}{\sum_{t=1}^T \sum_i R_i N_i^t + \varepsilon},
+\label{eq:pi}
+\end{equation}
+where \(L_i^t\) is the weighted successful-loss indicator.
+
+\subsubsection{Expected Protection Index (Closed-Form Insight)}
+Let \(\lambda_i^t = \lambda_0 R_i \Psi_t\). Because \(N_i^t\) is Poisson and each event is neutralized with probability \(u_i^t\), the expected loss satisfies
+\[
+\mathbb{E}[L_i^t] = \lambda_i^t(1-u_i^t).
+\]
+Taking expectations in \eqref{eq:pi} yields the interpretable approximation
+\begin{equation}
+\mathbb{E}[\PI] \approx 1-\frac{\sum_{t=1}^T \sum_i R_i \lambda_i^t (1-u_i^t)}{\sum_{t=1}^T \sum_i R_i \lambda_i^t},
+\label{eq:piexp}
+\end{equation}
+which shows that maximizing \(\PI\) is equivalent to minimizing a risk-weighted average of \(1-u_i^t\). This links the simulation outcome to the allocation objective and closes the loop between Model II and Model III.
+
+\subsubsection{Response-Time Distribution}
+Response time is modeled as a minimum travel-time base plus dispatch and terrain noise. Let \(t_{si}\) be station-to-zone travel time and \(\delta_t\) be a time-of-day dispatch delay. We model
+\begin{equation}
+\tau_i^t = \min_s t_{si} + \delta_t + \xi_i^t,
+\label{eq:taudist}
+\end{equation}
+where \(\delta_t \sim \mathcal{N}(\mu_\delta,\sigma_\delta^2)\) and \(\xi_i^t \sim \text{LogNormal}(\mu_\xi,\sigma_\xi^2)\) captures terrain and communication variability. This produces the right-skewed delay profile observed in field operations and aligns with the logistic interception decay in \eqref{eq:intercept}.
+
+\subsubsection{Closed-Loop Prior Update}
+Simulation outputs feed back into the risk prior used by Model I. We use a stable update that blends patrol pressure and local incident signals:
+\begin{equation}
+C_i^{t+1}=(1-\omega)C_i^t+\omega\left(\frac{F_i^t}{\max_k F_k^t}\right), \qquad
+P_i^{t+1}=\sigma(\theta_0+\theta_1A_i+\theta_2B_i-\theta_3C_i^{t+1}),
+\label{eq:priorupdate}
+\end{equation}
+where \(\sigma(\cdot)\) is the logistic function. Allocation increases \(C_i\), which suppresses \(P_i\), which then reshapes the next optimization in the rolling horizon. This closes the risk--deployment--simulation loop.
+
+\subsubsection{Monotonicity of Protection with Effort}
+Holding arrivals fixed, the model is monotone in effort: increasing patrol intensity \(F_i\), devices \(y_i\), or UAV coverage \(z_j\) weakly increases \(\eta_i\), which increases \(q_i^t\) and therefore \(u_i^t\). Since \(\PI\) is decreasing in the weighted loss numerator, \(\PI\) is non-decreasing in any effort variable. This guarantees that the optimization and simulation layers are directionally consistent and prevents pathological feedback in the rolling horizon.
+
+\subsection{Operational Scheduling}
+The simulation uses staggered patrol departures, continuous device monitoring, and twice-daily drone windows. This structure matters because identical total effort can perform very differently when attention is synchronized instead of distributed across the day. Figure~\ref{fig:respmap} reveals the station-centered response isochrones and the eastern delay pocket; Figure~\ref{fig:schedule} shows the 24-hour command cycle used in the baseline plan.
+
+This is consistent with empirical evidence that patrol effectiveness can vary widely by how patrol effort is organized and where patrol paths are concentrated \citep{usgsDetection}.
+
+\subsubsection{Dispatch Scheduler Pseudocode}
+The daily tasking policy balances hotspot revisit frequency with station capacity. A minimal scheduler is:
+\begin{table}[H]
+\centering
+\caption{Daily dispatch scheduler for patrol routes and UAV windows.}
+\label{alg:scheduler}
+\begin{tabular}{p{0.95\linewidth}}
+\toprule
+\textbf{Input:} route library \(\mathcal{R}\), station capacities \(\kappa_s\), hotspot set \(\mathcal{H}\), and daily time slots. \\
+\textbf{Output:} route activations \(\{x_r^t\}\) and UAV windows \(\{z_j^t\}\). \\
+\midrule
+1. Rank hotspot zones by \(R_i\) and required revisit \(f_i^\star\). \\
+2. For each station \(s\), allocate its top \(\kappa_s\) routes that cover the highest-ranked unmet hotspots. \\
+3. Fill remaining slots with routes that maximize marginal gain \(R_i e^{-\eta_i}\) (Eq.~\eqref{eq:balancing}). \\
+4. Assign UAV windows to sectors with highest uncertainty or highest \(R_i(1-q_i^t)\). \\
+5. Smooth departures to stagger start times and reduce synchronized gaps. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{fig12_station_response_map.png}
+  \caption{Response reach map with station bands and an eastward delay profile.}
+  \label{fig:respmap}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{fig07_schedule_timeline.png}
+  \caption{Twenty-four-hour operational dial showing patrol waves, sensor watch, and UAV windows as a repeating duty cycle.}
+  \label{fig:schedule}
+\end{figure}
+\FloatBarrier
+
+\subsection{Protection Outcomes, Feasibility, and Staffing}
+\subsubsection{Baseline Protection Performance}
+Table~\ref{tab:results} summarizes the main outputs. The optimized deployment substantially outperforms uniform allocation, especially on high-risk coverage and interception speed.
+
+\begin{table}[H]
+  \centering
+  \caption{Main performance metrics under the baseline resource level.}
+  \label{tab:results}
+  \begin{tabular}{lccc}
+    \toprule
+    Metric & Uniform deployment & Optimized deployment & Change \\
+    \midrule
+    Weighted protection coverage & 0.64 & 0.87 & +35.9\% \\
+    Mean detection probability & 0.47 & 0.66 & +40.4\% \\
+    Mean response time (hours) & 5.2 & 3.9 & -25.0\% \\
+    Successful illegal-event probability & 0.31 & 0.18 & -41.9\% \\
+    Protection index \(\PI\) & 0.56 & 0.74 & +0.18 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsubsection{Spatiotemporal Deployment Recommendations}
+Two management findings stand out. First, strategic concentration dominates broad but shallow coverage: the top-risk quartile contains 57\% of the biological value but only 25\% of the area, so partial saturation of these zones outperforms weak coverage everywhere. Second, mixed assets outperform patrol-only protection because fixed devices raise early warning while drones reduce response uncertainty.
+
+From these results, we recommend a three-part policy package for Etosha-like parks:
+\begin{itemize}
+  \item \textbf{Priority zoning policy}: formally designate the top-risk quartile as a recurrent high-attention layer with minimum revisit constraints.
+  \item \textbf{Hybrid surveillance policy}: reserve fixed devices for persistent hotspots and use drones as a dynamic uncertainty-reduction layer, not as patrol substitutes.
+  \item \textbf{Staffing floor policy}: maintain at least 34 field rangers under baseline detection quality; below this threshold, protection degradation accelerates nonlinearly.
+\end{itemize}
+
+Figure~\ref{fig:simulation} shows that the optimized strategy crosses the command target of \(\PI=0.75\) after roughly one week and remains stable under stochastic pressure, whereas the uniform strategy never reaches that threshold. Figure~\ref{fig:robustness} shows the same advantage statistically: the optimized distribution shifts rightward and thins the low-performance tail across replications.
+
+\subsubsection{Feasibility, Staffing Requirement, and Action Package}
+To ensure the recommended allocation is operationally executable, we verify two constraints with baseline staffing:
+\begin{itemize}
+  \item \textbf{Shift feasibility}: \(34\) field rangers provide \(34\times 8 = 272\) person-hours/day. With assumed field utilization \(\rho=0.78\), usable effort is about \(212\) person-hours/day.
+  \item \textbf{Route feasibility}: the selected route package requires approximately \(198\) person-hours/day in expectation, leaving a small reserve for incident response and weather delays.
+\end{itemize}
+To maintain \(\PI \ge 0.70\), the minimum field staffing level is estimated by
+\begin{equation}
+n_{\min} = \left\lceil \frac{\sum_{i\in \mathcal{H}} f_i^\star \bar{\tau}_i}{h_{\text{shift}}\rho} \right\rceil,
+\label{eq:rangermin}
+\end{equation}
+where \(\mathcal{H}\) is the high-risk zone set, \(f_i^\star\) is the required revisit frequency, \(h_{\text{shift}}\) is usable field time per ranger, and \(\rho\) is field utilization. Under the baseline technology mix, Equation~\eqref{eq:rangermin} and the Monte Carlo outputs agree on a minimum of about 34 field rangers (17 two-person patrol teams). Hence the baseline strategy is not only optimal in the model, but also schedulable in routine operations.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{fig08_simulation_results.png}
+  \caption{Protection trajectory with control threshold and weekly milestones.}
+  \label{fig:simulation}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{fig09_robustness_distribution.png}
+  \caption{Replication envelope highlighting tail-risk reduction under the optimized package.}
+  \label{fig:robustness}
+\end{figure}
+\FloatBarrier
+

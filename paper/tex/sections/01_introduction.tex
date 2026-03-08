@@ -1,0 +1,74 @@
+﻿\section{Introduction}
+\subsection{Background}
+Recent conservation evidence shows a clear gap between the legal designation of protected areas and their realized protection performance. Global assessments emphasize that protected areas remain essential for biodiversity persistence, but their outcomes are strongly conditioned by enforcement capacity, local pressure, and management quality \citep{watson2014,geldmann2013}. At the same time, many reserves face sustained anthropogenic pressure, including habitat encroachment and illegal extraction, even inside nominally protected boundaries \citep{jones2018}. A key institutional bottleneck is chronic under-resourcing: staffing, monitoring assets, and operational budgets are often insufficient for full-coverage protection \citep{coad2019}.
+
+Within anti-poaching operations, empirical studies further indicate that patrol effectiveness is heterogeneous across space and teams; strategy quality matters as much as raw patrol intensity \citep{moore2018,usgsDetection}. This aligns with broader wildlife-crime evidence showing adaptive illegal behavior, cross-border trafficking incentives, and persistent risk to threatened species \citep{unodc2024wildlife,iucnRedList2026}. Consequently, high-performing protection systems should be risk-based, selective, and adaptive, rather than uniform and static.
+
+Etosha is a representative case for this systems problem. Its large extent, ecological heterogeneity, waterhole-driven wildlife aggregation, and road-access structure create a spatially uneven overlap between conservation value and poaching opportunity \citep{etoshaOfficial,etoshaEcology}. In practical terms, this means that managers face a recurrent triad of decisions: where to concentrate patrol effort, how to combine human and technological monitoring, and when to re-balance schedules as risk shifts across zones.
+
+Methodologically, this setting naturally requires integrated spatial analytics and operations modeling: risk estimation on spatial units, constrained allocation over mobility networks, and dynamic simulation under uncertainty \citep{cressie1993,anselin1995,diggle2013,weiss2018}. It also motivates modern algorithmic conservation design ideas, where strategic defender allocation outperforms naive coverage expansion \citep{fang2016paws}.
+
+\subsection{Problem Restatement}
+The IMMC task is not only to explain poaching risk, but to produce a deployable decision framework for large-park protection under scarcity and uncertainty. Concretely, the framework must: (i) identify priority protection zones from ecological and threat information; (ii) allocate limited ranger teams, fixed monitoring devices, and drone effort under operational constraints; (iii) evaluate whether a strategy remains effective over time; (iv) estimate feasible staffing levels to sustain target protection; (v) quantify sensitivity to degraded manpower, equipment, scheduling, and detection quality; and (vi) demonstrate transferability to parks on other continents.
+
+From a decision-science perspective, the core challenge is a coupled optimization--simulation problem with incomplete information. Decision-makers must choose spatial deployment and temporal schedules before all illegal-activity realizations are observed, while respecting travel-time, shift, and equipment constraints. The required output is therefore a policy package, not a single formula: a hotspot map, an allocation plan, a schedule template, and robustness diagnostics that support management action and periodic recalibration.
+
+Accordingly, the problem is treated as a system-design question with measurable outputs, rather than a purely theoretical exercise. The framework should be able to inform weekly tasking decisions, justify minimum staffing thresholds, and remain interpretable to non-technical park managers.
+
+To address these tasks, we use a three-model pipeline: spatial risk inference, mixed-integer allocation, and stochastic dynamic simulation. The workflow is designed for both competition analysis and field deployment through rolling updates:
+\[
+\mathcal{D}_t \xrightarrow{\text{risk inference}} R_i^t
+\xrightarrow{\text{optimization}} u_t^\star=(x_t^\star,y_t^\star,z_t^\star)
+\xrightarrow{\text{simulation}} \PI_t.
+\]
+Methodologically, this design is grounded in mathematical programming, stochastic optimization, and simulation science, enabling both analytic rigor and operational interpretability \citep{dantzig1963,birge2011,law2015,banks2010,bonabeau2002,macal2010}.
+
+\subsection{Architecture Overview}
+Figure~\ref{fig:system} presents the full decision pipeline from GIS-scale data harmonization to field deployment and adaptive updating. It is intentionally drawn as a vertical command flow so that each layer has a distinct scientific function, decision variable, and management output.
+
+\begingroup
+\setstretch{0.6}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\linewidth]{fig01_system_architecture.png}
+  \caption{Operational protection chain with explicit management deliverables at each stage, from GIS diagnosis to allocation, simulation, and governance feedback.}
+  \label{fig:system}
+\end{figure}
+\endgroup
+
+\noindent The architecture enforces three implementation rules:
+\begin{itemize}
+  \item \textbf{Risk-first targeting}: patrol and monitoring effort is concentrated in high-risk zones rather than spread uniformly.
+  \item \textbf{Feasibility-first optimization}: every plan must satisfy staffing, travel-time, and equipment constraints before deployment.
+  \item \textbf{Closed-loop updating}: field telemetry continuously updates priors and triggers rolling re-optimization.
+\end{itemize}
+Accordingly, wildlife protection is defined as a measurable ability to (i) preserve high-value ecological zones, (ii) detect illegal activity in time, and (iii) convert detection into interception with acceptable delay. This definition is consistent with evidence on protected-area performance, human pressure, and law-enforcement effectiveness in biodiversity conservation \citep{watson2014,geldmann2013,jones2018,coad2019,moore2018,unodc2024wildlife,iucnRedList2026}.
+
+We evaluate each strategy by three management-facing metrics:
+\begin{align}
+\PI &: \text{risk-weighted protection index (higher is better)}, \\
+\Det &: \text{mean detection probability across active zones}, \\
+\Resp &: \text{mean response delay in hours (lower is better)}.
+\end{align}
+These indicators are jointly used in allocation and simulation so that ecological value and operational feasibility are both visible in the final recommendation. Spatial and accessibility constructions are detailed in Sections 2--4 and follow standard spatial modeling practice \citep{anselin1995,cressie1993,diggle2013,weiss2018}.
+
+To keep the manuscript aligned with the seven required IMMC components, the main report is organized around Tasks 1--6, while Task 7 (the non-technical communication deliverable) is provided as the front-matter letter. Table~\ref{tab:qmap} maps each prompt task to its concrete output in this paper.
+\begin{table}[H]
+  \centering
+  \caption{Direct mapping from prompt tasks to report outputs.}
+  \label{tab:qmap}
+  \begin{tabular}{p{0.12\linewidth}p{0.27\linewidth}p{0.45\linewidth}}
+    \toprule
+    Task & Decision target & Output in this paper \\
+    \midrule
+    Task 1 & Conservation priorities and protection definition & Priority threats, Etosha risk map, hotspot quartile, and measurable protection metrics \\
+    Task 2 & Resource allocation & Integer allocation of patrol loops, fixed devices, and drone sorties \\
+    Task 3 & Protection over time and staffing & 30-day Monte Carlo dynamics, feasible schedule, and minimum ranger requirement \\
+    Task 4 & Sensitivity & Stress tests on staff, devices, patrol interval, and detection rate \\
+    Task 5 & Strengths and limitations & Assumptions, strengths, limitations, and critical-assumption discussion \\
+    Task 6 & Adaptation & Universal architecture plus park-specific recalibration matrix \\
+    Task 7 & Communication deliverable & Two-page Letter to IMMC placed before the main report \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+

@@ -1,0 +1,42 @@
+﻿\section{Sensitivity and Scenario Analysis}
+We vary four key parameters: ranger count, device count, patrol interval, and base detection probability. Figure~\ref{fig:sensitivity} reports a tornado-style ranking, Figure~\ref{fig:rangercurve} identifies the nonlinear staffing floor, and Figure~\ref{fig:scenariomatrix} maps the joint manpower--detection frontier. The ranking of sensitivity is
+\[
+\text{ranger count} > \text{detection probability} > \text{patrol interval} > \text{device count}.
+\]
+
+\subsection{Reduced Ranger Availability}
+Reducing field rangers from 34 to 24 causes the protection index to drop from approximately 0.74 to 0.58, indicating a nonlinear degradation once patrol saturation in hotspot zones breaks.
+
+\subsection{Reduced Monitoring Systems}
+Cutting fixed devices from 12 to 6 lowers the protection index from 0.74 to 0.68. The limited drop reflects priority siting in top-risk cells; after hotspot coverage is met, additional devices have weaker marginal gain.
+
+\subsection{Patrol Schedule Changes}
+Increasing mean patrol interval from 1.5 to 3.0 days reduces deterrence continuity and raises delay-sensitive loss in corridor zones with high accessibility.
+
+\subsection{Detection Probability Perturbation}
+Improving the effective zone-level baseline detection parameter from 0.40 to 0.60 yields nearly the same protection gain as adding 6--8 field rangers, showing that technology quality and intelligence support can partially substitute additional staffing. This parameter is an aggregate operational detection level and is distinct from single-asset detection rates listed in Appendix A.
+
+Using the staffing floor relation in Equation~\eqref{eq:rangermin}, we obtain a baseline minimum of about 34 field rangers (17 two-person patrol teams). If devices are reduced by one-third, the requirement rises to about 40; if devices increase by 50\%, it falls to about 29. Taken together, these views show a consistent management conclusion: staffing is the dominant lever, detection quality is the second, and the safe operating region begins only once the ranger floor is protected.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{fig10_sensitivity_panels.png}
+  \caption{Sensitivity influence ladder ranking the management levers by full outcome span.}
+  \label{fig:sensitivity}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{fig14_ranger_requirement_curve.png}
+  \caption{Staffing regime curve separating fragile, transition, and stable protection zones.}
+  \label{fig:rangercurve}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{fig15_scenario_matrix.png}
+  \caption{Protection frontier with iso-protection bands and a minimum safe boundary.}
+  \label{fig:scenariomatrix}
+\end{figure}
+\FloatBarrier
+

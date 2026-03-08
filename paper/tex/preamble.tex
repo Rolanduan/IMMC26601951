@@ -1,0 +1,76 @@
+﻿\documentclass[10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[a4paper,margin=0.70in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs,array,longtable}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{setspace}
+\usepackage{float}
+\usepackage{url}
+\usepackage[font=small,labelfont=bf,skip=3pt]{caption}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=teal!60!black,
+  citecolor=teal!60!black,
+  urlcolor=blue!60!black
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.20em}
+\setlist[itemize]{leftmargin=1.2em,itemsep=0.12em,topsep=0.12em}
+\setlist[enumerate]{leftmargin=1.4em,itemsep=0.12em,topsep=0.12em}
+\graphicspath{{figures/}{paper/figures/}}
+\setstretch{0.96}
+\setlength{\textfloatsep}{6pt plus 1pt minus 1pt}
+\setlength{\intextsep}{6pt plus 1pt minus 1pt}
+\setlength{\floatsep}{6pt plus 1pt minus 1pt}
+\setlength{\abovecaptionskip}{3pt}
+\setlength{\belowcaptionskip}{1pt}
+\setlength{\tabcolsep}{4.5pt}
+\captionsetup{justification=centering,singlelinecheck=false}
+\setcounter{topnumber}{3}
+\setcounter{totalnumber}{5}
+\renewcommand{\textfraction}{0.06}
+\renewcommand{\floatpagefraction}{0.78}
+\setlength{\headheight}{16pt}
+\raggedbottom
+\sloppy
+\providecommand{\FloatBarrier}{}
+
+\newcommand{\controlnumber}{IMMC26601951}
+\newcommand{\teamnumber}{\controlnumber}
+\newcommand{\contestname}{IMMC 2026 International}
+\newcommand{\shortcontestname}{2026 IM$^2$C}
+\newcommand{\papertitle}{Protecting Wildlife at Scale}
+\newcommand{\PI}{\mathrm{PI}}
+\newcommand{\Risk}{\mathrm{Risk}}
+\newcommand{\Det}{\mathrm{Det}}
+\newcommand{\Resp}{\mathrm{Resp}}
+\newtheorem{proposition}{Proposition}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{Page \thepage\ of \pageref{LastMainPage}}
+\chead{\shortcontestname\ /\ \papertitle}
+\rhead{\controlnumber}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\fancypagestyle{appendix}{
+  \fancyhf{}
+  \lhead{Page \thepage}
+  \renewcommand{\headrulewidth}{0.4pt}
+  \renewcommand{\footrulewidth}{0pt}
+}
+
+\begin{document}
+\thispagestyle{fancy}
+

@@ -1,0 +1,33 @@
+﻿\section*{Summary Sheet}
+This paper develops a decision-ready wildlife protection architecture for Etosha National Park under scarce ranger manpower, limited monitoring assets, and uncertain poaching behavior. Rather than pursuing unrealistic full-park coverage, we define the management objective as selective saturation of zones where ecological value, access opportunity, and delayed response coincide. The framework integrates three linked models. Model I converts wildlife density, species sensitivity, water dependence, accessibility, response difficulty, and latent threat into a park-wide risk surface. Model II uses mixed-integer optimization to assign patrol loops, fixed sensors, and drone sorties under staffing, travel-time, and revisit constraints. Model III evaluates the resulting deployment through stochastic simulation of illegal entries, detection, dispatch, and interception over time.
+
+In the baseline Etosha scenario, the optimized plan concentrates effort along the eastern--southern hotspot corridor instead of spreading patrols uniformly. Relative to uniform deployment, weighted protection coverage increases from 0.64 to 0.87, mean detection probability rises from 0.47 to 0.66, and the protection index improves from 0.56 to 0.74. Sensitivity analysis shows that ranger availability is the dominant bottleneck, followed by effective detection quality and patrol interval. Under baseline technology, maintaining a protection index above 0.70 requires about 34 field rangers (17 two-person teams). Additional fixed devices remain useful, but their marginal value declines after persistent hotspots are instrumented.
+
+The main contribution is not a single formula but an integrated management package: hotspot zoning, route allocation, surveillance mix, staffing floor, robustness diagnostics, and transfer rules. Because the architecture separates universal decision logic from park-specific ecological and mobility layers, it can be recalibrated for parks such as Yellowstone and Kakadu without redesigning the model core.
+
+{\bf Keywords:} wildlife protection; anti-poaching operations; spatial risk modeling; mixed-integer optimization; stochastic simulation.
+
+\newpage
+
+\section*{Letter to IMMC}
+Dear International Mission for Monitoring Conservation (IMMC),
+
+\textbf{Executive summary.} Protecting large parks is a \emph{prioritization} problem, not a coverage problem. For Etosha, the decisive geography is the eastern--southern corridor. Concentrating patrols and monitoring there produces substantially better protection than spreading effort evenly. The minimum staffing floor to sustain strong protection is about 34 field rangers (17 two-person teams). Technology should reinforce patrols, not replace them.
+
+Etosha is large, ecologically diverse, and operationally uneven. Wildlife concentrates around waterholes; access is easier along specific road and gate corridors; and response times vary widely across the park. These realities create predictable ``risk corridors'' where ecological value and poaching opportunity overlap. The management task is therefore to protect decisive zones repeatedly, rather than to distribute limited effort across the entire map. In this study, that translates into a clear deployment focus: nearly half of patrol time should be concentrated in the east, about one-third in the southern--central corridor, and the remainder in lower-risk western and northern areas. Fixed devices are most valuable in persistent hotspots, while drones are most valuable for flexible observation and uncertainty reduction.
+
+Our recommended operating model is practical and repeatable. It begins by designating a standing hotspot layer (roughly the top-risk quarter of the park) that must receive repeated visits and monitoring. It then locks a staffing floor to ensure that a viable level of protection is maintained before additional technology is added. Monitoring tools are aligned with patrol operations rather than used as substitutes. Finally, the plan is rebalanced on a regular cycle as access patterns and pressure change, so that yesterday's hotspot map does not become tomorrow's blind spot.
+
+This approach performs materially better than a uniform patrol plan. In our analysis, overall protection rises from 0.56 to 0.74 without assuming additional resources. The gains come from concentration, repetition, and coordination. Equally important, the plan is more feasible operationally: it avoids overextending teams across long travel distances and reduces low-impact patrol hours in low-risk zones. Staffing is the dominant lever; detection quality is the second. If resources are tight, preserve field staffing first, then improve detection quality through intelligence, placement, and coordination before expanding equipment in low-impact areas.
+
+To keep the plan accountable, managers should track a small set of non-technical guardrails: repeated hotspot coverage, response time reliability in high-risk zones, and monitoring uptime during patrol windows. Monthly governance should focus on three questions: Are hotspot visits being completed as planned? Are response times slipping in decisive zones? Are devices actually active when patrols are operating? These measures create a simple feedback loop between strategy and field performance.
+
+Implementation can be phased over two to four quarters. The first quarter confirms the hotspot layer using patrol logs, waterhole usage, access corridors, and response times, and establishes the staffing floor. The second quarter deploys the initial hotspot plan, aligns devices and drones with that layer, and institutes a weekly review rhythm. The third and fourth quarters refine routes based on observed pressure shifts and test whether the staffing floor holds under seasonal variation. The primary risk of inaction is that uniform coverage dilutes impact, slows response in decisive zones, and creates false confidence; over time, this produces higher loss in the very areas that matter most.
+
+This decision logic is transferable. The local maps, species priorities, and access networks change; the management logic does not. Identify decisive zones, concentrate scarce resources, test performance over time, and update the plan regularly. Our recommendation to the IMMC is to encourage a protection framework for large parks that is selective rather than uniform, operational rather than aspirational, and adaptive rather than static. This is the most realistic path to protecting wildlife at scale when resources are limited and the cost of weak protection is high.
+
+Sincerely,\\
+Team \#\teamnumber
+
+\newpage
+

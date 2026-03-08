@@ -1,0 +1,61 @@
+﻿\appendix
+\section{Appendix A: Additional Assumptions and Parameters}
+\begin{longtable}{p{0.24\linewidth}p{0.18\linewidth}p{0.48\linewidth}}
+\toprule
+Item & Baseline value & Interpretation \\
+\midrule
+Grid size & \(8\times 8\) zones & Management resolution for strategic planning \\
+Planning horizon & 30 days & Dry-season operational month \\
+Monte Carlo runs & 1000 & Robustness estimation \\
+Field rangers & 34 & 17 patrol teams \\
+Fixed devices & 12 & Cameras, acoustic nodes, or towers \\
+Drone sorties per day & 4 & Reallocated among three sectors \\
+Base detection rates & 0.22 / 0.38 / 0.44 & Patrol / fixed device / drone single-asset rates \\
+Critical response time \(\tau^\star\) & 4.5 hours & Delay after which interception drops sharply \\
+\bottomrule
+\end{longtable}
+
+\section{Appendix B: Managerial Interpretation of the Three Models}
+\textbf{Model I} answers where protection should focus.\\
+\textbf{Model II} answers how limited people and technology should be assigned.\\
+\textbf{Model III} answers whether that plan remains effective under uncertainty over time.
+
+Together, the models create a closed loop: spatial diagnosis, decision optimization, then performance testing.
+
+\section{Appendix C: Repository Code Map}
+This appendix identifies the repository files that implement the core models used in the paper. Keeping the code external avoids package-heavy source listings and makes the document more robust to compile on standard LaTeX installations.
+
+\begin{longtable}{p{0.30\linewidth}p{0.60\linewidth}}
+\toprule
+File & Purpose \\
+\midrule
+\texttt{code/model0\_gis\_pipeline.py} & GIS-style preprocessing and zone-feature construction from the Etosha base map and management grid. \\
+\texttt{code/model1\_spatial\_risk.py} & Spatial risk scoring, hotspot ranking, and priority-zone extraction. \\
+\texttt{code/model2\_allocation\_milp.py} & Resource-allocation model for patrol loops, fixed devices, and drone sorties. \\
+\texttt{code/model3\_dynamic\_simulation.py} & Stochastic simulation of detection, response, interception, and protection-index outcomes. \\
+\texttt{generate\_professional\_figures.js} & Regeneration of all publication figures used in the manuscript. \\
+\bottomrule
+\end{longtable}
+
+\section*{AI Use Report}
+\addcontentsline{toc}{section}{AI Use Report}
+This report follows current AI-enabled research practice (as of 2026), where large models are strong copilots for synthesis, coding, and drafting, but not autonomous decision-makers for scientific claims.
+
+In this work, AI was used to:
+\begin{itemize}
+  \item co-design paper structure and section logic aligned with IMMC requirements;
+  \item assist symbolic formulation, algorithm pseudocode drafting, and LaTeX expression polishing;
+  \item generate and refine figure scripts (SVG/Python-style plotting workflow);
+  \item accelerate language editing for clarity, concision, and technical consistency.
+\end{itemize}
+
+Our technical view of modern AI is pragmatic:
+\begin{itemize}
+  \item \textbf{Multimodal and agentic AI} is now effective for combining text, code, and diagram generation in one pipeline.
+  \item \textbf{Retrieval/tool-augmented workflows} improve productivity but do not remove the need for domain validation.
+  \item \textbf{Probabilistic generation risk} (hallucination, overconfident wording, hidden inconsistency) remains real, especially for numerical and causal claims.
+\end{itemize}
+
+Therefore, all final model assumptions, equations, parameter interpretations, and conclusions were human-reviewed. We applied explicit safeguards: dimensional checks, constraint-feasibility checks, sensitivity sanity checks, and consistency checks between text, equations, code, and figures. AI outputs were treated as draft material; responsibility for the final scientific content remains with the authors.
+
+\end{document}

@@ -1,33 +1,56 @@
-# IMMC Wildlife Protection Paper (Etosha Case)
+# IMMC Wildlife Protection Paper
 
-This folder contains a compile-oriented LaTeX paper package:
+This folder is now organized as a maintainable paper package rather than a single LaTeX file.
 
-- `main.tex`: full manuscript (summary sheet, letter, sections 1--11, appendix, AI use report)
-- `refs.bib`: source bibliography data archive (the manuscript now compiles without BibTeX)
+## Structure
+
+- `main.tex`: thin entry point that assembles the manuscript
+- `tex/preamble.tex`: document class, packages, layout, macros, and page style
+- `tex/frontmatter.tex`: summary sheet and letter to IMMC
+- `tex/body.tex`: thin aggregator for the main technical report
+- `tex/sections/`: chapter-level source files for the main report
+- `tex/references.tex`: inline bibliography block
+- `tex/appendices.tex`: appendices and AI use report
 - `code/`: reference implementations for GIS preprocessing, risk scoring, allocation, and simulation
-- `map_assets/`: downloaded base map used for map-based figure reprocessing
-- `figures_src/*.svg`: editable figure sources
-- `figures/*.png`: rendered figures used by `\includegraphics`
-- `generate_professional_figures.js`: regenerate all professional figure SVG sources (15 figures)
-- `export_figures.ps1`: re-render all PNG figures from SVG via Edge headless mode
+- `figures_src/`: editable SVG figure sources
+- `figures/`: exported PNG figures consumed by LaTeX
+- `map_assets/`: base-map assets used by the figure pipeline
+- `generate_professional_figures.js`: regenerates figure source SVGs
+- `export_figures.ps1`: exports PNG figures from SVG
+- `build.ps1`: compile wrapper with engine detection and optional cleanup
 
-## Regenerate figure sources
+## Figure Workflow
+
+Regenerate figure sources:
 
 ```powershell
 node .\generate_professional_figures.js
 ```
 
-## Re-export figures
+Export the figures used by the paper:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\export_figures.ps1
 ```
 
-## Compile (when TeX is installed)
+## Build Workflow
+
+Compile the paper with automatic engine detection:
 
 ```powershell
-pdflatex main.tex
-pdflatex main.tex
+powershell -ExecutionPolicy Bypass -File .\build.ps1
 ```
 
-This version is refactored to avoid BibTeX and package-heavy source listings, so a standard `pdflatex` workflow is sufficient.
+Clean auxiliary files first, then compile:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\build.ps1 -Clean
+```
+
+If no LaTeX engine is installed, `build.ps1` stops with an explicit error message instead of failing silently.
+
+## Notes
+
+- The bibliography remains inline for portability and to avoid a BibTeX dependency.
+- The appendix pages are intentionally separated from the main report page count.
+- Generated compile artifacts are ignored by `paper/.gitignore`.

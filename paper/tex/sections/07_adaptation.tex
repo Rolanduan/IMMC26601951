@@ -1,0 +1,49 @@
+﻿\section{Adaptation to Other Protected Areas}
+To demonstrate generality, we transfer the framework to Yellowstone National Park in North America and Kakadu National Park in Australia. The architecture remains unchanged:
+\subsection{Invariant Model Components}
+\begin{itemize}
+  \item spatial zoning,
+  \item ecological value scoring,
+  \item access-based threat priors,
+  \item constrained resource allocation,
+  \item dynamic simulation and sensitivity analysis.
+\end{itemize}
+
+\subsection{Modified Inputs, Parameters, and Data Needs}
+What changes are the park-specific layers and parameter values:
+\begin{itemize}
+  \item \textbf{Yellowstone}: winter access, visitor pressure, road closures, and species-specific conflict patterns alter \(A_i\), \(D_i\), and seasonal multipliers \citep{yellowstoneOfficial}.
+  \item \textbf{Kakadu}: wet--dry season flooding, river access, and habitat fragmentation alter the mobility network and seasonal threat timing \citep{kakaduOfficial}.
+\end{itemize}
+
+Figure~\ref{fig:transfer} summarizes which modules transfer directly, which require only local retuning, and which require park-specific prior reconstruction; Table~\ref{tab:transfer} lists the corresponding recalibration targets.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{fig11_transferability_matrix.png}
+  \caption{Transferability wheel that separates direct transfer, local retuning, and park-specific rebuilding.}
+  \label{fig:transfer}
+\end{figure}
+\FloatBarrier
+
+\begin{table}[H]
+  \centering
+  \caption{Universal versus park-specific model components.}
+  \label{tab:transfer}
+  \begin{tabular}{p{0.28\linewidth}p{0.24\linewidth}p{0.38\linewidth}}
+    \toprule
+    Component & Universal? & Required recalibration \\
+    \midrule
+    Zoning and risk architecture & Yes & Cell size and zone boundaries \\
+    Composite risk logic & Yes & Weight values and seasonal modifiers \\
+    Route-based allocation model & Yes & Road, river, or trail network \\
+    Detection/interception simulation & Yes & Asset detection rates and response delay \\
+    Wildlife sensitivity layer & No & Species distribution and water dependence \\
+    Threat prior & No & Illegal-activity patterns and local intelligence \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsection{Expected Metric and Deployment Shifts}
+Under Yellowstone-like conditions, we expect stronger seasonal oscillation in \(\Resp\) due to winter mobility limits and tourist-driven pressure spikes. Under Kakadu-like wet--dry transitions, deployment should shift toward season-adaptive route families and higher uncertainty buffers in drone allocation. In both transfers, the model predicts that staffing recommendations remain primarily driven by hotspot revisit frequency and response-time feasibility.
+

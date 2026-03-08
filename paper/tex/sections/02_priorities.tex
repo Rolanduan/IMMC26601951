@@ -1,0 +1,126 @@
+﻿\section{Conservation Priorities and Defining Protection}
+Etosha does not face a single uniform conservation threat. In operational terms, the park must manage four interacting challenge types: concentrated poaching risk in accessible wildlife corridors, ecological exposure around dry-season water dependence, delayed response caused by long travel distances, and localized human pressure near gates and road-linked zones. In this paper, poaching-centered protection is treated as the dominant baseline task because it is the threat most directly shaped by deployable patrol and monitoring decisions; other threats remain as transferable extensions of the same framework.
+
+\subsection{Assumptions and Justifications}
+\begin{enumerate}
+  \item \textbf{Zonal discretization assumption.} The park is discretized into management zones while preserving major operational structure.
+  Justification: scheduling and allocation decisions are made at patrol-sector scale, so zone-level abstraction retains decision fidelity with tractable optimization.
+  \item \textbf{Seasonal aggregation assumption.} Dry-season wildlife aggregation near reliable water sources is a dominant protection driver in Etosha \citep{etoshaEcology}.
+  Justification: water dependence strongly concentrates both conservation value and poaching opportunity.
+  \item \textbf{Threat-priority assumption.} Illegal extraction and poaching pressure are modeled as the dominant baseline threat, while natural hazards and visitor-conflict shocks are treated as exogenous modifiers.
+  Justification: the prompt requires strategic deployment of patrol and monitoring resources, and Etosha's management geometry most directly couples those decisions to poaching deterrence.
+  \item \textbf{Latent-threat assumption.} Illegal activity intensity is not fully observed and is represented by a prior based on accessibility, biological value, and recent pressure.
+  Justification: incident records are sparse and biased; prior-based estimation is necessary for risk inference.
+  \item \textbf{Operational-unit assumption.} Patrol teams are modeled as two-person units; fixed devices represent cameras/acoustic towers and related stationary monitoring assets.
+  Justification: this provides a common accounting unit across heterogeneous technologies.
+  \item \textbf{Feasibility-first cost assumption.} Cost is represented via manpower-hours, device inventory, and sortie constraints instead of a detailed budget objective.
+  Justification: the prompt emphasizes practicality and staffing feasibility rather than full financial optimization.
+\end{enumerate}
+
+\subsection{Etosha Operational Priorities}
+Figure~\ref{fig:system} summarizes the wildlife protection system. Four subsystems interact:
+\begin{itemize}
+  \item \textbf{Ecology}: wildlife density, species sensitivity, water dependence.
+  \item \textbf{Threat}: poaching attractiveness, border pressure, historical vulnerability.
+  \item \textbf{Mobility}: roads, travel times, station locations, access difficulty.
+  \item \textbf{Surveillance}: patrol routes, fixed devices, drones, and control-room response.
+\end{itemize}
+These interacting subsystems imply that the park's highest conservation priority is not simply the biologically richest location. Priority should instead be assigned to zones where ecological value, poaching opportunity, and slow response overlap. That criterion directly defines where scarce protection effort should concentrate.
+
+\subsection{Spatial Abstraction and Modeling Logic}
+This yields the modeling flow required by the prompt:
+\[
+\text{conservation problem}
+\rightarrow
+\text{park system}
+\rightarrow
+\text{spatial risk}
+\rightarrow
+\text{resource allocation}
+\rightarrow
+\text{dynamic evaluation}
+\rightarrow
+\text{policy guidance}.
+\]
+
+For Etosha, the most important structural feature is the overlap of wildlife aggregation and human accessibility. The park contains strong dry-season water dependence and an operational road corridor that links main camps and lookout areas \citep{etoshaOfficial,etoshaEcology}. Therefore the highest-risk places are not simply the highest-biodiversity places; they are the zones where wildlife value, access opportunity, and slow ranger response coincide.
+
+\subsection{Protection Definition, Data Layers, and Uncertainty Tags}
+Operationally, wildlife in a zone is treated as protected when high ecological value receives recurrent attention, illegal activity can be detected with high probability, and response delay remains below the local interception threshold. Each zone therefore stores ecological, accessibility, and response layers with explicit uncertainty tags (data confidence, seasonal drift, and reporting incompleteness). These tags are propagated to the risk and simulation layers so that recommendations are interpreted with confidence bounds rather than point values only.
+
+\subsection{Spatial Risk Inference and Priority Zones}
+\subsubsection{Spatial Representation}
+We divide Etosha into an \(8\times 8\) management grid, producing 64 zones. Each zone \(i\) stores six attributes:
+\[
+W_i:\text{ wildlife density},\quad
+S_i:\text{ species sensitivity},\quad
+H_i:\text{ waterhole proximity},
+\]
+\[
+A_i:\text{ accessibility},\quad
+D_i:\text{ response difficulty},\quad
+P_i:\text{ poaching prior}.
+\]
+
+The grid structure is coarse enough for managerial interpretation but fine enough to represent the east--west length of the park, the southern road corridor, the Etosha Pan, and waterhole clusters. Figure~\ref{fig:grid} shows the GIS-ready zoning with camps, gates, and waterholes; Figure~\ref{fig:riskmap} shows the resulting composite risk surface; Figure~\ref{fig:riskdecomp} isolates the mechanisms that generate the dominant hotspot cluster.
+
+\subsubsection{Response Difficulty from GIS Travel Times}
+Let \(t_{si}\) be the travel time from station \(s\) to zone \(i\) along the road network. Response difficulty is derived from the shortest station travel time and normalized to \([0,1]\):
+\begin{equation}
+D_i = \frac{\min_s t_{si}-\min_k \min_s t_{sk}}{\max_k \min_s t_{sk}-\min_k \min_s t_{sk}+\varepsilon}.
+\label{eq:response}
+\end{equation}
+This ties the spatial risk layer to the operational map: zones that are far from any station receive larger \(D_i\) and therefore larger composite risk in Equation~\eqref{eq:risk}.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{fig02_etosha_grid.png}
+  \caption{Planning mesh with command anchors and corridor-aware zoning, built to support later risk scoring, allocation, and response calculations.}
+  \label{fig:grid}
+\end{figure}
+
+\subsubsection{Zone Risk Score}
+We separate conservation \emph{value} from operational \emph{threat}.
+\begin{align}
+B_i &= 0.45W_i + 0.35H_i + 0.20S_i, \\
+T_i &= 0.40A_i + 0.30D_i + 0.30P_i.
+\end{align}
+The composite risk score is
+\begin{equation}
+R_i = 0.55B_i + 0.45T_i.
+\label{eq:risk}
+\end{equation}
+
+The weighting intentionally places slightly more emphasis on ecological value than threat opportunity because the objective is wildlife protection rather than crime suppression alone. The poaching prior is modeled through a logistic exposure function:
+\begin{equation}
+P_i = \frac{1}{1+\exp[-(\theta_0+\theta_1 A_i+\theta_2 B_i-\theta_3 C_i)]},
+\label{eq:prior}
+\end{equation}
+where \(C_i\) is recent protection pressure. Equation~\eqref{eq:prior} captures displacement: illegal activity tends to move toward attractive zones that currently receive less attention.
+
+\subsubsection{Prior Form and Identifiability Insight}
+Let \(\Omega_i = \log\left(\frac{P_i}{1-P_i}\right)\) be the log-odds of illegal activity. The logistic form \eqref{eq:prior} corresponds to a linear log-odds model
+\begin{equation}
+\Omega_i = \theta_0+\theta_1 A_i+\theta_2 B_i-\theta_3 C_i,
+\label{eq:logodds}
+\end{equation}
+which is identifiable up to affine scaling when the covariates \(A_i,B_i,C_i\) are standardized. This makes the prior interpretable: positive \(\theta_1,\theta_2\) increase odds via access and value, while \(\theta_3>0\) captures displacement from patrol pressure.
+
+\subsubsection{Risk Map Interpretation}
+The highest-risk quartile in our Etosha case clusters around the eastern and southern corridor where three mechanisms overlap: perennial water use, road access, and moderate to long response times from stations. The western interior is lower risk because access is harder and wildlife concentration is more diffuse. The Etosha Pan itself is ecologically important but operationally lower in direct poaching attractiveness because it is open and less structurally suitable for covert extraction.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{fig03_risk_heatmap.png}
+  \caption{Hotspot atlas with a corridor transect that makes the west-to-east risk climb explicit.}
+  \label{fig:riskmap}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{fig04_risk_decomposition.png}
+  \caption{Driver triptych separating ecological pull, access pressure, and response delay on matched map frames.}
+  \label{fig:riskdecomp}
+\end{figure}
+\FloatBarrier
+
