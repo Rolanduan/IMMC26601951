@@ -15,18 +15,30 @@ Those three layers become the decision variables of the controller:
 
 \subsection{Route Library and Patrol Geometry}
 \subsubsection{Feasible Loop Construction}
-Let \(\mathcal{R}\) be the patrol-loop library generated from stations, roads, and time budgets. Each candidate loop must start and end at a station, traverse connected zones, and satisfy
-\begin{equation}
-h_r = \frac{L_r}{v} + t_{\text{stop}} \le h_{\max},
-\label{eq:route}
-\end{equation}
-where \(L_r\) is loop length, \(v\) is patrol speed, and \(t_{\text{stop}}\) captures observation and reporting time. This prevents the controller from recommending routes that are mathematically attractive but operationally impossible.
+Let \(\mathcal{G}_R=(V_R,E_R,w)\) again denote the weighted road graph. A patrol column \(r\) based at station \(s\in\mathcal{S}\) is encoded by edge-use variables \(\xi_e^{(r)}\in\{0,1\}\) and zone-coverage variables \(c_i^{(r)}\in\{0,1\}\). The route-generation subproblem is a resource-constrained prize-collecting tour:
+\begin{align}
+\max_{\xi^{(r)},c^{(r)}} \quad &
+\Pi_r=\sum_{i=1}^{64} R_i c_i^{(r)}-\mu\sum_{e\in E_R} w_e \xi_e^{(r)}
+\label{eq:routeobj}\\
+\text{s.t.}\quad
+& \sum_{e\in\delta^+(v)}\xi_e^{(r)}-\sum_{e\in\delta^-(v)}\xi_e^{(r)}=0,
+\quad \forall v\in V_R\setminus\{s\},
+\label{eq:routeflow}\\
+& \sum_{e\in\delta^+(s)}\xi_e^{(r)}=
+\sum_{e\in\delta^-(s)}\xi_e^{(r)}=1,
+\label{eq:routeanchor}\\
+& h_r=\sum_{e\in E_R} w_e \xi_e^{(r)}+t_{\text{stop}}\sum_{i=1}^{64} c_i^{(r)}\le h_{\max},
+\label{eq:route}\\
+& c_i^{(r)}\le \sum_{e\in\delta(i)}\xi_e^{(r)},\quad \forall i.
+\label{eq:routecover}
+\end{align}
+Here \(\delta^+(v)\) and \(\delta^-(v)\) denote the outgoing and incoming road edges of node \(v\), \(\delta(i)\) denotes the set of road edges that enter zone \(i\), and standard subtour-elimination constraints are omitted for brevity. Equation~\eqref{eq:routeobj} makes the route library a genuine graph-theoretic object: each column is the solution of a bounded tour problem, not an arbitrary loop sketched after the fact.
 
 The zone-coverage matrix is defined by
 \begin{equation}
 a_{ir} =
 \begin{cases}
-1, & \text{if route } r \text{ traverses zone } i,\\
+1, & \text{if } c_i^{(r)}=1,\\
 0, & \text{otherwise}.
 \end{cases}
 \end{equation}
@@ -36,13 +48,22 @@ F_i = \sum_{r\in\mathcal{R}} a_{ir}x_r.
 \end{equation}
 
 \subsubsection{Enumeration and Pruning}
-The road network is represented as a weighted graph \(\mathcal{G}=(V,E)\) with travel-time weights. For each station, we generate \(K\)-shortest candidate paths to high-value waypoints and then form loops by concatenating outbound and return paths. We prune the resulting library by:
+Equations~\eqref{eq:routeobj}--\eqref{eq:routecover} are the route-level version of team orienteering. In implementation, the master MILP does not solve that subproblem from scratch on every branch-and-bound node. Instead, for each station we generate a finite set of high-quality columns from \(K\)-shortest-path seeds and retain only the non-dominated loops. Route \(r\) dominates route \(r'\) if \(h_r\le h_{r'}\) and \(a_{ir}\ge a_{ir'}\) for every zone \(i\), with strict improvement in at least one component.
+
+We additionally cap within-station overlap by
+\begin{equation}
+\operatorname{ov}(r,r')=
+\frac{\sum_{e\in E_R}\xi_e^{(r)}\xi_e^{(r')}}{\min\left\{\sum_{e\in E_R}\xi_e^{(r)},\sum_{e\in E_R}\xi_e^{(r')}\right\}}
+\le \rho_{\max},
+\label{eq:overlap}
+\end{equation}
+and prune the resulting library by:
 \begin{enumerate}
   \item removing any route that violates the time bound \eqref{eq:route};
-  \item removing dominated routes whose zone set is a strict subset of another lower-cost route;
+  \item removing dominated routes whose coverage vector is inferior to a lower-cost alternative;
   \item limiting excessive overlap among routes from the same station so that the library preserves tactical variety.
 \end{enumerate}
-This produces a controller-ready route set that behaves like an operational menu rather than an arbitrary mathematical index.
+This produces a controller-ready route set that behaves like an operational menu rather than an arbitrary mathematical index. The route-cover matrix used in the code is therefore a compact column-generation interface to the underlying path-flow graph model.
 
 \subsection{Protection Gain Model}
 The controller values assets for their contribution to service intensity. Let
@@ -94,6 +115,8 @@ R_i e^{-\eta_i} \approx R_k e^{-\eta_k}.
 Equation~\eqref{eq:balancing} is the core allocation insight. Scarce resources are pulled toward cells with large \(R_i\) until their marginal value is driven down to the same level as other active cells. That is why the optimized strategy concentrates along the eastern--southern corridor instead of dispersing effort uniformly.
 
 \subsection{Controller Objective and Constraints}
+The patrol component is a path-flow master problem written in route columns. Each integer variable \(x_r\) is the multiplicity of one graph-feasible patrol tour, so connectivity and return-to-station feasibility are already enforced upstream by Equations~\eqref{eq:routeflow}--\eqref{eq:routecover}. The master problem only decides how often each feasible column should be activated alongside devices and UAVs.
+
 The optimization model maximizes weighted expected protection net of route burden:
 \begin{equation}
 \max \; Z = \sum_{i=1}^{64} R_iE_i - \lambda \sum_{r\in\mathcal{R}} h_rx_r,
@@ -131,7 +154,7 @@ The controller runs in a rolling horizon:
 \textbf{Output:} deployment plan \(\{x_r^t,y_i^t,z_j^t\}_{t=1}^T\) and staffing floor \(n_{\min}\). \\
 \midrule
 1. Build the priority field \(R_i\) from Equations~\eqref{eq:risk}--\eqref{eq:prior}. \\
-2. Generate feasible patrol loops and coverage matrices \(a_{ir}\) and \(b_{ij}\). \\
+2. Generate graph-feasible patrol columns from Equations~\eqref{eq:routeobj}--\eqref{eq:routecover} and build \(a_{ir}\) and \(b_{ij}\). \\
 3. Solve the allocation controller under Equations~\eqref{eq:obj}--\eqref{eq:hotspots}. \\
 4. Stress test the resulting plan through detection, dispatch, and interception simulation. \\
 5. Update patrol pressure \(C_i\), refresh \(P_i\), and re-optimize if performance falls below threshold. \\

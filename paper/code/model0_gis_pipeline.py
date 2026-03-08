@@ -43,7 +43,7 @@ def zonal_mean(layer: np.ndarray, cell_ids: np.ndarray, n_cells: int) -> np.ndar
 
 
 def response_difficulty(station_travel_hours: np.ndarray) -> np.ndarray:
-    """Convert station-to-cell travel-time matrix into difficulty scores."""
+    """Convert multi-source shortest-path travel times into difficulty scores."""
     best_time = np.min(station_travel_hours, axis=0)
     return normalize(best_time)
 

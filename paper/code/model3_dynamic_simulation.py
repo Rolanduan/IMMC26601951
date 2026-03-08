@@ -7,6 +7,10 @@ Core equations implemented:
     g_i^t = 1 / (1 + exp(kappa * (tau_i^t - tau_star)))
     u_i^t = q_i^t * g_i^t
     PI = 1 - weighted_loss / weighted_event
+
+The event generator is a reduced-form surrogate for a zone-graph random walk,
+and the logistic interception term is the operational approximation of an
+absorbing capture probability on that graph.
 """
 
 from dataclasses import dataclass

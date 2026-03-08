@@ -3,7 +3,9 @@ Model II: Mixed-integer allocation of patrols, fixed devices, and drone sorties.
 
 This is a linearized implementation of the allocation layer in Section 5.
 It uses a capped linear protection utility e_i in [0, 1] to approximate
-the nonlinear gain E_i = 1 - exp(-intensity_i).
+the nonlinear gain E_i = 1 - exp(-intensity_i). Patrol routes appear here as
+pre-generated columns of a path-flow master problem: each column in
+`route_cover` is one graph-feasible tour produced upstream.
 """
 
 from dataclasses import dataclass

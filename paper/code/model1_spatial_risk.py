@@ -5,11 +5,14 @@ This module implements the core equations in Section 4:
     B_i = 0.45 W_i + 0.35 H_i + 0.20 S_i
     T_i = 0.40 A_i + 0.30 D_i + 0.30 P_i
     R_i = 0.55 B_i + 0.45 T_i
-    P_i = sigmoid(theta_0 + theta_1 A_i + theta_2 B_i - theta_3 C_i)
+
+The latent pressure prior can be computed either as an independent logistic
+field or as a graph-diffused logistic field satisfying
+    (I + lambda L) Omega = u,  P_i = sigmoid(Omega_i).
 """
 
 from dataclasses import dataclass
-from typing import Dict, Tuple
+from typing import Dict, Optional, Tuple
 
 import numpy as np
 
@@ -40,6 +43,20 @@ def sigmoid(x: np.ndarray) -> np.ndarray:
     return 1.0 / (1.0 + np.exp(-x))
 
 
+def graph_diffused_logit(
+    base_logit: np.ndarray,
+    adjacency: np.ndarray,
+    diffusion_weight: float = 0.35,
+    ridge: float = 1e-9,
+) -> np.ndarray:
+    """Smooth zone log-odds on a graph via (I + lambda L)^(-1) u."""
+    degree = np.sum(adjacency, axis=1)
+    laplacian = np.diag(degree) - adjacency
+    identity = np.eye(adjacency.shape[0])
+    system = identity + diffusion_weight * laplacian + ridge * identity
+    return np.linalg.solve(system, base_logit)
+
+
 def compute_zone_risk(
     wildlife_density: np.ndarray,
     species_sensitivity: np.ndarray,
@@ -49,6 +66,8 @@ def compute_zone_risk(
     protection_pressure: np.ndarray,
     theta: Tuple[float, float, float, float] = (-1.2, 1.4, 1.0, 0.9),
     weights: RiskWeights = RiskWeights(),
+    adjacency: Optional[np.ndarray] = None,
+    diffusion_weight: float = 0.35,
 ) -> Dict[str, np.ndarray]:
     """
     Compute B_i, P_i, T_i, R_i for all zones.
@@ -62,6 +81,11 @@ def compute_zone_risk(
         Coefficients (theta_0, theta_1, theta_2, theta_3) for the prior model.
     weights : RiskWeights
         Structural coefficients for Model I.
+    adjacency : np.ndarray | None
+        Optional zone-graph adjacency matrix. If supplied, the prior is smoothed
+        by the graph Laplacian before applying the logistic link.
+    diffusion_weight : float
+        Strength of graph diffusion in the prior.
     """
     w = min_max_scale(wildlife_density)
     s = min_max_scale(species_sensitivity)
@@ -71,11 +95,17 @@ def compute_zone_risk(
     c = min_max_scale(protection_pressure)
 
     b = weights.wildlife * w + weights.water * h + weights.sensitivity * s
-    prior = sigmoid(theta[0] + theta[1] * a + theta[2] * b - theta[3] * c)
+    base_logit = theta[0] + theta[1] * a + theta[2] * b - theta[3] * c
+    omega = (
+        graph_diffused_logit(base_logit, adjacency, diffusion_weight)
+        if adjacency is not None
+        else base_logit
+    )
+    prior = sigmoid(omega)
     t = weights.access * a + weights.delay * d + weights.prior * prior
     r = weights.blend_value * b + weights.blend_threat * t
 
-    return {"B": b, "P": prior, "T": t, "R": r}
+    return {"B": b, "Omega": omega, "P": prior, "T": t, "R": r}
 
 
 def hotspot_quartiles(risk: np.ndarray) -> Dict[str, np.ndarray]:

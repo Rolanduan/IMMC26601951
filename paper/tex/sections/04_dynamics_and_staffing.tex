@@ -3,7 +3,21 @@
 An optimization model can produce an elegant static deployment that still fails in practice once incidents arrive irregularly, response is delayed, or detection degrades over time. For that reason, the controller is embedded inside a stochastic stress test. The purpose of Model III is not decorative simulation; it is to answer whether the recommended plan can maintain acceptable service under operational noise and adversarial uncertainty.
 
 \subsection{Event Generation, Detection, and Interception}
-For each zone \(i\) and day \(t\), illegal activity arrivals follow
+Let \(\mathcal{G}_C=(V_C,E_C)\) be the zone graph inherited from the GIS partition. A latent intruder state moves on \(\mathcal{G}_C\) with time-varying transition matrix \(P^t\), where \(d_{ij}\) is the one-step movement cost between adjacent zones \(i\) and \(j\), and for adjacent zones \(i\to j\),
+\begin{equation}
+P_{ij}^t=
+\frac{\exp(\nu_1A_j+\nu_2B_j-\nu_3C_j^t-\nu_4 d_{ij})}
+{\sum_{k:(i,k)\in E_C}\exp(\nu_1A_k+\nu_2B_k-\nu_3C_k^t-\nu_4 d_{ik})}.
+\label{eq:markov}
+\end{equation}
+If \(m^t\) is the occupancy distribution over zones, then
+\begin{equation}
+m^{t+1}=m^tP^t,
+\qquad
+\lambda_i^t=\lambda_0 m_i^t.
+\label{eq:occupancy}
+\end{equation}
+For competition-scale experiments, we compress this mean-field graph walk into a reduced-form arrival model in which the stationary attraction proxy is the risk field \(R_i\). For each zone \(i\) and day \(t\), illegal activity arrivals follow
 \begin{equation}
 N_i^t \sim \text{Poisson}(\lambda_0R_i\Psi_t),
 \end{equation}
@@ -14,7 +28,12 @@ If the active asset set in zone \(i\) on day \(t\) is \(\mathcal{A}_i^t\), then 
 q_i^t = 1-\prod_{a\in \mathcal{A}_i^t}(1-q_a).
 \label{eq:detect}
 \end{equation}
-Interception success then depends on whether the park can respond in time:
+An exact capture model on \(\mathcal{G}_C\) is an absorbing Markov chain with transient matrix \(Q^t\) and capture-transition vector \(r_c^t\). If an event starts in zone \(i\), the exact capture probability is
+\begin{equation}
+\alpha_i^t=\mathbf{e}_i^\top (I-Q^t)^{-1} r_c^t.
+\label{eq:absorb}
+\end{equation}
+The simulation uses the reduced-form surrogate that matters operationally most directly: interception success as a function of realized response delay.
 \begin{equation}
 g_i^t = \frac{1}{1+\exp[\kappa(\tau_i^t-\tau^\star)]},
 \label{eq:intercept}
@@ -44,21 +63,22 @@ Hence
 \end{equation}
 This expression makes the system logic transparent: good control is equivalent to shrinking the weighted average of unneutralized risk.
 
-Response time itself is modeled as the sum of a mobility base, a dispatch delay, and terrain or communication noise:
+Response time itself is modeled as the sum of a graph shortest-path base, a dispatch delay, and terrain or communication noise:
 \begin{equation}
-\tau_i^t = \min_s t_{si} + \delta_t + \xi_i^t,
+\tau_i^t = d_i + \delta_t + \xi_i^t,
 \label{eq:taudist}
 \end{equation}
-where \(\delta_t \sim \mathcal{N}(\mu_\delta,\sigma_\delta^2)\) and \(\xi_i^t \sim \text{LogNormal}(\mu_\xi,\sigma_\xi^2)\). This produces the right-skewed delay pattern expected in field operations, where most responses are routine but a nontrivial minority are slowed by friction.
+where \(d_i\) is the multi-source shortest-path term from Equation~\eqref{eq:shortest}, \(\delta_t \sim \mathcal{N}(\mu_\delta,\sigma_\delta^2)\) is dispatch or queueing delay, and \(\xi_i^t \sim \text{LogNormal}(\mu_\xi,\sigma_\xi^2)\) is terrain or communication noise. This produces the right-skewed delay pattern expected in field operations, where most responses are routine but a nontrivial minority are slowed by friction.
 
 \subsection{Feedback Update}
 The simulation is not terminal; it feeds the next planning cycle. We update patrol pressure and latent intrusion risk by
-\begin{equation}
-C_i^{t+1}=(1-\omega)C_i^t+\omega\left(\frac{F_i^t}{\max_k F_k^t}\right), \qquad
-P_i^{t+1}=\sigma(\theta_0+\theta_1A_i+\theta_2B_i-\theta_3C_i^{t+1}),
+\begin{align}
+C_i^{t+1}&=(1-\omega)C_i^t+\omega\left(\frac{F_i^t}{\max_k F_k^t}\right), \nonumber\\
+(I+\lambda_L L)\Omega^{t+1}&=\theta_0\mathbf{1}+\theta_1A+\theta_2B-\theta_3C^{t+1}, \nonumber\\
+P_i^{t+1}&=\sigma(\Omega_i^{t+1}),
 \label{eq:priorupdate}
-\end{equation}
-where \(\sigma(\cdot)\) is the logistic function. This closes the operating loop: deployment changes local pressure, local pressure changes future risk, and future risk reshapes deployment.
+\end{align}
+where \(\sigma(\cdot)\) is the logistic function and \(L\) is the same zone-graph Laplacian used in Equation~\eqref{eq:prior}. This closes the operating loop: deployment changes local pressure, local pressure changes future risk, and future risk reshapes deployment through the same graph that carries mobility and exposure.
 Figure~\ref{fig:feedbackarch} shows this closed loop at algorithm level, from event generation and detection fusion to posterior refresh and re-optimization.
 
 \begin{figure}[H]
@@ -73,6 +93,16 @@ The model is directionally coherent. More patrols, more devices, or more UAV cov
 \subsection{Dispatch Discipline and Daily Control Cycle}
 The park is modeled with staggered patrol departures, continuous device monitoring, and two daily drone windows. That timing matters because identical total effort can perform very differently depending on whether coverage is synchronized or spread across the day. In management terms, the system is designed to avoid silent intervals in high-risk zones.
 
+The online scheduling layer lives on the time-expanded road graph \(\mathcal{G}_T=(V_R\times\{0,\dots,H\},E_T)\), where \(H\) is the number of daily time slots. A feasible daily assignment is a set of station-anchored paths on \(\mathcal{G}_T\), and the reduced cost of activating route \(r\) at slot \(\tau\) is
+\begin{equation}
+\Delta_{r,\tau}^t=
+\sum_{i=1}^{64}R_i\!\left[e^{-\eta_i^t}-e^{-(\eta_i^t+\alpha a_{ir})}\right]
+-\lambda h_r.
+\label{eq:dispatchscore}
+\end{equation}
+where \(\eta_i^t=\alpha F_i^t+\beta y_i^t+\gamma\sum_j b_{ij}z_j^t\). The exact online problem is a min-cost flow on \(\mathcal{G}_T\). The implementation uses the hotspot-first greedy rule below, which selects the highest positive reduced-cost actions while enforcing station-time feasibility.
+
+\vspace{0.5em}
 The dispatch scheduler follows a hotspot-first rule:
 \begin{table}[H]
 \centering
@@ -85,7 +115,7 @@ The dispatch scheduler follows a hotspot-first rule:
 \midrule
 1. Rank hotspot zones by current risk \(R_i\) and required revisit frequency \(f_i^\star\). \\
 2. For each station, allocate its first slots to routes covering the highest-ranked unmet hotspots. \\
-3. Use remaining slots to maximize marginal protection gain \(R_i e^{-\eta_i}\) from Equation~\eqref{eq:balancing}. \\
+3. Use remaining slots to maximize feasible reduced cost \(\Delta_{r,\tau}^t\) from Equation~\eqref{eq:dispatchscore}. \\
 4. Assign UAV windows to sectors with the largest residual uncertainty or the largest \(R_i(1-q_i^t)\). \\
 5. Smooth departure times so that the park avoids synchronized coverage gaps. \\
 \bottomrule

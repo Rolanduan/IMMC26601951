@@ -1,5 +1,5 @@
 \appendix
-\section{Appendix A: Baseline Operating Parameters}
+\section{Baseline Operating Parameters}
 \begin{longtable}{p{0.24\linewidth}p{0.18\linewidth}p{0.48\linewidth}}
 \toprule
 Item & Baseline value & Interpretation \\
@@ -12,29 +12,224 @@ Fixed devices & 12 & Cameras, acoustic nodes, or fixed watch assets \\
 Drone sorties per day & 4 & Flexible aerial support reassigned by sector \\
 Base detection rates & 0.22 / 0.38 / 0.44 & Patrol / fixed-device / UAV single-asset rates \\
 Critical response time \(\tau^\star\) & 4.5 hours & Delay beyond which interception drops sharply \\
+Graph-diffusion weight \(\lambda_L\) & 0.35 & Strength of corridor-wise pressure smoothing in the prior \\
 \bottomrule
 \end{longtable}
 
-\section{Appendix B: Managerial Reading of the Operating System}
+\section{Graph-Theoretic Derivations}
+This appendix collects the technical derivations that support the main text. The purpose is to make the manuscript mathematically closed without overloading the operational narrative of the main body.
+
+\subsection{Shortest-Path Reduction of the Response Surface}
+Let \(\mathcal{G}_R=(V_R,E_R,w)\) be the weighted road graph, with positive edge weights \(w_e>0\), station set \(\mathcal{S}\subseteq V_R\), and zone-access map \(i\mapsto v(i)\in V_R\). The shortest-path response metric in Equation~\eqref{eq:shortest} is
+\[
+d_i=\min_{s\in\mathcal{S}}\operatorname{dist}_{\mathcal{G}_R}(s,v(i)).
+\]
+Because all edge weights are nonnegative, a single multi-source Dijkstra pass initialized with the full station set \(\mathcal{S}\) returns the exact vector \(d=(d_1,\dots,d_{64})\). Thus the response surface in Equation~\eqref{eq:response} is not a heuristic accessibility score; it is the exact station-set eccentricity of the zone system under the park road geometry.
+
+\subsection{Existence and Uniqueness of the Graph-Diffused Prior}
+\begin{proposition}
+\label{prop:priorunique}
+The optimization problem in Equation~\eqref{eq:prioropt},
+\[
+\min_{x\in\mathbb{R}^{64}}
+\left\{
+\frac{1}{2}\lVert x-u\rVert_2^2+\frac{\lambda_L}{2}x^\top Lx
+\right\},
+\]
+has a unique minimizer \(\Omega\), and that minimizer satisfies \((I+\lambda_L L)\Omega=u\).
+\end{proposition}
+\begin{proof}
+The graph Laplacian \(L\) is symmetric positive semidefinite, so for any \(x\),
+\[
+x^\top(I+\lambda_L L)x=\lVert x\rVert_2^2+\lambda_L x^\top Lx \ge \lVert x\rVert_2^2>0
+\]
+whenever \(x\neq 0\). Hence \(I+\lambda_L L\) is symmetric positive definite. The objective is therefore strictly convex, so it has a unique minimizer.
+
+Taking the gradient with respect to \(x\) gives
+\[
+\nabla\!\left(\frac{1}{2}\lVert x-u\rVert_2^2+\frac{\lambda_L}{2}x^\top Lx\right)
+=(x-u)+\lambda_L Lx.
+\]
+Setting the gradient to zero at the minimizer yields
+\[
+(I+\lambda_L L)\Omega=u.
+\]
+Strict convexity makes this stationary point the unique global minimizer.
+\end{proof}
+
+The management interpretation follows directly. The identity term anchors the solution to the local attractiveness score \(u_i\), while the Laplacian term penalizes sharp jumps between adjacent or road-linked cells. Large \(\lambda_L\) produces corridor-smooth risk; \(\lambda_L=0\) recovers the uncoupled logistic prior.
+
+\subsection{Dominance-Safe Route Pruning}
+\begin{proposition}
+\label{prop:dominance}
+Suppose two patrol columns \(r\) and \(r'\) are anchored at the same station, satisfy \(h_r\le h_{r'}\), and obey \(a_{ir}\ge a_{ir'}\) for every zone \(i\). Then there exists an optimal master-problem solution with \(x_{r'}=0\).
+\end{proposition}
+\begin{proof}
+Take any feasible solution \((x,y,z)\) with \(x_{r'}>0\). Construct a new solution by replacing every activation of \(r'\) with route \(r\):
+\[
+\tilde{x}_{r}=x_r+x_{r'}, \qquad \tilde{x}_{r'}=0,\qquad \tilde{x}_k=x_k \text{ for } k\notin\{r,r'\}.
+\]
+Because \(r\) and \(r'\) originate from the same station, the station-capacity constraint remains feasible. Since \(h_r\le h_{r'}\), total patrol hours do not increase, so the ranger-hour constraint also remains feasible. Coverage does not decrease because \(a_{ir}\ge a_{ir'}\) for every zone, implying
+\[
+\sum_{k} a_{ik}\tilde{x}_k \ge \sum_{k} a_{ik}x_k,\qquad \forall i.
+\]
+Therefore hotspot-floor and utility-cap constraints remain feasible or improve. The objective cannot decrease because route burden weakly falls while protection utility weakly rises. Hence any optimal solution can be transformed into another optimal solution with \(x_{r'}=0\).
+\end{proof}
+
+Proposition~\ref{prop:dominance} justifies the route-library pruning rule used by the controller in Table~\ref{alg:planner}: dominated columns can be deleted before the MILP is solved, which improves tractability without changing the optimal value.
+
+\subsection{Marginal-Balancing Derivation}
+The intuition behind Equation~\eqref{eq:balancing} can be made explicit by relaxing the patrol, device, and UAV decisions into one continuous intensity variable \(\eta_i\ge 0\) and one total effort budget \(\sum_i \eta_i\le \bar{E}\):
+\[
+\max_{\eta_i\ge 0}\;\sum_{i=1}^{64}R_i\left(1-e^{-\eta_i}\right)
+\quad
+\text{s.t.}\quad
+\sum_{i=1}^{64}\eta_i\le \bar{E}.
+\]
+The Lagrangian is
+\[
+\mathcal{L}(\eta,\nu,\gamma)=
+\sum_i R_i(1-e^{-\eta_i})-\nu\left(\sum_i\eta_i-\bar{E}\right)+\sum_i \gamma_i\eta_i.
+\]
+For any active zone \(i\) with \(\eta_i>0\), the complementary-slackness term vanishes, and the first-order condition becomes
+\[
+R_i e^{-\eta_i}=\nu.
+\]
+Thus all active zones equalize the same weighted marginal benefit \(\nu\). For two active cells \(i\) and \(k\),
+\[
+R_i e^{-\eta_i}=R_k e^{-\eta_k},
+\]
+which is exactly Equation~\eqref{eq:balancing}. The corridor concentration in the numerical solution is therefore not incidental; it is the expected consequence of a concave service-gain function under scarcity.
+
+\subsection{Expected Protection Index via Poisson Thinning}
+\begin{proposition}
+\label{prop:thinning}
+If events in zone \(i\) on day \(t\) satisfy \(N_i^t\sim\mathrm{Poisson}(\lambda_i^t)\) and each event is independently neutralized with probability \(u_i^t\), then the realized loss count \(L_i^t\) is Poisson with mean \(\lambda_i^t(1-u_i^t)\).
+\end{proposition}
+\begin{proof}
+Conditioned on \(N_i^t=n\), the loss count is binomial:
+\[
+L_i^t\mid N_i^t=n \sim \mathrm{Binomial}(n,1-u_i^t).
+\]
+By the Poisson-thinning theorem, marginalizing over \(N_i^t\sim\mathrm{Poisson}(\lambda_i^t)\) yields
+\[
+L_i^t \sim \mathrm{Poisson}\!\bigl(\lambda_i^t(1-u_i^t)\bigr).
+\]
+Hence
+\[
+\mathbb{E}[L_i^t]=\lambda_i^t(1-u_i^t).
+\]
+\end{proof}
+
+Substituting this expression into Equation~\eqref{eq:pi} gives the ratio-of-expectations approximation in Equation~\eqref{eq:piexp}. The approximation is accurate when the denominator \(\sum_{t,i}R_iN_i^t\) is concentrated, which is the case in the replicated dry-season stress tests because the horizon aggregates many weighted arrivals.
+
+\section{Algorithmic Pseudocode}
+The main text states the operating logic. This appendix records the actual algorithmic workflow used to make that logic executable.
+
+\begin{table}[H]
+\centering
+\caption{Algorithm B1: Graph-aware GIS preprocessing and risk initialization.}
+\label{alg:app_gis}
+\begin{tabular}{p{0.95\linewidth}}
+\toprule
+\textbf{Input:} raster layers \((W,S,H,A)\), station set \(\mathcal{S}\), road graph \(\mathcal{G}_R\), zone graph \(\mathcal{G}_C\), patrol-pressure vector \(C\). \\
+\textbf{Output:} zone features \((B,D,P,R)\) and shortest-path profile \(d\). \\
+\midrule
+1. Aggregate raster layers to the \(8\times 8\) management grid by zonal means. \\
+2. Attach each management cell to its nearest road-access node \(v(i)\). \\
+3. Run one multi-source shortest-path solve on \(\mathcal{G}_R\) with all stations in \(\mathcal{S}\) as sources. \\
+4. Record \(d_i=\min_{s\in\mathcal{S}}\mathrm{dist}_{\mathcal{G}_R}(s,v(i))\) and normalize to obtain \(D_i\). \\
+5. Compute ecological value \(B_i=0.45W_i+0.35H_i+0.20S_i\). \\
+6. Form the base logit \(u_i=\theta_0+\theta_1A_i+\theta_2B_i-\theta_3C_i\). \\
+7. Build the Laplacian \(L\) of the zone graph \(\mathcal{G}_C\) and solve \((I+\lambda_L L)\Omega=u\). \\
+8. Convert \(\Omega_i\) to \(P_i=\sigma(\Omega_i)\), assemble \(T_i\), and return \(R_i=0.55B_i+0.45T_i\). \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Algorithm B2: Patrol-column generation and pruning.}
+\label{alg:app_routes}
+\begin{tabular}{p{0.95\linewidth}}
+\toprule
+\textbf{Input:} road graph \(\mathcal{G}_R\), station set \(\mathcal{S}\), priority field \(R_i\), route time limit \(h_{\max}\). \\
+\textbf{Output:} feasible patrol library \(\mathcal{R}\), coverage matrix \(a_{ir}\), route durations \(h_r\). \\
+\midrule
+1. For each station \(s\in\mathcal{S}\), rank candidate waypoint zones by current priority \(R_i\). \\
+2. Generate \(K\)-shortest outbound paths from \(s\) to the top-ranked waypoint set. \\
+3. Close each outbound path into a tour by pairing it with the best feasible return path. \\
+4. Convert each tour into edge-use variables \(\xi_e^{(r)}\), coverage indicators \(c_i^{(r)}\), and route time \(h_r\). \\
+5. Drop any tour with \(h_r>h_{\max}\) or disconnected coverage. \\
+6. Remove dominated routes using the criterion in Proposition~\ref{prop:dominance}. \\
+7. Enforce overlap control by deleting routes that violate \(\operatorname{ov}(r,r')\le \rho_{\max}\) when a lower-cost alternative exists. \\
+8. Export the remaining columns as \(\mathcal{R}\), \(a_{ir}\), station labels, and route-hour coefficients for the master MILP. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Algorithm B3: Rolling-horizon controller and dispatch schedule.}
+\label{alg:app_controller}
+\begin{tabular}{p{0.95\linewidth}}
+\toprule
+\textbf{Input:} current risk field \(R_i^t\), patrol library \(\mathcal{R}\), capacities \((H_R,M,U)\), station caps \(\kappa_s\), current pressure state \(C^t\). \\
+\textbf{Output:} patrol activations \(x_r^t\), fixed-device allocations \(y_i^t\), UAV assignments \(z_j^t\), dispatch calendar. \\
+\midrule
+1. Solve the master MILP over \(x,y,z,e\) with objective \eqref{eq:obj} and constraints \eqref{eq:rangerhours}--\eqref{eq:hotspots}. \\
+2. Build a time-expanded graph \(\mathcal{G}_T\) for the next operating day or week. \\
+3. Reserve first-wave slots for hotspot-assurance routes that protect the top-risk quartile. \\
+4. For every remaining feasible route-time pair \((r,\tau)\), compute reduced cost \(\Delta_{r,\tau}^t\) from Equation~\eqref{eq:dispatchscore}. \\
+5. Greedily activate the highest positive reduced-cost route-time pairs while respecting station-time and crew-hour feasibility. \\
+6. Assign UAV windows to sectors with the largest residual uncertainty or the largest residual term \(R_i(1-q_i^t)\). \\
+7. Publish the dispatch calendar, execute the plan, and record realized coverage \(F_i^t\). \\
+8. Pass realized coverage to the simulation and prior-update layer. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Algorithm B4: Closed-loop stochastic stress test.}
+\label{alg:app_sim}
+\begin{tabular}{p{0.95\linewidth}}
+\toprule
+\textbf{Input:} risk field \(R_i\), current pressure \(C^t\), asset plan \((x^t,y^t,z^t)\), simulation parameters \((\lambda_0,\tau^\star,\kappa)\). \\
+\textbf{Output:} replicated \(\PI\) distribution, mean detection, mean response time, updated prior state. \\
+\midrule
+1. Initialize replicated occupancy or arrival multipliers for the planning horizon. \\
+2. For each day \(t\), generate weighted event counts \(N_i^t\sim\mathrm{Poisson}(\lambda_0R_i\Psi_t)\). \\
+3. Convert the active patrol, device, and UAV set into detection probability \(q_i^t\). \\
+4. Construct response times \(\tau_i^t=d_i+\delta_t+\xi_i^t\) and interception probabilities \(g_i^t\). \\
+5. Sample realized losses using the neutralization probability \(u_i^t=q_i^tg_i^t\). \\
+6. Update patrol pressure by \(C_i^{t+1}=(1-\omega)C_i^t+\omega F_i^t/\max_kF_k^t\). \\
+7. Solve \((I+\lambda_L L)\Omega^{t+1}=\theta_0\mathbf{1}+\theta_1A+\theta_2B-\theta_3C^{t+1}\) and set \(P_i^{t+1}=\sigma(\Omega_i^{t+1})\). \\
+8. Recompute \(\PI\), aggregate replication summaries, and trigger re-optimization if the command threshold is violated. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Managerial Reading of the Operating System}
 \textbf{Digital twin}: identifies where the park is valuable, exposed, and hard to defend.\\
-\textbf{Priority engine}: converts those layers into a risk-ranked service map.\\
-\textbf{Controller}: decides how patrols, devices, and UAVs should be assigned.\\
-\textbf{Stress test}: checks whether that decision package survives noise, delay, and uncertainty.\\
+\textbf{Priority engine}: converts those layers into a risk-ranked service map using shortest paths and corridor diffusion.\\
+\textbf{Controller}: decides how patrol tours, fixed devices, and UAVs should be assigned under staffing and station constraints.\\
+\textbf{Stress test}: checks whether that decision package survives noise, delay, and uncertainty, then updates the next risk field.\\
 
-Together, these modules create a closed-loop protected-area operating system.
+Together, these modules create a closed-loop protected-area operating system whose ecological priorities and operational constraints are written in one graph-aware decision language.
 
-\section{Appendix C: Repository Implementation Map}
+\section{Repository Implementation Map}
 This appendix identifies the repository files that implement the core analytic layers. The code remains external so that the manuscript stays portable and compiles on standard LaTeX installations.
 
 \begin{longtable}{p{0.30\linewidth}p{0.60\linewidth}}
 \toprule
 File & Purpose \\
 \midrule
-\texttt{code/model0\_gis\_pipeline.py} & GIS preprocessing and digital-twin feature construction from map and station geometry. \\
-\texttt{code/model1\_spatial\_risk.py} & Priority-engine implementation for value, exposure, and latent-pressure scoring. \\
-\texttt{code/model2\_allocation\_milp.py} & Multi-asset controller for patrol loops, fixed devices, and UAV sorties. \\
-\texttt{code/model3\_dynamic\_simulation.py} & Closed-loop stress test for arrivals, detection, response, interception, and \(\PI\). \\
-\texttt{generate\_professional\_figures.js} & Figure-generation script for the visual operating-system plates used in the paper. \\
+\texttt{code/model0\_gis\_pipeline.py} & GIS preprocessing, multi-source shortest-path response modeling, and digital-twin feature construction from map and station geometry. \\
+\texttt{code/model1\_spatial\_risk.py} & Priority engine for ecological value, threat exposure, and graph-diffused latent-pressure inference. \\
+\texttt{code/model2\_allocation\_milp.py} & Route-column master MILP for patrol loops, fixed devices, and UAV sorties. \\
+\texttt{code/model3\_dynamic\_simulation.py} & Closed-loop stress test for arrivals, detection, response, interception, and \(\PI\), interpreted as a reduced-form graph process. \\
+\texttt{generate\_professional\_figures.js} & Figure-generation script for the GIS basemap plates, controller dashboards, and algorithm architecture figures used in the paper. \\
 \bottomrule
 \end{longtable}
 

@@ -52,12 +52,17 @@ The grid is coarse enough to remain interpretable to managers and fine enough to
 All map plates in this section are anchored to the official Etosha basemap and then upgraded with GIS-style overlays, control grids, and analytical layers so that the figures remain cartographically grounded rather than purely schematic.
 
 \subsubsection{Response Friction from the Mobility Layer}
-Let \(t_{si}\) be the travel time from station \(s\) to zone \(i\) along the road network. Response difficulty is derived from the fastest feasible travel time and normalized to \([0,1]\):
+Let the patrol road system be a weighted graph \(\mathcal{G}_R=(V_R,E_R,w)\), where each edge \(e\in E_R\) carries travel-time weight \(w_e>0\), each ranger station belongs to the anchor set \(\mathcal{S}\subseteq V_R\), and each management zone \(i\) is attached to an access node \(v(i)\in V_R\). The graph-theoretic response metric is the multi-source shortest-path distance
 \begin{equation}
-D_i = \frac{\min_s t_{si}-\min_k \min_s t_{sk}}{\max_k \min_s t_{sk}-\min_k \min_s t_{sk}+\varepsilon}.
+d_i=\min_{s\in\mathcal{S}}\operatorname{dist}_{\mathcal{G}_R}(s,v(i)).
+\label{eq:shortest}
+\end{equation}
+Response difficulty is then the normalized station-set eccentricity of zone \(i\):
+\begin{equation}
+D_i = \frac{d_i-\min_k d_k}{\max_k d_k-\min_k d_k+\varepsilon}.
 \label{eq:response}
 \end{equation}
-This step is important because it converts geography into controllability. A remote but biologically important zone becomes operationally fragile if the park cannot answer an incident there quickly.
+Equations~\eqref{eq:shortest}--\eqref{eq:response} convert geography into controllability. A remote but biologically important zone becomes operationally fragile if the park cannot answer an incident there quickly. Computationally, the whole response surface is obtained by one multi-source Dijkstra pass from the station set rather than by solving 64 separate routing problems, so the GIS layer and the optimization layer remain tightly coupled.
 
 \begin{figure}[H]
   \centering
@@ -84,19 +89,38 @@ R_i = 0.55B_i + 0.45T_i.
 The weighting intentionally gives a slight edge to ecological value because this is a conservation controller, not a pure crime-suppression model. A zone is prioritized because losing it matters ecologically, not merely because it is easy to exploit.
 
 \subsubsection{Latent Intrusion Prior}
-Intrusion pressure is represented through a logistic prior:
+Accessibility does not create risk independently in each cell. Pressure diffuses along adjacent cells and road-linked corridors, so the prior must live on a graph rather than on 64 isolated logits. We therefore define a zone graph \(\mathcal{G}_C=(V_C,E_C,W)\), where \(W_{ij}>0\) if zones \(i\) and \(j\) share a boundary or are connected by a major road. Let
+\[
+L=\operatorname{diag}(W\mathbf{1})-W
+\]
+be the graph Laplacian. The undiffused attractiveness logit is
 \begin{equation}
-P_i = \frac{1}{1+\exp[-(\theta_0+\theta_1 A_i+\theta_2 B_i-\theta_3 C_i)]},
+u_i=\theta_0+\theta_1 A_i+\theta_2 B_i-\theta_3 C_i,
+\label{eq:baseprior}
+\end{equation}
+where \(C_i\) is recent protection pressure.
+
+The smoothed log-odds field \(\Omega\in\mathbb{R}^{64}\) is obtained from the graph-regularized problem
+\begin{equation}
+\Omega=\arg\min_{x\in\mathbb{R}^{64}}
+\left\{
+\frac{1}{2}\lVert x-u\rVert_2^2+\frac{\lambda_L}{2}x^\top Lx
+\right\},
+\label{eq:prioropt}
+\end{equation}
+whose first-order condition is
+\begin{equation}
+(I+\lambda_L L)\Omega=u,
+\qquad
+P_i=\frac{1}{1+\exp(-\Omega_i)}.
 \label{eq:prior}
 \end{equation}
-where \(C_i\) is recent protection pressure. This formulation captures a key behavioral effect: attractive, accessible zones become more dangerous when patrol pressure relaxes, and some pressure is displaced away from heavily serviced cells.
-
-Let \(\Omega_i = \log\left(\frac{P_i}{1-P_i}\right)\) be the log-odds of intrusion. Then
+Equivalently, each zone satisfies
 \begin{equation}
-\Omega_i = \theta_0+\theta_1 A_i+\theta_2 B_i-\theta_3 C_i.
+\Omega_i=\theta_0+\theta_1 A_i+\theta_2 B_i-\theta_3 C_i-\lambda_L(L\Omega)_i.
 \label{eq:logodds}
 \end{equation}
-Equation~\eqref{eq:logodds} gives the prior a direct management interpretation: access and biological reward increase pressure, while sustained patrol pressure suppresses it.
+Equation~\eqref{eq:logodds} is the graph-theoretic closure of the prior. Access and biological reward increase local pressure, sustained patrol effort suppresses it, and the Laplacian term propagates pressure through the corridor structure instead of treating neighboring cells as behaviorally unrelated.
 
 \subsubsection{Etosha Priority Diagnosis}
 The highest-risk quartile forms a corridor rather than a random scatter. The east and south dominate because three forces align there: wildlife concentration near water, relatively easy access, and slower response from key stations. The western interior is less exposed because access is harder and wildlife concentration is more diffuse. The Pan remains ecologically prominent but is less attractive for covert extraction because it is open and operationally conspicuous.
