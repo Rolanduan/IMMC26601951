@@ -59,6 +59,14 @@ P_i^{t+1}=\sigma(\theta_0+\theta_1A_i+\theta_2B_i-\theta_3C_i^{t+1}),
 \label{eq:priorupdate}
 \end{equation}
 where \(\sigma(\cdot)\) is the logistic function. This closes the operating loop: deployment changes local pressure, local pressure changes future risk, and future risk reshapes deployment.
+Figure~\ref{fig:feedbackarch} shows this closed loop at algorithm level, from event generation and detection fusion to posterior refresh and re-optimization.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{fig17_feedback_architecture.png}
+  \caption{Algorithm architecture of the closed-loop simulation, highlighting how stochastic arrivals, detection, dispatch, outcome evaluation, and prior updating form one recurring planning circuit.}
+  \label{fig:feedbackarch}
+\end{figure}
 
 The model is directionally coherent. More patrols, more devices, or more UAV coverage weakly increase surveillance intensity and therefore weakly increase neutralization probability. That monotonicity prevents pathological feedback behavior and makes the control system interpretable.
 

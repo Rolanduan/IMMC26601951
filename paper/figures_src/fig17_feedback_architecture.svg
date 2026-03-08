@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3200 1800" width="3200" height="1800">
+  <defs>
+    <linearGradient id="pageBg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#eef1ee"/><stop offset="100%" stop-color="#dfe6e1"/></linearGradient>
+    <pattern id="paperGrain" width="18" height="18" patternUnits="userSpaceOnUse"><circle cx="4" cy="5" r="0.9" fill="#d8d0c0" opacity="0.28"/><circle cx="13" cy="8" r="0.7" fill="#cfc7b7" opacity="0.24"/><circle cx="9" cy="14" r="0.8" fill="#d8d0c0" opacity="0.22"/></pattern>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#8c948f" flood-opacity="0.18"/></filter>
+  </defs>
+  <rect x="0" y="0" width="3200" height="1800" fill="url(#pageBg)"/>
+  <rect x="0" y="0" width="3200" height="1800" fill="url(#paperGrain)" opacity="0.44"/>
+  <rect x="54" y="48" width="3092" height="162" rx="32" fill="#f7f9f6" stroke="#bcc8c3" stroke-width="2.2" filter="url(#shadow)"/>
+  
+    <rect x="92" y="78" width="248" height="42" rx="21" fill="#2f6d75" stroke="#2f6d75" stroke-width="1.2"/>
+    <text x="216" y="106" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="19" font-weight="700" letter-spacing="2" fill="#f7f9f6">FEEDBACK LOOP</text>
+  
+  
+    <rect x="2914" y="78" width="174" height="42" rx="21" fill="#efe5cb" stroke="#efe5cb" stroke-width="1.2"/>
+    <text x="3001" y="106" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="19" font-weight="700" letter-spacing="2" fill="#1f2d36">FIG. 17</text>
+  
+  <text x="92" y="152" font-family="Helvetica Neue, Arial, sans-serif" font-size="60" font-weight="700" fill="#1f2d36">Closed-Loop Simulation and Prior Update</text>
+  <text x="92" y="189" font-family="Helvetica Neue, Arial, sans-serif" font-size="26" fill="#60717d">Arrival generation, detection, dispatch, outcome evaluation, and posterior refresh are shown as one operating circuit</text>
+  <rect x="92" y="98" width="2768" height="7" rx="4" fill="#2f6d75"/><rect x="92" y="108" width="1826.88" height="2" rx="1" fill="#bcc8c3"/>
+  
+    <rect x="58" y="256" width="3084" height="1482" rx="34" fill="#f7f9f6" stroke="#bcc8c3" stroke-width="2.3" filter="url(#shadow)"/>
+    <rect x="74" y="272" width="3052" height="1450" rx="28" fill="#f8f3ea" stroke="#dad3c4" stroke-width="1.5"/>
+  <circle cx="1596" cy="938" r="244" fill="#f8fbfb" stroke="#bcc8c3" stroke-width="2" filter="url(#shadow)"/><circle cx="1596" cy="938" r="196" fill="#eef5f5" stroke="#2f6d75" stroke-width="3" opacity="0.9"/><text x="1596" y="902" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="42" font-weight="700" fill="#1f2d36">park state</text><text x="1596" y="944" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" fill="#60717d">risk field R_i</text><text x="1596" y="978" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" fill="#60717d">pressure prior P_i</text><text x="1596" y="1012" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" fill="#60717d">response lag tau_i</text>
+    <rect x="190" y="404" width="620" height="218" rx="24" fill="#ffffff" stroke="#bcc8c3" stroke-width="2" filter="url(#shadow)"/>
+    <rect x="190" y="404" width="620" height="12" rx="24" fill="#a35d43"/>
+    <text x="212" y="454" font-family="Helvetica Neue, Arial, sans-serif" font-size="30" font-weight="700" fill="#1f2d36">1. Arrival generator</text>
+    <text x="212" y="498" font-family="Helvetica Neue, Arial, sans-serif" font-size="21" fill="#60717d">Poisson events N_i^t with seasonal pressure multiplier Psi_t</text><text x="212" y="530" font-family="Helvetica Neue, Arial, sans-serif" font-size="21" fill="#60717d">High-risk cells receive both more value and more threat arrivals</text>
+  
+    <rect x="920" y="330" width="620" height="218" rx="24" fill="#ffffff" stroke="#bcc8c3" stroke-width="2" filter="url(#shadow)"/>
+    <rect x="920" y="330" width="620" height="12" rx="24" fill="#35556c"/>
+    <text x="942" y="380" font-family="Helvetica Neue, Arial, sans-serif" font-size="30" font-weight="700" fill="#1f2d36">2. Detection fusion</text>
+    <text x="942" y="424" font-family="Helvetica Neue, Arial, sans-serif" font-size="21" fill="#60717d">Asset-level misses are compounded into zone detection q_i^t</text><text x="942" y="456" font-family="Helvetica Neue, Arial, sans-serif" font-size="21" fill="#60717d">Patrols, fixed watch, and UAVs enter as a joint surveillance stack</text>
+  
+    <rect x="1660" y="330" width="620" height="218" rx="24" fill="#ffffff" stroke="#bcc8c3" stroke-width="2" filter="url(#shadow)"/>
+    <rect x="1660" y="330" width="620" height="12" rx="24" fill="#79a6bf"/>
+    <text x="1682" y="380" font-family="Helvetica Neue, Arial, sans-serif" font-size="30" font-weight="700" fill="#1f2d36">3. Dispatch and response</text>
+    <text x="1682" y="424" font-family="Helvetica Neue, Arial, sans-serif" font-size="21" fill="#60717d">Travel base + dispatch delay + terrain noise create tau_i^t</text><text x="1682" y="456" font-family="Helvetica Neue, Arial, sans-serif" font-size="21" fill="#60717d">Interception g_i^t falls sharply once delay crosses the threshold</text>
+  
+    <rect x="2390" y="404" width="620" height="218" rx="24" fill="#ffffff" stroke="#bcc8c3" stroke-width="2" filter="url(#shadow)"/>
+    <rect x="2390" y="404" width="620" height="12" rx="24" fill="#8c4338"/>
+    <text x="2412" y="454" font-family="Helvetica Neue, Arial, sans-serif" font-size="30" font-weight="700" fill="#1f2d36">4. Outcome evaluator</text>
+    <text x="2412" y="498" font-family="Helvetica Neue, Arial, sans-serif" font-size="21" fill="#60717d">Neutralization u_i^t = q_i^t g_i^t feeds weighted loss and PI</text><text x="2412" y="530" font-family="Helvetica Neue, Arial, sans-serif" font-size="21" fill="#60717d">The simulation measures both mean performance and tail fragility</text>
+  
+    <rect x="2390" y="1244" width="620" height="218" rx="24" fill="#ffffff" stroke="#bcc8c3" stroke-width="2" filter="url(#shadow)"/>
+    <rect x="2390" y="1244" width="620" height="12" rx="24" fill="#6d617e"/>
+    <text x="2412" y="1294" font-family="Helvetica Neue, Arial, sans-serif" font-size="30" font-weight="700" fill="#1f2d36">5. Posterior update</text>
+    <text x="2412" y="1338" font-family="Helvetica Neue, Arial, sans-serif" font-size="21" fill="#60717d">Patrol pressure refreshes C_i and re-estimates the intrusion prior</text><text x="2412" y="1370" font-family="Helvetica Neue, Arial, sans-serif" font-size="21" fill="#60717d">Yesterday's deployment changes tomorrow's risk surface</text>
+  
+    <rect x="1660" y="1320" width="620" height="218" rx="24" fill="#ffffff" stroke="#bcc8c3" stroke-width="2" filter="url(#shadow)"/>
+    <rect x="1660" y="1320" width="620" height="12" rx="24" fill="#bc8531"/>
+    <text x="1682" y="1370" font-family="Helvetica Neue, Arial, sans-serif" font-size="30" font-weight="700" fill="#1f2d36">6. Re-optimization trigger</text>
+    <text x="1682" y="1414" font-family="Helvetica Neue, Arial, sans-serif" font-size="21" fill="#60717d">If PI or hotspot service falls below threshold, the controller reruns</text><text x="1682" y="1446" font-family="Helvetica Neue, Arial, sans-serif" font-size="21" fill="#60717d">The next tasking plan is generated from the updated state</text>
+  
+    <rect x="920" y="1320" width="620" height="218" rx="24" fill="#ffffff" stroke="#bcc8c3" stroke-width="2" filter="url(#shadow)"/>
+    <rect x="920" y="1320" width="620" height="12" rx="24" fill="#567568"/>
+    <text x="942" y="1370" font-family="Helvetica Neue, Arial, sans-serif" font-size="30" font-weight="700" fill="#1f2d36">7. Deployment reset</text>
+    <text x="942" y="1414" font-family="Helvetica Neue, Arial, sans-serif" font-size="21" fill="#60717d">Routes, sensors, and UAV windows are reassigned for the next cycle</text><text x="942" y="1446" font-family="Helvetica Neue, Arial, sans-serif" font-size="21" fill="#60717d">The operating loop preserves adaptation instead of static patrol plans</text>
+  
+    <rect x="190" y="1244" width="620" height="218" rx="24" fill="#ffffff" stroke="#bcc8c3" stroke-width="2" filter="url(#shadow)"/>
+    <rect x="190" y="1244" width="620" height="12" rx="24" fill="#2f6d75"/>
+    <text x="212" y="1294" font-family="Helvetica Neue, Arial, sans-serif" font-size="30" font-weight="700" fill="#1f2d36">8. Monitoring record</text>
+    <text x="212" y="1338" font-family="Helvetica Neue, Arial, sans-serif" font-size="21" fill="#60717d">Observed detections, delays, and hotspot compliance feed governance</text><text x="212" y="1370" font-family="Helvetica Neue, Arial, sans-serif" font-size="21" fill="#60717d">The loop remains auditable at weekly and monthly review scales</text>
+  <path d="M 810 514 C 964 440, 1048 424, 920 440" fill="none" stroke="#a35d43" stroke-width="6" stroke-linecap="round"/><path d="M 920 440 L 936.9927586387215 446.94594513699565 L 934.7601334161158 429.08494335614967 Z" fill="#a35d43"/><path d="M 1540 440 C 1602 350, 1708 350, 1660 440" fill="none" stroke="#35556c" stroke-width="6" stroke-linecap="round"/><path d="M 1660 440 L 1675.4705882352941 430.11764705882354 L 1659.5882352941176 421.6470588235294 Z" fill="#35556c"/><path d="M 2280 440 C 2390 420, 2448 452, 2390 514" fill="none" stroke="#79a6bf" stroke-width="6" stroke-linecap="round"/><path d="M 2390 514 L 2407.502956782082 508.46407154267933 L 2394.358071338742 496.167243224716 Z" fill="#79a6bf"/><path d="M 2700 622 C 2860 744, 2860 1080, 2700 1244" fill="none" stroke="#8c4338" stroke-width="6" stroke-linecap="round"/><path d="M 2700 1244 L 2717.6152191686 1238.8324034946424 L 2704.7311440978106 1226.2625741572867 Z" fill="#8c4338"/><path d="M 2390 1352 C 2326 1446, 2184 1480, 2280 1428" fill="none" stroke="#6d617e" stroke-width="6" stroke-linecap="round"/><path d="M 2280 1428 L 2261.6447801985446 1427.706902677821 L 2270.2178768722783 1443.5341580754832 Z" fill="#6d617e"/><path d="M 1660 1428 C 1546 1490, 1126 1490, 920 1428" fill="none" stroke="#bc8531" stroke-width="6" stroke-linecap="round"/><path d="M 920 1428 L 932.7273142867689 1441.2293412929673 L 937.9149266841516 1423.9930807468243 Z" fill="#bc8531"/><path d="M 920 1428 C 742 1458, 566 1418, 810 1352" fill="none" stroke="#567568" stroke-width="6" stroke-linecap="round"/><path d="M 810 1352 L 792.2050730465068 1347.489947370613 L 796.9050226287098 1364.8655185533037 Z" fill="#567568"/><path d="M 190 1244 C 126 1090, 124 714, 190 622" fill="none" stroke="#2f6d75" stroke-width="6" stroke-linecap="round"/><path d="M 190 622 L 173.36062973710514 629.7544411310093 L 187.98631824843946 640.2467828891406 Z" fill="#2f6d75"/><rect x="1208" y="1124" width="776" height="58" rx="29" fill="#edf3f0" stroke="#bcc8c3" stroke-width="1.5"/><text x="1596" y="1161" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" font-weight="700" fill="#1f2d36">The simulation is not an end-of-pipeline check. It is the mechanism that updates the next planning state.</text>
+</svg>

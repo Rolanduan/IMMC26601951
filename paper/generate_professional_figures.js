@@ -53,6 +53,8 @@ const meta = {
   "fig13_sensor_drone_map.png": { tag: "LAYERED WATCH", accent: palette.teal, title: "Layered Sensor-UAV Watch Plan", subtitle: "Persistent fixed coverage and adaptive aerial surge are shown as complementary surveillance layers" },
   "fig14_ranger_requirement_curve.png": { tag: "STAFFING BREAKPOINT", accent: palette.sage, title: "Ranger Floor and Stability Regimes", subtitle: "The staffing curve marks the boundary between fragile, transitional, and stable protection" },
   "fig15_scenario_matrix.png": { tag: "SAFE ENVELOPE", accent: palette.clay, title: "Safe Operating Envelope", subtitle: "Iso-protection contours reveal the stability frontier in the manpower-detection plane" },
+  "fig16_controller_architecture.png": { tag: "ALGORITHM STACK", accent: palette.indigo, title: "Controller Architecture and Constraint Stack", subtitle: "The allocation engine is decomposed into inputs, guard rails, optimization core, and deployable outputs" },
+  "fig17_feedback_architecture.png": { tag: "FEEDBACK LOOP", accent: palette.teal, title: "Closed-Loop Simulation and Prior Update", subtitle: "Arrival generation, detection, dispatch, outcome evaluation, and posterior refresh are shown as one operating circuit" },
 };
 
 const camps = {
@@ -999,6 +1001,143 @@ function figure15() {
   write("fig15_scenario_matrix.png", body);
 }
 
+function figure16() {
+  const card = (x, y, w, h, accent, title, lines, footer = "") => `
+    <rect x="${x}" y="${y}" width="${w}" height="${h}" rx="26" fill="${palette.white}" stroke="${palette.line}" stroke-width="2" filter="url(#shadow)"/>
+    <rect x="${x}" y="${y}" width="${w}" height="12" rx="26" fill="${accent}"/>
+    <text x="${x + 24}" y="${y + 54}" font-family="Helvetica Neue, Arial, sans-serif" font-size="32" font-weight="700" fill="${palette.ink}">${esc(title)}</text>
+    ${lines.map((line, index) => `<text x="${x + 24}" y="${y + 102 + index * 34}" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="${palette.ash}">${esc(line)}</text>`).join("")}
+    ${footer ? `<rect x="${x + 22}" y="${y + h - 54}" width="${w - 44}" height="30" rx="15" fill="${accent}" opacity="0.16"/><text x="${x + 34}" y="${y + h - 33}" font-family="Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700" fill="${accent}">${esc(footer)}</text>` : ""}
+  `;
+  const arrow = (x1, y1, x2, y2, color, label = "") => {
+    const angle = Math.atan2(y2 - y1, x2 - x1);
+    const ah = 16;
+    const ax1 = x2 - ah * Math.cos(angle) + 9 * Math.sin(angle);
+    const ay1 = y2 - ah * Math.sin(angle) - 9 * Math.cos(angle);
+    const ax2 = x2 - ah * Math.cos(angle) - 9 * Math.sin(angle);
+    const ay2 = y2 - ah * Math.sin(angle) + 9 * Math.cos(angle);
+    return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${color}" stroke-width="6" stroke-linecap="round"/><path d="M ${x2} ${y2} L ${ax1} ${ay1} L ${ax2} ${ay2} Z" fill="${color}"/>${label ? `<rect x="${(x1 + x2) / 2 - 96}" y="${(y1 + y2) / 2 - 28}" width="192" height="34" rx="17" fill="${palette.salt}" stroke="${palette.line}" stroke-width="1.2"/><text x="${(x1 + x2) / 2}" y="${(y1 + y2) / 2 - 5}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700" fill="${palette.ink}">${esc(label)}</text>` : ""}`;
+  };
+  let body = dossierBoard(58, 256, 3084, 1482);
+  body += `<rect x="118" y="320" width="840" height="1180" rx="28" fill="#f8fbfb" stroke="${palette.line}" stroke-width="2"/><rect x="1110" y="320" width="980" height="1180" rx="28" fill="#fbfaf7" stroke="${palette.line}" stroke-width="2"/><rect x="2238" y="320" width="844" height="1180" rx="28" fill="#f9f7f4" stroke="${palette.line}" stroke-width="2"/>`;
+  body += `<text x="150" y="378" font-family="Helvetica Neue, Arial, sans-serif" font-size="30" font-weight="700" fill="${palette.ink}">Input stack</text><text x="1144" y="378" font-family="Helvetica Neue, Arial, sans-serif" font-size="30" font-weight="700" fill="${palette.ink}">Optimization core</text><text x="2272" y="378" font-family="Helvetica Neue, Arial, sans-serif" font-size="30" font-weight="700" fill="${palette.ink}">Deployable outputs</text>`;
+  body += card(150, 424, 774, 228, palette.sage, "Priority field", [
+    "Inputs: zone features, priors, and response friction",
+    "Objects: R_i, hotspot quartile, service deficit map",
+  ], "state estimate");
+  body += card(150, 708, 774, 228, palette.gold, "Feasible route library", [
+    "Inputs: stations, roads, travel times, shift cap",
+    "Objects: route set R, coverage matrix a_ir, sector matrix b_ij",
+  ], "mobility envelope");
+  body += card(150, 992, 774, 228, palette.clay, "Resource budgets", [
+    "Inputs: ranger-hours H_R, device stock M, UAV sorties U",
+    "Objects: station caps kappa_s, hotspot floor q_bar",
+  ], "capacity guard");
+  body += card(1144, 446, 912, 290, palette.indigo, "MILP controller", [
+    "Objective: maximize weighted protection minus route burden",
+    "Surrogate: linearized utility e_i replacing concave E_i",
+    "Decision variables: patrol loops x_r, fixed watch y_i, UAV sorties z_j",
+  ], "solve for weekly tasking package");
+  body += card(1144, 794, 432, 204, palette.rust, "Constraint rail A", [
+    "Ranger-hour cap",
+    "Station activation cap",
+  ], "feasibility");
+  body += card(1624, 794, 432, 204, palette.teal, "Constraint rail B", [
+    "Device and UAV inventories",
+    "Hotspot service floor",
+  ], "coverage discipline");
+  body += card(1144, 1058, 912, 320, palette.plum, "Marginal-gain logic", [
+    "The controller concentrates effort until active cells satisfy",
+    "approximately equal weighted marginal value",
+    "R_i exp(-eta_i) across the protected corridor",
+  ], "why concentration beats uniform spread");
+  body += card(2272, 446, 776, 212, palette.indigo, "Patrol package", [
+    "Route activations by station and daily cadence",
+    "Backbone of the corridor-defense plan",
+  ], "x_r");
+  body += card(2272, 714, 776, 212, palette.teal, "Persistent watch layer", [
+    "Fixed devices pinned to stable hotspot cells",
+    "Continuous monitoring where recurrence matters most",
+  ], "y_i");
+  body += card(2272, 982, 776, 212, palette.gold, "Adaptive surge layer", [
+    "UAV windows assigned to uncertain or shifting sectors",
+    "Flexible observation over hotspot edges and gaps",
+  ], "z_j");
+  body += card(2272, 1250, 776, 180, palette.sage, "Management products", [
+    "Weekly tasking sheet, staffing check, and hotspot compliance report",
+  ], "field-ready output");
+  body += arrow(924, 538, 1144, 592, palette.sage, "state");
+  body += arrow(924, 822, 1144, 660, palette.gold, "network");
+  body += arrow(924, 1106, 1144, 728, palette.clay, "budgets");
+  body += arrow(2056, 592, 2272, 552, palette.indigo, "route tasking");
+  body += arrow(2056, 888, 2272, 820, palette.teal, "sensor siting");
+  body += arrow(2056, 1170, 2272, 1088, palette.gold, "UAV sectors");
+  body += `<rect x="1232" y="1406" width="736" height="42" rx="21" fill="#e6ecef"/><text x="1600" y="1434" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="20" font-weight="700" fill="${palette.ink}">The controller is only allowed to emit plans that are simultaneously high-value and field-feasible.</text>`;
+  write("fig16_controller_architecture.png", body);
+}
+
+function figure17() {
+  const ringCard = (x, y, w, h, accent, title, lines) => `
+    <rect x="${x}" y="${y}" width="${w}" height="${h}" rx="24" fill="${palette.white}" stroke="${palette.line}" stroke-width="2" filter="url(#shadow)"/>
+    <rect x="${x}" y="${y}" width="${w}" height="12" rx="24" fill="${accent}"/>
+    <text x="${x + 22}" y="${y + 50}" font-family="Helvetica Neue, Arial, sans-serif" font-size="30" font-weight="700" fill="${palette.ink}">${esc(title)}</text>
+    ${lines.map((line, index) => `<text x="${x + 22}" y="${y + 94 + index * 32}" font-family="Helvetica Neue, Arial, sans-serif" font-size="21" fill="${palette.ash}">${esc(line)}</text>`).join("")}
+  `;
+  const curvedArrow = (x1, y1, cx1, cy1, cx2, cy2, x2, y2, color) => {
+    const angle = Math.atan2(y2 - cy2, x2 - cx2);
+    const ah = 16;
+    const ax1 = x2 - ah * Math.cos(angle) + 9 * Math.sin(angle);
+    const ay1 = y2 - ah * Math.sin(angle) - 9 * Math.cos(angle);
+    const ax2 = x2 - ah * Math.cos(angle) - 9 * Math.sin(angle);
+    const ay2 = y2 - ah * Math.sin(angle) + 9 * Math.cos(angle);
+    return `<path d="M ${x1} ${y1} C ${cx1} ${cy1}, ${cx2} ${cy2}, ${x2} ${y2}" fill="none" stroke="${color}" stroke-width="6" stroke-linecap="round"/><path d="M ${x2} ${y2} L ${ax1} ${ay1} L ${ax2} ${ay2} Z" fill="${color}"/>`;
+  };
+  let body = dossierBoard(58, 256, 3084, 1482);
+  body += `<circle cx="1596" cy="938" r="244" fill="#f8fbfb" stroke="${palette.line}" stroke-width="2" filter="url(#shadow)"/><circle cx="1596" cy="938" r="196" fill="#eef5f5" stroke="${palette.teal}" stroke-width="3" opacity="0.9"/><text x="1596" y="902" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="42" font-weight="700" fill="${palette.ink}">park state</text><text x="1596" y="944" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" fill="${palette.ash}">risk field R_i</text><text x="1596" y="978" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" fill="${palette.ash}">pressure prior P_i</text><text x="1596" y="1012" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" fill="${palette.ash}">response lag tau_i</text>`;
+  body += ringCard(190, 404, 620, 218, palette.clay, "1. Arrival generator", [
+    "Poisson events N_i^t with seasonal pressure multiplier Psi_t",
+    "High-risk cells receive both more value and more threat arrivals",
+  ]);
+  body += ringCard(920, 330, 620, 218, palette.indigo, "2. Detection fusion", [
+    "Asset-level misses are compounded into zone detection q_i^t",
+    "Patrols, fixed watch, and UAVs enter as a joint surveillance stack",
+  ]);
+  body += ringCard(1660, 330, 620, 218, palette.sky, "3. Dispatch and response", [
+    "Travel base + dispatch delay + terrain noise create tau_i^t",
+    "Interception g_i^t falls sharply once delay crosses the threshold",
+  ]);
+  body += ringCard(2390, 404, 620, 218, palette.rust, "4. Outcome evaluator", [
+    "Neutralization u_i^t = q_i^t g_i^t feeds weighted loss and PI",
+    "The simulation measures both mean performance and tail fragility",
+  ]);
+  body += ringCard(2390, 1244, 620, 218, palette.plum, "5. Posterior update", [
+    "Patrol pressure refreshes C_i and re-estimates the intrusion prior",
+    "Yesterday's deployment changes tomorrow's risk surface",
+  ]);
+  body += ringCard(1660, 1320, 620, 218, palette.gold, "6. Re-optimization trigger", [
+    "If PI or hotspot service falls below threshold, the controller reruns",
+    "The next tasking plan is generated from the updated state",
+  ]);
+  body += ringCard(920, 1320, 620, 218, palette.sage, "7. Deployment reset", [
+    "Routes, sensors, and UAV windows are reassigned for the next cycle",
+    "The operating loop preserves adaptation instead of static patrol plans",
+  ]);
+  body += ringCard(190, 1244, 620, 218, palette.teal, "8. Monitoring record", [
+    "Observed detections, delays, and hotspot compliance feed governance",
+    "The loop remains auditable at weekly and monthly review scales",
+  ]);
+  body += curvedArrow(810, 514, 964, 440, 1048, 424, 920, 440, palette.clay);
+  body += curvedArrow(1540, 440, 1602, 350, 1708, 350, 1660, 440, palette.indigo);
+  body += curvedArrow(2280, 440, 2390, 420, 2448, 452, 2390, 514, palette.sky);
+  body += curvedArrow(2700, 622, 2860, 744, 2860, 1080, 2700, 1244, palette.rust);
+  body += curvedArrow(2390, 1352, 2326, 1446, 2184, 1480, 2280, 1428, palette.plum);
+  body += curvedArrow(1660, 1428, 1546, 1490, 1126, 1490, 920, 1428, palette.gold);
+  body += curvedArrow(920, 1428, 742, 1458, 566, 1418, 810, 1352, palette.sage);
+  body += curvedArrow(190, 1244, 126, 1090, 124, 714, 190, 622, palette.teal);
+  body += `<rect x="1208" y="1124" width="776" height="58" rx="29" fill="#edf3f0" stroke="${palette.line}" stroke-width="1.5"/><text x="1596" y="1161" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" font-weight="700" fill="${palette.ink}">The simulation is not an end-of-pipeline check. It is the mechanism that updates the next planning state.</text>`;
+  write("fig17_feedback_architecture.png", body);
+}
+
 figure01();
 figure02();
 figure03();
@@ -1014,5 +1153,7 @@ figure12();
 figure13();
 figure14();
 figure15();
+figure16();
+figure17();
 
 console.log("Bespoke dossier-style figures regenerated.");

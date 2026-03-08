@@ -139,6 +139,14 @@ The controller runs in a rolling horizon:
 \bottomrule
 \end{tabular}
 \end{table}
+Figure~\ref{fig:controllerarch} expands the same logic visually by separating the input stack, the optimization core, and the deployable products that leave the solver.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{fig16_controller_architecture.png}
+  \caption{Algorithm architecture of the allocation controller, showing how state estimates, feasible-route geometry, and resource budgets pass through the MILP core to produce patrol, sensor, and UAV tasking.}
+  \label{fig:controllerarch}
+\end{figure}
 
 \subsection{Baseline Control Package}
 Under baseline assumptions, the controller assigns 49\% of patrol-hours to the eastern sector, 31\% to the southern--central corridor, and 20\% to western and northern sectors. Eight of the twelve fixed devices are anchored in the top-risk quartile, while four drone sorties are rotated across three high-uncertainty sectors. This is not a cosmetic rebalance; it is a structural shift from thin park-wide patrol coverage to corridor-based service assurance.
