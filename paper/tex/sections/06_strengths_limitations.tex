@@ -1,24 +1,23 @@
-\section{Strengths, Failure Modes, and Validation Limits}
-\subsection{System Strengths}
-The proposed operating system has five structural strengths.
+\section{Strengths, Identification Risks, and Adversarial Failure}
+\subsection{Why the New Formulation Is Stronger}
+The re-derived framework has four structural advantages over a plain hotspot-allocation approach.
 \begin{itemize}
-  \item It connects ecology, access, response, and surveillance in one decision language rather than optimizing each in isolation.
-  \item It accepts selective saturation as a realistic design principle for large protected areas.
-  \item It couples optimization with stochastic validation, so the recommended plan is stress tested rather than assumed to work.
-  \item It yields management-facing outputs: hotspot doctrine, route package, staffing floor, and safe operating envelope.
-  \item Its architecture is modular, which makes transfer across parks more defensible.
+  \item It changes the decision object from generic spatial risk to weighted loss pathways, which is closer to how protection actually fails.
+  \item It distinguishes between controlling average exposure and controlling the worst hinge, which prevents visually attractive but operationally fragile plans.
+  \item It ties staffing to service reliability through station load rather than only through aggregate patrol hours.
+  \item It offers a cleaner transfer rule across parks because ingress structure, habitat sinks, and service rates are easier to rebuild than an entire bespoke patrol doctrine.
 \end{itemize}
 
-\subsection{Primary Failure Modes}
-The model also has real limits, and they matter operationally.
+\subsection{Identification Boundary}
+The framework also has nontrivial identification risk.
 \begin{itemize}
-  \item We use a stylized management grid rather than a full-resolution raster, so some fine-scale terrain effects are compressed.
-  \item The intrusion prior relies on exposure proxies because public incident data are incomplete and biased.
-  \item Ranger fatigue, corruption risk, adversarial learning, and informal intelligence quality are only partially represented.
-  \item Drone weather dependence, communication failures, and maintenance downtime are simplified rather than modeled in engineering detail.
+  \item If ingress priors are badly misspecified, the model can overprotect one gateway while underprotecting an unseen alternative route.
+  \item If the road graph misses informal tracks or off-road movement, hinge criticality can be systematically biased.
+  \item If service times are calibrated from optimistic patrol assumptions, the queueing layer understates delay exceedance and therefore understates staffing needs.
+  \item If wildlife value is seasonally volatile, a static sink map can misidentify which pathways are actually expensive to defend this month.
 \end{itemize}
 
-The most dangerous failure mode is false confidence from stale priors. If \(P_i\) is not refreshed as pressure shifts, the controller can continue servicing yesterday's hotspots while today's pressure migrates elsewhere.
+The sharpest failure mode is adversarial rerouting. Once defenders repeatedly seal the same obvious hinge, pressure may jump to a second-best route that was previously subcritical. That is exactly why the model should be run as a rolling decision system rather than as a one-time map product.
 
-\subsection{Validation Boundary}
-For that reason, the model should be read as a decision-support system rather than an oracle. It is strongest when used with rolling recalibration, patrol logs, and station-level knowledge. It is weakest when managers treat the initial hotspot map as fixed truth. The appropriate validation discipline is therefore periodic re-estimation of the latent-pressure layer, regular comparison of predicted and observed response times, and continuous checking of whether the hotspot floor is actually being met in the field.
+\subsection{Appropriate Validation Standard}
+This paper should therefore be read as a decision-support architecture, not as a definitive forecast. The correct validation routine is to compare predicted hinge use with observed signals, predicted delay exceedance with realized dispatch logs, and predicted reserve value with actual incident absorption. If those diagnostics drift, the transport graph or the service model must be rebuilt before the deployment logic is trusted again.

@@ -1,91 +1,79 @@
-\section{Systems Framing and Decision Logic}
-\subsection{Why Large-Park Protection Must Be Treated as a System}
-Protected areas are often evaluated as if legal designation and spatial extent were enough to imply protection. The empirical literature shows otherwise. Conservation outcomes depend heavily on operational capacity, local pressure, and management quality \citep{watson2014,geldmann2013}. Many reserves remain biodiversity-critical on paper while being practically under-protected on the ground because staffing, monitoring, and response systems are too weak relative to the pressure they face \citep{coad2019,jones2018}. In that setting, the core problem is not merely ecological description; it is operational design.
+\section{From Patrol Coverage to Loss-Flow Interdiction}
+\subsection{Why Coverage Maps Miss the Hard Part of Protection}
+Large protected areas are often discussed as if protection quality were proportional to the fraction of land that receives some visible patrol presence. That logic is too coarse for real operations. Illegal actors do not value every location equally, do not enter the park uniformly, and do not experience the same response difficulty everywhere. In practice, ecological damage is transmitted through a sparse set of pathways: entry opportunities, movement corridors, relay zones, and high-value habitat clusters. If those pathways remain weakly monitored, a park can look busy on paper while still leaking high-consequence losses in the field \citep{watson2014,geldmann2013,coad2019,jones2018}.
 
-Anti-poaching work makes this especially clear. Patrol effectiveness varies substantially across space, route geometry, team behavior, and deployment discipline \citep{moore2018,usgsDetection}. Illegal actors adapt to access corridors, surveillance gaps, and predictable schedules. As a result, protection performance cannot be inferred from total patrol hours alone. It depends on whether scarce effort is concentrated in the right places, on the right cadence, with enough response capacity to turn detection into interception.
+Etosha National Park is a strong example of this mismatch. Wildlife value is concentrated around water-dependent habitat, road access is uneven, and station geometry creates service asymmetry across the landscape \citep{etoshaOfficial,etoshaEcology}. Those ingredients imply that the key management task is not to color the map with generalized effort, but to suppress a small set of biologically expensive pathways before they mature into realized loss.
 
-Etosha National Park is an instructive case because it exposes this systems problem sharply. Wildlife aggregates around water sources, the park contains long east--west operating corridors, and response times differ meaningfully across stations and sectors \citep{etoshaOfficial,etoshaEcology}. Those characteristics produce an uneven landscape of risk, observability, and controllability. In practical terms, managers are not choosing whether to patrol; they are choosing which zones receive reliable protective service and which zones accept residual risk.
+\subsection{Problem Restatement}
+We therefore restate the IMMC problem as follows: build a decision system that minimizes residual weighted wildlife-loss flow from ingress points to high-value habitat under limited patrol teams, limited sensing infrastructure, finite drone support, and uncertain daily pressure.
 
-\subsection{Problem Restatement as a Control Problem}
-The IMMC problem therefore requires more than a descriptive hotspot map. It requires a deployable operating logic that can identify decisive zones, allocate multiple protection assets under operational constraints, evaluate performance over time, estimate feasible staffing requirements, and transfer to parks with different ecological and mobility structures. That is a coupled estimation--allocation--simulation problem under uncertainty.
-
-We write this as a control architecture. Let
+This is a materially different control problem from standard hotspot ranking. The manager is not merely selecting where risk is high; the manager is choosing which pathways will remain open after a protection plan is deployed. Let
 \[
-s_t = (R^t,P^t,\tau^t)
+\mathcal{N}_t = (\mathcal{E},\mathcal{Z},\mathcal{H},\mathcal{R},\Lambda_t)
 \]
-denote the park state at time \(t\), including the spatial risk field, latent intrusion pressure, and response-time structure. Let
+denote the park network at time \(t\), where \(\mathcal{E}\) is the ingress set, \(\mathcal{Z}\) the management zones, \(\mathcal{H}\) the habitat sinks, \(\mathcal{R}\) the patrol road system, and \(\Lambda_t\) the current pressure and service state. The control decision
 \[
-u_t = (x_t,y_t,z_t)
+u_t=(x_t,y_t,z_t)
 \]
-denote the deployment decision composed of patrol-loop activations, fixed-device assignments, and drone sorties. The operating system evolves under exogenous uncertainty \(\omega_t\) and observed field signals \(o_t\):
-\[
-s_{t+1}=f(s_t,u_t,\omega_t), \qquad o_t=h(s_t,u_t).
-\]
-The management task is to choose \(u_t\) so that high-risk zones remain above an acceptable protection standard while respecting manpower, mobility, and equipment constraints.
+assigns patrol templates, sentinel devices, and UAV reserve windows. The objective is to minimize the residual weighted loss-flow that survives those controls while keeping service delays within a defensible commitment standard.
 
-This framing matters because it changes what counts as a good solution. A good solution is not the one that paints the entire map as ``covered.'' It is the one that maintains service reliability in decisive zones, degrades gracefully under stress, and provides a clear update rule when conditions change.
-
-\subsection{Paper Architecture}
-To make that control problem operational, we build a protected-area operating system with three analytic cores and one implementation layer:
+\subsection{New Analytic Spine}
+To operationalize that restatement, we use a three-core architecture plus one communication layer:
 \begin{enumerate}
-  \item a GIS digital twin that converts map structure into zone-level ecological, access, and response features;
-  \item a spatial priority engine that estimates where protective service is most valuable and most vulnerable;
-  \item a mixed-integer controller that allocates patrols, sensors, and UAVs under real operating constraints;
-  \item a stochastic validation layer that stress-tests the plan and updates the next planning cycle.
+  \item a \textbf{threat-transport graph} that estimates how pressure enters the park and how it propagates toward high-value habitat;
+  \item a \textbf{lexicographic barrier-design model} that caps the worst remaining hotspot debt before minimizing total residual loss;
+  \item a \textbf{queueing-based reliability model} that translates station load and travel time into a staffing requirement;
+  \item a \textbf{managerial synthesis layer} that converts the mathematics into an operational doctrine.
 \end{enumerate}
 
-The resulting workflow is
+The information flow is
 \[
-\mathcal{D}_t \xrightarrow{\text{digital twin}} \mathcal{S}_t
-\xrightarrow{\text{priority engine}} R_i^t
-\xrightarrow{\text{controller}} u_t^\star=(x_t^\star,y_t^\star,z_t^\star)
-\xrightarrow{\text{stress test}} \PI_t.
+\text{basemap + roads + stations + habitat}
+\;\longrightarrow\;
+\text{transport graph + hinge zones}
+\;\longrightarrow\;
+\text{barrier design}
+\;\longrightarrow\;
+\text{service reliability and staffing}.
 \]
-This architecture combines spatial modeling, optimization, and stochastic simulation in a single decision loop \citep{cressie1993,anselin1995,diggle2013,dantzig1963,birge2011,law2015,banks2010,bonabeau2002,macal2010}. It is designed to support both competition-grade analysis and field-style management reasoning.
-
-\subsection{Operating Principles}
-Figure~\ref{fig:system} shows the protected-area operating system as a closed loop from state estimation to deployment and governance. The architecture is built on three operating principles:
-\begin{itemize}
-  \item \textbf{Selective saturation}: high-risk zones should receive repeated, reliable service before low-risk zones receive shallow coverage.
-  \item \textbf{Feasible control}: every recommended plan must be executable under shift limits, station capacity, travel time, and equipment inventory.
-  \item \textbf{Adaptive updating}: patrol pressure, detections, and delays must feed back into the next planning cycle instead of being treated as static background information.
-\end{itemize}
+Figure~\ref{fig:system} summarizes this pipeline visually. The central unit of decision is not a generic hotspot, but a pathway bottleneck with measurable residual debt.
 
 \begingroup
 \setstretch{0.6}
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.8\linewidth]{fig01_system_architecture.png}
-  \caption{Protected-area operating system linking digital-twin diagnosis, control allocation, stochastic validation, and management feedback.}
+  \caption{Loss-flow interdiction architecture linking transport-graph diagnosis, barrier design, service-reliability sizing, and management feedback.}
   \label{fig:system}
 \end{figure}
 \endgroup
 
-We evaluate each strategy with three management-facing metrics:
+\subsection{Management Metrics}
+We evaluate plans with three cross-functional metrics:
 \begin{align}
-\PI &: \text{risk-weighted protection index (higher is better)}, \\
-\Det &: \text{mean detection probability across active zones}, \\
-\Resp &: \text{mean response delay in hours (lower is better)}.
+\PI &: \text{risk-weighted protection index, i.e., the complement of residual weighted loss flow}, \\
+\Gamma_{\max} &: \text{worst residual debt among hinge zones}, \\
+\Pr(T>\tau^\star) &: \text{delay exceedance probability relative to the response commitment}.
 \end{align}
-These indicators are deliberately cross-functional: \(\PI\) captures ecological consequence, \(\Det\) captures surveillance quality, and \(\Resp\) captures operational friction.
+These indicators were chosen to force the analysis to stay operational. A plan is not attractive if it looks efficient on average but leaves one hinge zone catastrophically exposed or pushes one station into chronic overload.
 
-\subsection{Direct Mapping to the IMMC Prompt}
-The manuscript remains aligned with the seven IMMC tasks, but the outputs are reframed as components of one management system rather than separate answers. Table~\ref{tab:qmap} maps each task to the corresponding decision product.
+\subsection{What This Changes for the IMMC Tasks}
+The seven IMMC tasks are still answered, but under a different logic than a standard patrol-allocation paper. Table~\ref{tab:qmap} shows the mapping.
 \begin{table}[H]
   \centering
-  \caption{Mapping from IMMC tasks to operating-system outputs.}
+  \caption{Mapping from IMMC tasks to the re-derived analytic outputs.}
   \label{tab:qmap}
   \begin{tabular}{p{0.12\linewidth}p{0.27\linewidth}p{0.45\linewidth}}
     \toprule
     Task & Decision target & Output in this paper \\
     \midrule
-    Task 1 & Protection definition and priority logic & Digital twin, risk field, hotspot doctrine, and measurable service metrics \\
-    Task 2 & Resource allocation & Route-device-UAV controller under manpower and mobility constraints \\
-    Task 3 & Performance over time and staffing & Closed-loop simulation, operating cadence, and staffing floor \\
-    Task 4 & Sensitivity & Safe operating envelope and failure-threshold analysis \\
-    Task 5 & Strengths and limitations & System strengths, failure modes, and calibration limits \\
-    Task 6 & Adaptation & Transfer protocol plus park-specific recalibration matrix \\
-    Task 7 & Communication deliverable & Front-matter letter translating the operating system for decision-makers \\
+    Task 1 & Define protection and identify priorities & Weighted loss-flow field, hinge-zone diagnosis, and response commitment \\
+    Task 2 & Allocate resources & Lexicographic barrier design across patrol templates, sentinels, and UAV reserve \\
+    Task 3 & Predict performance over time and staffing & Queueing reliability envelope plus backtested protection index \\
+    Task 4 & Sensitivity & Structural trade-off frontier in manpower, uptime, and cadence \\
+    Task 5 & Assess model quality & Identification risks, adversarial failure cases, and validation boundary \\
+    Task 6 & Adapt to other parks & Morphology-based transfer protocol using ingress, sink, and service-rate rebuilding \\
+    Task 7 & Communicate results & Letter and summary sheet framed in management language rather than solver language \\
     \bottomrule
   \end{tabular}
 \end{table}

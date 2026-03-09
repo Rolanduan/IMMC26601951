@@ -1,92 +1,99 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3200 1800" width="3200" height="1800">
   <defs>
-    <linearGradient id="pageBg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#eef1ee"/><stop offset="100%" stop-color="#dfe6e1"/></linearGradient>
-    <pattern id="paperGrain" width="18" height="18" patternUnits="userSpaceOnUse"><circle cx="4" cy="5" r="0.9" fill="#d8d0c0" opacity="0.28"/><circle cx="13" cy="8" r="0.7" fill="#cfc7b7" opacity="0.24"/><circle cx="9" cy="14" r="0.8" fill="#d8d0c0" opacity="0.22"/></pattern>
+    <linearGradient id="pageBg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ede7de"/><stop offset="100%" stop-color="#d9d0c2"/></linearGradient>
+    <linearGradient id="headBg" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#16212a"/><stop offset="100%" stop-color="#243746"/></linearGradient>
+    <pattern id="paperGrid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M 24 0 L 0 0 0 24" fill="none" stroke="#ddd3c3" stroke-width="0.8" opacity="0.32"/></pattern>
     <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#8c948f" flood-opacity="0.18"/></filter>
   </defs>
   <rect x="0" y="0" width="3200" height="1800" fill="url(#pageBg)"/>
-  <rect x="0" y="0" width="3200" height="1800" fill="url(#paperGrain)" opacity="0.44"/>
-  <rect x="54" y="48" width="3092" height="162" rx="32" fill="#f7f9f6" stroke="#bcc8c3" stroke-width="2.2" filter="url(#shadow)"/>
+  <rect x="0" y="0" width="3200" height="1800" fill="url(#paperGrid)" opacity="0.42"/>
+  <rect x="54" y="46" width="3092" height="176" rx="24" fill="url(#headBg)" filter="url(#shadow)"/>
+  <rect x="54" y="196" width="3092" height="20" fill="#26455d" opacity="0.95"/>
   
-    <rect x="92" y="78" width="248" height="42" rx="21" fill="#35556c" stroke="#35556c" stroke-width="1.2"/>
-    <text x="216" y="106" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="19" font-weight="700" letter-spacing="2" fill="#f7f9f6">ALGORITHM STACK</text>
+    <rect x="92" y="82" width="270" height="38" rx="10" fill="#f2ecdf" stroke="#26455d" stroke-opacity="0.15" stroke-width="1.2"/>
+    <rect x="102" y="90" width="8" height="22" rx="4" fill="#26455d" opacity="0.84"/>
+    <text x="122" y="108" font-family="Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700" letter-spacing="1.8" fill="#26455d">LEXICOGRAPHIC CORE</text>
   
   
-    <rect x="2914" y="78" width="174" height="42" rx="21" fill="#efe5cb" stroke="#efe5cb" stroke-width="1.2"/>
-    <text x="3001" y="106" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="19" font-weight="700" letter-spacing="2" fill="#1f2d36">FIG. 16</text>
+    <rect x="2926" y="82" width="162" height="38" rx="10" fill="#f2ecdf" stroke="#16212a" stroke-opacity="0.15" stroke-width="1.2"/>
+    <rect x="2936" y="90" width="8" height="22" rx="4" fill="#16212a" opacity="0.84"/>
+    <text x="2956" y="108" font-family="Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700" letter-spacing="1.8" fill="#16212a">FIG. 16</text>
   
-  <text x="92" y="152" font-family="Helvetica Neue, Arial, sans-serif" font-size="60" font-weight="700" fill="#1f2d36">Controller Architecture and Constraint Stack</text>
-  <text x="92" y="189" font-family="Helvetica Neue, Arial, sans-serif" font-size="26" fill="#60717d">The allocation engine is decomposed into inputs, guard rails, optimization core, and deployable outputs</text>
-  <rect x="92" y="98" width="2768" height="7" rx="4" fill="#35556c"/><rect x="92" y="108" width="1826.88" height="2" rx="1" fill="#bcc8c3"/>
+  <text x="92" y="152" font-family="Helvetica Neue, Arial, sans-serif" font-size="58" font-weight="700" fill="#fcfaf6">Two-Stage Barrier-Design Architecture</text>
+  <text x="92" y="188" font-family="Helvetica Neue, Arial, sans-serif" font-size="25" fill="#d7dde0">The controller caps the worst hinge first and only then cleans up total residual debt</text>
+  <rect x="92" y="106" width="941.1200000000001" height="6" rx="3" fill="#26455d"/><rect x="1088.48" y="106" width="442.88" height="6" rx="3" fill="#d5c8ae"/><rect x="1586.72" y="106" width="775.0400000000001" height="6" rx="3" fill="#8796a2" opacity="0.55"/><rect x="92" y="118" width="2103.68" height="2" rx="1" fill="#c5beb1"/>
   
-    <rect x="58" y="256" width="3084" height="1482" rx="34" fill="#f7f9f6" stroke="#bcc8c3" stroke-width="2.3" filter="url(#shadow)"/>
-    <rect x="74" y="272" width="3052" height="1450" rx="28" fill="#f8f3ea" stroke="#dad3c4" stroke-width="1.5"/>
-  <rect x="118" y="320" width="840" height="1180" rx="28" fill="#f8fbfb" stroke="#bcc8c3" stroke-width="2"/><rect x="1110" y="320" width="980" height="1180" rx="28" fill="#fbfaf7" stroke="#bcc8c3" stroke-width="2"/><rect x="2238" y="320" width="844" height="1180" rx="28" fill="#f9f7f4" stroke="#bcc8c3" stroke-width="2"/><text x="150" y="378" font-family="Helvetica Neue, Arial, sans-serif" font-size="30" font-weight="700" fill="#1f2d36">Input stack</text><text x="1144" y="378" font-family="Helvetica Neue, Arial, sans-serif" font-size="30" font-weight="700" fill="#1f2d36">Optimization core</text><text x="2272" y="378" font-family="Helvetica Neue, Arial, sans-serif" font-size="30" font-weight="700" fill="#1f2d36">Deployable outputs</text>
-    <rect x="150" y="424" width="774" height="228" rx="26" fill="#ffffff" stroke="#bcc8c3" stroke-width="2" filter="url(#shadow)"/>
-    <rect x="150" y="424" width="774" height="12" rx="26" fill="#567568"/>
-    <text x="174" y="478" font-family="Helvetica Neue, Arial, sans-serif" font-size="32" font-weight="700" fill="#1f2d36">Priority field</text>
-    <text x="174" y="526" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#60717d">Inputs: zone features, priors, and response friction</text><text x="174" y="560" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#60717d">Objects: R_i, hotspot quartile, service deficit map</text>
-    <rect x="172" y="598" width="730" height="30" rx="15" fill="#567568" opacity="0.16"/><text x="184" y="619" font-family="Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700" fill="#567568">state estimate</text>
+    <rect x="58" y="256" width="3084" height="1482" rx="26" fill="#f5f0e8" stroke="#c5beb1" stroke-width="2.2" filter="url(#shadow)"/>
+    <rect x="74" y="272" width="3052" height="1450" rx="18" fill="#fcfaf6" stroke="#ddd3c5" stroke-width="1.4"/>
+    <rect x="86" y="284" width="22" height="1426" rx="11" fill="#16212a" opacity="0.92"/>
+    <rect x="130" y="284" width="2984" height="34" rx="10" fill="#eef1ed"/>
+    <line x1="150" y1="332" x2="150" y2="1710" stroke="#efe7da" stroke-width="1"/><line x1="732.8" y1="332" x2="732.8" y2="1710" stroke="#efe7da" stroke-width="1"/><line x1="1315.6" y1="332" x2="1315.6" y2="1710" stroke="#efe7da" stroke-width="1"/><line x1="1898.3999999999999" y1="332" x2="1898.3999999999999" y2="1710" stroke="#efe7da" stroke-width="1"/><line x1="2481.2" y1="332" x2="2481.2" y2="1710" stroke="#efe7da" stroke-width="1"/><line x1="3064" y1="332" x2="3064" y2="1710" stroke="#efe7da" stroke-width="1"/>
+  <rect x="118" y="320" width="840" height="1180" rx="28" fill="#f8fbfb" stroke="#c5beb1" stroke-width="2"/><rect x="1110" y="320" width="980" height="1180" rx="28" fill="#fbfaf7" stroke="#c5beb1" stroke-width="2"/><rect x="2238" y="320" width="844" height="1180" rx="28" fill="#f9f7f4" stroke="#c5beb1" stroke-width="2"/><text x="150" y="378" font-family="Helvetica Neue, Arial, sans-serif" font-size="30" font-weight="700" fill="#16212a">State inputs</text><text x="1144" y="378" font-family="Helvetica Neue, Arial, sans-serif" font-size="30" font-weight="700" fill="#16212a">Barrier design core</text><text x="2272" y="378" font-family="Helvetica Neue, Arial, sans-serif" font-size="30" font-weight="700" fill="#16212a">Deployment packet</text>
+    <rect x="150" y="424" width="774" height="228" rx="26" fill="#ffffff" stroke="#c5beb1" stroke-width="2" filter="url(#shadow)"/>
+    <rect x="150" y="424" width="774" height="12" rx="26" fill="#4f6961"/>
+    <text x="174" y="478" font-family="Helvetica Neue, Arial, sans-serif" font-size="32" font-weight="700" fill="#16212a">Hinge-loss surface</text>
+    <text x="174" y="526" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#5d6872">Inputs: zone morphology, priors, and service drag</text><text x="174" y="560" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#5d6872">Objects: L_i, hinge belt, and slack exposure map</text>
+    <rect x="172" y="598" width="730" height="30" rx="15" fill="#4f6961" opacity="0.16"/><text x="184" y="619" font-family="Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700" fill="#4f6961">state estimate</text>
   
-    <rect x="150" y="708" width="774" height="228" rx="26" fill="#ffffff" stroke="#bcc8c3" stroke-width="2" filter="url(#shadow)"/>
-    <rect x="150" y="708" width="774" height="12" rx="26" fill="#bc8531"/>
-    <text x="174" y="762" font-family="Helvetica Neue, Arial, sans-serif" font-size="32" font-weight="700" fill="#1f2d36">Feasible route library</text>
-    <text x="174" y="810" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#60717d">Inputs: stations, roads, travel times, shift cap</text><text x="174" y="844" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#60717d">Objects: route set R, coverage matrix a_ir, sector matrix b_ij</text>
-    <rect x="172" y="882" width="730" height="30" rx="15" fill="#bc8531" opacity="0.16"/><text x="184" y="903" font-family="Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700" fill="#bc8531">mobility envelope</text>
+    <rect x="150" y="708" width="774" height="228" rx="26" fill="#ffffff" stroke="#c5beb1" stroke-width="2" filter="url(#shadow)"/>
+    <rect x="150" y="708" width="774" height="12" rx="26" fill="#a9782e"/>
+    <text x="174" y="762" font-family="Helvetica Neue, Arial, sans-serif" font-size="32" font-weight="700" fill="#16212a">Path dictionary</text>
+    <text x="174" y="810" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#5d6872">Inputs: stations, roads, travel times, shift cap</text><text x="174" y="844" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#5d6872">Objects: path set P, coverage matrix a_ip, sector matrix b_ij</text>
+    <rect x="172" y="882" width="730" height="30" rx="15" fill="#a9782e" opacity="0.16"/><text x="184" y="903" font-family="Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700" fill="#a9782e">mobility envelope</text>
   
-    <rect x="150" y="992" width="774" height="228" rx="26" fill="#ffffff" stroke="#bcc8c3" stroke-width="2" filter="url(#shadow)"/>
-    <rect x="150" y="992" width="774" height="12" rx="26" fill="#a35d43"/>
-    <text x="174" y="1046" font-family="Helvetica Neue, Arial, sans-serif" font-size="32" font-weight="700" fill="#1f2d36">Resource budgets</text>
-    <text x="174" y="1094" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#60717d">Inputs: ranger-hours H_R, device stock M, UAV sorties U</text><text x="174" y="1128" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#60717d">Objects: station caps kappa_s, hotspot floor q_bar</text>
-    <rect x="172" y="1166" width="730" height="30" rx="15" fill="#a35d43" opacity="0.16"/><text x="184" y="1187" font-family="Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700" fill="#a35d43">capacity guard</text>
+    <rect x="150" y="992" width="774" height="228" rx="26" fill="#ffffff" stroke="#c5beb1" stroke-width="2" filter="url(#shadow)"/>
+    <rect x="150" y="992" width="774" height="12" rx="26" fill="#996351"/>
+    <text x="174" y="1046" font-family="Helvetica Neue, Arial, sans-serif" font-size="32" font-weight="700" fill="#16212a">Capacity covenant</text>
+    <text x="174" y="1094" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#5d6872">Inputs: ranger-hours H_R, sentinel stock M, reserve sorties U</text><text x="174" y="1128" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#5d6872">Objects: station caps kappa_s, hinge floor q_bar</text>
+    <rect x="172" y="1166" width="730" height="30" rx="15" fill="#996351" opacity="0.16"/><text x="184" y="1187" font-family="Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700" fill="#996351">limit guard</text>
   
-    <rect x="1144" y="446" width="912" height="290" rx="26" fill="#ffffff" stroke="#bcc8c3" stroke-width="2" filter="url(#shadow)"/>
-    <rect x="1144" y="446" width="912" height="12" rx="26" fill="#35556c"/>
-    <text x="1168" y="500" font-family="Helvetica Neue, Arial, sans-serif" font-size="32" font-weight="700" fill="#1f2d36">MILP controller</text>
-    <text x="1168" y="548" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#60717d">Objective: maximize weighted protection minus route burden</text><text x="1168" y="582" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#60717d">Surrogate: linearized utility e_i replacing concave E_i</text><text x="1168" y="616" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#60717d">Decision variables: patrol loops x_r, fixed watch y_i, UAV sorties z_j</text>
-    <rect x="1166" y="682" width="868" height="30" rx="15" fill="#35556c" opacity="0.16"/><text x="1178" y="703" font-family="Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700" fill="#35556c">solve for weekly tasking package</text>
+    <rect x="1144" y="446" width="912" height="290" rx="26" fill="#ffffff" stroke="#c5beb1" stroke-width="2" filter="url(#shadow)"/>
+    <rect x="1144" y="446" width="912" height="12" rx="26" fill="#26455d"/>
+    <text x="1168" y="500" font-family="Helvetica Neue, Arial, sans-serif" font-size="32" font-weight="700" fill="#16212a">Lexicographic barrier solver</text>
+    <text x="1168" y="548" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#5d6872">Stage 1: cap the worst hinge debt before any averaging begins</text><text x="1168" y="582" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#5d6872">Stage 2: reduce total residual debt under the same field limits</text><text x="1168" y="616" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#5d6872">Decision variables: sweep paths x_p, sentinels y_i, reserve windows z_j</text>
+    <rect x="1166" y="682" width="868" height="30" rx="15" fill="#26455d" opacity="0.16"/><text x="1178" y="703" font-family="Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700" fill="#26455d">solve the weekly barrier deck</text>
   
-    <rect x="1144" y="794" width="432" height="204" rx="26" fill="#ffffff" stroke="#bcc8c3" stroke-width="2" filter="url(#shadow)"/>
-    <rect x="1144" y="794" width="432" height="12" rx="26" fill="#8c4338"/>
-    <text x="1168" y="848" font-family="Helvetica Neue, Arial, sans-serif" font-size="32" font-weight="700" fill="#1f2d36">Constraint rail A</text>
-    <text x="1168" y="896" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#60717d">Ranger-hour cap</text><text x="1168" y="930" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#60717d">Station activation cap</text>
-    <rect x="1166" y="944" width="388" height="30" rx="15" fill="#8c4338" opacity="0.16"/><text x="1178" y="965" font-family="Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700" fill="#8c4338">feasibility</text>
+    <rect x="1144" y="794" width="432" height="204" rx="26" fill="#ffffff" stroke="#c5beb1" stroke-width="2" filter="url(#shadow)"/>
+    <rect x="1144" y="794" width="432" height="12" rx="26" fill="#7e453d"/>
+    <text x="1168" y="848" font-family="Helvetica Neue, Arial, sans-serif" font-size="32" font-weight="700" fill="#16212a">Guard rail A</text>
+    <text x="1168" y="896" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#5d6872">Ranger-hour cap</text><text x="1168" y="930" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#5d6872">Station activation cap</text>
+    <rect x="1166" y="944" width="388" height="30" rx="15" fill="#7e453d" opacity="0.16"/><text x="1178" y="965" font-family="Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700" fill="#7e453d">feasibility</text>
   
-    <rect x="1624" y="794" width="432" height="204" rx="26" fill="#ffffff" stroke="#bcc8c3" stroke-width="2" filter="url(#shadow)"/>
-    <rect x="1624" y="794" width="432" height="12" rx="26" fill="#2f6d75"/>
-    <text x="1648" y="848" font-family="Helvetica Neue, Arial, sans-serif" font-size="32" font-weight="700" fill="#1f2d36">Constraint rail B</text>
-    <text x="1648" y="896" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#60717d">Device and UAV inventories</text><text x="1648" y="930" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#60717d">Hotspot service floor</text>
-    <rect x="1646" y="944" width="388" height="30" rx="15" fill="#2f6d75" opacity="0.16"/><text x="1658" y="965" font-family="Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700" fill="#2f6d75">coverage discipline</text>
+    <rect x="1624" y="794" width="432" height="204" rx="26" fill="#ffffff" stroke="#c5beb1" stroke-width="2" filter="url(#shadow)"/>
+    <rect x="1624" y="794" width="432" height="12" rx="26" fill="#2f666d"/>
+    <text x="1648" y="848" font-family="Helvetica Neue, Arial, sans-serif" font-size="32" font-weight="700" fill="#16212a">Guard rail B</text>
+    <text x="1648" y="896" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#5d6872">Sentinel and reserve inventories</text><text x="1648" y="930" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#5d6872">Hinge service floor</text>
+    <rect x="1646" y="944" width="388" height="30" rx="15" fill="#2f666d" opacity="0.16"/><text x="1658" y="965" font-family="Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700" fill="#2f666d">coverage discipline</text>
   
-    <rect x="1144" y="1058" width="912" height="320" rx="26" fill="#ffffff" stroke="#bcc8c3" stroke-width="2" filter="url(#shadow)"/>
-    <rect x="1144" y="1058" width="912" height="12" rx="26" fill="#6d617e"/>
-    <text x="1168" y="1112" font-family="Helvetica Neue, Arial, sans-serif" font-size="32" font-weight="700" fill="#1f2d36">Marginal-gain logic</text>
-    <text x="1168" y="1160" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#60717d">The controller concentrates effort until active cells satisfy</text><text x="1168" y="1194" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#60717d">approximately equal weighted marginal value</text><text x="1168" y="1228" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#60717d">R_i exp(-eta_i) across the protected corridor</text>
-    <rect x="1166" y="1324" width="868" height="30" rx="15" fill="#6d617e" opacity="0.16"/><text x="1178" y="1345" font-family="Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700" fill="#6d617e">why concentration beats uniform spread</text>
+    <rect x="1144" y="1058" width="912" height="320" rx="26" fill="#ffffff" stroke="#c5beb1" stroke-width="2" filter="url(#shadow)"/>
+    <rect x="1144" y="1058" width="912" height="12" rx="26" fill="#67586d"/>
+    <text x="1168" y="1112" font-family="Helvetica Neue, Arial, sans-serif" font-size="32" font-weight="700" fill="#16212a">Marginal equalization rule</text>
+    <text x="1168" y="1160" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#5d6872">The solver concentrates effort until active cells satisfy</text><text x="1168" y="1194" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#5d6872">approximately equal weighted marginal debt reduction</text><text x="1168" y="1228" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#5d6872">L_i exp(-eta_i) across the defended hinge belt</text>
+    <rect x="1166" y="1324" width="868" height="30" rx="15" fill="#67586d" opacity="0.16"/><text x="1178" y="1345" font-family="Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700" fill="#67586d">why sealing beats flat spreading</text>
   
-    <rect x="2272" y="446" width="776" height="212" rx="26" fill="#ffffff" stroke="#bcc8c3" stroke-width="2" filter="url(#shadow)"/>
-    <rect x="2272" y="446" width="776" height="12" rx="26" fill="#35556c"/>
-    <text x="2296" y="500" font-family="Helvetica Neue, Arial, sans-serif" font-size="32" font-weight="700" fill="#1f2d36">Patrol package</text>
-    <text x="2296" y="548" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#60717d">Route activations by station and daily cadence</text><text x="2296" y="582" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#60717d">Backbone of the corridor-defense plan</text>
-    <rect x="2294" y="604" width="732" height="30" rx="15" fill="#35556c" opacity="0.16"/><text x="2306" y="625" font-family="Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700" fill="#35556c">x_r</text>
+    <rect x="2272" y="446" width="776" height="212" rx="26" fill="#ffffff" stroke="#c5beb1" stroke-width="2" filter="url(#shadow)"/>
+    <rect x="2272" y="446" width="776" height="12" rx="26" fill="#26455d"/>
+    <text x="2296" y="500" font-family="Helvetica Neue, Arial, sans-serif" font-size="32" font-weight="700" fill="#16212a">Sweep packet</text>
+    <text x="2296" y="548" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#5d6872">Path activations by station and daily cadence</text><text x="2296" y="582" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#5d6872">Backbone of the hinge-sealing plan</text>
+    <rect x="2294" y="604" width="732" height="30" rx="15" fill="#26455d" opacity="0.16"/><text x="2306" y="625" font-family="Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700" fill="#26455d">x_p</text>
   
-    <rect x="2272" y="714" width="776" height="212" rx="26" fill="#ffffff" stroke="#bcc8c3" stroke-width="2" filter="url(#shadow)"/>
-    <rect x="2272" y="714" width="776" height="12" rx="26" fill="#2f6d75"/>
-    <text x="2296" y="768" font-family="Helvetica Neue, Arial, sans-serif" font-size="32" font-weight="700" fill="#1f2d36">Persistent watch layer</text>
-    <text x="2296" y="816" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#60717d">Fixed devices pinned to stable hotspot cells</text><text x="2296" y="850" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#60717d">Continuous monitoring where recurrence matters most</text>
-    <rect x="2294" y="872" width="732" height="30" rx="15" fill="#2f6d75" opacity="0.16"/><text x="2306" y="893" font-family="Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700" fill="#2f6d75">y_i</text>
+    <rect x="2272" y="714" width="776" height="212" rx="26" fill="#ffffff" stroke="#c5beb1" stroke-width="2" filter="url(#shadow)"/>
+    <rect x="2272" y="714" width="776" height="12" rx="26" fill="#2f666d"/>
+    <text x="2296" y="768" font-family="Helvetica Neue, Arial, sans-serif" font-size="32" font-weight="700" fill="#16212a">Anchored watch layer</text>
+    <text x="2296" y="816" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#5d6872">Fixed sentinels pinned to stable hinge cells</text><text x="2296" y="850" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#5d6872">Continuous watching where recurrence matters most</text>
+    <rect x="2294" y="872" width="732" height="30" rx="15" fill="#2f666d" opacity="0.16"/><text x="2306" y="893" font-family="Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700" fill="#2f666d">y_i</text>
   
-    <rect x="2272" y="982" width="776" height="212" rx="26" fill="#ffffff" stroke="#bcc8c3" stroke-width="2" filter="url(#shadow)"/>
-    <rect x="2272" y="982" width="776" height="12" rx="26" fill="#bc8531"/>
-    <text x="2296" y="1036" font-family="Helvetica Neue, Arial, sans-serif" font-size="32" font-weight="700" fill="#1f2d36">Adaptive surge layer</text>
-    <text x="2296" y="1084" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#60717d">UAV windows assigned to uncertain or shifting sectors</text><text x="2296" y="1118" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#60717d">Flexible observation over hotspot edges and gaps</text>
-    <rect x="2294" y="1140" width="732" height="30" rx="15" fill="#bc8531" opacity="0.16"/><text x="2306" y="1161" font-family="Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700" fill="#bc8531">z_j</text>
+    <rect x="2272" y="982" width="776" height="212" rx="26" fill="#ffffff" stroke="#c5beb1" stroke-width="2" filter="url(#shadow)"/>
+    <rect x="2272" y="982" width="776" height="12" rx="26" fill="#a9782e"/>
+    <text x="2296" y="1036" font-family="Helvetica Neue, Arial, sans-serif" font-size="32" font-weight="700" fill="#16212a">Reserve surge layer</text>
+    <text x="2296" y="1084" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#5d6872">Reserve windows assigned to uncertain or shifting sectors</text><text x="2296" y="1118" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#5d6872">Flexible observation over hinge edges and service gaps</text>
+    <rect x="2294" y="1140" width="732" height="30" rx="15" fill="#a9782e" opacity="0.16"/><text x="2306" y="1161" font-family="Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700" fill="#a9782e">z_j</text>
   
-    <rect x="2272" y="1250" width="776" height="180" rx="26" fill="#ffffff" stroke="#bcc8c3" stroke-width="2" filter="url(#shadow)"/>
-    <rect x="2272" y="1250" width="776" height="12" rx="26" fill="#567568"/>
-    <text x="2296" y="1304" font-family="Helvetica Neue, Arial, sans-serif" font-size="32" font-weight="700" fill="#1f2d36">Management products</text>
-    <text x="2296" y="1352" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#60717d">Weekly tasking sheet, staffing check, and hotspot compliance report</text>
-    <rect x="2294" y="1376" width="732" height="30" rx="15" fill="#567568" opacity="0.16"/><text x="2306" y="1397" font-family="Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700" fill="#567568">field-ready output</text>
-  <line x1="924" y1="538" x2="1144" y2="592" stroke="#567568" stroke-width="6" stroke-linecap="round"/><path d="M 1144 592 L 1130.6066512307718 579.4453909361616 L 1126.3158354747763 596.926492164291 Z" fill="#567568"/><rect x="938" y="537" width="192" height="34" rx="17" fill="#f7f9f6" stroke="#bcc8c3" stroke-width="1.2"/><text x="1034" y="560" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700" fill="#1f2d36">state</text><line x1="924" y1="822" x2="1144" y2="660" stroke="#bc8531" stroke-width="6" stroke-linecap="round"/><path d="M 1144 660 L 1125.7796195848568 662.2400306978843 L 1136.4527070277168 676.7343469783116 Z" fill="#bc8531"/><rect x="938" y="713" width="192" height="34" rx="17" fill="#f7f9f6" stroke="#bcc8c3" stroke-width="1.2"/><text x="1034" y="736" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700" fill="#1f2d36">network</text><line x1="924" y1="1106" x2="1144" y2="728" stroke="#a35d43" stroke-width="6" stroke-linecap="round"/><path d="M 1144 728 L 1128.1732306766673 737.3012565165151 L 1143.730199540573 746.3555770193174 Z" fill="#a35d43"/><rect x="938" y="889" width="192" height="34" rx="17" fill="#f7f9f6" stroke="#bcc8c3" stroke-width="1.2"/><text x="1034" y="912" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700" fill="#1f2d36">budgets</text><line x1="2056" y1="592" x2="2272" y2="552" stroke="#35556c" stroke-width="6" stroke-linecap="round"/><path d="M 2272 552 L 2254.628684578608 546.0638901180567 L 2257.9062912618892 563.7629662077771 Z" fill="#35556c"/><rect x="2068" y="544" width="192" height="34" rx="17" fill="#f7f9f6" stroke="#bcc8c3" stroke-width="1.2"/><text x="2164" y="567" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700" fill="#1f2d36">route tasking</text><line x1="2056" y1="888" x2="2272" y2="820" stroke="#2f6d75" stroke-width="6" stroke-linecap="round"/><path d="M 2272 820 L 2254.0358391110785 816.2199307470706 L 2259.4409848652676 833.3892172603761 Z" fill="#2f6d75"/><rect x="2068" y="826" width="192" height="34" rx="17" fill="#f7f9f6" stroke="#bcc8c3" stroke-width="1.2"/><text x="2164" y="849" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700" fill="#1f2d36">sensor siting</text><line x1="2056" y1="1170" x2="2272" y2="1088" stroke="#bc8531" stroke-width="6" stroke-linecap="round"/><path d="M 2272 1088 L 2253.8473873141884 1085.2645562190191 L 2260.2358604482506 1102.0927293526474 Z" fill="#bc8531"/><rect x="2068" y="1101" width="192" height="34" rx="17" fill="#f7f9f6" stroke="#bcc8c3" stroke-width="1.2"/><text x="2164" y="1124" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700" fill="#1f2d36">UAV sectors</text><rect x="1232" y="1406" width="736" height="42" rx="21" fill="#e6ecef"/><text x="1600" y="1434" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="20" font-weight="700" fill="#1f2d36">The controller is only allowed to emit plans that are simultaneously high-value and field-feasible.</text>
+    <rect x="2272" y="1250" width="776" height="180" rx="26" fill="#ffffff" stroke="#c5beb1" stroke-width="2" filter="url(#shadow)"/>
+    <rect x="2272" y="1250" width="776" height="12" rx="26" fill="#4f6961"/>
+    <text x="2296" y="1304" font-family="Helvetica Neue, Arial, sans-serif" font-size="32" font-weight="700" fill="#16212a">Command products</text>
+    <text x="2296" y="1352" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#5d6872">Weekly barrier deck, staffing check, and hinge-compliance report</text>
+    <rect x="2294" y="1376" width="732" height="30" rx="15" fill="#4f6961" opacity="0.16"/><text x="2306" y="1397" font-family="Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700" fill="#4f6961">field-ready output</text>
+  <line x1="924" y1="538" x2="1144" y2="592" stroke="#4f6961" stroke-width="6" stroke-linecap="round"/><path d="M 1144 592 L 1130.6066512307718 579.4453909361616 L 1126.3158354747763 596.926492164291 Z" fill="#4f6961"/><rect x="938" y="537" width="192" height="34" rx="17" fill="#fcfaf6" stroke="#c5beb1" stroke-width="1.2"/><text x="1034" y="560" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700" fill="#16212a">surface</text><line x1="924" y1="822" x2="1144" y2="660" stroke="#a9782e" stroke-width="6" stroke-linecap="round"/><path d="M 1144 660 L 1125.7796195848568 662.2400306978843 L 1136.4527070277168 676.7343469783116 Z" fill="#a9782e"/><rect x="938" y="713" width="192" height="34" rx="17" fill="#fcfaf6" stroke="#c5beb1" stroke-width="1.2"/><text x="1034" y="736" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700" fill="#16212a">paths</text><line x1="924" y1="1106" x2="1144" y2="728" stroke="#996351" stroke-width="6" stroke-linecap="round"/><path d="M 1144 728 L 1128.1732306766673 737.3012565165151 L 1143.730199540573 746.3555770193174 Z" fill="#996351"/><rect x="938" y="889" width="192" height="34" rx="17" fill="#fcfaf6" stroke="#c5beb1" stroke-width="1.2"/><text x="1034" y="912" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700" fill="#16212a">limits</text><line x1="2056" y1="592" x2="2272" y2="552" stroke="#26455d" stroke-width="6" stroke-linecap="round"/><path d="M 2272 552 L 2254.628684578608 546.0638901180567 L 2257.9062912618892 563.7629662077771 Z" fill="#26455d"/><rect x="2068" y="544" width="192" height="34" rx="17" fill="#fcfaf6" stroke="#c5beb1" stroke-width="1.2"/><text x="2164" y="567" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700" fill="#16212a">sweep plan</text><line x1="2056" y1="888" x2="2272" y2="820" stroke="#2f666d" stroke-width="6" stroke-linecap="round"/><path d="M 2272 820 L 2254.0358391110785 816.2199307470706 L 2259.4409848652676 833.3892172603761 Z" fill="#2f666d"/><rect x="2068" y="826" width="192" height="34" rx="17" fill="#fcfaf6" stroke="#c5beb1" stroke-width="1.2"/><text x="2164" y="849" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700" fill="#16212a">sentinels</text><line x1="2056" y1="1170" x2="2272" y2="1088" stroke="#a9782e" stroke-width="6" stroke-linecap="round"/><path d="M 2272 1088 L 2253.8473873141884 1085.2645562190191 L 2260.2358604482506 1102.0927293526474 Z" fill="#a9782e"/><rect x="2068" y="1101" width="192" height="34" rx="17" fill="#fcfaf6" stroke="#c5beb1" stroke-width="1.2"/><text x="2164" y="1124" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700" fill="#16212a">reserve</text><rect x="1232" y="1406" width="736" height="42" rx="21" fill="#e6ecef"/><text x="1600" y="1434" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="20" font-weight="700" fill="#16212a">Only plans that are simultaneously debt-reducing and field-feasible are allowed to leave the solver.</text>
 </svg>

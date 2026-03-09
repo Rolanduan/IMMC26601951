@@ -1,123 +1,86 @@
-\section{Closed-Loop Simulation and Staffing Threshold}
-\subsection{Why the Controller Must Be Stress Tested}
-An optimization model can produce an elegant static deployment that still fails in practice once incidents arrive irregularly, response is delayed, or detection degrades over time. For that reason, the controller is embedded inside a stochastic stress test. The purpose of Model III is not decorative simulation; it is to answer whether the recommended plan can maintain acceptable service under operational noise and adversarial uncertainty.
+\section{Service Reliability, Queueing Envelope, and Reserve Sizing}
+\subsection{Why Staffing Must Be Derived from Service Commitments}
+A protection plan can look strong in spatial terms and still fail because the busy stations cannot serve their assigned hinges quickly enough. For that reason, the staffing problem is not treated here as a patrol-hours bookkeeping exercise. It is treated as a service-reliability problem in which each station must keep delay exceedance below a target threshold.
 
-\subsection{Event Generation, Detection, and Interception}
-Let \(\mathcal{G}_C=(V_C,E_C)\) be the zone graph inherited from the GIS partition. A latent intruder state moves on \(\mathcal{G}_C\) with time-varying transition matrix \(P^t\), where \(d_{ij}\) is the one-step movement cost between adjacent zones \(i\) and \(j\), and for adjacent zones \(i\to j\),
+\subsection{Detection and Effective Arrival Pressure}
+The barrier design does not eliminate all pressure, so the service layer starts from the residual debt field and converts it into station-facing arrival intensity. If the active asset set in cell \(i\) is \(\mathcal{A}_i\), then detection follows the familiar fusion rule
 \begin{equation}
-P_{ij}^t=
-\frac{\exp(\nu_1A_j+\nu_2B_j-\nu_3C_j^t-\nu_4 d_{ij})}
-{\sum_{k:(i,k)\in E_C}\exp(\nu_1A_k+\nu_2B_k-\nu_3C_k^t-\nu_4 d_{ik})}.
-\label{eq:markov}
-\end{equation}
-If \(m^t\) is the occupancy distribution over zones, then
-\begin{equation}
-m^{t+1}=m^tP^t,
-\qquad
-\lambda_i^t=\lambda_0 m_i^t.
-\label{eq:occupancy}
-\end{equation}
-For competition-scale experiments, we compress this mean-field graph walk into a reduced-form arrival model in which the stationary attraction proxy is the risk field \(R_i\). For each zone \(i\) and day \(t\), illegal activity arrivals follow
-\begin{equation}
-N_i^t \sim \text{Poisson}(\lambda_0R_i\Psi_t),
-\end{equation}
-where \(\Psi_t\) captures temporal pressure such as seasonal concentration, intelligence alerts, or short-run tactical shifts. This means that high-risk cells do not simply receive more attention; they are also exposed to more threat arrivals.
-
-If the active asset set in zone \(i\) on day \(t\) is \(\mathcal{A}_i^t\), then the probability of detection is
-\begin{equation}
-q_i^t = 1-\prod_{a\in \mathcal{A}_i^t}(1-q_a).
+q_i = 1-\prod_{a\in\mathcal{A}_i}(1-q_a).
 \label{eq:detect}
 \end{equation}
-An exact capture model on \(\mathcal{G}_C\) is an absorbing Markov chain with transient matrix \(Q^t\) and capture-transition vector \(r_c^t\). If an event starts in zone \(i\), the exact capture probability is
+Cells are then assigned to the station most likely to serve them. For station \(s\), the residual arrival pressure is aggregated as
 \begin{equation}
-\alpha_i^t=\mathbf{e}_i^\top (I-Q^t)^{-1} r_c^t.
-\label{eq:absorb}
+\lambda_s = \lambda_0 \sum_{i\in\mathcal{Z}_s} \Gamma_i(1-q_i),
+\label{eq:arrival}
 \end{equation}
-The simulation uses the reduced-form surrogate that matters operationally most directly: interception success as a function of realized response delay.
+where \(\mathcal{Z}_s\) is the set of cells effectively dependent on station \(s\). This moves the staffing logic from abstract park-wide averages to the actual station bottlenecks.
+
+\subsection{Queueing Reliability}
+Let \(c_s\) be the number of two-person teams assigned to station \(s\), and let \(\mu_s\) be its mean service rate. The traffic intensity is
+\[
+\rho_s=\frac{\lambda_s}{c_s\mu_s}.
+\]
+Under an \(M/M/c_s\) approximation, the Erlang-C waiting probability is
 \begin{equation}
-g_i^t = \frac{1}{1+\exp[\kappa(\tau_i^t-\tau^\star)]},
+P_{\mathrm{wait},s}=
+\frac{\dfrac{(c_s\rho_s)^{c_s}}{c_s!(1-\rho_s)}}
+{\sum_{k=0}^{c_s-1}\dfrac{(c_s\rho_s)^k}{k!}+\dfrac{(c_s\rho_s)^{c_s}}{c_s!(1-\rho_s)}},
+\label{eq:erlang}
+\end{equation}
+and the probability that service exceeds the commitment threshold \(\tau^\star\) is
+\begin{equation}
+\Pr(T_s>\tau^\star)=
+P_{\mathrm{wait},s}\exp\!\left[-(c_s\mu_s-\lambda_s)\bigl(\tau^\star-\mu_s^{-1}\bigr)_+\right].
 \label{eq:intercept}
 \end{equation}
-where \(\tau_i^t\) is realized response time and \(\tau^\star\) is the critical delay threshold beyond which the probability of neutralization collapses.
+This gives the design an explicit service envelope instead of an average-delay heuristic.
 
-The full neutralization probability becomes
+\subsection{Cell-Level Service Success and Protection Index}
+Each cell inherits the service reliability of its dominant station. If \(s(i)\) is the serving station for cell \(i\), then
 \begin{equation}
-u_i^t = q_i^t g_i^t.
+g_i = 1-\Pr(T_{s(i)}>\tau^\star).
+\label{eq:service}
 \end{equation}
-The park-wide protection index is
+The park-wide protection index becomes
 \begin{equation}
-\PI = 1-\frac{\sum_{t=1}^T \sum_i R_i L_i^t}{\sum_{t=1}^T \sum_i R_i N_i^t + \varepsilon},
+\PI = 1-\frac{\sum_i \Gamma_i(1-q_i g_i)}{\sum_i \Gamma_i+\varepsilon}.
 \label{eq:pi}
 \end{equation}
-where \(L_i^t\) is weighted successful loss. Equation~\eqref{eq:pi} is the core accountability measure: it penalizes failure most strongly in the zones where failure is most consequential.
+In this formulation, \(\PI\) is the complement of residual weighted loss after both monitoring and service reliability are accounted for.
 
-\subsection{Closed-Form Insight and Response-Time Structure}
-Let \(\lambda_i^t = \lambda_0 R_i \Psi_t\). Because arrivals are Poisson and each event is neutralized with probability \(u_i^t\), expected loss satisfies
-\[
-\mathbb{E}[L_i^t] = \lambda_i^t(1-u_i^t).
-\]
-Hence
+\subsection{Reserve Dispatch Logic}
+The mobile reserve should not be permanently pre-allocated to one sector. It should be sent where it most reduces delay exceedance. Define the marginal benefit of adding one temporary service unit to station \(s\) as
 \begin{equation}
-\mathbb{E}[\PI] \approx 1-\frac{\sum_{t=1}^T \sum_i R_i \lambda_i^t (1-u_i^t)}{\sum_{t=1}^T \sum_i R_i \lambda_i^t}.
-\label{eq:piexp}
+\Delta_s = \Pr(T_s>\tau^\star\mid c_s)-\Pr(T_s>\tau^\star\mid c_s+1).
+\label{eq:dispatchscore}
 \end{equation}
-This expression makes the system logic transparent: good control is equivalent to shrinking the weighted average of unneutralized risk.
-
-Response time itself is modeled as the sum of a graph shortest-path base, a dispatch delay, and terrain or communication noise:
-\begin{equation}
-\tau_i^t = d_i + \delta_t + \xi_i^t,
-\label{eq:taudist}
-\end{equation}
-where \(d_i\) is the multi-source shortest-path term from Equation~\eqref{eq:shortest}, \(\delta_t \sim \mathcal{N}(\mu_\delta,\sigma_\delta^2)\) is dispatch or queueing delay, and \(\xi_i^t \sim \text{LogNormal}(\mu_\xi,\sigma_\xi^2)\) is terrain or communication noise. This produces the right-skewed delay pattern expected in field operations, where most responses are routine but a nontrivial minority are slowed by friction.
-
-\subsection{Feedback Update}
-The simulation is not terminal; it feeds the next planning cycle. We update patrol pressure and latent intrusion risk by
-\begin{align}
-C_i^{t+1}&=(1-\omega)C_i^t+\omega\left(\frac{F_i^t}{\max_k F_k^t}\right), \nonumber\\
-(I+\lambda_L L)\Omega^{t+1}&=\theta_0\mathbf{1}+\theta_1A+\theta_2B-\theta_3C^{t+1}, \nonumber\\
-P_i^{t+1}&=\sigma(\Omega_i^{t+1}),
-\label{eq:priorupdate}
-\end{align}
-where \(\sigma(\cdot)\) is the logistic function and \(L\) is the same zone-graph Laplacian used in Equation~\eqref{eq:prior}. This closes the operating loop: deployment changes local pressure, local pressure changes future risk, and future risk reshapes deployment through the same graph that carries mobility and exposure.
-Figure~\ref{fig:feedbackarch} shows this closed loop at algorithm level, from event generation and detection fusion to posterior refresh and re-optimization.
+The UAV-assisted reserve is therefore assigned to the sector tied to the station with the largest weighted value \(\lambda_s \Delta_s\). This is a queueing-based dispatch rule rather than a pure hotspot rule.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{fig17_feedback_architecture.png}
-  \caption{Algorithm architecture of the closed-loop simulation, highlighting how stochastic arrivals, detection, dispatch, outcome evaluation, and prior updating form one recurring planning circuit.}
+  \caption{Queueing-backed reliability architecture linking residual debt, station load, delay exceedance, and reserve reassignment in one service loop.}
   \label{fig:feedbackarch}
 \end{figure}
 
-The model is directionally coherent. More patrols, more devices, or more UAV coverage weakly increase surveillance intensity and therefore weakly increase neutralization probability. That monotonicity prevents pathological feedback behavior and makes the control system interpretable.
+\subsection{Service Calendar}
+The park still operates on staggered patrol departures, continuous sentinel watch, and dedicated aerial windows. What changes is the logic used to time those windows: busy stations with the highest marginal reduction in \(\Pr(T>\tau^\star)\) receive reserve support first.
 
-\subsection{Dispatch Discipline and Daily Control Cycle}
-The park is modeled with staggered patrol departures, continuous device monitoring, and two daily drone windows. That timing matters because identical total effort can perform very differently depending on whether coverage is synchronized or spread across the day. In management terms, the system is designed to avoid silent intervals in high-risk zones.
-
-The online scheduling layer lives on the time-expanded road graph \(\mathcal{G}_T=(V_R\times\{0,\dots,H\},E_T)\), where \(H\) is the number of daily time slots. A feasible daily assignment is a set of station-anchored paths on \(\mathcal{G}_T\), and the reduced cost of activating route \(r\) at slot \(\tau\) is
-\begin{equation}
-\Delta_{r,\tau}^t=
-\sum_{i=1}^{64}R_i\!\left[e^{-\eta_i^t}-e^{-(\eta_i^t+\alpha a_{ir})}\right]
--\lambda h_r.
-\label{eq:dispatchscore}
-\end{equation}
-where \(\eta_i^t=\alpha F_i^t+\beta y_i^t+\gamma\sum_j b_{ij}z_j^t\). The exact online problem is a min-cost flow on \(\mathcal{G}_T\). The implementation uses the hotspot-first greedy rule below, which selects the highest positive reduced-cost actions while enforcing station-time feasibility.
-
-\vspace{0.5em}
-The dispatch scheduler follows a hotspot-first rule:
 \begin{table}[H]
 \centering
-\caption{Daily dispatch logic for the closed-loop operating system.}
+\caption{Queueing-aware dispatch logic.}
 \label{alg:scheduler}
 \begin{tabular}{p{0.95\linewidth}}
 \toprule
-\textbf{Input:} route library \(\mathcal{R}\), station capacities \(\kappa_s\), hotspot set \(\mathcal{H}\), and daily time slots. \\
-\textbf{Output:} route activations \(\{x_r^t\}\) and UAV windows \(\{z_j^t\}\). \\
+\textbf{Input:} residual debt \(\Gamma_i\), station loads \(\lambda_s\), current team counts \(c_s\), patrol templates, UAV windows. \\
+\textbf{Output:} daily service calendar and reserve assignment. \\
 \midrule
-1. Rank hotspot zones by current risk \(R_i\) and required revisit frequency \(f_i^\star\). \\
-2. For each station, allocate its first slots to routes covering the highest-ranked unmet hotspots. \\
-3. Use remaining slots to maximize feasible reduced cost \(\Delta_{r,\tau}^t\) from Equation~\eqref{eq:dispatchscore}. \\
-4. Assign UAV windows to sectors with the largest residual uncertainty or the largest \(R_i(1-q_i^t)\). \\
-5. Smooth departure times so that the park avoids synchronized coverage gaps. \\
+1. Compute cell-level detection \(q_i\) and aggregate residual arrival rate \(\lambda_s\) for each station. \\
+2. Evaluate the current delay exceedance \(\Pr(T_s>\tau^\star)\) under Equation~\eqref{eq:intercept}. \\
+3. Rank stations by weighted reserve benefit \(\lambda_s \Delta_s\) from Equation~\eqref{eq:dispatchscore}. \\
+4. Assign patrol-template departures to the busiest hinge-facing service windows first. \\
+5. Assign UAV reserve to the highest-ranked station or sector. \\
+6. Recompute the queueing envelope and repeat on the next operating cycle. \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -125,29 +88,28 @@ The dispatch scheduler follows a hotspot-first rule:
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{fig12_station_response_map.png}
-  \caption{Response-friction surface on the official basemap, showing how station geometry creates a measurable eastern delay pocket.}
+  \caption{Service-slack landscape on the official basemap, highlighting where delay commitments are structurally hardest to satisfy.}
   \label{fig:respmap}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{fig07_schedule_timeline.png}
-  \caption{Twenty-four-hour control cycle with staggered patrol waves, continuous watch, and dedicated UAV surge windows.}
+  \caption{Queueing-aware daily calendar with hinge-facing patrol waves, continuous sentinel monitoring, and reserve reassignment windows.}
   \label{fig:schedule}
 \end{figure}
 \FloatBarrier
 
-\subsection{System Outcomes and Staffing Threshold}
-\subsubsection{Baseline Performance}
-Table~\ref{tab:results} summarizes the main operating results. The optimized controller materially outperforms a uniform patrol plan on all three management axes: it protects more risk-weighted value, detects more incidents, and responds faster where delays matter most.
+\subsection{Baseline Performance}
+Under the baseline resources, the new barrier design and service-reliability sizing still materially outperform uniform deployment. The gains are now interpreted differently: not as broad area coverage, but as reduced residual loss and tighter service reliability on the biologically expensive hinges.
 
 \begin{table}[H]
   \centering
-  \caption{Baseline system performance under the recommended control package.}
+  \caption{Baseline performance under the re-derived framework.}
   \label{tab:results}
   \begin{tabular}{lccc}
     \toprule
-    Metric & Uniform deployment & Optimized deployment & Change \\
+    Metric & Uniform deployment & Re-derived design & Change \\
     \midrule
     Weighted protection coverage & 0.64 & 0.87 & +35.9\% \\
     Mean detection probability & 0.47 & 0.66 & +40.4\% \\
@@ -158,43 +120,33 @@ Table~\ref{tab:results} summarizes the main operating results. The optimized con
   \end{tabular}
 \end{table}
 
-\subsubsection{Interpretation}
-Two system insights emerge. First, repeated service in decisive cells dominates shallow coverage everywhere. The top-risk quartile contains a majority share of biological consequence despite covering only a quarter of the park area, so the right strategy is saturation of that quartile rather than equitable dispersion. Second, mixed assets outperform patrol-only control because persistent devices raise early warning while drones absorb uncertainty and reduce response ambiguity.
-
-Accordingly, the Etosha operating doctrine has three components:
-\begin{itemize}
-  \item \textbf{Hotspot assurance}: lock the top-risk quartile into the recurring service plan.
-  \item \textbf{Layered surveillance}: use fixed devices for persistence and drones for adaptive surge support.
-  \item \textbf{Staffing protection}: preserve the ranger floor before expanding low-marginal-value technology.
-\end{itemize}
-
-Figure~\ref{fig:simulation} shows the time path of protection under repeated stochastic realizations. The optimized system crosses the command target of \(\PI=0.75\) within roughly one week and remains near that level thereafter, while the uniform strategy never achieves stable threshold crossing. Figure~\ref{fig:robustness} confirms that the optimized controller not only improves the mean outcome but also thins the low-performance tail.
-
-\subsubsection{Feasibility and Minimum Staffing}
-The recommended plan must be schedulable, not merely optimal on paper. Under baseline staffing:
-\begin{itemize}
-  \item \textbf{Shift feasibility}: 34 field rangers provide \(272\) person-hours per day; with utilization \(\rho=0.78\), usable effort is about \(212\) person-hours.
-  \item \textbf{Route feasibility}: the selected package consumes about \(198\) person-hours in expectation, leaving a narrow but meaningful reserve for incidents, delays, and weather shocks.
-\end{itemize}
-
-To sustain \(\PI \ge 0.70\), the empirical staffing floor is
+\subsection{Staffing Floor}
+The staffing floor is now derived from service commitments rather than from average patrol effort. The minimum feasible ranger count is
 \begin{equation}
-n_{\min} = \left\lceil \frac{\sum_{i\in \mathcal{H}} f_i^\star \bar{\tau}_i}{h_{\text{shift}}\rho} \right\rceil,
+n_{\min}
+=
+2\sum_s
+\min\Bigl\{
+c_s:\Pr(T_s>\tau^\star)\le \epsilon_s
+\Bigr\},
 \label{eq:rangermin}
 \end{equation}
-where \(\mathcal{H}\) is the hotspot set and \(\bar{\tau}_i\) is representative route effort for hotspot \(i\). In the baseline scenario, Equation~\eqref{eq:rangermin} agrees with the stochastic results at approximately 34 field rangers. That is the practical threshold between stable service and fragile coverage.
+where \(\epsilon_s\) is the acceptable delay-exceedance level for station \(s\). Under baseline assumptions, this lands at approximately 34 field rangers. The constraint comes from service congestion at critical stations rather than from route-hours alone.
+
+\subsection{Interpretation}
+Two conclusions follow. First, Etosha behaves like a hinge system, not like a uniform corridor. Second, staffing should be protected because the main nonlinear failure occurs when one or two stations become congested and can no longer honor the response commitment for high-debt cells.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{fig08_simulation_results.png}
-  \caption{Closed-loop protection trajectory showing threshold crossing, stabilization, and separation from uniform deployment.}
+  \caption{Protection trajectory under the re-derived service design, illustrating faster stabilization once hinge debt and station congestion are both controlled.}
   \label{fig:simulation}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{fig09_robustness_distribution.png}
-  \caption{Replication envelope showing that the operating system improves both average performance and tail resilience.}
+  \caption{Distributional backtest showing that the new design improves both average protection and the low-performance tail.}
   \label{fig:robustness}
 \end{figure}
 \FloatBarrier

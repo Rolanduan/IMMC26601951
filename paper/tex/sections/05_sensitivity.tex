@@ -1,47 +1,48 @@
-\section{Stress Testing and Safe Operating Envelope}
-The controller is only useful if managers know how it fails. We therefore stress test four major levers: ranger count, device inventory, patrol cadence, and effective detection quality. The purpose is not to rank parameters mechanically; it is to identify the boundary between stable and fragile protection.
-
-We define the safe operating envelope as
+\section{Trade-Off Frontier and Structural Sensitivity}
+The new framework is built around residual loss flow and service reliability, so the natural sensitivity question is no longer ``Which parameter changes the score most?'' but ``Which levers move the system across the stability frontier?'' We define that frontier as
 \[
-\mathcal{E}=\left\{(n,q,\Delta): \PI \ge 0.70,\ \Resp \le \tau^\star,\ \Det \ge 0.60 \right\},
+\mathcal{F}=\left\{(n,u,\Delta): \PI \ge 0.70,\ \Gamma_{\max}\ \text{controlled},\ \max_s \Pr(T_s>\tau^\star)\le 0.25 \right\},
 \]
-where \(n\) is field staffing, \(q\) is effective detection quality, and \(\Delta\) is patrol interval. Figure~\ref{fig:sensitivity} ranks the levers, Figure~\ref{fig:rangercurve} shows the staffing breakpoint, and Figure~\ref{fig:scenariomatrix} maps the manpower--detection frontier. The lever ranking is
+where \(n\) is effective team depth, \(u\) is hinge-zone detection uptime, and \(\Delta\) is patrol-template regularity.
+
+This definition creates a different ranking from a raw hardware-count analysis. The dominant levers are:
 \[
-\text{ranger count} > \text{detection quality} > \text{patrol interval} > \text{device inventory}.
+\text{team depth} > \text{sensor uptime} > \text{template regularity} > \text{device count}.
 \]
+The distinction between uptime and count is important. Once a hinge zone already has a device, reliability of that device matters more than adding another low-uptime unit somewhere less critical.
 
-\subsection{Staffing Shock}
-Reducing field rangers from 34 to 24 pushes the system out of the safe envelope: \(\PI\) falls from about 0.74 to 0.58. This is not a linear decline. Once hotspot revisit discipline breaks, the system loses repeated service in the very cells that carry the most weighted consequence.
+\subsection{Team-Depth Shock}
+Reducing the field force from 34 to 24 rangers pushes the system across the stability frontier. The main failure is not a graceful drop in average coverage; it is a queueing failure at the busiest station--hinge pairs. Once that happens, the delay exceedance probability rises sharply, which in turn allows residual weighted loss to escape through the same few expensive pathways. In other words, the system fails by congestion before it fails by map area.
 
-\subsection{Monitoring Reduction}
-Reducing fixed devices from 12 to 6 lowers \(\PI\) from 0.74 to 0.68. The drop is noticeable but smaller than the staffing shock because the controller already places devices in the highest-value persistent hotspots. After those sites are instrumented, extra devices add progressively less value.
+\subsection{Sentinel Uptime Loss}
+If hinge-zone monitoring uptime deteriorates, the barrier design loses persistence precisely where patrols were meant to be complemented rather than replaced. This explains why uptime behaves as the second-most powerful lever. A park can own enough devices on paper and still be structurally fragile if the biologically decisive hinges are intermittently blind.
 
-\subsection{Cadence Drift}
-Increasing the mean patrol interval from 1.5 to 3.0 days weakens deterrence continuity and raises the probability that hotspot cells spend long periods without active service. This matters most in zones with high accessibility, where adversaries can exploit predictable quiet windows.
+\subsection{Template Irregularity}
+Patrol-template irregularity matters because the new framework depends on repeatability at gateway and relay cells. When the intended patrol cadence stretches from roughly 1.5 days toward 3 days, residual debt grows even if nominal patrol hours do not collapse. The problem is not only fewer visits; it is longer windows during which a hinge can remain open without a physical barrier or a service backstop.
 
-\subsection{Detection Perturbation}
-Increasing effective zone-level detection quality from 0.40 to 0.60 yields a protection gain comparable to adding roughly 6--8 field rangers. This does not mean technology replaces staff. It means that intelligence quality, placement discipline, and monitoring uptime are the most credible partial substitutes once staffing is fixed.
+\subsection{Hardware Inflation Without Structure}
+Additional devices remain helpful, but their marginal value falls quickly once the principal hinge set is instrumented. This is why raw device count ranks last among the four levers. Hardware without structural placement or uptime discipline acts like decorative surplus, not like genuine defense depth.
 
-Using Equation~\eqref{eq:rangermin}, the baseline ranger floor is about 34 field rangers. If devices are cut by one-third, the requirement rises to about 40. If devices increase by 50\%, it falls to about 29. Taken together, the stress tests define a clear management lesson: protect staffing first, protect detection quality second, and treat devices as reinforcement rather than as the primary backbone of control.
+These sensitivity results imply a different policy sequence from a conventional patrol paper. First secure enough teams to keep service reliability inside the frontier. Then protect hinge-zone uptime. Then stabilize patrol regularity. Only after those conditions are met does broader hardware expansion meaningfully improve the system.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{fig10_sensitivity_panels.png}
-  \caption{Stress-test ranking of management levers by full performance span across the operating envelope.}
+  \caption{Structural sensitivity of the re-derived model, emphasizing team depth, hinge-zone uptime, and patrol regularity rather than raw device count alone.}
   \label{fig:sensitivity}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{fig14_ranger_requirement_curve.png}
-  \caption{Staffing breakpoint curve separating fragile coverage, transition, and stable hotspot assurance.}
+  \caption{Team-depth breakpoint curve separating congested service, transitional stability, and reliable hinge protection.}
   \label{fig:rangercurve}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{fig15_scenario_matrix.png}
-  \caption{Safe operating envelope in the manpower--detection plane, with iso-protection contours and a stability boundary.}
+  \caption{Trade-off frontier in manpower and hinge-zone detection quality, showing where the system remains inside the stability region.}
   \label{fig:scenariomatrix}
 \end{figure}
 \FloatBarrier

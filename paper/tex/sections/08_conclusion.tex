@@ -1,16 +1,18 @@
-\section{Decision Synthesis}
-The central conclusion of this paper is that large-park protection should be run as an operating system, not as a coverage checklist. Etosha is too large, too heterogeneous, and too operationally uneven for uniform patrol logic to work. The decisive management problem is to guarantee reliable service in zones where ecological consequence, intrusion opportunity, and response friction coincide.
+\section{Re-Derived Decision Answer}
+This paper reaches a different strategic answer by changing the object of optimization. Etosha should not be managed as a park-wide coverage exercise. It should be managed as a weighted loss-flow interdiction problem in which a small number of gateway-to-habitat pathways determine a disproportionate share of biological risk.
 
-The proposed system solves that problem through a single closed loop: build the digital twin, estimate the priority field, allocate patrols and technology under real constraints, stress test the result under uncertainty, and update the next plan from observed pressure and delay. In the Etosha baseline, this logic supports a corridor-focused deployment, lifts the protection index from 0.56 to 0.74, and identifies a minimum staffing threshold of about 34 field rangers.
+That re-derivation changes the architecture, the algorithms, and the conclusions at the same time. The architecture is now a threat-transport graph, a lexicographic barrier-design model, and a queueing reliability layer. The algorithms first identify hinge zones, then cap the worst residual debt, then size the service system so that response commitments are plausible. The conclusion is no longer ``cover the hotspot corridor as much as possible.'' It is ``seal the expensive hinges, keep one mobile reserve available, and staff stations to a delay standard rather than to an average-hour target.''
 
 Direct answers to Tasks 1--6 are therefore:
 \begin{itemize}
-  \item Task 1: define protection as reliable service in decisive zones and prioritize the eastern--southern corridor.
-  \item Task 2: allocate patrol loops as the backbone, fixed devices for persistence, and UAVs for uncertainty reduction and surge support.
-  \item Task 3: maintain roughly 34 field rangers under baseline conditions to keep the system in its safe operating envelope.
-  \item Task 4: recognize staffing as the dominant performance lever, with detection quality second.
-  \item Task 5: treat stale threat priors and oversimplified mobility assumptions as the most important model risks.
-  \item Task 6: transfer the architecture directly while recalibrating ecological, threat, and mobility layers locally.
+  \item Task 1: define protection as suppression of residual weighted loss flow under a response commitment, and diagnose the east--south hinge system as the dominant defense problem.
+  \item Task 2: deploy a three-tier shield consisting of patrol templates, hinge sentinels, and mobile UAV reserve rather than broad uniform patrol coverage.
+  \item Task 3: maintain roughly 34 field rangers under baseline conditions to keep delay exceedance within a defensible service envelope.
+  \item Task 4: recognize team depth and hinge-zone uptime as the two dominant control levers.
+  \item Task 5: treat ingress-prior misspecification and overoptimistic service times as the main technical risks.
+  \item Task 6: transfer the framework by rebuilding ingress nodes, habitat sinks, and station service rates for the new park morphology.
 \end{itemize}
+
+The broader lesson is methodological. Conservation planning improves when it stops asking where effort can be seen and starts asking where expensive loss can still pass. For Etosha, that means defending the park's hinges rather than admiring its area.
 
 \newpage

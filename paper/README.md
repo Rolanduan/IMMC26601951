@@ -1,6 +1,6 @@
-# IMMC Protected-Area Operating System Paper
+# IMMC Loss-Flow Interdiction Paper
 
-This folder contains the full source package for the Etosha manuscript. The paper is organized as a protected-area operating system: digital twin, priority engine, resource controller, stress test, and transfer protocol.
+This folder contains the full source package for the Etosha manuscript. The paper is organized around a new decision spine: threat-transport diagnosis, lexicographic barrier design, queueing-based service reliability, and morphology-based transfer.
 
 ## Package Layout
 
@@ -21,13 +21,13 @@ This folder contains the full source package for the Etosha manuscript. The pape
 
 ## Manuscript Logic
 
-The paper is structured around one closed loop:
+The paper is structured around one park-defense loop:
 
-1. Build a digital twin of the park.
-2. Diagnose a spatial priority field.
-3. Allocate patrols, sensors, and UAVs under real constraints.
-4. Stress test the plan under uncertainty.
-5. Update the next planning cycle from observed pressure and delay.
+1. Build a threat-transport graph from ingress, habitat, road, and station structure.
+2. Diagnose hinge zones through residual weighted loss flow.
+3. Solve a lexicographic barrier-design problem for patrol templates, sentinels, and UAV reserve.
+4. Size staffing and reserve logic with a queueing reliability layer.
+5. Rebuild the model for other parks by morphology rather than by copying the map.
 
 ## Figure Workflow
 
@@ -62,5 +62,5 @@ If no LaTeX engine is installed, `build.ps1` stops with a clear actionable error
 ## Notes
 
 - The bibliography is inline for portability and to avoid a BibTeX dependency.
-- Appendix pages are intentionally separated from the main report page count.
+- Page headers use continuous total-page counting across the full PDF.
 - Compile artifacts are ignored by `paper/.gitignore`.

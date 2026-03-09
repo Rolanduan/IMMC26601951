@@ -1,116 +1,126 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3200 1800" width="3200" height="1800">
   <defs>
-    <linearGradient id="pageBg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#eef1ee"/><stop offset="100%" stop-color="#dfe6e1"/></linearGradient>
-    <pattern id="paperGrain" width="18" height="18" patternUnits="userSpaceOnUse"><circle cx="4" cy="5" r="0.9" fill="#d8d0c0" opacity="0.28"/><circle cx="13" cy="8" r="0.7" fill="#cfc7b7" opacity="0.24"/><circle cx="9" cy="14" r="0.8" fill="#d8d0c0" opacity="0.22"/></pattern>
+    <linearGradient id="pageBg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ede7de"/><stop offset="100%" stop-color="#d9d0c2"/></linearGradient>
+    <linearGradient id="headBg" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#16212a"/><stop offset="100%" stop-color="#243746"/></linearGradient>
+    <pattern id="paperGrid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M 24 0 L 0 0 0 24" fill="none" stroke="#ddd3c3" stroke-width="0.8" opacity="0.32"/></pattern>
     <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#8c948f" flood-opacity="0.18"/></filter>
   </defs>
   <rect x="0" y="0" width="3200" height="1800" fill="url(#pageBg)"/>
-  <rect x="0" y="0" width="3200" height="1800" fill="url(#paperGrain)" opacity="0.44"/>
-  <rect x="54" y="48" width="3092" height="162" rx="32" fill="#f7f9f6" stroke="#bcc8c3" stroke-width="2.2" filter="url(#shadow)"/>
+  <rect x="0" y="0" width="3200" height="1800" fill="url(#paperGrid)" opacity="0.42"/>
+  <rect x="54" y="46" width="3092" height="176" rx="24" fill="url(#headBg)" filter="url(#shadow)"/>
+  <rect x="54" y="196" width="3092" height="20" fill="#26455d" opacity="0.95"/>
   
-    <rect x="92" y="78" width="248" height="42" rx="21" fill="#35556c" stroke="#35556c" stroke-width="1.2"/>
-    <text x="216" y="106" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="19" font-weight="700" letter-spacing="2" fill="#f7f9f6">OPERATING SYSTEM</text>
+    <rect x="92" y="82" width="270" height="38" rx="10" fill="#f2ecdf" stroke="#26455d" stroke-opacity="0.15" stroke-width="1.2"/>
+    <rect x="102" y="90" width="8" height="22" rx="4" fill="#26455d" opacity="0.84"/>
+    <text x="122" y="108" font-family="Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700" letter-spacing="1.8" fill="#26455d">LOSS-FLOW MODEL</text>
   
   
-    <rect x="2914" y="78" width="174" height="42" rx="21" fill="#efe5cb" stroke="#efe5cb" stroke-width="1.2"/>
-    <text x="3001" y="106" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="19" font-weight="700" letter-spacing="2" fill="#1f2d36">FIG. 01</text>
+    <rect x="2926" y="82" width="162" height="38" rx="10" fill="#f2ecdf" stroke="#16212a" stroke-opacity="0.15" stroke-width="1.2"/>
+    <rect x="2936" y="90" width="8" height="22" rx="4" fill="#16212a" opacity="0.84"/>
+    <text x="2956" y="108" font-family="Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700" letter-spacing="1.8" fill="#16212a">FIG. 01</text>
   
-  <text x="92" y="152" font-family="Helvetica Neue, Arial, sans-serif" font-size="60" font-weight="700" fill="#1f2d36">Protected-Area Operating System</text>
-  <text x="92" y="189" font-family="Helvetica Neue, Arial, sans-serif" font-size="26" fill="#60717d">Digital twin, controller, stress test, and governance feedback in one closed loop</text>
-  <rect x="92" y="98" width="2768" height="7" rx="4" fill="#35556c"/><rect x="92" y="108" width="1826.88" height="2" rx="1" fill="#bcc8c3"/>
+  <text x="92" y="152" font-family="Helvetica Neue, Arial, sans-serif" font-size="58" font-weight="700" fill="#fcfaf6">Etosha Loss-Flow Interdiction Spine</text>
+  <text x="92" y="188" font-family="Helvetica Neue, Arial, sans-serif" font-size="25" fill="#d7dde0">Transport diagnosis, barrier design, and service reliability are linked in one defense loop</text>
+  <rect x="92" y="106" width="941.1200000000001" height="6" rx="3" fill="#26455d"/><rect x="1088.48" y="106" width="442.88" height="6" rx="3" fill="#d5c8ae"/><rect x="1586.72" y="106" width="775.0400000000001" height="6" rx="3" fill="#8796a2" opacity="0.55"/><rect x="92" y="118" width="2103.68" height="2" rx="1" fill="#c5beb1"/>
   
-    <rect x="58" y="256" width="3084" height="1482" rx="34" fill="#f7f9f6" stroke="#bcc8c3" stroke-width="2.3" filter="url(#shadow)"/>
-    <rect x="74" y="272" width="3052" height="1450" rx="28" fill="#f8f3ea" stroke="#dad3c4" stroke-width="1.5"/>
+    <rect x="58" y="256" width="3084" height="1482" rx="26" fill="#f5f0e8" stroke="#c5beb1" stroke-width="2.2" filter="url(#shadow)"/>
+    <rect x="74" y="272" width="3052" height="1450" rx="18" fill="#fcfaf6" stroke="#ddd3c5" stroke-width="1.4"/>
+    <rect x="86" y="284" width="22" height="1426" rx="11" fill="#16212a" opacity="0.92"/>
+    <rect x="130" y="284" width="2984" height="34" rx="10" fill="#eef1ed"/>
+    <line x1="150" y1="332" x2="150" y2="1710" stroke="#efe7da" stroke-width="1"/><line x1="732.8" y1="332" x2="732.8" y2="1710" stroke="#efe7da" stroke-width="1"/><line x1="1315.6" y1="332" x2="1315.6" y2="1710" stroke="#efe7da" stroke-width="1"/><line x1="1898.3999999999999" y1="332" x2="1898.3999999999999" y2="1710" stroke="#efe7da" stroke-width="1"/><line x1="2481.2" y1="332" x2="2481.2" y2="1710" stroke="#efe7da" stroke-width="1"/><line x1="3064" y1="332" x2="3064" y2="1710" stroke="#efe7da" stroke-width="1"/>
   <path d="M 320 808 C 720 720, 1080 700, 1560 706 C 1950 710, 2320 712, 2860 808" fill="none" stroke="#d6ccbb" stroke-width="24" stroke-linecap="round"/>
       <path d="M 658 509 C 686 509, 712 505, 734 509" fill="none" stroke="#cbbfa6" stroke-width="10" stroke-linecap="round"/>
       <path d="M 724 497 L 748 509 L 724 521 Z" fill="#cbbfa6"/>
-      <path d="M 144 390 H 618 L 658 509 L 618 628 H 144 Q 126 628 126 610 V 408 Q 126 390 144 390 Z" fill="#35556c" fill-opacity="0.14" stroke="#35556c" stroke-width="2.4"/>
-      <text x="152" y="448" font-family="Helvetica Neue, Arial, sans-serif" font-size="34" font-weight="700" fill="#1f2d36">1. GIS diagnosis</text>
-      <text x="152" y="498" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" fill="#60717d">Command mesh, access field, water dependence</text>
-      <text x="152" y="534" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" fill="#60717d">Outputs: interpretable planning cells and uncertainty tags</text>
-      <rect x="152" y="566" width="422" height="34" rx="17" fill="#35556c" opacity="0.18"/>
-      <text x="168" y="589" font-family="Helvetica Neue, Arial, sans-serif" font-size="20" font-weight="700" fill="#35556c">input discipline</text>
+      <path d="M 144 390 H 618 L 658 509 L 618 628 H 144 Q 126 628 126 610 V 408 Q 126 390 144 390 Z" fill="#26455d" fill-opacity="0.14" stroke="#26455d" stroke-width="2.4"/>
+      <text x="152" y="448" font-family="Helvetica Neue, Arial, sans-serif" font-size="34" font-weight="700" fill="#16212a">1. Base-layer parsing</text>
+      <text x="152" y="498" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" fill="#5d6872">Ingress map, watch stations, water pull, travel graph</text>
+      <text x="152" y="534" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" fill="#5d6872">Outputs: hinge cells, sink cells, and uncertainty stamps</text>
+      <rect x="152" y="566" width="422" height="34" rx="17" fill="#26455d" opacity="0.18"/>
+      <text x="168" y="589" font-family="Helvetica Neue, Arial, sans-serif" font-size="20" font-weight="700" fill="#26455d">geometry brief</text>
     
       <path d="M 1242 488 C 1270 488, 1296 484, 1318 488" fill="none" stroke="#cbbfa6" stroke-width="10" stroke-linecap="round"/>
       <path d="M 1308 476 L 1332 488 L 1308 500 Z" fill="#cbbfa6"/>
-      <path d="M 728 348 H 1202 L 1242 488 L 1202 628 H 728 Q 710 628 710 610 V 366 Q 710 348 728 348 Z" fill="#567568" fill-opacity="0.14" stroke="#567568" stroke-width="2.4"/>
-      <text x="736" y="406" font-family="Helvetica Neue, Arial, sans-serif" font-size="34" font-weight="700" fill="#1f2d36">2. Risk synthesis</text>
-      <text x="736" y="456" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" fill="#60717d">Ecology pull, threat opportunity, response delay</text>
-      <text x="736" y="492" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" fill="#60717d">Outputs: hotspot quartile, corridor thesis, target cells</text>
-      <rect x="736" y="566" width="422" height="34" rx="17" fill="#567568" opacity="0.18"/>
-      <text x="752" y="589" font-family="Helvetica Neue, Arial, sans-serif" font-size="20" font-weight="700" fill="#567568">priority discipline</text>
+      <path d="M 728 348 H 1202 L 1242 488 L 1202 628 H 728 Q 710 628 710 610 V 366 Q 710 348 728 348 Z" fill="#4f6961" fill-opacity="0.14" stroke="#4f6961" stroke-width="2.4"/>
+      <text x="736" y="406" font-family="Helvetica Neue, Arial, sans-serif" font-size="34" font-weight="700" fill="#16212a">2. Debt-field assembly</text>
+      <text x="736" y="456" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" fill="#5d6872">Biological consequence, flow centrality, and service slack</text>
+      <text x="736" y="492" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" fill="#5d6872">Outputs: hinge belt, debt ladder, and breach-facing cells</text>
+      <rect x="736" y="566" width="422" height="34" rx="17" fill="#4f6961" opacity="0.18"/>
+      <text x="752" y="589" font-family="Helvetica Neue, Arial, sans-serif" font-size="20" font-weight="700" fill="#4f6961">debt brief</text>
     
       <path d="M 1826 509 C 1854 509, 1880 505, 1902 509" fill="none" stroke="#cbbfa6" stroke-width="10" stroke-linecap="round"/>
       <path d="M 1892 497 L 1916 509 L 1892 521 Z" fill="#cbbfa6"/>
-      <path d="M 1312 390 H 1786 L 1826 509 L 1786 628 H 1312 Q 1294 628 1294 610 V 408 Q 1294 390 1312 390 Z" fill="#bc8531" fill-opacity="0.14" stroke="#bc8531" stroke-width="2.4"/>
-      <text x="1320" y="448" font-family="Helvetica Neue, Arial, sans-serif" font-size="34" font-weight="700" fill="#1f2d36">3. Allocation logic</text>
-      <text x="1320" y="498" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" fill="#60717d">Routes, sensors, UAV sorties, feasibility screens</text>
-      <text x="1320" y="534" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" fill="#60717d">Outputs: weekly tasking package and reserve capacity</text>
-      <rect x="1320" y="566" width="422" height="34" rx="17" fill="#bc8531" opacity="0.18"/>
-      <text x="1336" y="589" font-family="Helvetica Neue, Arial, sans-serif" font-size="20" font-weight="700" fill="#bc8531">feasibility discipline</text>
+      <path d="M 1312 390 H 1786 L 1826 509 L 1786 628 H 1312 Q 1294 628 1294 610 V 408 Q 1294 390 1312 390 Z" fill="#a9782e" fill-opacity="0.14" stroke="#a9782e" stroke-width="2.4"/>
+      <text x="1320" y="448" font-family="Helvetica Neue, Arial, sans-serif" font-size="34" font-weight="700" fill="#16212a">3. Barrier ledger</text>
+      <text x="1320" y="498" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" fill="#5d6872">Sweep paths, sentinel anchors, reserve windows, field limits</text>
+      <text x="1320" y="534" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" fill="#5d6872">Outputs: weekly barrier deck and reserve covenant</text>
+      <rect x="1320" y="566" width="422" height="34" rx="17" fill="#a9782e" opacity="0.18"/>
+      <text x="1336" y="589" font-family="Helvetica Neue, Arial, sans-serif" font-size="20" font-weight="700" fill="#a9782e">barrier brief</text>
     
       <path d="M 2410 488 C 2438 488, 2464 484, 2486 488" fill="none" stroke="#cbbfa6" stroke-width="10" stroke-linecap="round"/>
       <path d="M 2476 476 L 2500 488 L 2476 500 Z" fill="#cbbfa6"/>
-      <path d="M 1896 348 H 2370 L 2410 488 L 2370 628 H 1896 Q 1878 628 1878 610 V 366 Q 1878 348 1896 348 Z" fill="#2f6d75" fill-opacity="0.14" stroke="#2f6d75" stroke-width="2.4"/>
-      <text x="1904" y="406" font-family="Helvetica Neue, Arial, sans-serif" font-size="34" font-weight="700" fill="#1f2d36">4. Dynamic check</text>
-      <text x="1904" y="456" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" fill="#60717d">30-day illegal pressure, detection chain, dispatch lag</text>
-      <text x="1904" y="492" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" fill="#60717d">Outputs: PI trajectory, robustness, staffing floor</text>
-      <rect x="1904" y="566" width="422" height="34" rx="17" fill="#2f6d75" opacity="0.18"/>
-      <text x="1920" y="589" font-family="Helvetica Neue, Arial, sans-serif" font-size="20" font-weight="700" fill="#2f6d75">robustness discipline</text>
+      <path d="M 1896 348 H 2370 L 2410 488 L 2370 628 H 1896 Q 1878 628 1878 610 V 366 Q 1878 348 1896 348 Z" fill="#2f666d" fill-opacity="0.14" stroke="#2f666d" stroke-width="2.4"/>
+      <text x="1904" y="406" font-family="Helvetica Neue, Arial, sans-serif" font-size="34" font-weight="700" fill="#16212a">4. Reliability stress</text>
+      <text x="1904" y="456" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" fill="#5d6872">Threat arrivals, queueing delay, and interception decay</text>
+      <text x="1904" y="492" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" fill="#5d6872">Outputs: PI trace, tail exposure, and staffing floor</text>
+      <rect x="1904" y="566" width="422" height="34" rx="17" fill="#2f666d" opacity="0.18"/>
+      <text x="1920" y="589" font-family="Helvetica Neue, Arial, sans-serif" font-size="20" font-weight="700" fill="#2f666d">stress brief</text>
     
       <path d="M 2994 509 C 3022 509, 3048 505, 3070 509" fill="none" stroke="none" stroke-width="10" stroke-linecap="round"/>
       
-      <path d="M 2480 390 H 2954 L 2994 509 L 2954 628 H 2480 Q 2462 628 2462 610 V 408 Q 2462 390 2480 390 Z" fill="#6d617e" fill-opacity="0.14" stroke="#6d617e" stroke-width="2.4"/>
-      <text x="2488" y="448" font-family="Helvetica Neue, Arial, sans-serif" font-size="34" font-weight="700" fill="#1f2d36">5. Governance loop</text>
-      <text x="2488" y="498" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" fill="#60717d">Review cycle, transfer rules, exceptions and updates</text>
-      <text x="2488" y="534" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" fill="#60717d">Outputs: management packet for repeated deployment</text>
-      <rect x="2488" y="566" width="422" height="34" rx="17" fill="#6d617e" opacity="0.18"/>
-      <text x="2504" y="589" font-family="Helvetica Neue, Arial, sans-serif" font-size="20" font-weight="700" fill="#6d617e">review discipline</text>
-    <path d="M 2842 980 C 2980 1020, 3020 1170, 2910 1282 C 2790 1402, 2480 1460, 2120 1422" fill="none" stroke="#8c4338" stroke-width="5" stroke-dasharray="10 12"/><text x="2880" y="1264" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#8c4338" transform="rotate(68 2880 1264)">feedback and weekly recalibration</text>
-    <rect x="140" y="1080" width="906" height="228" rx="24" fill="#ffffff" stroke="#bcc8c3" stroke-width="2" filter="url(#shadow)"/>
-    <rect x="140" y="1080" width="906" height="12" rx="24" fill="#35556c" opacity="0.92"/>
-    <text x="166" y="1138" font-family="Helvetica Neue, Arial, sans-serif" font-size="34" font-weight="700" fill="#1f2d36">Non-negotiable design rules</text>
-    <text x="166" y="1186" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" fill="#60717d">Protect decisive corridors first; do not distribute effort uniformly.</text><text x="166" y="1220" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" fill="#60717d">Accept only plans that satisfy staff time, travel lag, and asset capacity.</text><text x="166" y="1254" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" fill="#60717d">Let field telemetry update the next planning cycle rather than lock a static policy.</text>
+      <path d="M 2480 390 H 2954 L 2994 509 L 2954 628 H 2480 Q 2462 628 2462 610 V 408 Q 2462 390 2480 390 Z" fill="#67586d" fill-opacity="0.14" stroke="#67586d" stroke-width="2.4"/>
+      <text x="2488" y="448" font-family="Helvetica Neue, Arial, sans-serif" font-size="34" font-weight="700" fill="#16212a">5. Revision covenant</text>
+      <text x="2488" y="498" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" fill="#5d6872">Audit trail, transfer rules, and next-cycle exceptions</text>
+      <text x="2488" y="534" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" fill="#5d6872">Outputs: refreshed state packet for repeat deployment</text>
+      <rect x="2488" y="566" width="422" height="34" rx="17" fill="#67586d" opacity="0.18"/>
+      <text x="2504" y="589" font-family="Helvetica Neue, Arial, sans-serif" font-size="20" font-weight="700" fill="#67586d">revision brief</text>
+    <path d="M 2842 980 C 2980 1020, 3020 1170, 2910 1282 C 2790 1402, 2480 1460, 2120 1422" fill="none" stroke="#7e453d" stroke-width="5" stroke-dasharray="10 12"/><text x="2880" y="1264" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#7e453d" transform="rotate(68 2880 1264)">weekly state refresh</text>
+    <rect x="140" y="1080" width="906" height="228" rx="18" fill="#ffffff" stroke="#c5beb1" stroke-width="1.9" filter="url(#shadow)"/>
+    <rect x="156" y="1096" width="10" height="196" rx="5" fill="#26455d" opacity="0.9"/>
+    <rect x="180" y="1098" width="272" height="30" rx="8" fill="#26455d" fill-opacity="0.12"/>
+    <text x="192" y="1134" font-family="Helvetica Neue, Arial, sans-serif" font-size="34" font-weight="700" fill="#16212a">Hard design rules</text>
+    <text x="192" y="1178" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" fill="#5d6872">Seal high-debt hinge arcs before spending effort on diffuse background coverage.</text><text x="192" y="1212" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" fill="#5d6872">Admit only plans that satisfy field hours, path length, and reserve capacity.</text><text x="192" y="1246" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" fill="#5d6872">Allow each week's observations to rewrite the next state rather than freeze one static package.</text>
   
-    <rect x="1100" y="1080" width="864" height="228" rx="24" fill="#ffffff" stroke="#bcc8c3" stroke-width="2" filter="url(#shadow)"/>
-    <rect x="1100" y="1080" width="864" height="12" rx="24" fill="#bc8531" opacity="0.92"/>
-    <text x="1126" y="1138" font-family="Helvetica Neue, Arial, sans-serif" font-size="34" font-weight="700" fill="#1f2d36">Outputs sent to managers</text>
-    <text x="1126" y="1186" font-family="Helvetica Neue, Arial, sans-serif" font-size="28" fill="#60717d">priority mesh</text><text x="1126" y="1220" font-family="Helvetica Neue, Arial, sans-serif" font-size="28" fill="#60717d">route package</text><text x="1126" y="1254" font-family="Helvetica Neue, Arial, sans-serif" font-size="28" fill="#60717d">command dial</text><text x="1126" y="1288" font-family="Helvetica Neue, Arial, sans-serif" font-size="28" fill="#60717d">staffing floor</text><text x="1126" y="1322" font-family="Helvetica Neue, Arial, sans-serif" font-size="28" fill="#60717d">transfer rules</text>
+    <rect x="1100" y="1080" width="864" height="228" rx="18" fill="#ffffff" stroke="#c5beb1" stroke-width="1.9" filter="url(#shadow)"/>
+    <rect x="1116" y="1096" width="10" height="196" rx="5" fill="#a9782e" opacity="0.9"/>
+    <rect x="1140" y="1098" width="244" height="30" rx="8" fill="#a9782e" fill-opacity="0.12"/>
+    <text x="1152" y="1134" font-family="Helvetica Neue, Arial, sans-serif" font-size="34" font-weight="700" fill="#16212a">Command outputs</text>
+    <text x="1152" y="1178" font-family="Helvetica Neue, Arial, sans-serif" font-size="28" fill="#5d6872">atlas plate</text><text x="1152" y="1212" font-family="Helvetica Neue, Arial, sans-serif" font-size="28" fill="#5d6872">barrier deck</text><text x="1152" y="1246" font-family="Helvetica Neue, Arial, sans-serif" font-size="28" fill="#5d6872">service clock</text><text x="1152" y="1280" font-family="Helvetica Neue, Arial, sans-serif" font-size="28" fill="#5d6872">staffing floor</text><text x="1152" y="1314" font-family="Helvetica Neue, Arial, sans-serif" font-size="28" fill="#5d6872">transfer covenant</text>
   
-    <rect x="2020" y="1080" width="980" height="228" rx="24" fill="#ffffff" stroke="#bcc8c3" stroke-width="2" filter="url(#shadow)"/>
-    <rect x="2020" y="1080" width="980" height="12" rx="24" fill="#6d617e" opacity="0.92"/>
-    <text x="2046" y="1138" font-family="Helvetica Neue, Arial, sans-serif" font-size="34" font-weight="700" fill="#1f2d36">Why this figure is bespoke to the paper</text>
-    <text x="2046" y="1186" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" fill="#60717d">The workflow mirrors the exact protection logic of this manuscript instead of citing a generic GIS or dashboard template.</text><text x="2046" y="1220" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" fill="#60717d">Every stage emits a competition-facing deliverable and a field-facing management product.</text>
+    <rect x="2020" y="1080" width="980" height="228" rx="18" fill="#ffffff" stroke="#c5beb1" stroke-width="1.9" filter="url(#shadow)"/>
+    <rect x="2036" y="1096" width="10" height="196" rx="5" fill="#67586d" opacity="0.9"/>
+    <rect x="2060" y="1098" width="454" height="30" rx="8" fill="#67586d" fill-opacity="0.12"/>
+    <text x="2072" y="1134" font-family="Helvetica Neue, Arial, sans-serif" font-size="34" font-weight="700" fill="#16212a">Why this plate looks different</text>
+    <text x="2072" y="1178" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" fill="#5d6872">The workflow mirrors this manuscript's loss-flow derivation rather than borrowing a generic dashboard grammar.</text><text x="2072" y="1212" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" fill="#5d6872">Every stage emits both a modeling object and a field packet, so the figure reads as an operating plate instead of a brochure.</text>
   
-    <rect x="206" y="1360" width="440" height="118" rx="20" fill="#ffffff" stroke="#bcc8c3" stroke-width="1.8"/>
-    <rect x="206" y="1360" width="440" height="10" rx="20" fill="#35556c"/>
-    <text x="228" y="1404" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" fill="#60717d">weekly packet</text>
-    <text x="228" y="1446" font-family="Helvetica Neue, Arial, sans-serif" font-size="42" font-weight="700" fill="#1f2d36">7-day cycle</text>
-    <text x="624" y="1446" text-anchor="end" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#60717d">maps and tasking</text>
+    <rect x="206" y="1360" width="440" height="118" rx="16" fill="#ffffff" stroke="#c5beb1" stroke-width="1.8"/>
+    <rect x="222" y="1374" width="9" height="90" rx="4.5" fill="#26455d"/>
+    <text x="246" y="1404" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" fill="#5d6872">planning rhythm</text>
+    <text x="246" y="1446" font-family="Helvetica Neue, Arial, sans-serif" font-size="42" font-weight="700" fill="#16212a">7-day cycle</text>
+    <text x="624" y="1446" text-anchor="end" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#5d6872">atlas + tasking</text>
   
-    <rect x="682" y="1360" width="440" height="118" rx="20" fill="#ffffff" stroke="#bcc8c3" stroke-width="1.8"/>
-    <rect x="682" y="1360" width="440" height="10" rx="20" fill="#bc8531"/>
-    <text x="704" y="1404" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" fill="#60717d">hotspot focus</text>
-    <text x="704" y="1446" font-family="Helvetica Neue, Arial, sans-serif" font-size="42" font-weight="700" fill="#1f2d36">top quartile</text>
-    <text x="1100" y="1446" text-anchor="end" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#60717d">minimum revisit rule</text>
+    <rect x="682" y="1360" width="440" height="118" rx="16" fill="#ffffff" stroke="#c5beb1" stroke-width="1.8"/>
+    <rect x="698" y="1374" width="9" height="90" rx="4.5" fill="#a9782e"/>
+    <text x="722" y="1404" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" fill="#5d6872">hinge focus</text>
+    <text x="722" y="1446" font-family="Helvetica Neue, Arial, sans-serif" font-size="42" font-weight="700" fill="#16212a">top debt belt</text>
+    <text x="1100" y="1446" text-anchor="end" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#5d6872">minimum revisit rule</text>
   
-    <rect x="1158" y="1360" width="440" height="118" rx="20" fill="#ffffff" stroke="#bcc8c3" stroke-width="1.8"/>
-    <rect x="1158" y="1360" width="440" height="10" rx="20" fill="#2f6d75"/>
-    <text x="1180" y="1404" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" fill="#60717d">resource lens</text>
-    <text x="1180" y="1446" font-family="Helvetica Neue, Arial, sans-serif" font-size="42" font-weight="700" fill="#1f2d36">mixed assets</text>
-    <text x="1576" y="1446" text-anchor="end" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#60717d">patrol + sensors + UAV</text>
+    <rect x="1158" y="1360" width="440" height="118" rx="16" fill="#ffffff" stroke="#c5beb1" stroke-width="1.8"/>
+    <rect x="1174" y="1374" width="9" height="90" rx="4.5" fill="#2f666d"/>
+    <text x="1198" y="1404" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" fill="#5d6872">asset stack</text>
+    <text x="1198" y="1446" font-family="Helvetica Neue, Arial, sans-serif" font-size="42" font-weight="700" fill="#16212a">mixed layers</text>
+    <text x="1576" y="1446" text-anchor="end" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#5d6872">sweeps + sentinels + reserve</text>
   
-    <rect x="1634" y="1360" width="440" height="118" rx="20" fill="#ffffff" stroke="#bcc8c3" stroke-width="1.8"/>
-    <rect x="1634" y="1360" width="440" height="10" rx="20" fill="#8c4338"/>
-    <text x="1656" y="1404" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" fill="#60717d">validation lens</text>
-    <text x="1656" y="1446" font-family="Helvetica Neue, Arial, sans-serif" font-size="42" font-weight="700" fill="#1f2d36">30 days</text>
-    <text x="2052" y="1446" text-anchor="end" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#60717d">Monte Carlo pressure</text>
+    <rect x="1634" y="1360" width="440" height="118" rx="16" fill="#ffffff" stroke="#c5beb1" stroke-width="1.8"/>
+    <rect x="1650" y="1374" width="9" height="90" rx="4.5" fill="#7e453d"/>
+    <text x="1674" y="1404" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" fill="#5d6872">stress lens</text>
+    <text x="1674" y="1446" font-family="Helvetica Neue, Arial, sans-serif" font-size="42" font-weight="700" fill="#16212a">30 days</text>
+    <text x="2052" y="1446" text-anchor="end" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#5d6872">stochastic arrivals</text>
   
-    <rect x="2110" y="1360" width="440" height="118" rx="20" fill="#ffffff" stroke="#bcc8c3" stroke-width="1.8"/>
-    <rect x="2110" y="1360" width="440" height="10" rx="20" fill="#6d617e"/>
-    <text x="2132" y="1404" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" fill="#60717d">governance lens</text>
-    <text x="2132" y="1446" font-family="Helvetica Neue, Arial, sans-serif" font-size="42" font-weight="700" fill="#1f2d36">transferable</text>
-    <text x="2528" y="1446" text-anchor="end" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#60717d">local priors updated</text>
+    <rect x="2110" y="1360" width="440" height="118" rx="16" fill="#ffffff" stroke="#c5beb1" stroke-width="1.8"/>
+    <rect x="2126" y="1374" width="9" height="90" rx="4.5" fill="#67586d"/>
+    <text x="2150" y="1404" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" fill="#5d6872">revision lens</text>
+    <text x="2150" y="1446" font-family="Helvetica Neue, Arial, sans-serif" font-size="42" font-weight="700" fill="#16212a">transferable</text>
+    <text x="2528" y="1446" text-anchor="end" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#5d6872">local priors refreshed</text>
   
 </svg>

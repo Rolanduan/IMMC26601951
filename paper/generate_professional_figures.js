@@ -16,49 +16,49 @@ const REF = { w: 3000, h: 1289 };
 const extent = { x: 360, y: 110, w: 2480, h: 1080 };
 
 const palette = {
-  paper: "#eef1ee",
-  paperShade: "#dfe6e1",
-  salt: "#f7f9f6",
+  paper: "#ede7de",
+  paperShade: "#d9d0c2",
+  salt: "#fcfaf6",
   white: "#ffffff",
-  ink: "#1f2d36",
-  ash: "#60717d",
-  line: "#bcc8c3",
-  sand: "#d7ccb2",
-  dune: "#bda171",
-  pan: "#e7dfcf",
-  corridor: "#cbb07d",
-  moss: "#78896a",
-  sage: "#567568",
-  indigo: "#35556c",
-  sky: "#79a6bf",
-  water: "#487b9c",
-  gold: "#bc8531",
-  clay: "#a35d43",
-  rust: "#8c4338",
-  plum: "#6d617e",
-  teal: "#2f6d75",
-  safe: "#dce9dd",
-  warn: "#edd7a2",
+  ink: "#16212a",
+  ash: "#5d6872",
+  line: "#c5beb1",
+  sand: "#d8ccbb",
+  dune: "#a88d6a",
+  pan: "#e5ddcf",
+  corridor: "#8e9672",
+  moss: "#6f7c60",
+  sage: "#4f6961",
+  indigo: "#26455d",
+  sky: "#718ea8",
+  water: "#3c708e",
+  gold: "#a9782e",
+  clay: "#996351",
+  rust: "#7e453d",
+  plum: "#67586d",
+  teal: "#2f666d",
+  safe: "#dfe7df",
+  warn: "#e7d7b5",
 };
 
 const meta = {
-  "fig01_system_architecture.png": { tag: "OPERATING SYSTEM", accent: palette.indigo, title: "Protected-Area Operating System", subtitle: "Digital twin, controller, stress test, and governance feedback in one closed loop" },
-  "fig02_etosha_grid.png": { tag: "DIGITAL TWIN", accent: palette.sage, title: "Etosha Digital Twin and Command Grid", subtitle: "The park is encoded as a corridor-aware control mesh with station geometry and mobility structure" },
-  "fig03_risk_heatmap.png": { tag: "PRIORITY FIELD", accent: palette.rust, title: "Priority Field and Corridor Gradient", subtitle: "Etosha risk appears as a corridor-shaped service deficit rather than a flat hotspot cloud" },
-  "fig04_risk_decomposition.png": { tag: "RISK STACK", accent: palette.gold, title: "Consequence, Exposure, and Friction", subtitle: "The priority field is decomposed into ecological consequence, access exposure, and response friction" },
-  "fig05_patrol_routes.png": { tag: "DEFENDER NETWORK", accent: palette.indigo, title: "Controller-Selected Patrol Network", subtitle: "Patrol families are organized as repeatable service loops rather than nominal route sketches" },
-  "fig06_allocation_dashboard.png": { tag: "CONTROL LEDGER", accent: palette.clay, title: "Control Ledger from Assets to Sectors", subtitle: "Manpower, fixed watch, and UAV effort are translated into sector-level service commitments" },
-  "fig07_schedule_timeline.png": { tag: "DAILY CONTROL", accent: palette.teal, title: "Twenty-Four-Hour Control Cycle", subtitle: "Patrol departures, fixed watch, and UAV surge windows are staged as a continuous operating rhythm" },
-  "fig08_simulation_results.png": { tag: "STATE TRAJECTORY", accent: palette.indigo, title: "Closed-Loop Protection Trajectory", subtitle: "Threshold crossing and stabilization matter more than a simple before-versus-after comparison" },
-  "fig09_robustness_distribution.png": { tag: "TAIL RESILIENCE", accent: palette.rust, title: "Robustness Envelope and Tail Risk", subtitle: "The operating system is judged by both mean performance and low-tail protection resilience" },
-  "fig10_sensitivity_panels.png": { tag: "STRESS TEST", accent: palette.gold, title: "Stress-Test Ranking of Control Levers", subtitle: "Staffing, detection, cadence, and devices are compared by their effect on the safe operating envelope" },
-  "fig11_transferability_matrix.png": { tag: "TRANSFER PROTOCOL", accent: palette.plum, title: "Transfer Protocol Across Parks", subtitle: "Portable core modules are separated from the layers that require local rebuilding or retuning" },
-  "fig12_station_response_map.png": { tag: "FRICTION SURFACE", accent: palette.sky, title: "Response Friction and Delay Pocket", subtitle: "Station geometry creates asymmetric service reliability across the Etosha corridor" },
-  "fig13_sensor_drone_map.png": { tag: "LAYERED WATCH", accent: palette.teal, title: "Layered Sensor-UAV Watch Plan", subtitle: "Persistent fixed coverage and adaptive aerial surge are shown as complementary surveillance layers" },
-  "fig14_ranger_requirement_curve.png": { tag: "STAFFING BREAKPOINT", accent: palette.sage, title: "Ranger Floor and Stability Regimes", subtitle: "The staffing curve marks the boundary between fragile, transitional, and stable protection" },
-  "fig15_scenario_matrix.png": { tag: "SAFE ENVELOPE", accent: palette.clay, title: "Safe Operating Envelope", subtitle: "Iso-protection contours reveal the stability frontier in the manpower-detection plane" },
-  "fig16_controller_architecture.png": { tag: "ALGORITHM STACK", accent: palette.indigo, title: "Controller Architecture and Constraint Stack", subtitle: "The allocation engine is decomposed into inputs, guard rails, optimization core, and deployable outputs" },
-  "fig17_feedback_architecture.png": { tag: "FEEDBACK LOOP", accent: palette.teal, title: "Closed-Loop Simulation and Prior Update", subtitle: "Arrival generation, detection, dispatch, outcome evaluation, and posterior refresh are shown as one operating circuit" },
+  "fig01_system_architecture.png": { tag: "LOSS-FLOW MODEL", accent: palette.indigo, title: "Etosha Loss-Flow Interdiction Spine", subtitle: "Transport diagnosis, barrier design, and service reliability are linked in one defense loop" },
+  "fig02_etosha_grid.png": { tag: "TRANSPORT MESH", accent: palette.sage, title: "Etosha Transport Graph and Service Grid", subtitle: "The park is encoded as ingress points, hinge cells, habitat sinks, and station service geometry" },
+  "fig03_risk_heatmap.png": { tag: "DEFENSE DEBT", accent: palette.rust, title: "Residual Defense Debt Landscape", subtitle: "The dominant pattern is a hinge system of expensive pathways rather than a uniform field of concern" },
+  "fig04_risk_decomposition.png": { tag: "DEBT STACK", accent: palette.gold, title: "Biological Value, Flow Centrality, and Service Slack", subtitle: "Residual debt is decomposed into ecological consequence, pathway centrality, access, and timing slack" },
+  "fig05_patrol_routes.png": { tag: "BARRIER TEMPLATES", accent: palette.indigo, title: "Gateway-Hinge Patrol Templates", subtitle: "Repeatable patrol templates are designed to cut expensive pathways rather than to paint broad coverage" },
+  "fig06_allocation_dashboard.png": { tag: "RESIDUAL CONTROL", accent: palette.clay, title: "Residual-Debt Suppression Ledger", subtitle: "Patrols, sentinels, and reserve windows are translated into hinge-level debt reduction" },
+  "fig07_schedule_timeline.png": { tag: "SERVICE CALENDAR", accent: palette.teal, title: "Queueing-Aware Daily Service Calendar", subtitle: "Patrol waves and reserve windows are timed against station congestion and hinge exposure" },
+  "fig08_simulation_results.png": { tag: "PROTECTION TRACE", accent: palette.indigo, title: "Protection Trace Under Replanning", subtitle: "Stabilization occurs once hinge debt and service congestion are jointly reduced" },
+  "fig09_robustness_distribution.png": { tag: "TAIL CONTROL", accent: palette.rust, title: "Residual-Loss Robustness Envelope", subtitle: "The re-derived design is judged by both mean performance and the low-tail failure region" },
+  "fig10_sensitivity_panels.png": { tag: "TRADE-OFF FRONTIER", accent: palette.gold, title: "Structural Trade-Offs in Team Depth and Uptime", subtitle: "The decisive levers are service depth, sentinel uptime, and patrol regularity" },
+  "fig11_transferability_matrix.png": { tag: "MORPHOLOGY TRANSFER", accent: palette.plum, title: "Transfer by Park Morphology", subtitle: "The framework transfers by ingress structure, sink geography, and service-rate rebuilding" },
+  "fig12_station_response_map.png": { tag: "SERVICE SLACK", accent: palette.sky, title: "Service Slack and Delay Exposure", subtitle: "Station geometry creates a measurable asymmetry in where the service covenant can be met" },
+  "fig13_sensor_drone_map.png": { tag: "THREE-TIER SHIELD", accent: palette.teal, title: "Sentinels, Patrol Templates, and Mobile Reserve", subtitle: "The defense package combines persistent hinges, physical barriers, and mobile uncertainty absorption" },
+  "fig14_ranger_requirement_curve.png": { tag: "TEAM FLOOR", accent: palette.sage, title: "Team-Depth Requirement Curve", subtitle: "The staffing floor is the point at which the queueing envelope stops violating the service covenant" },
+  "fig15_scenario_matrix.png": { tag: "STABILITY REGION", accent: palette.clay, title: "Stability Frontier in Manpower and Detection", subtitle: "Iso-protection contours reveal where the system remains inside the service-commitment region" },
+  "fig16_controller_architecture.png": { tag: "LEXICOGRAPHIC CORE", accent: palette.indigo, title: "Two-Stage Barrier-Design Architecture", subtitle: "The controller caps the worst hinge first and only then cleans up total residual debt" },
+  "fig17_feedback_architecture.png": { tag: "QUEUEING LOOP", accent: palette.teal, title: "Reserve Replanning and Service Feedback", subtitle: "Residual arrivals, station load, reserve reassignment, and next-cycle updating form one service loop" },
 };
 
 const camps = {
@@ -233,20 +233,24 @@ function arcBand(cx0, cy0, r0, r1, startDeg, endDeg) {
 
 function dossierBoard(x = 58, y = 236, w = 3084, h = 1502) {
   return `
-    <rect x="${x}" y="${y}" width="${w}" height="${h}" rx="34" fill="${palette.salt}" stroke="${palette.line}" stroke-width="2.3" filter="url(#shadow)"/>
-    <rect x="${x + 16}" y="${y + 16}" width="${w - 32}" height="${h - 32}" rx="28" fill="#f8f3ea" stroke="#dad3c4" stroke-width="1.5"/>
+    <rect x="${x}" y="${y}" width="${w}" height="${h}" rx="26" fill="#f5f0e8" stroke="${palette.line}" stroke-width="2.2" filter="url(#shadow)"/>
+    <rect x="${x + 16}" y="${y + 16}" width="${w - 32}" height="${h - 32}" rx="18" fill="${palette.salt}" stroke="#ddd3c5" stroke-width="1.4"/>
+    <rect x="${x + 28}" y="${y + 28}" width="22" height="${h - 56}" rx="11" fill="${palette.ink}" opacity="0.92"/>
+    <rect x="${x + 72}" y="${y + 28}" width="${w - 100}" height="34" rx="10" fill="#eef1ed"/>
+    ${Array.from({ length: 6 }, (_, index) => `<line x1="${x + 92 + index * ((w - 170) / 5)}" y1="${y + 76}" x2="${x + 92 + index * ((w - 170) / 5)}" y2="${y + h - 28}" stroke="#efe7da" stroke-width="1"/>`).join("")}
   `;
 }
 
 function headerRule(x, y, w, accent) {
-  return `<rect x="${x}" y="${y}" width="${w}" height="7" rx="4" fill="${accent}"/><rect x="${x}" y="${y + 10}" width="${w * 0.66}" height="2" rx="1" fill="${palette.line}"/>`;
+  return `<rect x="${x}" y="${y}" width="${w * 0.34}" height="6" rx="3" fill="${accent}"/><rect x="${x + w * 0.36}" y="${y}" width="${w * 0.16}" height="6" rx="3" fill="#d5c8ae"/><rect x="${x + w * 0.54}" y="${y}" width="${w * 0.28}" height="6" rx="3" fill="#8796a2" opacity="0.55"/><rect x="${x}" y="${y + 12}" width="${w * 0.76}" height="2" rx="1" fill="${palette.line}"/>`;
 }
 
 function tagPill(x, y, text, fill, color = palette.ink, width = null) {
-  const computed = width || Math.max(176, text.length * 14 + 34);
+  const computed = width || Math.max(176, text.length * 13 + 42);
   return `
-    <rect x="${x}" y="${y}" width="${computed}" height="42" rx="21" fill="${fill}" stroke="${fill}" stroke-width="1.2"/>
-    <text x="${x + computed / 2}" y="${y + 28}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="19" font-weight="700" letter-spacing="2" fill="${color}">${esc(text)}</text>
+    <rect x="${x}" y="${y}" width="${computed}" height="38" rx="10" fill="${fill}" stroke="${color}" stroke-opacity="0.15" stroke-width="1.2"/>
+    <rect x="${x + 10}" y="${y + 8}" width="8" height="22" rx="4" fill="${color}" opacity="0.84"/>
+    <text x="${x + 30}" y="${y + 26}" font-family="Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700" letter-spacing="1.8" fill="${color}">${esc(text)}</text>
   `;
 }
 
@@ -257,23 +261,24 @@ function panel(x, y, w, h, title, lines, opts = {}) {
   const titleSize = opts.titleSize || 34;
   const bodySize = opts.bodySize || 24;
   const lineGap = opts.lineGap || bodySize + 12;
-  const radius = opts.radius || 24;
-  const titleY = y + 58;
-  const bodyStart = title ? y + 106 : y + 58;
+  const radius = opts.radius || 18;
+  const titleY = y + 54;
+  const bodyStart = title ? y + 98 : y + 52;
   return `
-    <rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${radius}" fill="${fill}" stroke="${palette.line}" stroke-width="2" filter="url(#shadow)"/>
-    <rect x="${x}" y="${y}" width="${w}" height="12" rx="${radius}" fill="${accent}" opacity="0.92"/>
-    ${title ? `<text x="${x + 26}" y="${titleY}" font-family="Helvetica Neue, Arial, sans-serif" font-size="${titleSize}" font-weight="700" fill="${palette.ink}">${esc(title)}</text>` : ""}
-    ${lines.map((line, index) => `<text x="${x + 26}" y="${bodyStart + index * lineGap}" font-family="Helvetica Neue, Arial, sans-serif" font-size="${bodySize}" fill="${bodyColor}">${esc(line)}</text>`).join("")}
+    <rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${radius}" fill="${fill}" stroke="${palette.line}" stroke-width="1.9" filter="url(#shadow)"/>
+    <rect x="${x + 16}" y="${y + 16}" width="10" height="${h - 32}" rx="5" fill="${accent}" opacity="0.9"/>
+    <rect x="${x + 40}" y="${y + 18}" width="${Math.min(w - 80, Math.max(160, title.length * 14 + 34))}" height="30" rx="8" fill="${accent}" fill-opacity="0.12"/>
+    ${title ? `<text x="${x + 52}" y="${titleY}" font-family="Helvetica Neue, Arial, sans-serif" font-size="${titleSize}" font-weight="700" fill="${palette.ink}">${esc(title)}</text>` : ""}
+    ${lines.map((line, index) => `<text x="${x + 52}" y="${bodyStart + index * lineGap}" font-family="Helvetica Neue, Arial, sans-serif" font-size="${bodySize}" fill="${bodyColor}">${esc(line)}</text>`).join("")}
   `;
 }
 
 function smallMetric(x, y, w, title, value, detail, accent) {
   return `
-    <rect x="${x}" y="${y}" width="${w}" height="118" rx="20" fill="${palette.white}" stroke="${palette.line}" stroke-width="1.8"/>
-    <rect x="${x}" y="${y}" width="${w}" height="10" rx="20" fill="${accent}"/>
-    <text x="${x + 22}" y="${y + 44}" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" fill="${palette.ash}">${esc(title)}</text>
-    <text x="${x + 22}" y="${y + 86}" font-family="Helvetica Neue, Arial, sans-serif" font-size="42" font-weight="700" fill="${palette.ink}">${esc(value)}</text>
+    <rect x="${x}" y="${y}" width="${w}" height="118" rx="16" fill="${palette.white}" stroke="${palette.line}" stroke-width="1.8"/>
+    <rect x="${x + 16}" y="${y + 14}" width="9" height="90" rx="4.5" fill="${accent}"/>
+    <text x="${x + 40}" y="${y + 44}" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" fill="${palette.ash}">${esc(title)}</text>
+    <text x="${x + 40}" y="${y + 86}" font-family="Helvetica Neue, Arial, sans-serif" font-size="42" font-weight="700" fill="${palette.ink}">${esc(value)}</text>
     <text x="${x + w - 22}" y="${y + 86}" text-anchor="end" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="${palette.ash}">${esc(detail)}</text>
   `;
 }
@@ -367,20 +372,21 @@ function mapField(opts = {}) {
   const park = pathFromPoints(shift(parkOutline), true);
   const pan = pathFromPoints(shift(panOutline), true);
   return `
-    <rect x="88" y="242" width="3024" height="1298" rx="28" fill="#f5f1e8" stroke="${palette.line}" stroke-width="1.6"/>
-    ${officialMapUnderlay()}
+    <rect x="88" y="242" width="3024" height="1298" rx="22" fill="#f3eee5" stroke="${palette.line}" stroke-width="1.8"/>
+    <rect x="106" y="260" width="2988" height="1262" rx="16" fill="none" stroke="#ddd3c6" stroke-width="1.1"/>
+    ${officialMapUnderlay({ opacity: 0.79, washOpacity: 0.24 })}
     <path d="${park}" fill="none" stroke="${palette.ink}" stroke-width="4.2"/>
-    <path d="${pan}" fill="none" stroke="${palette.salt}" stroke-width="3.2" opacity="0.75"/>
+    <path d="${pan}" fill="none" stroke="${palette.salt}" stroke-width="3.2" opacity="0.72"/>
     ${corridorRibbon()}
-    ${road(trunkRoad, { baseWidth: 16, topWidth: 6.5, top: "#826f61" })}
-    ${road(panRoad, { baseWidth: 14, topWidth: 5.5, top: "#978474" })}
-    ${road(northRoad, { baseWidth: 14, topWidth: 5.5, top: "#978474", dash: "14 10" })}
-    ${road(westLink, { baseWidth: 14, topWidth: 5.5, top: "#978474" })}
+    ${road(trunkRoad, { baseWidth: 16, topWidth: 6.5, top: "#6f6259" })}
+    ${road(panRoad, { baseWidth: 14, topWidth: 5.5, top: "#88786e" })}
+    ${road(northRoad, { baseWidth: 14, topWidth: 5.5, top: "#88786e", dash: "14 10" })}
+    ${road(westLink, { baseWidth: 14, topWidth: 5.5, top: "#88786e" })}
     ${drawWaterholes()}
     ${drawCamps(showNames)}
     ${drawGates(showNames)}
-    <text x="${cx(1710)}" y="${cy(428)}" font-family="Helvetica Neue, Arial, sans-serif" font-size="42" font-weight="700" fill="#8f8675">Etosha Pan</text>
-    ${showCorridorLabel ? `<text x="${cx(840)}" y="${cy(990)}" font-family="Helvetica Neue, Arial, sans-serif" font-size="30" fill="${palette.ash}">southern operations corridor</text>` : ""}
+    <text x="${cx(1710)}" y="${cy(428)}" font-family="Helvetica Neue, Arial, sans-serif" font-size="42" font-weight="700" fill="#7f796f">Etosha Pan</text>
+    ${showCorridorLabel ? `<text x="${cx(840)}" y="${cy(990)}" font-family="Helvetica Neue, Arial, sans-serif" font-size="28" font-weight="700" fill="${palette.ash}">southern relay belt</text>` : ""}
     ${showGrid ? gridLabels() : ""}
     ${showCompass ? northArrow() : ""}
     ${showScale ? scaleBar() : ""}
@@ -515,17 +521,19 @@ function write(name, body, opts = {}) {
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${canvas.w} ${canvas.h}" width="${canvas.w}" height="${canvas.h}">
   <defs>
     <linearGradient id="pageBg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${palette.paper}"/><stop offset="100%" stop-color="${palette.paperShade}"/></linearGradient>
-    <pattern id="paperGrain" width="18" height="18" patternUnits="userSpaceOnUse"><circle cx="4" cy="5" r="0.9" fill="#d8d0c0" opacity="0.28"/><circle cx="13" cy="8" r="0.7" fill="#cfc7b7" opacity="0.24"/><circle cx="9" cy="14" r="0.8" fill="#d8d0c0" opacity="0.22"/></pattern>
+    <linearGradient id="headBg" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="${palette.ink}"/><stop offset="100%" stop-color="#243746"/></linearGradient>
+    <pattern id="paperGrid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M 24 0 L 0 0 0 24" fill="none" stroke="#ddd3c3" stroke-width="0.8" opacity="0.32"/></pattern>
     <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#8c948f" flood-opacity="0.18"/></filter>
   </defs>
   <rect x="0" y="0" width="${canvas.w}" height="${canvas.h}" fill="url(#pageBg)"/>
-  <rect x="0" y="0" width="${canvas.w}" height="${canvas.h}" fill="url(#paperGrain)" opacity="0.44"/>
-  <rect x="54" y="48" width="${canvas.w - 108}" height="162" rx="32" fill="${palette.salt}" stroke="${palette.line}" stroke-width="2.2" filter="url(#shadow)"/>
-  ${tagPill(92, 78, current.tag, current.accent, palette.salt, 248)}
-  ${tagPill(canvas.w - 286, 78, figNo(name), "#efe5cb", palette.ink, 174)}
-  <text x="92" y="152" font-family="Helvetica Neue, Arial, sans-serif" font-size="60" font-weight="700" fill="${palette.ink}">${esc(current.title)}</text>
-  <text x="92" y="189" font-family="Helvetica Neue, Arial, sans-serif" font-size="26" fill="${palette.ash}">${esc(current.subtitle)}</text>
-  ${headerRule(92, 98, canvas.w - 432, current.accent)}
+  <rect x="0" y="0" width="${canvas.w}" height="${canvas.h}" fill="url(#paperGrid)" opacity="0.42"/>
+  <rect x="54" y="46" width="${canvas.w - 108}" height="176" rx="24" fill="url(#headBg)" filter="url(#shadow)"/>
+  <rect x="54" y="196" width="${canvas.w - 108}" height="20" fill="${current.accent}" opacity="0.95"/>
+  ${tagPill(92, 82, current.tag, "#f2ecdf", current.accent, 270)}
+  ${tagPill(canvas.w - 274, 82, figNo(name), "#f2ecdf", palette.ink, 162)}
+  <text x="92" y="152" font-family="Helvetica Neue, Arial, sans-serif" font-size="58" font-weight="700" fill="${palette.salt}">${esc(current.title)}</text>
+  <text x="92" y="188" font-family="Helvetica Neue, Arial, sans-serif" font-size="25" fill="#d7dde0">${esc(current.subtitle)}</text>
+  ${headerRule(92, 106, canvas.w - 432, current.accent)}
   ${body}
 </svg>`;
   fs.writeFileSync(path.join(SRC, name.replace(".png", ".svg")), svg, "utf8");
@@ -533,11 +541,11 @@ function write(name, body, opts = {}) {
 
 function figure01() {
   const steps = [
-    { x: 126, y: 390, w: 532, h: 238, color: palette.indigo, title: "1. GIS diagnosis", lines: ["Command mesh, access field, water dependence", "Outputs: interpretable planning cells and uncertainty tags"] },
-    { x: 710, y: 348, w: 532, h: 280, color: palette.sage, title: "2. Risk synthesis", lines: ["Ecology pull, threat opportunity, response delay", "Outputs: hotspot quartile, corridor thesis, target cells"] },
-    { x: 1294, y: 390, w: 532, h: 238, color: palette.gold, title: "3. Allocation logic", lines: ["Routes, sensors, UAV sorties, feasibility screens", "Outputs: weekly tasking package and reserve capacity"] },
-    { x: 1878, y: 348, w: 532, h: 280, color: palette.teal, title: "4. Dynamic check", lines: ["30-day illegal pressure, detection chain, dispatch lag", "Outputs: PI trajectory, robustness, staffing floor"] },
-    { x: 2462, y: 390, w: 532, h: 238, color: palette.plum, title: "5. Governance loop", lines: ["Review cycle, transfer rules, exceptions and updates", "Outputs: management packet for repeated deployment"] },
+    { x: 126, y: 390, w: 532, h: 238, color: palette.indigo, title: "1. Base-layer parsing", lines: ["Ingress map, watch stations, water pull, travel graph", "Outputs: hinge cells, sink cells, and uncertainty stamps"] },
+    { x: 710, y: 348, w: 532, h: 280, color: palette.sage, title: "2. Debt-field assembly", lines: ["Biological consequence, flow centrality, and service slack", "Outputs: hinge belt, debt ladder, and breach-facing cells"] },
+    { x: 1294, y: 390, w: 532, h: 238, color: palette.gold, title: "3. Barrier ledger", lines: ["Sweep paths, sentinel anchors, reserve windows, field limits", "Outputs: weekly barrier deck and reserve covenant"] },
+    { x: 1878, y: 348, w: 532, h: 280, color: palette.teal, title: "4. Reliability stress", lines: ["Threat arrivals, queueing delay, and interception decay", "Outputs: PI trace, tail exposure, and staffing floor"] },
+    { x: 2462, y: 390, w: 532, h: 238, color: palette.plum, title: "5. Revision covenant", lines: ["Audit trail, transfer rules, and next-cycle exceptions", "Outputs: refreshed state packet for repeat deployment"] },
   ];
   let body = dossierBoard(58, 256, 3084, 1482);
   body += `<path d="M 320 808 C 720 720, 1080 700, 1560 706 C 1950 710, 2320 712, 2860 808" fill="none" stroke="#d6ccbb" stroke-width="24" stroke-linecap="round"/>`;
@@ -550,60 +558,60 @@ function figure01() {
       <text x="${step.x + 26}" y="${step.y + 108}" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" fill="${palette.ash}">${esc(step.lines[0])}</text>
       <text x="${step.x + 26}" y="${step.y + 144}" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" fill="${palette.ash}">${esc(step.lines[1])}</text>
       <rect x="${step.x + 26}" y="${step.y + step.h - 62}" width="${step.w - 110}" height="34" rx="17" fill="${step.color}" opacity="0.18"/>
-      <text x="${step.x + 42}" y="${step.y + step.h - 39}" font-family="Helvetica Neue, Arial, sans-serif" font-size="20" font-weight="700" fill="${step.color}">${index === 0 ? "input discipline" : index === 1 ? "priority discipline" : index === 2 ? "feasibility discipline" : index === 3 ? "robustness discipline" : "review discipline"}</text>
+      <text x="${step.x + 42}" y="${step.y + step.h - 39}" font-family="Helvetica Neue, Arial, sans-serif" font-size="20" font-weight="700" fill="${step.color}">${index === 0 ? "geometry brief" : index === 1 ? "debt brief" : index === 2 ? "barrier brief" : index === 3 ? "stress brief" : "revision brief"}</text>
     `;
   });
-  body += `<path d="M 2842 980 C 2980 1020, 3020 1170, 2910 1282 C 2790 1402, 2480 1460, 2120 1422" fill="none" stroke="${palette.rust}" stroke-width="5" stroke-dasharray="10 12"/><text x="2880" y="1264" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="${palette.rust}" transform="rotate(68 2880 1264)">feedback and weekly recalibration</text>`;
-  body += panel(140, 1080, 906, 228, "Non-negotiable design rules", [
-    "Protect decisive corridors first; do not distribute effort uniformly.",
-    "Accept only plans that satisfy staff time, travel lag, and asset capacity.",
-    "Let field telemetry update the next planning cycle rather than lock a static policy.",
+  body += `<path d="M 2842 980 C 2980 1020, 3020 1170, 2910 1282 C 2790 1402, 2480 1460, 2120 1422" fill="none" stroke="${palette.rust}" stroke-width="5" stroke-dasharray="10 12"/><text x="2880" y="1264" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="${palette.rust}" transform="rotate(68 2880 1264)">weekly state refresh</text>`;
+  body += panel(140, 1080, 906, 228, "Hard design rules", [
+    "Seal high-debt hinge arcs before spending effort on diffuse background coverage.",
+    "Admit only plans that satisfy field hours, path length, and reserve capacity.",
+    "Allow each week's observations to rewrite the next state rather than freeze one static package.",
   ], { accent: palette.indigo, bodySize: 24, lineGap: 34 });
-  body += panel(1100, 1080, 864, 228, "Outputs sent to managers", [
-    "priority mesh",
-    "route package",
-    "command dial",
+  body += panel(1100, 1080, 864, 228, "Command outputs", [
+    "atlas plate",
+    "barrier deck",
+    "service clock",
     "staffing floor",
-    "transfer rules",
+    "transfer covenant",
   ], { accent: palette.gold, bodySize: 28, lineGap: 34 });
-  body += panel(2020, 1080, 980, 228, "Why this figure is bespoke to the paper", [
-    "The workflow mirrors the exact protection logic of this manuscript instead of citing a generic GIS or dashboard template.",
-    "Every stage emits a competition-facing deliverable and a field-facing management product.",
+  body += panel(2020, 1080, 980, 228, "Why this plate looks different", [
+    "The workflow mirrors this manuscript's loss-flow derivation rather than borrowing a generic dashboard grammar.",
+    "Every stage emits both a modeling object and a field packet, so the figure reads as an operating plate instead of a brochure.",
   ], { accent: palette.plum, bodySize: 23, lineGap: 34 });
-  body += smallMetric(206, 1360, 440, "weekly packet", "7-day cycle", "maps and tasking", palette.indigo);
-  body += smallMetric(682, 1360, 440, "hotspot focus", "top quartile", "minimum revisit rule", palette.gold);
-  body += smallMetric(1158, 1360, 440, "resource lens", "mixed assets", "patrol + sensors + UAV", palette.teal);
-  body += smallMetric(1634, 1360, 440, "validation lens", "30 days", "Monte Carlo pressure", palette.rust);
-  body += smallMetric(2110, 1360, 440, "governance lens", "transferable", "local priors updated", palette.plum);
+  body += smallMetric(206, 1360, 440, "planning rhythm", "7-day cycle", "atlas + tasking", palette.indigo);
+  body += smallMetric(682, 1360, 440, "hinge focus", "top debt belt", "minimum revisit rule", palette.gold);
+  body += smallMetric(1158, 1360, 440, "asset stack", "mixed layers", "sweeps + sentinels + reserve", palette.teal);
+  body += smallMetric(1634, 1360, 440, "stress lens", "30 days", "stochastic arrivals", palette.rust);
+  body += smallMetric(2110, 1360, 440, "revision lens", "transferable", "local priors refreshed", palette.plum);
   write("fig01_system_architecture.png", body);
 }
 
 function figure02() {
-  const meshLegend = legendRamp(2480, 470, 260, 30, "priority reference", riskStops, ["low", "mid", "high"], true);
+  const meshLegend = legendRamp(2480, 470, 260, 30, "debt reference", riskStops, ["low", "mid", "high"], true);
   let body = dossierBoard(58, 256, 3084, 1482);
   body += meshLegend.defs;
   body += mapField({ showGridLabels: true, showNames: true, showCompass: true, showScale: true, showCorridorLabel: true });
   body += meshOverlay("outline");
   body += hotspotOutline();
-  body += `<path d="M ${cx(250)} ${cy(920)} C ${cx(980)} ${cy(860)} ${cx(1780)} ${cy(832)} ${cx(2770)} ${cy(610)}" fill="none" stroke="${palette.rust}" stroke-width="6" stroke-dasharray="18 10"/><text x="${cx(940)}" y="${cy(860)}" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" font-weight="700" fill="${palette.rust}">command corridor thesis</text>`;
-  body += panel(136, 312, 578, 244, "Mesh design choices", [
-    "64 cells are coarse enough for a management packet and fine enough for the east-south risk corridor.",
+  body += `<path d="M ${cx(250)} ${cy(920)} C ${cx(980)} ${cy(860)} ${cx(1780)} ${cy(832)} ${cx(2770)} ${cy(610)}" fill="none" stroke="${palette.rust}" stroke-width="6" stroke-dasharray="18 10"/><text x="${cx(960)}" y="${cy(860)}" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" font-weight="700" fill="${palette.rust}">hinge arc spine</text>`;
+  body += panel(136, 312, 578, 244, "Lattice drafting rules", [
+    "64 cells are coarse enough for a command packet and fine enough for the east-south hinge belt.",
     "Camps, gates, and waterholes are all visible on the same planning surface.",
-    "The figure emphasizes command anchors rather than decorative terrain.",
+    "The plate privileges ingress anchors and service geometry over decorative terrain.",
   ], { accent: palette.sage, bodySize: 23, lineGap: 33 });
-  body += panel(2304, 1138, 734, 248, "How this map is used later", [
-    "Risk scoring reads from the same cells.",
-    "Allocation routes start from the same camps.",
-    "Simulation response lag is computed on the same operational geometry.",
+  body += panel(2304, 1138, 734, 248, "How the lattice propagates", [
+    "Debt scoring reads from the same cells.",
+    "Barrier templates launch from the same stations.",
+    "Queueing delay is computed on the same service geometry.",
   ], { accent: palette.indigo, bodySize: 23, lineGap: 34 });
   body += meshLegend.body;
-  body += tagPill(2360, 312, "A-H x 1-8 mesh", "#efe7cf", palette.ink, 226);
-  body += tagPill(2360, 362, "hot quartile outlined", "#f2e0d7", palette.ink, 286);
+  body += tagPill(2360, 312, "8 x 8 service lattice", "#efe7cf", palette.ink, 260);
+  body += tagPill(2360, 362, "hinge belt outlined", "#f2e0d7", palette.ink, 258);
   write("fig02_etosha_grid.png", body);
 }
 
 function figure03() {
-  const riskLegend = legendRamp(2706, 458, 34, 300, "risk score", riskStops, ["low", "", "high"], false);
+  const riskLegend = legendRamp(2706, 458, 34, 300, "residual debt", riskStops, ["low", "", "high"], false);
   const transectX = [0, 1, 2, 3, 4, 5];
   const transectY = [0.38, 0.47, 0.59, 0.67, 0.74, 0.78];
   const tx = (value) => 400 + value * 320;
@@ -613,37 +621,37 @@ function figure03() {
   body += mapField({ showGridLabels: false, showNames: true, showCompass: true, showScale: true, showCorridorLabel: false });
   body += meshOverlay("risk");
   body += hotspotOutline();
-  body += `<path d="M ${cx(260)} ${cy(890)} C ${cx(940)} ${cy(820)} ${cx(1640)} ${cy(786)} ${cx(2740)} ${cy(548)}" fill="none" stroke="${palette.rust}" stroke-width="8" stroke-linecap="round"/><circle cx="${cx(272)}" cy="${cy(890)}" r="9" fill="${palette.rust}"/><circle cx="${cx(2740)}" cy="${cy(548)}" r="9" fill="${palette.rust}"/><text x="${cx(290)}" y="${cy(870)}" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" font-weight="700" fill="${palette.rust}">transect A</text><text x="${cx(2690)}" y="${cy(530)}" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" font-weight="700" fill="${palette.rust}">A'</text>`;
-  body += panel(2344, 322, 640, 206, "What the map is saying", [
-    "Risk is not diffuse.",
-    "It condenses into an east-south ridge where water, access, and lag overlap.",
-    "The ridge justifies concentrated patrol recurrence.",
+  body += `<path d="M ${cx(260)} ${cy(890)} C ${cx(940)} ${cy(820)} ${cx(1640)} ${cy(786)} ${cx(2740)} ${cy(548)}" fill="none" stroke="${palette.rust}" stroke-width="8" stroke-linecap="round"/><circle cx="${cx(272)}" cy="${cy(890)}" r="9" fill="${palette.rust}"/><circle cx="${cx(2740)}" cy="${cy(548)}" r="9" fill="${palette.rust}"/><text x="${cx(290)}" y="${cy(870)}" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" font-weight="700" fill="${palette.rust}">trace B</text><text x="${cx(2688)}" y="${cy(530)}" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" font-weight="700" fill="${palette.rust}">B'</text>`;
+  body += panel(2344, 322, 640, 206, "Atlas reading", [
+    "Debt is not diffuse.",
+    "It condenses into an east-south hinge ridge where sink value, entry ease, and service lag overlap.",
+    "That ridge justifies concentrated barrier recurrence.",
   ], { accent: palette.rust, bodySize: 24, lineGap: 34 });
-  body += panel(190, 1198, 1960, 268, "Corridor transect A-A'", [
-    "The lower strip translates the map into a west-to-east risk climb so the hotspot claim is not read only as color.",
+  body += panel(190, 1198, 1960, 268, "Hinge trace B-B'", [
+    "The lower strip converts the map into a west-to-east debt climb so the hinge claim is not read only as color.",
   ], { accent: palette.gold, bodySize: 22 });
-  body += `<line x1="360" y1="1430" x2="2050" y2="1430" stroke="${palette.ink}" stroke-width="2.6"/><line x1="360" y1="1188" x2="360" y2="1430" stroke="${palette.ink}" stroke-width="2.6"/>${[0.4, 0.6, 0.8].map((value) => `<text x="332" y="${ty(value) + 8}" text-anchor="end" font-family="Helvetica Neue, Arial, sans-serif" font-size="20" fill="${palette.ash}">${value.toFixed(1)}</text><line x1="360" y1="${ty(value)}" x2="2050" y2="${ty(value)}" stroke="#ddd9cf" stroke-width="1.5" stroke-dasharray="5 9"/>`).join("")}${["west gate","Olifantsrus","Okaukuejo","Halali","Namutoni","east gate"].map((label, index) => `<text x="${tx(index)}" y="1464" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="21" fill="${palette.ash}">${label}</text>`).join("")}<path d="${linePath(transectX.map((value, index) => [tx(value), ty(transectY[index])]))}" fill="none" stroke="${palette.rust}" stroke-width="7" stroke-linecap="round"/>${transectX.map((value, index) => `<circle cx="${tx(value)}" cy="${ty(transectY[index])}" r="8" fill="${palette.rust}" stroke="${palette.salt}" stroke-width="3"/>`).join("")}<text x="368" y="1170" font-family="Helvetica Neue, Arial, sans-serif" font-size="21" font-weight="700" fill="${palette.ink}">risk score along the corridor</text>`;
+  body += `<line x1="360" y1="1430" x2="2050" y2="1430" stroke="${palette.ink}" stroke-width="2.6"/><line x1="360" y1="1188" x2="360" y2="1430" stroke="${palette.ink}" stroke-width="2.6"/>${[0.4, 0.6, 0.8].map((value) => `<text x="332" y="${ty(value) + 8}" text-anchor="end" font-family="Helvetica Neue, Arial, sans-serif" font-size="20" fill="${palette.ash}">${value.toFixed(1)}</text><line x1="360" y1="${ty(value)}" x2="2050" y2="${ty(value)}" stroke="#ddd9cf" stroke-width="1.5" stroke-dasharray="5 9"/>`).join("")}${["west gate","Olifantsrus","Okaukuejo","Halali","Namutoni","east gate"].map((label, index) => `<text x="${tx(index)}" y="1464" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="21" fill="${palette.ash}">${label}</text>`).join("")}<path d="${linePath(transectX.map((value, index) => [tx(value), ty(transectY[index])]))}" fill="none" stroke="${palette.rust}" stroke-width="7" stroke-linecap="round"/>${transectX.map((value, index) => `<circle cx="${tx(value)}" cy="${ty(transectY[index])}" r="8" fill="${palette.rust}" stroke="${palette.salt}" stroke-width="3"/>`).join("")}<text x="368" y="1170" font-family="Helvetica Neue, Arial, sans-serif" font-size="21" font-weight="700" fill="${palette.ink}">residual debt along the hinge arc</text>`;
   body += riskLegend.body;
   write("fig03_risk_heatmap.png", body);
 }
 
 function figure04() {
   let body = dossierBoard(58, 256, 3084, 1482);
-  body += miniMapPanel("eco", 122, 338, 930, 974, "Ecology pull", palette.sage, meshOverlay("ecology"), "Water dependence and biological concentration dominate the center-east band.");
-  body += miniMapPanel("acc", 1135, 338, 930, 974, "Access pressure", palette.gold, meshOverlay("access"), "Road-linked opportunity thickens the same corridor from the south and east.");
-  body += miniMapPanel("del", 2148, 338, 930, 974, "Delay penalty", palette.plum, meshOverlay("delay"), "Travel lag is most severe in the eastern pocket where interception is slower.");
-  body += panel(132, 1348, 924, 210, "Weight structure in the composite score", [
-    "Ecology 0.48",
-    "Access 0.30",
-    "Delay 0.22",
+  body += miniMapPanel("eco", 122, 338, 930, 974, "Ecological consequence", palette.sage, meshOverlay("ecology"), "Water dependence and species concentration load the center-east hinge belt with consequence.");
+  body += miniMapPanel("acc", 1135, 338, 930, 974, "Flow opportunity", palette.gold, meshOverlay("access"), "Road-linked ingress thickens the same belt from the south and east.");
+  body += miniMapPanel("del", 2148, 338, 930, 974, "Service slack", palette.plum, meshOverlay("delay"), "Travel and queueing delay are largest in the eastern pocket where interception decays first.");
+  body += panel(132, 1348, 924, 210, "Debt-stack weights", [
+    "Consequence 0.48",
+    "Opportunity 0.30",
+    "Slack 0.22",
   ], { accent: palette.rust, bodySize: 27, lineGap: 34 });
-  body += panel(1128, 1348, 950, 210, "Why these three maps are paired", [
-    "The hotspot is not attributed to one cause only.",
-    "The corridor persists because all three forces point to the same cells.",
+  body += panel(1128, 1348, 950, 210, "Why the triptych matters", [
+    "The hinge belt is not attributed to one cause only.",
+    "It persists because all three forces point to the same cells.",
   ], { accent: palette.indigo, bodySize: 24, lineGap: 34 });
-  body += panel(2150, 1348, 912, 210, "Managerial reading", [
-    "Cells where all three components align deserve repeated patrols, not one-time sweeps.",
-    "This triptych explains the later route and sensor choices.",
+  body += panel(2150, 1348, 912, 210, "Field reading", [
+    "Cells where all three layers align deserve repeated sealing, not one-time sweeps.",
+    "This stack explains the later barrier templates and sentinel anchors.",
   ], { accent: palette.teal, bodySize: 24, lineGap: 34 });
   write("fig04_risk_decomposition.png", body);
 }
@@ -656,13 +664,13 @@ function figure05() {
   body += route(routeFamilies.WestLoop, palette.sage, 11, "18 12");
   body += route(routeFamilies.PanArc, palette.plum, 10);
   body += route(routeFamilies.RapidResponse, palette.rust, 10, "12 10");
-  body += `<text x="${cx(1780)}" y="${cy(804)}" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" font-weight="700" fill="${palette.indigo}">east loop</text><text x="${cx(990)}" y="${cy(650)}" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" font-weight="700" fill="${palette.clay}">south loop</text><text x="${cx(270)}" y="${cy(845)}" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" font-weight="700" fill="${palette.sage}">west loop</text><text x="${cx(2310)}" y="${cy(722)}" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" font-weight="700" fill="${palette.rust}">rapid response</text>`;
-  body += panel(128, 1206, 2920, 278, "Cadence ledger", [
-    "East Loop - high-frequency route, 7 patrol blocks/week, locks onto the hotspot ridge.",
-    "South Loop - 5 patrol blocks/week, binds camps to the waterhole chain.",
-    "West Loop - 2 patrol blocks/week, deterrence and gate linkage.",
-    "Pan Arc - selective pass-through coverage where visibility is high but extraction risk is lower.",
-    "Rapid Response - dispatch corridor used when the eastern pocket requires reinforcement.",
+  body += `<text x="${cx(1760)}" y="${cy(804)}" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" font-weight="700" fill="${palette.indigo}">hinge sweep</text><text x="${cx(960)}" y="${cy(650)}" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" font-weight="700" fill="${palette.clay}">southern seal</text><text x="${cx(220)}" y="${cy(845)}" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" font-weight="700" fill="${palette.sage}">western ring</text><text x="${cx(2288)}" y="${cy(722)}" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" font-weight="700" fill="${palette.rust}">surge bridge</text>`;
+  body += panel(128, 1206, 2920, 278, "Barrier cadence ledger", [
+    "Hinge Sweep - 7 patrol blocks/week, repeatedly cuts the highest-debt arc.",
+    "Southern Seal - 5 patrol blocks/week, binds stations to the waterhole chain.",
+    "Western Ring - 2 patrol blocks/week, deterrence and gate linkage.",
+    "Pan Arc - selective pass-through coverage where visibility is high but extraction debt is lower.",
+    "Surge Bridge - reserve path used when the eastern pocket requires reinforcement.",
   ], { accent: palette.indigo, bodySize: 23, lineGap: 42 });
   write("fig05_patrol_routes.png", body);
 }
@@ -680,8 +688,8 @@ function figure06() {
   body += smallMetric(126, 700, 450, "device stock", "12", "persistent monitors", palette.teal);
   body += smallMetric(126, 840, 450, "UAV stock", "4", "mobile sweeps", palette.gold);
   const sectors = [
-    { x: 1170, y: 468, title: "Eastern sector", accent: palette.indigo, pct: "49%", note: "primary hotspot shield" },
-    { x: 1170, y: 726, title: "South-central corridor", accent: palette.clay, pct: "31%", note: "link corridor control" },
+    { x: 1170, y: 468, title: "Eastern hinge belt", accent: palette.indigo, pct: "49%", note: "primary debt seal" },
+    { x: 1170, y: 726, title: "South-central seal", accent: palette.clay, pct: "31%", note: "station-link control" },
     { x: 1170, y: 984, title: "West and north reserve", accent: palette.sage, pct: "20%", note: "deterrence and fallback" },
   ];
   sectors.forEach((sector) => {
@@ -695,12 +703,12 @@ function figure06() {
   body += bezierConnector(576, 898, 1170, 572, 12, palette.gold, 0.58);
   body += bezierConnector(576, 898, 1170, 830, 10, palette.gold, 0.46);
   body += bezierConnector(576, 898, 1170, 1080, 7, palette.gold, 0.32);
-  body += panel(770, 1266, 980, 192, "Read this figure as a ledger, not a dashboard", [
+  body += panel(770, 1266, 980, 192, "Read this as a commitment ledger", [
     "The widths of the connectors encode how much of each asset family is committed to each sector.",
-    "This makes the sector plan unique to the model rather than a decorative summary card.",
+    "That makes the sector plan a model object rather than a decorative summary card.",
   ], { accent: palette.clay, bodySize: 24, lineGap: 34 });
   body += panel(1788, 1228, 1230, 230, "Inset map of final field attention", [
-    "The inset shows the same corridor logic in spatial form so the ledger stays tied to geography.",
+    "The inset returns the same hinge geometry in spatial form so the ledger stays tied to geography.",
   ], { accent: palette.sage, bodySize: 24 });
   body += `<g transform="translate(${2060 - sceneX * insetScale} ${320 - sceneY * insetScale}) scale(${insetScale})">${mapField({ showNames: false, showCompass: false, showScale: false, showCorridorLabel: false })}${meshOverlay("tier")}${hotspotOutline()}</g>`;
   write("fig06_allocation_dashboard.png", body);
@@ -728,24 +736,24 @@ function figure07() {
       const [xt, yt] = polar(centerX, centerY, outer + 50, angle);
       return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${hour % 6 === 0 ? palette.ink : "#bfc5c6"}" stroke-width="${hour % 6 === 0 ? 3.2 : 1.4}"/>${hour % 3 === 0 ? `<text x="${xt}" y="${yt + 7}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" fill="${palette.ash}">${hour}:00</text>` : ""}`;
     }).join("")}
-    <text x="${centerX}" y="${centerY - 12}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="40" font-weight="700" fill="${palette.ink}">daily command cycle</text>
-    <text x="${centerX}" y="${centerY + 28}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" fill="${palette.ash}">outer ring patrol waves - middle ring sensors - inner gold drone windows</text>
-    ${panel(2020, 390, 930, 282, "Cycle logic", [
-      "05:00-08:00 east loop deployment",
-      "09:00-11:00 sensor watch and report review",
-      "11:00-13:00 first UAV window",
-      "14:00-18:00 south and west patrol rotation",
-      "19:00-21:00 second UAV window and exception handling",
-      "late hours kept as reserve or rapid response",
+    <text x="${centerX}" y="${centerY - 12}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="40" font-weight="700" fill="${palette.ink}">daily sortie clock</text>
+    <text x="${centerX}" y="${centerY + 28}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" fill="${palette.ash}">outer ring sweep bands - middle ring watch dwell - inner gold reserve windows</text>
+    ${panel(2020, 390, 930, 282, "Clock logic", [
+      "05:00-08:00 hinge sweep departure",
+      "09:00-11:00 sentinel review and watch confirmation",
+      "11:00-13:00 first reserve window",
+      "14:00-18:00 southern and western seal rotation",
+      "19:00-21:00 second reserve window and exception handling",
+      "late hours held as standby or surge bridge",
     ], { accent: palette.teal, bodySize: 24, lineGap: 34 })}
-    ${panel(2020, 736, 930, 222, "Why a dial instead of a line", [
-      "This figure emphasizes recurrence and overlap across the full day, which is the operational issue the simulation cares about.",
-      "A straight timeline hides how patrol waves and drone windows wrap into the next day.",
+    ${panel(2020, 736, 930, 222, "Why a clock instead of a line", [
+      "This plate emphasizes recurrence and overlap across the full day, which is the queueing issue the model cares about.",
+      "A straight timeline hides how sweep bands and reserve windows wrap into the next day.",
     ], { accent: palette.gold, bodySize: 24, lineGap: 34 })}
-    ${tagPill(2060, 1030, "patrol waves", "#dee8f0", palette.ink, 188)}
-    ${tagPill(2268, 1030, "sensor watch", "#dfe9df", palette.ink, 194)}
-    ${tagPill(2484, 1030, "UAV windows", "#efe3c5", palette.ink, 196)}
-    ${tagPill(2704, 1030, "reserve", "#f0dfdb", palette.ink, 154)}
+    ${tagPill(2060, 1030, "sweep bands", "#dee8f0", palette.ink, 186)}
+    ${tagPill(2268, 1030, "watch dwell", "#dfe9df", palette.ink, 188)}
+    ${tagPill(2484, 1030, "reserve windows", "#efe3c5", palette.ink, 232)}
+    ${tagPill(2740, 1030, "standby", "#f0dfdb", palette.ink, 150)}
   `;
   write("fig07_schedule_timeline.png", body);
 }
@@ -776,7 +784,7 @@ function figure08() {
     const px = sx(day);
     const py = sy(optimized[day - 1]);
     return `<line x1="${px}" y1="${py}" x2="${px}" y2="${py - 80}" stroke="${palette.ash}" stroke-width="2"/><rect x="${px - 44}" y="${py - 132}" width="88" height="34" rx="17" fill="${palette.salt}" stroke="${palette.line}" stroke-width="1.2"/><text x="${px}" y="${py - 108}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700" fill="${palette.ink}">day ${day}</text>`;
-  }).join("")}<text x="${sx(18)}" y="${sy(0.75) - 12}" font-family="Helvetica Neue, Arial, sans-serif" font-size="20" font-weight="700" fill="${palette.rust}">command target = 0.75</text>`;
+  }).join("")}<text x="${sx(18)}" y="${sy(0.75) - 12}" font-family="Helvetica Neue, Arial, sans-serif" font-size="20" font-weight="700" fill="${palette.rust}">service covenant = 0.75</text>`;
   body += panel(2450, 396, 546, 260, "Reading the trajectory", [
     "The optimized plan clears the command target after the first week.",
     "The uniform plan improves slightly but never enters the target band.",
@@ -787,8 +795,8 @@ function figure08() {
     "day 15 - gains stabilize",
     "day 30 - plateau maintained",
   ], { accent: palette.gold, bodySize: 24, lineGap: 34 });
-  body += tagPill(2470, 1000, "optimized package", "#dce5ef", palette.ink, 238);
-  body += tagPill(2720, 1000, "uniform deployment", "#efe1c9", palette.ink, 242);
+  body += tagPill(2470, 1000, "barrier design", "#dce5ef", palette.ink, 214);
+  body += tagPill(2700, 1000, "flat spread", "#efe1c9", palette.ink, 178);
   write("fig08_simulation_results.png", body);
 }
 
@@ -816,14 +824,14 @@ function figure09() {
     return `<circle cx="${sx(clamp(xValue, 0.49, 0.83))}" cy="${yValue}" r="5.8" fill="${color}" fill-opacity="0.72"/>`;
   }).join("");
   let body = dossierBoard(58, 256, 3084, 1482);
-  body += `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="26" fill="${palette.white}" stroke="${palette.line}" stroke-width="2" filter="url(#shadow)"/><rect x="${sx(0.48)}" y="${y + 42}" width="${sx(0.60) - sx(0.48)}" height="${h - 98}" fill="#f3e2dc" opacity="0.5"/><text x="${sx(0.54)}" y="${y + 78}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" font-weight="700" fill="${palette.rust}">low-performance tail</text>${[0.50, 0.60, 0.70, 0.80].map((value) => `<line x1="${sx(value)}" y1="${y + 60}" x2="${sx(value)}" y2="${y + h - 70}" stroke="#dfe4e5" stroke-width="1.5" stroke-dasharray="5 10"/><text x="${sx(value)}" y="${y + h - 28}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="${palette.ash}">${value.toFixed(2)}</text>`).join("")}<text x="${x + w / 2}" y="${y + h - 2}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="28" font-weight="700" fill="${palette.ink}">replication PI</text>${ridge(optimized, ridgeY1, palette.indigo)}${ridge(uniform, ridgeY2, palette.clay)}${jitterPoints(ridgeY1, 0.73, 0.06, palette.indigo)}${jitterPoints(ridgeY2, 0.60, 0.08, palette.clay)}<text x="${x + 34}" y="${ridgeY1 - 18}" font-family="Helvetica Neue, Arial, sans-serif" font-size="28" font-weight="700" fill="${palette.ink}">optimized package</text><text x="${x + 34}" y="${ridgeY2 - 18}" font-family="Helvetica Neue, Arial, sans-serif" font-size="28" font-weight="700" fill="${palette.ink}">uniform deployment</text>`;
+  body += `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="26" fill="${palette.white}" stroke="${palette.line}" stroke-width="2" filter="url(#shadow)"/><rect x="${sx(0.48)}" y="${y + 42}" width="${sx(0.60) - sx(0.48)}" height="${h - 98}" fill="#f3e2dc" opacity="0.5"/><text x="${sx(0.54)}" y="${y + 78}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" font-weight="700" fill="${palette.rust}">loss-heavy tail</text>${[0.50, 0.60, 0.70, 0.80].map((value) => `<line x1="${sx(value)}" y1="${y + 60}" x2="${sx(value)}" y2="${y + h - 70}" stroke="#dfe4e5" stroke-width="1.5" stroke-dasharray="5 10"/><text x="${sx(value)}" y="${y + h - 28}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="${palette.ash}">${value.toFixed(2)}</text>`).join("")}<text x="${x + w / 2}" y="${y + h - 2}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="28" font-weight="700" fill="${palette.ink}">replication PI</text>${ridge(optimized, ridgeY1, palette.indigo)}${ridge(uniform, ridgeY2, palette.clay)}${jitterPoints(ridgeY1, 0.73, 0.06, palette.indigo)}${jitterPoints(ridgeY2, 0.60, 0.08, palette.clay)}<text x="${x + 34}" y="${ridgeY1 - 18}" font-family="Helvetica Neue, Arial, sans-serif" font-size="28" font-weight="700" fill="${palette.ink}">barrier design</text><text x="${x + 34}" y="${ridgeY2 - 18}" font-family="Helvetica Neue, Arial, sans-serif" font-size="28" font-weight="700" fill="${palette.ink}">flat spread</text>`;
   body += panel(2512, 430, 470, 238, "What matters here", [
     "The optimized ridge shifts rightward and leaves a much thinner low tail.",
     "Tail-risk reduction is visible without collapsing all replications into one mean.",
   ], { accent: palette.rust, bodySize: 23, lineGap: 34 });
   body += panel(2512, 724, 470, 210, "Tail reading", [
     "PI below 0.60 is operationally fragile.",
-    "That region is common under uniform deployment and rare under optimization.",
+    "That region is common under flat spreading and rare under the barrier design.",
   ], { accent: palette.indigo, bodySize: 23, lineGap: 34 });
   write("fig09_robustness_distribution.png", body);
 }
@@ -886,7 +894,7 @@ function figure11() {
 }
 
 function figure12() {
-  const responseLegend = legendRamp(2710, 418, 30, 290, "response lag", responseStops, ["2h", "", "6h"], false);
+  const responseLegend = legendRamp(2710, 418, 30, 290, "service delay", responseStops, ["2h", "", "6h"], false);
   const slowCells = cells.filter((cell) => cell.responseTime >= 4.5);
   const eastProfile = [2.5, 2.8, 3.3, 4.1, 4.7, 5.0];
   const px = (index) => 360 + index * 240;
@@ -900,11 +908,11 @@ function figure12() {
     const outer = 150 + index * 6;
     body += `<circle cx="${cx(x)}" cy="${cy(y)}" r="${outer}" fill="none" stroke="${palette.sky}" stroke-width="2.2" opacity="0.26"/><circle cx="${cx(x)}" cy="${cy(y)}" r="${outer * 0.63}" fill="none" stroke="${palette.sky}" stroke-width="2.2" opacity="0.18"/>`;
   });
-  body += panel(2310, 330, 674, 230, "What the bands show", [
-    "Reach bands approximate how station geometry shapes intercept time.",
-    "The highlighted eastern cells sit outside the most comfortable response envelope.",
+  body += panel(2310, 330, 674, 230, "How the bands read", [
+    "Reach bands approximate how station geometry shapes service delay.",
+    "The highlighted eastern cells sit outside the most comfortable service envelope.",
   ], { accent: palette.sky, bodySize: 23, lineGap: 34 });
-  body += panel(180, 1200, 1940, 266, "Eastward response profile", [
+  body += panel(180, 1200, 1940, 266, "Eastward delay ridge", [
     "The lower strip converts map-based reach into an explicit delay climb from west to east.",
   ], { accent: palette.rust, bodySize: 22 });
   body += `<line x1="340" y1="1440" x2="1960" y2="1440" stroke="${palette.ink}" stroke-width="2.4"/><line x1="340" y1="1204" x2="340" y2="1440" stroke="${palette.ink}" stroke-width="2.4"/>${[2.5, 3.5, 4.5, 5.5].map((value) => `<text x="312" y="${py(value) + 7}" text-anchor="end" font-family="Helvetica Neue, Arial, sans-serif" font-size="20" fill="${palette.ash}">${value.toFixed(1)}</text><line x1="340" y1="${py(value)}" x2="1960" y2="${py(value)}" stroke="#dfe4e5" stroke-width="1.5" stroke-dasharray="5 9"/>`).join("")}${eastProfile.map((value, index) => `<circle cx="${px(index)}" cy="${py(value)}" r="8" fill="${palette.rust}" stroke="${palette.salt}" stroke-width="3"/>`).join("")}<path d="${linePath(eastProfile.map((value, index) => [px(index), py(value)]))}" fill="none" stroke="${palette.rust}" stroke-width="6" stroke-linecap="round"/>${["west","Olifantsrus","Okaukuejo","Halali","Namutoni","east gate"].map((label, index) => `<text x="${px(index)}" y="1470" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="20" fill="${palette.ash}">${label}</text>`).join("")}`;
@@ -918,18 +926,18 @@ function figure13() {
   body += meshOverlay("outline");
   body += sensorSites.map(([x, y]) => `<circle cx="${cx(x)}" cy="${cy(y)}" r="88" fill="${palette.indigo}" opacity="0.11"/><circle cx="${cx(x)}" cy="${cy(y)}" r="48" fill="${palette.indigo}" opacity="0.16"/><rect x="${cx(x) - 12}" y="${cy(y) - 12}" width="24" height="24" rx="6" fill="${palette.indigo}" stroke="${palette.salt}" stroke-width="3"/>`).join("");
   body += droneSectors.map((sector, index) => `<path d="${pathFromPoints(shift(sector), true)}" fill="${index === 0 ? palette.gold : index === 1 ? palette.clay : palette.teal}" fill-opacity="0.18" stroke="${index === 0 ? palette.gold : index === 1 ? palette.clay : palette.teal}" stroke-width="4" stroke-dasharray="10 8"/>`).join("");
-  body += panel(126, 316, 620, 208, "Persistent eyes", [
-    "Blue squares are fixed sensors placed where hotspot persistence is strongest.",
+  body += panel(126, 316, 620, 208, "Anchored sentinels", [
+    "Blue squares are fixed sensors placed where hinge persistence is strongest.",
     "Their halos indicate stable watch zones rather than full interception reach.",
   ], { accent: palette.indigo, bodySize: 23, lineGap: 34 });
-  body += panel(126, 554, 620, 208, "Adaptive sweeps", [
+  body += panel(126, 554, 620, 208, "Reserve sweeps", [
     "Colored fans are drone sectors used where intelligence uncertainty stays high.",
-    "They widen the view over the same corridor but do not replace patrol recurrence.",
+    "They widen the view over the same hinge belt but do not replace sweep recurrence.",
   ], { accent: palette.gold, bodySize: 23, lineGap: 34 });
-  body += panel(2260, 1188, 756, 240, "Layering logic", [
-    "Persistent hotspots receive sensors.",
-    "Ambiguous hotspot edges receive UAV sweeps.",
-    "Both layers are tied back to the patrol corridor, not scattered evenly across the park.",
+  body += panel(2260, 1188, 756, 240, "Layer discipline", [
+    "Persistent hinge cells receive sentinels.",
+    "Ambiguous belt edges receive reserve sweeps.",
+    "Both layers are tied back to the patrol spine, not scattered evenly across the park.",
   ], { accent: palette.teal, bodySize: 23, lineGap: 34 });
   write("fig13_sensor_drone_map.png", body);
 }
@@ -953,9 +961,9 @@ function figure14() {
     "field rangers",
     "protection index"
   );
-  body += `<rect x="${sx(22)}" y="${sy(0.70)}" width="${sx(34) - sx(22)}" height="${sy(0.52) - sy(0.70)}" fill="#f2e2dc" opacity="0.38"/><rect x="${sx(34)}" y="${sy(0.70)}" width="${sx(37) - sx(34)}" height="${sy(0.52) - sy(0.70)}" fill="#f1e9cf" opacity="0.42"/><rect x="${sx(37)}" y="${sy(0.70)}" width="${sx(46) - sx(37)}" height="${sy(0.52) - sy(0.70)}" fill="#dfe9dc" opacity="0.42"/><path d="${bandPath(rangers, upper, lower, sx, sy)}" fill="${palette.sage}" opacity="0.18"/><path d="${linePath(rangers.map((ranger, index) => [sx(ranger), sy(values[index])]))}" fill="none" stroke="${palette.sage}" stroke-width="8" stroke-linecap="round"/><line x1="${sx(34)}" y1="${sy(0.52)}" x2="${sx(34)}" y2="${sy(0.79)}" stroke="${palette.rust}" stroke-width="3" stroke-dasharray="10 10"/><line x1="${sx(22)}" y1="${sy(0.70)}" x2="${sx(46)}" y2="${sy(0.70)}" stroke="${palette.rust}" stroke-width="3" stroke-dasharray="10 10"/><text x="${sx(34) + 12}" y="${sy(0.73)}" font-family="Helvetica Neue, Arial, sans-serif" font-size="20" font-weight="700" fill="${palette.rust}">minimum safe staffing = 34</text><text x="${sx(27)}" y="${sy(0.78)}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" font-weight="700" fill="${palette.rust}">fragile</text><text x="${sx(35.5)}" y="${sy(0.78)}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" font-weight="700" fill="${palette.gold}">transition</text><text x="${sx(41.5)}" y="${sy(0.78)}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" font-weight="700" fill="${palette.sage}">stable</text>`;
+  body += `<rect x="${sx(22)}" y="${sy(0.70)}" width="${sx(34) - sx(22)}" height="${sy(0.52) - sy(0.70)}" fill="#f2e2dc" opacity="0.38"/><rect x="${sx(34)}" y="${sy(0.70)}" width="${sx(37) - sx(34)}" height="${sy(0.52) - sy(0.70)}" fill="#f1e9cf" opacity="0.42"/><rect x="${sx(37)}" y="${sy(0.70)}" width="${sx(46) - sx(37)}" height="${sy(0.52) - sy(0.70)}" fill="#dfe9dc" opacity="0.42"/><path d="${bandPath(rangers, upper, lower, sx, sy)}" fill="${palette.sage}" opacity="0.18"/><path d="${linePath(rangers.map((ranger, index) => [sx(ranger), sy(values[index])]))}" fill="none" stroke="${palette.sage}" stroke-width="8" stroke-linecap="round"/><line x1="${sx(34)}" y1="${sy(0.52)}" x2="${sx(34)}" y2="${sy(0.79)}" stroke="${palette.rust}" stroke-width="3" stroke-dasharray="10 10"/><line x1="${sx(22)}" y1="${sy(0.70)}" x2="${sx(46)}" y2="${sy(0.70)}" stroke="${palette.rust}" stroke-width="3" stroke-dasharray="10 10"/><text x="${sx(34) + 12}" y="${sy(0.73)}" font-family="Helvetica Neue, Arial, sans-serif" font-size="20" font-weight="700" fill="${palette.rust}">minimum safe staffing = 34</text><text x="${sx(27)}" y="${sy(0.78)}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" font-weight="700" fill="${palette.rust}">fragile</text><text x="${sx(35.5)}" y="${sy(0.78)}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" font-weight="700" fill="${palette.gold}">bridge</text><text x="${sx(41.5)}" y="${sy(0.78)}" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" font-weight="700" fill="${palette.sage}">stable</text>`;
   body += panel(2460, 404, 520, 232, "Reading the regimes", [
-    "Below 34, the hotspot corridor loses repeat coverage quickly.",
+    "Below 34, the hinge belt loses repeat coverage quickly.",
     "Between 34 and 37, marginal gains remain steep.",
     "Beyond 37, gains still exist but flatten into stability.",
   ], { accent: palette.sage, bodySize: 23, lineGap: 34 });
@@ -1032,59 +1040,59 @@ function figure16() {
   };
   let body = dossierBoard(58, 256, 3084, 1482);
   body += `<rect x="118" y="320" width="840" height="1180" rx="28" fill="#f8fbfb" stroke="${palette.line}" stroke-width="2"/><rect x="1110" y="320" width="980" height="1180" rx="28" fill="#fbfaf7" stroke="${palette.line}" stroke-width="2"/><rect x="2238" y="320" width="844" height="1180" rx="28" fill="#f9f7f4" stroke="${palette.line}" stroke-width="2"/>`;
-  body += `<text x="150" y="378" font-family="Helvetica Neue, Arial, sans-serif" font-size="30" font-weight="700" fill="${palette.ink}">Input stack</text><text x="1144" y="378" font-family="Helvetica Neue, Arial, sans-serif" font-size="30" font-weight="700" fill="${palette.ink}">Optimization core</text><text x="2272" y="378" font-family="Helvetica Neue, Arial, sans-serif" font-size="30" font-weight="700" fill="${palette.ink}">Deployable outputs</text>`;
-  body += card(150, 424, 774, 228, palette.sage, "Priority field", [
-    "Inputs: zone features, priors, and response friction",
-    "Objects: R_i, hotspot quartile, service deficit map",
+  body += `<text x="150" y="378" font-family="Helvetica Neue, Arial, sans-serif" font-size="30" font-weight="700" fill="${palette.ink}">State inputs</text><text x="1144" y="378" font-family="Helvetica Neue, Arial, sans-serif" font-size="30" font-weight="700" fill="${palette.ink}">Barrier design core</text><text x="2272" y="378" font-family="Helvetica Neue, Arial, sans-serif" font-size="30" font-weight="700" fill="${palette.ink}">Deployment packet</text>`;
+  body += card(150, 424, 774, 228, palette.sage, "Hinge-loss surface", [
+    "Inputs: zone morphology, priors, and service drag",
+    "Objects: L_i, hinge belt, and slack exposure map",
   ], "state estimate");
-  body += card(150, 708, 774, 228, palette.gold, "Feasible route library", [
+  body += card(150, 708, 774, 228, palette.gold, "Path dictionary", [
     "Inputs: stations, roads, travel times, shift cap",
-    "Objects: route set R, coverage matrix a_ir, sector matrix b_ij",
+    "Objects: path set P, coverage matrix a_ip, sector matrix b_ij",
   ], "mobility envelope");
-  body += card(150, 992, 774, 228, palette.clay, "Resource budgets", [
-    "Inputs: ranger-hours H_R, device stock M, UAV sorties U",
-    "Objects: station caps kappa_s, hotspot floor q_bar",
-  ], "capacity guard");
-  body += card(1144, 446, 912, 290, palette.indigo, "MILP controller", [
-    "Objective: maximize weighted protection minus route burden",
-    "Surrogate: linearized utility e_i replacing concave E_i",
-    "Decision variables: patrol loops x_r, fixed watch y_i, UAV sorties z_j",
-  ], "solve for weekly tasking package");
-  body += card(1144, 794, 432, 204, palette.rust, "Constraint rail A", [
+  body += card(150, 992, 774, 228, palette.clay, "Capacity covenant", [
+    "Inputs: ranger-hours H_R, sentinel stock M, reserve sorties U",
+    "Objects: station caps kappa_s, hinge floor q_bar",
+  ], "limit guard");
+  body += card(1144, 446, 912, 290, palette.indigo, "Lexicographic barrier solver", [
+    "Stage 1: cap the worst hinge debt before any averaging begins",
+    "Stage 2: reduce total residual debt under the same field limits",
+    "Decision variables: sweep paths x_p, sentinels y_i, reserve windows z_j",
+  ], "solve the weekly barrier deck");
+  body += card(1144, 794, 432, 204, palette.rust, "Guard rail A", [
     "Ranger-hour cap",
     "Station activation cap",
   ], "feasibility");
-  body += card(1624, 794, 432, 204, palette.teal, "Constraint rail B", [
-    "Device and UAV inventories",
-    "Hotspot service floor",
+  body += card(1624, 794, 432, 204, palette.teal, "Guard rail B", [
+    "Sentinel and reserve inventories",
+    "Hinge service floor",
   ], "coverage discipline");
-  body += card(1144, 1058, 912, 320, palette.plum, "Marginal-gain logic", [
-    "The controller concentrates effort until active cells satisfy",
-    "approximately equal weighted marginal value",
-    "R_i exp(-eta_i) across the protected corridor",
-  ], "why concentration beats uniform spread");
-  body += card(2272, 446, 776, 212, palette.indigo, "Patrol package", [
-    "Route activations by station and daily cadence",
-    "Backbone of the corridor-defense plan",
-  ], "x_r");
-  body += card(2272, 714, 776, 212, palette.teal, "Persistent watch layer", [
-    "Fixed devices pinned to stable hotspot cells",
-    "Continuous monitoring where recurrence matters most",
+  body += card(1144, 1058, 912, 320, palette.plum, "Marginal equalization rule", [
+    "The solver concentrates effort until active cells satisfy",
+    "approximately equal weighted marginal debt reduction",
+    "L_i exp(-eta_i) across the defended hinge belt",
+  ], "why sealing beats flat spreading");
+  body += card(2272, 446, 776, 212, palette.indigo, "Sweep packet", [
+    "Path activations by station and daily cadence",
+    "Backbone of the hinge-sealing plan",
+  ], "x_p");
+  body += card(2272, 714, 776, 212, palette.teal, "Anchored watch layer", [
+    "Fixed sentinels pinned to stable hinge cells",
+    "Continuous watching where recurrence matters most",
   ], "y_i");
-  body += card(2272, 982, 776, 212, palette.gold, "Adaptive surge layer", [
-    "UAV windows assigned to uncertain or shifting sectors",
-    "Flexible observation over hotspot edges and gaps",
+  body += card(2272, 982, 776, 212, palette.gold, "Reserve surge layer", [
+    "Reserve windows assigned to uncertain or shifting sectors",
+    "Flexible observation over hinge edges and service gaps",
   ], "z_j");
-  body += card(2272, 1250, 776, 180, palette.sage, "Management products", [
-    "Weekly tasking sheet, staffing check, and hotspot compliance report",
+  body += card(2272, 1250, 776, 180, palette.sage, "Command products", [
+    "Weekly barrier deck, staffing check, and hinge-compliance report",
   ], "field-ready output");
-  body += arrow(924, 538, 1144, 592, palette.sage, "state");
-  body += arrow(924, 822, 1144, 660, palette.gold, "network");
-  body += arrow(924, 1106, 1144, 728, palette.clay, "budgets");
-  body += arrow(2056, 592, 2272, 552, palette.indigo, "route tasking");
-  body += arrow(2056, 888, 2272, 820, palette.teal, "sensor siting");
-  body += arrow(2056, 1170, 2272, 1088, palette.gold, "UAV sectors");
-  body += `<rect x="1232" y="1406" width="736" height="42" rx="21" fill="#e6ecef"/><text x="1600" y="1434" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="20" font-weight="700" fill="${palette.ink}">The controller is only allowed to emit plans that are simultaneously high-value and field-feasible.</text>`;
+  body += arrow(924, 538, 1144, 592, palette.sage, "surface");
+  body += arrow(924, 822, 1144, 660, palette.gold, "paths");
+  body += arrow(924, 1106, 1144, 728, palette.clay, "limits");
+  body += arrow(2056, 592, 2272, 552, palette.indigo, "sweep plan");
+  body += arrow(2056, 888, 2272, 820, palette.teal, "sentinels");
+  body += arrow(2056, 1170, 2272, 1088, palette.gold, "reserve");
+  body += `<rect x="1232" y="1406" width="736" height="42" rx="21" fill="#e6ecef"/><text x="1600" y="1434" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="20" font-weight="700" fill="${palette.ink}">Only plans that are simultaneously debt-reducing and field-feasible are allowed to leave the solver.</text>`;
   write("fig16_controller_architecture.png", body);
 }
 
@@ -1105,37 +1113,37 @@ function figure17() {
     return `<path d="M ${x1} ${y1} C ${cx1} ${cy1}, ${cx2} ${cy2}, ${x2} ${y2}" fill="none" stroke="${color}" stroke-width="6" stroke-linecap="round"/><path d="M ${x2} ${y2} L ${ax1} ${ay1} L ${ax2} ${ay2} Z" fill="${color}"/>`;
   };
   let body = dossierBoard(58, 256, 3084, 1482);
-  body += `<circle cx="1596" cy="938" r="244" fill="#f8fbfb" stroke="${palette.line}" stroke-width="2" filter="url(#shadow)"/><circle cx="1596" cy="938" r="196" fill="#eef5f5" stroke="${palette.teal}" stroke-width="3" opacity="0.9"/><text x="1596" y="902" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="42" font-weight="700" fill="${palette.ink}">park state</text><text x="1596" y="944" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" fill="${palette.ash}">risk field R_i</text><text x="1596" y="978" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" fill="${palette.ash}">pressure prior P_i</text><text x="1596" y="1012" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" fill="${palette.ash}">response lag tau_i</text>`;
-  body += ringCard(190, 404, 620, 218, palette.clay, "1. Arrival generator", [
-    "Poisson events N_i^t with seasonal pressure multiplier Psi_t",
-    "High-risk cells receive both more value and more threat arrivals",
+  body += `<circle cx="1596" cy="938" r="244" fill="#f8fbfb" stroke="${palette.line}" stroke-width="2" filter="url(#shadow)"/><circle cx="1596" cy="938" r="196" fill="#eef5f5" stroke="${palette.teal}" stroke-width="3" opacity="0.9"/><text x="1596" y="902" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="42" font-weight="700" fill="${palette.ink}">reserve state</text><text x="1596" y="944" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" fill="${palette.ash}">loss surface L_i</text><text x="1596" y="978" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" fill="${palette.ash}">intrusion seed p_i</text><text x="1596" y="1012" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" fill="${palette.ash}">service lag tau_i</text>`;
+  body += ringCard(190, 404, 620, 218, palette.clay, "1. Threat arrivals", [
+    "Poisson events N_i^t with seasonal multiplier Psi_t",
+    "High-loss cells receive both more value and more intrusion attempts",
   ]);
-  body += ringCard(920, 330, 620, 218, palette.indigo, "2. Detection fusion", [
+  body += ringCard(920, 330, 620, 218, palette.indigo, "2. Sensing stack", [
     "Asset-level misses are compounded into zone detection q_i^t",
-    "Patrols, fixed watch, and UAVs enter as a joint surveillance stack",
+    "Sweeps, sentinels, and reserve windows enter as one surveillance stack",
   ]);
-  body += ringCard(1660, 330, 620, 218, palette.sky, "3. Dispatch and response", [
+  body += ringCard(1660, 330, 620, 218, palette.sky, "3. Travel and queueing", [
     "Travel base + dispatch delay + terrain noise create tau_i^t",
-    "Interception g_i^t falls sharply once delay crosses the threshold",
+    "Interception g_i^t falls sharply once delay crosses the covenant threshold",
   ]);
-  body += ringCard(2390, 404, 620, 218, palette.rust, "4. Outcome evaluator", [
+  body += ringCard(2390, 404, 620, 218, palette.rust, "4. Loss accounting", [
     "Neutralization u_i^t = q_i^t g_i^t feeds weighted loss and PI",
     "The simulation measures both mean performance and tail fragility",
   ]);
-  body += ringCard(2390, 1244, 620, 218, palette.plum, "5. Posterior update", [
-    "Patrol pressure refreshes C_i and re-estimates the intrusion prior",
-    "Yesterday's deployment changes tomorrow's risk surface",
+  body += ringCard(2390, 1244, 620, 218, palette.plum, "5. Posterior refresh", [
+    "Sweep pressure refreshes C_i and re-estimates the intrusion prior",
+    "Yesterday's deployment changes tomorrow's loss surface",
   ]);
-  body += ringCard(1660, 1320, 620, 218, palette.gold, "6. Re-optimization trigger", [
-    "If PI or hotspot service falls below threshold, the controller reruns",
+  body += ringCard(1660, 1320, 620, 218, palette.gold, "6. Barrier rerun", [
+    "If PI or hinge service falls below threshold, the solver reruns",
     "The next tasking plan is generated from the updated state",
   ]);
-  body += ringCard(920, 1320, 620, 218, palette.sage, "7. Deployment reset", [
-    "Routes, sensors, and UAV windows are reassigned for the next cycle",
-    "The operating loop preserves adaptation instead of static patrol plans",
+  body += ringCard(920, 1320, 620, 218, palette.sage, "7. Asset reset", [
+    "Paths, sentinels, and reserve windows are reassigned for the next cycle",
+    "The loop preserves adaptation instead of static sweep plans",
   ]);
-  body += ringCard(190, 1244, 620, 218, palette.teal, "8. Monitoring record", [
-    "Observed detections, delays, and hotspot compliance feed governance",
+  body += ringCard(190, 1244, 620, 218, palette.teal, "8. Audit trail", [
+    "Observed detections, delays, and hinge compliance feed governance",
     "The loop remains auditable at weekly and monthly review scales",
   ]);
   body += curvedArrow(810, 514, 964, 440, 1048, 424, 920, 440, palette.clay);
@@ -1146,7 +1154,7 @@ function figure17() {
   body += curvedArrow(1660, 1428, 1546, 1490, 1126, 1490, 920, 1428, palette.gold);
   body += curvedArrow(920, 1428, 742, 1458, 566, 1418, 810, 1352, palette.sage);
   body += curvedArrow(190, 1244, 126, 1090, 124, 714, 190, 622, palette.teal);
-  body += `<rect x="1208" y="1124" width="776" height="58" rx="29" fill="#edf3f0" stroke="${palette.line}" stroke-width="1.5"/><text x="1596" y="1161" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" font-weight="700" fill="${palette.ink}">The simulation is not an end-of-pipeline check. It is the mechanism that updates the next planning state.</text>`;
+  body += `<rect x="1208" y="1124" width="776" height="58" rx="29" fill="#edf3f0" stroke="${palette.line}" stroke-width="1.5"/><text x="1596" y="1161" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="23" font-weight="700" fill="${palette.ink}">The simulation is not a terminal check. It is the state-transition mechanism that rewrites the next plan.</text>`;
   write("fig17_feedback_architecture.png", body);
 }
 
@@ -1168,4 +1176,4 @@ figure15();
 figure16();
 figure17();
 
-console.log("Bespoke dossier-style figures regenerated.");
+console.log("Field-atlas figure system regenerated.");

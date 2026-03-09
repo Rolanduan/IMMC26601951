@@ -1,143 +1,96 @@
-\section{Etosha Digital Twin and Priority Diagnosis}
-Etosha should not be understood as a flat protected polygon. It behaves as a coupled ecology--access--response system. Wildlife value is not distributed uniformly, intrusion opportunity is not distributed uniformly, and the park's ability to answer an incursion is not distributed uniformly. The purpose of the digital twin is therefore to convert map structure into operationally meaningful state variables rather than to create another descriptive atlas.
+\section{Threat-Transport Graph and Hinge-Zone Diagnosis}
+Etosha should not be read as a flat field of independent hotspots. It behaves as a transport network in which illegal pressure enters from a limited set of ingress opportunities, moves through a sparse relay structure, and ultimately threatens high-value habitat sinks. The point of the diagnostic layer is therefore to infer where weighted loss can travel, not merely where static ecological value is high.
 
-\subsection{Abstraction Rules}
-We make six modeling assumptions, each chosen to preserve managerial meaning while keeping the system computationally tractable.
-\begin{enumerate}
-  \item \textbf{Zonal control assumption.} The park is partitioned into management cells because decisions are made at patrol-sector scale, not at individual-animal scale.
-  \item \textbf{Dry-season concentration assumption.} Water-dependent clustering is treated as the dominant driver of ecological exposure in Etosha \citep{etoshaEcology}.
-  \item \textbf{Protection-service assumption.} A zone is considered well protected only when it receives recurrent attention, high detection probability, and response within the local interception window.
-  \item \textbf{Latent-pressure assumption.} Intrusion pressure is only partially observed and must be estimated from access, biological value, and prior patrol pressure.
-  \item \textbf{Operational-unit assumption.} Patrol teams are modeled as two-person units, and fixed devices aggregate cameras, acoustic nodes, or towers into one comparable control resource.
-  \item \textbf{Feasibility-first assumption.} Operating constraints are expressed through person-hours, inventory, and sortie capacity rather than a detailed financial budget because the main management bottleneck is implementability.
-\end{enumerate}
-
-These assumptions define the digital twin as a control abstraction. The twin is not meant to mimic every ecological detail; it is meant to preserve the details that alter deployment decisions.
-
-\subsection{Priority Logic for Etosha}
-Four subsystems determine where protection effort matters most:
+\subsection{Network Abstraction}
+We partition the park into an \(8\times 8\) management grid and construct two linked graphs:
 \begin{itemize}
-  \item \textbf{Ecology}: wildlife density, species sensitivity, and dry-season water dependence;
-  \item \textbf{Threat exposure}: access corridors, gate-linked approach routes, and latent intrusion pressure;
-  \item \textbf{Mobility}: roads, station placement, and travel-time friction;
-  \item \textbf{Surveillance supply}: patrol loops, fixed sensors, and drone reach.
+  \item a \textbf{road and access graph} \(\mathcal{G}_R=(V_R,E_R,w)\) for station travel and patrol mobility;
+  \item a \textbf{transport graph} \(\mathcal{G}_T=(V_T,E_T)\) whose nodes represent management cells, ingress cells, and habitat sinks.
 \end{itemize}
 
-The interaction of these subsystems produces the decisive Etosha management insight: the highest-priority zones are not simply those with the most animals. They are the zones where ecological value, exploitable access, and slow response overlap. In system terms, those are the cells with the largest expected loss under a service failure.
-
-\subsection{Protection as Reliable Service}
-We therefore define wildlife protection as reliable service delivery in high-consequence cells. A zone is effectively protected when three conditions are met simultaneously:
-\begin{enumerate}
-  \item conservation value is high enough that failure matters;
-  \item surveillance is strong enough that illegal activity is likely to be detected;
-  \item response is fast enough that detection can still be converted into interception.
-\end{enumerate}
-
-This definition is stronger than a simple patrol-presence metric. It forces the model to connect ecology, detection, and response within the same decision language, which is necessary for a park as spatially uneven as Etosha.
-
-\subsection{Spatial Priority Engine}
-\subsubsection{Cell Representation}
-We discretize the park into an \(8\times 8\) management grid, producing 64 zones. Each zone \(i\) stores six core features:
+Each management cell \(i\) stores four strategic attributes:
 \[
-W_i:\text{ wildlife density},\quad
-S_i:\text{ species sensitivity},\quad
-H_i:\text{ waterhole proximity},
+V_i:\text{ biological consequence},\quad
+A_i:\text{ ingress accessibility},\quad
+C_i:\text{ transport criticality},\quad
+S_i:\text{ service slack}.
 \]
-\[
-A_i:\text{ accessibility},\quad
-D_i:\text{ response difficulty},\quad
-P_i:\text{ latent intrusion prior}.
-\]
-The grid is coarse enough to remain interpretable to managers and fine enough to preserve the eastern corridor, southern road system, Etosha Pan, and station geometry.
-All map plates in this section are anchored to the official Etosha basemap and then upgraded with GIS-style overlays, control grids, and analytical layers so that the figures remain cartographically grounded rather than purely schematic.
+All map plates in this section are anchored to the official Etosha basemap and upgraded with GIS overlays so that the diagnostic outputs stay visibly tied to real park geography.
 
-\subsubsection{Response Friction from the Mobility Layer}
-Let the patrol road system be a weighted graph \(\mathcal{G}_R=(V_R,E_R,w)\), where each edge \(e\in E_R\) carries travel-time weight \(w_e>0\), each ranger station belongs to the anchor set \(\mathcal{S}\subseteq V_R\), and each management zone \(i\) is attached to an access node \(v(i)\in V_R\). The graph-theoretic response metric is the multi-source shortest-path distance
+\subsection{Ingress Prior}
+The first question is not which cell is valuable, but where pressure is most likely to enter. Let \(\mathcal{E}\) denote the candidate ingress set. For entry node \(e\in\mathcal{E}\), define a prior weight
 \begin{equation}
-d_i=\min_{s\in\mathcal{S}}\operatorname{dist}_{\mathcal{G}_R}(s,v(i)).
-\label{eq:shortest}
+\pi_e=
+\frac{\exp(\theta_1 g_e+\theta_2 \ell_e-\theta_3 p_e)}
+{\sum_{k\in\mathcal{E}}\exp(\theta_1 g_k+\theta_2 \ell_k-\theta_3 p_k)},
+\label{eq:prior}
 \end{equation}
-Response difficulty is then the normalized station-set eccentricity of zone \(i\):
+where \(g_e\) measures access convenience, \(\ell_e\) measures downstream biological draw, and \(p_e\) measures recent defensive pressure near the entry corridor. Equation~\eqref{eq:prior} attaches uncertainty to entry structure first and lets the network propagate that pressure inland.
+
+\subsection{Transport Criticality}
+Let \(Q\) be the transient transition matrix on the non-sink portion of \(\mathcal{G}_T\). The fundamental matrix
+\[
+N=(I-Q)^{-1}
+\]
+gives the expected number of visits to each transient node before absorption at a habitat sink. We define the transport criticality of cell \(i\) by
 \begin{equation}
-D_i = \frac{d_i-\min_k d_k}{\max_k d_k-\min_k d_k+\varepsilon}.
+C_i = \frac{\sum_{e\in\mathcal{E}} \pi_e N_{ei}-\min_k \sum_{e\in\mathcal{E}} \pi_e N_{ek}}
+{\max_k \sum_{e\in\mathcal{E}} \pi_e N_{ek}-\min_k \sum_{e\in\mathcal{E}} \pi_e N_{ek}+\varepsilon}.
+\label{eq:criticality}
+\end{equation}
+Cells with high \(C_i\) are not necessarily those with the highest wildlife value. They are the cells through which an outsized share of weighted threat flow is expected to pass before it can be neutralized.
+
+\subsection{Service Slack}
+Response quality is measured here as slack relative to a service commitment rather than as raw travel time alone. Let \(v(i)\in V_R\) be the access node for management cell \(i\), and let \(\mathcal{S}\) be the station set. The shortest-path distance is
+\[
+d_i=\min_{s\in\mathcal{S}} \operatorname{dist}_{\mathcal{G}_R}(s,v(i)).
+\]
+If the dispatch-delay term is approximated by a normal perturbation with mean \(\mu_\delta\) and standard deviation \(\sigma_\delta\), then the probability that service arrives before the commitment threshold \(\tau^\star\) is
+\begin{equation}
+S_i = \Phi\!\left(\frac{\tau^\star-d_i-\mu_\delta}{\sigma_\delta}\right),
 \label{eq:response}
 \end{equation}
-Equations~\eqref{eq:shortest}--\eqref{eq:response} convert geography into controllability. A remote but biologically important zone becomes operationally fragile if the park cannot answer an incident there quickly. Computationally, the whole response surface is obtained by one multi-source Dijkstra pass from the station set rather than by solving 64 separate routing problems, so the GIS layer and the optimization layer remain tightly coupled.
+where \(\Phi(\cdot)\) is the standard normal distribution function. High \(S_i\) means a zone still has operational slack; low \(S_i\) means the zone is structurally late even before randomness is added.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{fig02_etosha_grid.png}
-  \caption{Etosha digital twin built on the official park map as a basemap, with GIS-style management cells, command anchors, and corridor-aware spatial structure overlaid for analysis.}
+  \caption{Etosha transport abstraction on the official basemap, showing management cells, station anchors, and the geographic skeleton used for ingress-to-habitat analysis.}
   \label{fig:grid}
 \end{figure}
 
-\subsubsection{Value, Exposure, and Composite Risk}
-We separate ecological consequence from operational exposure. The value score is
-\begin{align}
-B_i &= 0.45W_i + 0.35H_i + 0.20S_i,
-\end{align}
-while the threat-exposure score is
-\begin{align}
-T_i &= 0.40A_i + 0.30D_i + 0.30P_i.
-\end{align}
-The composite priority score becomes
+\subsection{Biological Consequence}
+We measure wildlife consequence independently of network structure:
 \begin{equation}
-R_i = 0.55B_i + 0.45T_i.
+V_i = 0.45W_i + 0.35H_i + 0.20S_i^{(\mathrm{bio})},
+\label{eq:value}
+\end{equation}
+where \(W_i\) is wildlife density, \(H_i\) is water dependence, and \(S_i^{(\mathrm{bio})}\) is species sensitivity. This term answers a different question from transport criticality. It asks how expensive a loss would be if it reached cell \(i\), not how likely the path is to pass there.
+
+\subsection{Residual Defense Debt}
+The main diagnostic output is not a standard risk score but a residual defense debt:
+\begin{equation}
+\Gamma_i = V_i\Bigl(0.50C_i + 0.30A_i + 0.20(1-S_i)\Bigr).
 \label{eq:risk}
 \end{equation}
+\(\Gamma_i\) becomes large when a cell is biologically consequential, strategically central to loss flow, easy to reach from ingress structure, and operationally short on service slack. This is the quantity the controller will later try to suppress.
 
-The weighting intentionally gives a slight edge to ecological value because this is a conservation controller, not a pure crime-suppression model. A zone is prioritized because losing it matters ecologically, not merely because it is easy to exploit.
+\subsection{Etosha Diagnosis Under the New Framework}
+The resulting picture is materially different from a simple corridor heatmap. The east and south still matter, but not because every cell in those regions is equally dangerous. What matters is a smaller hinge system: a set of eastern ingress-facing cells, a southern relay strip, and several waterhole-linked sink connectors. These are the cells where loss flow can still remain both biologically expensive and operationally under-served.
 
-\subsubsection{Latent Intrusion Prior}
-Accessibility does not create risk independently in each cell. Pressure diffuses along adjacent cells and road-linked corridors, so the prior must live on a graph rather than on 64 isolated logits. We therefore define a zone graph \(\mathcal{G}_C=(V_C,E_C,W)\), where \(W_{ij}>0\) if zones \(i\) and \(j\) share a boundary or are connected by a major road. Let
-\[
-L=\operatorname{diag}(W\mathbf{1})-W
-\]
-be the graph Laplacian. The undiffused attractiveness logit is
-\begin{equation}
-u_i=\theta_0+\theta_1 A_i+\theta_2 B_i-\theta_3 C_i,
-\label{eq:baseprior}
-\end{equation}
-where \(C_i\) is recent protection pressure.
-
-The smoothed log-odds field \(\Omega\in\mathbb{R}^{64}\) is obtained from the graph-regularized problem
-\begin{equation}
-\Omega=\arg\min_{x\in\mathbb{R}^{64}}
-\left\{
-\frac{1}{2}\lVert x-u\rVert_2^2+\frac{\lambda_L}{2}x^\top Lx
-\right\},
-\label{eq:prioropt}
-\end{equation}
-whose first-order condition is
-\begin{equation}
-(I+\lambda_L L)\Omega=u,
-\qquad
-P_i=\frac{1}{1+\exp(-\Omega_i)}.
-\label{eq:prior}
-\end{equation}
-Equivalently, each zone satisfies
-\begin{equation}
-\Omega_i=\theta_0+\theta_1 A_i+\theta_2 B_i-\theta_3 C_i-\lambda_L(L\Omega)_i.
-\label{eq:logodds}
-\end{equation}
-Equation~\eqref{eq:logodds} is the graph-theoretic closure of the prior. Access and biological reward increase local pressure, sustained patrol effort suppresses it, and the Laplacian term propagates pressure through the corridor structure instead of treating neighboring cells as behaviorally unrelated.
-
-\subsubsection{Etosha Priority Diagnosis}
-The highest-risk quartile forms a corridor rather than a random scatter. The east and south dominate because three forces align there: wildlife concentration near water, relatively easy access, and slower response from key stations. The western interior is less exposed because access is harder and wildlife concentration is more diffuse. The Pan remains ecologically prominent but is less attractive for covert extraction because it is open and operationally conspicuous.
-
-This diagnosis is the first major system output. It tells managers that Etosha should be run as a corridor-defense problem with supporting flank coverage, not as an equal-area patrol problem.
+The practical implication is sharp. Etosha should not be defended by uniform corridor saturation. It should be defended by breaking the continuity of that hinge system.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{fig03_risk_heatmap.png}
-  \caption{Priority field for Etosha over the official basemap, showing a corridor-shaped hotspot structure rather than uniform park-wide risk.}
+  \caption{Residual defense-debt field on the official basemap, emphasizing hinge zones and transport bottlenecks rather than broad undifferentiated hotspots.}
   \label{fig:riskmap}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{fig04_risk_decomposition.png}
-  \caption{GIS-style decomposition of the priority field into ecological consequence, operational exposure, and response friction on a real Etosha map base.}
+  \caption{Decomposition of Etosha's loss-flow debt into biological consequence, transport criticality, ingress accessibility, and service slack.}
   \label{fig:riskdecomp}
 \end{figure}
 \FloatBarrier

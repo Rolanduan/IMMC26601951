@@ -1,242 +1,176 @@
 \appendix
-\section{Baseline Operating Parameters}
-\begin{longtable}{p{0.24\linewidth}p{0.18\linewidth}p{0.48\linewidth}}
+\section{Baseline Parameters for the Re-Derived Model}
+\begin{longtable}{p{0.26\linewidth}p{0.18\linewidth}p{0.46\linewidth}}
 \toprule
 Item & Baseline value & Interpretation \\
 \midrule
-Grid size & \(8\times 8\) zones & Management resolution for strategic park control \\
+Grid size & \(8\times 8\) zones & Strategic management resolution \\
 Planning horizon & 30 days & One dry-season operating month \\
-Monte Carlo runs & 1000 & Stress-test replication count \\
-Field rangers & 34 & Equivalent to 17 two-person patrol teams \\
-Fixed devices & 12 & Cameras, acoustic nodes, or fixed watch assets \\
-Drone sorties per day & 4 & Flexible aerial support reassigned by sector \\
-Base detection rates & 0.22 / 0.38 / 0.44 & Patrol / fixed-device / UAV single-asset rates \\
-Critical response time \(\tau^\star\) & 4.5 hours & Delay beyond which interception drops sharply \\
-Graph-diffusion weight \(\lambda_L\) & 0.35 & Strength of corridor-wise pressure smoothing in the prior \\
+Field rangers & 34 & Equivalent to 17 two-person teams \\
+Fixed sentinels & 12 & Cameras, acoustic nodes, or other persistent watch assets \\
+Daily UAV windows & 4 & Mobile reserve capacity for surge sectors \\
+Response commitment \(\tau^\star\) & 4.5 hours & Threshold for acceptable field service \\
+Ingress prior scale & normalized softmax & Relative weighting over candidate entry corridors \\
+Delay-exceedance tolerance \(\epsilon_s\) & \(0.25\) & Station-level service target in the queueing layer \\
 \bottomrule
 \end{longtable}
 
-\section{Graph-Theoretic Derivations}
-This appendix collects the technical derivations that support the main text. The purpose is to make the manuscript mathematically closed without overloading the operational narrative of the main body.
+\section{Technical Derivations}
+This appendix collects the mathematical pieces behind the re-derived framework so that the manuscript stays readable while the derivations remain explicit.
 
-\subsection{Shortest-Path Reduction of the Response Surface}
-Let \(\mathcal{G}_R=(V_R,E_R,w)\) be the weighted road graph, with positive edge weights \(w_e>0\), station set \(\mathcal{S}\subseteq V_R\), and zone-access map \(i\mapsto v(i)\in V_R\). The shortest-path response metric in Equation~\eqref{eq:shortest} is
-\[
-d_i=\min_{s\in\mathcal{S}}\operatorname{dist}_{\mathcal{G}_R}(s,v(i)).
-\]
-Because all edge weights are nonnegative, a single multi-source Dijkstra pass initialized with the full station set \(\mathcal{S}\) returns the exact vector \(d=(d_1,\dots,d_{64})\). Thus the response surface in Equation~\eqref{eq:response} is not a heuristic accessibility score; it is the exact station-set eccentricity of the zone system under the park road geometry.
-
-\subsection{Existence and Uniqueness of the Graph-Diffused Prior}
+\subsection{Existence of the Transport Fundamental Matrix}
 \begin{proposition}
-\label{prop:priorunique}
-The optimization problem in Equation~\eqref{eq:prioropt},
+\label{prop:fundamental}
+If the transient transition matrix \(Q\) on the non-sink portion of the transport graph has spectral radius \(\rho(Q)<1\), then the fundamental matrix
 \[
-\min_{x\in\mathbb{R}^{64}}
-\left\{
-\frac{1}{2}\lVert x-u\rVert_2^2+\frac{\lambda_L}{2}x^\top Lx
-\right\},
+N=(I-Q)^{-1}
 \]
-has a unique minimizer \(\Omega\), and that minimizer satisfies \((I+\lambda_L L)\Omega=u\).
+exists and equals \(\sum_{k=0}^{\infty}Q^k\).
 \end{proposition}
 \begin{proof}
-The graph Laplacian \(L\) is symmetric positive semidefinite, so for any \(x\),
+The Neumann series for a square matrix converges when \(\rho(Q)<1\). Therefore
 \[
-x^\top(I+\lambda_L L)x=\lVert x\rVert_2^2+\lambda_L x^\top Lx \ge \lVert x\rVert_2^2>0
+\sum_{k=0}^{\infty}Q^k
 \]
-whenever \(x\neq 0\). Hence \(I+\lambda_L L\) is symmetric positive definite. The objective is therefore strictly convex, so it has a unique minimizer.
-
-Taking the gradient with respect to \(x\) gives
+converges and satisfies
 \[
-\nabla\!\left(\frac{1}{2}\lVert x-u\rVert_2^2+\frac{\lambda_L}{2}x^\top Lx\right)
-=(x-u)+\lambda_L Lx.
+(I-Q)\sum_{k=0}^{\infty}Q^k = I.
 \]
-Setting the gradient to zero at the minimizer yields
-\[
-(I+\lambda_L L)\Omega=u.
-\]
-Strict convexity makes this stationary point the unique global minimizer.
+Hence \((I-Q)\) is invertible and its inverse is exactly the convergent series, proving the result.
 \end{proof}
 
-The management interpretation follows directly. The identity term anchors the solution to the local attractiveness score \(u_i\), while the Laplacian term penalizes sharp jumps between adjacent or road-linked cells. Large \(\lambda_L\) produces corridor-smooth risk; \(\lambda_L=0\) recovers the uncoupled logistic prior.
+Proposition~\ref{prop:fundamental} justifies the transport-criticality score in Equation~\eqref{eq:criticality}. The matrix \(N\) measures expected pre-absorption visits and therefore acts as a principled hinge detector rather than as an ad hoc centrality score.
 
-\subsection{Dominance-Safe Route Pruning}
+\subsection{Why the Minimax Stage Controls the Worst Hinge}
 \begin{proposition}
-\label{prop:dominance}
-Suppose two patrol columns \(r\) and \(r'\) are anchored at the same station, satisfy \(h_r\le h_{r'}\), and obey \(a_{ir}\ge a_{ir'}\) for every zone \(i\). Then there exists an optimal master-problem solution with \(x_{r'}=0\).
+\label{prop:minimax}
+Let \(\theta^\star\) be the optimum of Stage I under Equation~\eqref{eq:obj_stage1} and constraints \eqref{eq:hingecap}. Then every feasible Stage-II solution that preserves \(u_i\le\theta^\star\) for all \(i\in\mathcal{H}\) weakly controls the worst hinge no worse than the best Stage-I design.
 \end{proposition}
 \begin{proof}
-Take any feasible solution \((x,y,z)\) with \(x_{r'}>0\). Construct a new solution by replacing every activation of \(r'\) with route \(r\):
+By construction, Stage I solves
 \[
-\tilde{x}_{r}=x_r+x_{r'}, \qquad \tilde{x}_{r'}=0,\qquad \tilde{x}_k=x_k \text{ for } k\notin\{r,r'\}.
+\min \theta \quad \text{s.t.}\quad u_i\le \theta\ \forall i\in\mathcal{H},
 \]
-Because \(r\) and \(r'\) originate from the same station, the station-capacity constraint remains feasible. Since \(h_r\le h_{r'}\), total patrol hours do not increase, so the ranger-hour constraint also remains feasible. Coverage does not decrease because \(a_{ir}\ge a_{ir'}\) for every zone, implying
-\[
-\sum_{k} a_{ik}\tilde{x}_k \ge \sum_{k} a_{ik}x_k,\qquad \forall i.
-\]
-Therefore hotspot-floor and utility-cap constraints remain feasible or improve. The objective cannot decrease because route burden weakly falls while protection utility weakly rises. Hence any optimal solution can be transformed into another optimal solution with \(x_{r'}=0\).
+over the full feasible region. Therefore no feasible solution can produce a hinge residual bound strictly smaller than \(\theta^\star\). Stage II is solved over the restricted feasible region that additionally enforces \(u_i\le\theta^\star\) for every hinge cell. Every Stage-II solution thus inherits the best achievable upper bound on worst-hinge exposure.
 \end{proof}
 
-Proposition~\ref{prop:dominance} justifies the route-library pruning rule used by the controller in Table~\ref{alg:planner}: dominated columns can be deleted before the MILP is solved, which improves tractability without changing the optimal value.
+This proposition is the formal reason the controller differs from a one-stage weighted sum. The model explicitly refuses to buy a better average by sacrificing one decisive hinge.
 
-\subsection{Marginal-Balancing Derivation}
-The intuition behind Equation~\eqref{eq:balancing} can be made explicit by relaxing the patrol, device, and UAV decisions into one continuous intensity variable \(\eta_i\ge 0\) and one total effort budget \(\sum_i \eta_i\le \bar{E}\):
-\[
-\max_{\eta_i\ge 0}\;\sum_{i=1}^{64}R_i\left(1-e^{-\eta_i}\right)
-\quad
-\text{s.t.}\quad
-\sum_{i=1}^{64}\eta_i\le \bar{E}.
-\]
-The Lagrangian is
-\[
-\mathcal{L}(\eta,\nu,\gamma)=
-\sum_i R_i(1-e^{-\eta_i})-\nu\left(\sum_i\eta_i-\bar{E}\right)+\sum_i \gamma_i\eta_i.
-\]
-For any active zone \(i\) with \(\eta_i>0\), the complementary-slackness term vanishes, and the first-order condition becomes
-\[
-R_i e^{-\eta_i}=\nu.
-\]
-Thus all active zones equalize the same weighted marginal benefit \(\nu\). For two active cells \(i\) and \(k\),
-\[
-R_i e^{-\eta_i}=R_k e^{-\eta_k},
-\]
-which is exactly Equation~\eqref{eq:balancing}. The corridor concentration in the numerical solution is therefore not incidental; it is the expected consequence of a concave service-gain function under scarcity.
-
-\subsection{Expected Protection Index via Poisson Thinning}
+\subsection{Monotonicity of the Queueing Staffing Rule}
 \begin{proposition}
-\label{prop:thinning}
-If events in zone \(i\) on day \(t\) satisfy \(N_i^t\sim\mathrm{Poisson}(\lambda_i^t)\) and each event is independently neutralized with probability \(u_i^t\), then the realized loss count \(L_i^t\) is Poisson with mean \(\lambda_i^t(1-u_i^t)\).
+\label{prop:queue}
+For fixed arrival rate \(\lambda_s\), service rate \(\mu_s\), and commitment threshold \(\tau^\star\), the delay-exceedance probability in Equation~\eqref{eq:intercept} is nonincreasing in the number of teams \(c_s\) whenever \(\rho_s<1\).
 \end{proposition}
 \begin{proof}
-Conditioned on \(N_i^t=n\), the loss count is binomial:
-\[
-L_i^t\mid N_i^t=n \sim \mathrm{Binomial}(n,1-u_i^t).
-\]
-By the Poisson-thinning theorem, marginalizing over \(N_i^t\sim\mathrm{Poisson}(\lambda_i^t)\) yields
-\[
-L_i^t \sim \mathrm{Poisson}\!\bigl(\lambda_i^t(1-u_i^t)\bigr).
-\]
-Hence
-\[
-\mathbb{E}[L_i^t]=\lambda_i^t(1-u_i^t).
-\]
+Increasing \(c_s\) reduces traffic intensity \(\rho_s=\lambda_s/(c_s\mu_s)\), which weakly reduces the Erlang-C waiting term \(P_{\mathrm{wait},s}\). It also weakly increases the decay parameter \(c_s\mu_s-\lambda_s\) in the exponential tail term of Equation~\eqref{eq:intercept}. Both effects move in the same direction, so the resulting delay-exceedance probability cannot increase.
 \end{proof}
 
-Substituting this expression into Equation~\eqref{eq:pi} gives the ratio-of-expectations approximation in Equation~\eqref{eq:piexp}. The approximation is accurate when the denominator \(\sum_{t,i}R_iN_i^t\) is concentrated, which is the case in the replicated dry-season stress tests because the horizon aggregates many weighted arrivals.
+Proposition~\ref{prop:queue} justifies the staffing floor in Equation~\eqref{eq:rangermin}: the smallest \(c_s\) satisfying the service target is well defined and economically meaningful.
 
-\section{Algorithmic Pseudocode}
-The main text states the operating logic. This appendix records the actual algorithmic workflow used to make that logic executable.
+\section{Algorithmic Workflow}
+The following four procedures summarize the paper's end-to-end logic in executable form.
 
 \begin{table}[H]
 \centering
-\caption{Algorithm B1: Graph-aware GIS preprocessing and risk initialization.}
-\label{alg:app_gis}
+\caption{Algorithm A1: Build the threat-transport graph.}
+\label{alg:app_transport}
 \begin{tabular}{p{0.95\linewidth}}
 \toprule
-\textbf{Input:} raster layers \((W,S,H,A)\), station set \(\mathcal{S}\), road graph \(\mathcal{G}_R\), zone graph \(\mathcal{G}_C\), patrol-pressure vector \(C\). \\
-\textbf{Output:} zone features \((B,D,P,R)\) and shortest-path profile \(d\). \\
+\textbf{Input:} official basemap, road graph, station locations, wildlife layers, water dependence, candidate ingress set. \\
+\textbf{Output:} ingress prior \(\pi_e\), transport criticality \(C_i\), service slack \(S_i\), residual debt \(\Gamma_i\). \\
 \midrule
-1. Aggregate raster layers to the \(8\times 8\) management grid by zonal means. \\
-2. Attach each management cell to its nearest road-access node \(v(i)\). \\
-3. Run one multi-source shortest-path solve on \(\mathcal{G}_R\) with all stations in \(\mathcal{S}\) as sources. \\
-4. Record \(d_i=\min_{s\in\mathcal{S}}\mathrm{dist}_{\mathcal{G}_R}(s,v(i))\) and normalize to obtain \(D_i\). \\
-5. Compute ecological value \(B_i=0.45W_i+0.35H_i+0.20S_i\). \\
-6. Form the base logit \(u_i=\theta_0+\theta_1A_i+\theta_2B_i-\theta_3C_i\). \\
-7. Build the Laplacian \(L\) of the zone graph \(\mathcal{G}_C\) and solve \((I+\lambda_L L)\Omega=u\). \\
-8. Convert \(\Omega_i\) to \(P_i=\sigma(\Omega_i)\), assemble \(T_i\), and return \(R_i=0.55B_i+0.45T_i\). \\
+1. Aggregate ecological rasters to the management grid and compute biological consequence \(V_i\). \\
+2. Build the ingress set \(\mathcal{E}\) and evaluate ingress features \((g_e,\ell_e,p_e)\). \\
+3. Compute the entry distribution \(\pi_e\) from Equation~\eqref{eq:prior}. \\
+4. Construct the transient transition matrix \(Q\) on the transport graph and solve for \(N=(I-Q)^{-1}\). \\
+5. Compute transport criticality \(C_i\) from Equation~\eqref{eq:criticality}. \\
+6. Solve shortest paths from all stations and convert them to service slack \(S_i\) through Equation~\eqref{eq:response}. \\
+7. Assemble the residual debt field \(\Gamma_i\) under Equation~\eqref{eq:risk}. \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 \begin{table}[H]
 \centering
-\caption{Algorithm B2: Patrol-column generation and pruning.}
-\label{alg:app_routes}
+\caption{Algorithm A2: Generate barrier templates and solve the lexicographic controller.}
+\label{alg:app_barrier}
 \begin{tabular}{p{0.95\linewidth}}
 \toprule
-\textbf{Input:} road graph \(\mathcal{G}_R\), station set \(\mathcal{S}\), priority field \(R_i\), route time limit \(h_{\max}\). \\
-\textbf{Output:} feasible patrol library \(\mathcal{R}\), coverage matrix \(a_{ir}\), route durations \(h_r\). \\
+\textbf{Input:} residual debt field \(\Gamma_i\), hinge set \(\mathcal{H}\), road graph \(\mathcal{G}_R\), capacities \((H_R,M,U)\). \\
+\textbf{Output:} patrol templates \(x_r\), sentinel placements \(y_i\), UAV reserve windows \(z_j\). \\
 \midrule
-1. For each station \(s\in\mathcal{S}\), rank candidate waypoint zones by current priority \(R_i\). \\
-2. Generate \(K\)-shortest outbound paths from \(s\) to the top-ranked waypoint set. \\
-3. Close each outbound path into a tour by pairing it with the best feasible return path. \\
-4. Convert each tour into edge-use variables \(\xi_e^{(r)}\), coverage indicators \(c_i^{(r)}\), and route time \(h_r\). \\
-5. Drop any tour with \(h_r>h_{\max}\) or disconnected coverage. \\
-6. Remove dominated routes using the criterion in Proposition~\ref{prop:dominance}. \\
-7. Enforce overlap control by deleting routes that violate \(\operatorname{ov}(r,r')\le \rho_{\max}\) when a lower-cost alternative exists. \\
-8. Export the remaining columns as \(\mathcal{R}\), \(a_{ir}\), station labels, and route-hour coefficients for the master MILP. \\
+1. Build feasible gateway--hinge--return patrol templates subject to \(h_r\le h_{\max}\). \\
+2. Compute the defensive dose \(\eta_i\) and residual debt variables \(u_i\). \\
+3. Solve Stage I to find the smallest hinge ceiling \(\theta^\star\). \\
+4. Solve Stage II to minimize total residual debt under the fixed ceiling \(u_i\le\theta^\star\). \\
+5. Export the barrier package and sector-level residual burden for service sizing. \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 \begin{table}[H]
 \centering
-\caption{Algorithm B3: Rolling-horizon controller and dispatch schedule.}
-\label{alg:app_controller}
+\caption{Algorithm A3: Size staffing by queueing reliability.}
+\label{alg:app_queue}
 \begin{tabular}{p{0.95\linewidth}}
 \toprule
-\textbf{Input:} current risk field \(R_i^t\), patrol library \(\mathcal{R}\), capacities \((H_R,M,U)\), station caps \(\kappa_s\), current pressure state \(C^t\). \\
-\textbf{Output:} patrol activations \(x_r^t\), fixed-device allocations \(y_i^t\), UAV assignments \(z_j^t\), dispatch calendar. \\
+\textbf{Input:} barrier package, detection rates, station catchments, service-rate estimates \(\mu_s\), response target \(\tau^\star\). \\
+\textbf{Output:} station team counts \(c_s\), delay-exceedance profile, ranger floor \(n_{\min}\). \\
 \midrule
-1. Solve the master MILP over \(x,y,z,e\) with objective \eqref{eq:obj} and constraints \eqref{eq:rangerhours}--\eqref{eq:hotspots}. \\
-2. Build a time-expanded graph \(\mathcal{G}_T\) for the next operating day or week. \\
-3. Reserve first-wave slots for hotspot-assurance routes that protect the top-risk quartile. \\
-4. For every remaining feasible route-time pair \((r,\tau)\), compute reduced cost \(\Delta_{r,\tau}^t\) from Equation~\eqref{eq:dispatchscore}. \\
-5. Greedily activate the highest positive reduced-cost route-time pairs while respecting station-time and crew-hour feasibility. \\
-6. Assign UAV windows to sectors with the largest residual uncertainty or the largest residual term \(R_i(1-q_i^t)\). \\
-7. Publish the dispatch calendar, execute the plan, and record realized coverage \(F_i^t\). \\
-8. Pass realized coverage to the simulation and prior-update layer. \\
+1. Compute cell-level detection \(q_i\) from Equation~\eqref{eq:detect}. \\
+2. Aggregate residual arrival intensity \(\lambda_s\) for each station using Equation~\eqref{eq:arrival}. \\
+3. For each station, evaluate the Erlang-C delay exceedance under Equation~\eqref{eq:intercept}. \\
+4. Increase \(c_s\) until \(\Pr(T_s>\tau^\star)\le \epsilon_s\). \\
+5. Sum station team requirements to obtain \(n_{\min}=2\sum_s c_s\). \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 \begin{table}[H]
 \centering
-\caption{Algorithm B4: Closed-loop stochastic stress test.}
-\label{alg:app_sim}
+\caption{Algorithm A4: Replan with a mobile reserve.}
+\label{alg:app_reserve}
 \begin{tabular}{p{0.95\linewidth}}
 \toprule
-\textbf{Input:} risk field \(R_i\), current pressure \(C^t\), asset plan \((x^t,y^t,z^t)\), simulation parameters \((\lambda_0,\tau^\star,\kappa)\). \\
-\textbf{Output:} replicated \(\PI\) distribution, mean detection, mean response time, updated prior state. \\
+\textbf{Input:} current station loads \(\lambda_s\), team counts \(c_s\), UAV windows, observed signals. \\
+\textbf{Output:} next-cycle reserve assignment and updated ingress weights. \\
 \midrule
-1. Initialize replicated occupancy or arrival multipliers for the planning horizon. \\
-2. For each day \(t\), generate weighted event counts \(N_i^t\sim\mathrm{Poisson}(\lambda_0R_i\Psi_t)\). \\
-3. Convert the active patrol, device, and UAV set into detection probability \(q_i^t\). \\
-4. Construct response times \(\tau_i^t=d_i+\delta_t+\xi_i^t\) and interception probabilities \(g_i^t\). \\
-5. Sample realized losses using the neutralization probability \(u_i^t=q_i^tg_i^t\). \\
-6. Update patrol pressure by \(C_i^{t+1}=(1-\omega)C_i^t+\omega F_i^t/\max_kF_k^t\). \\
-7. Solve \((I+\lambda_L L)\Omega^{t+1}=\theta_0\mathbf{1}+\theta_1A+\theta_2B-\theta_3C^{t+1}\) and set \(P_i^{t+1}=\sigma(\Omega_i^{t+1})\). \\
-8. Recompute \(\PI\), aggregate replication summaries, and trigger re-optimization if the command threshold is violated. \\
+1. Recompute station delay exceedance probabilities. \\
+2. Evaluate the marginal reserve benefit \(\Delta_s\) from Equation~\eqref{eq:dispatchscore}. \\
+3. Assign reserve support to the station or sector with the largest weighted benefit \(\lambda_s\Delta_s\). \\
+4. Update ingress weights \(\pi_e\) if observed signals show persistent rerouting or new pressure. \\
+5. Rebuild the barrier package if the hinge set changes materially. \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\section{Managerial Reading of the Operating System}
-\textbf{Digital twin}: identifies where the park is valuable, exposed, and hard to defend.\\
-\textbf{Priority engine}: converts those layers into a risk-ranked service map using shortest paths and corridor diffusion.\\
-\textbf{Controller}: decides how patrol tours, fixed devices, and UAVs should be assigned under staffing and station constraints.\\
-\textbf{Stress test}: checks whether that decision package survives noise, delay, and uncertainty, then updates the next risk field.\\
+\section{Managerial Reading}
+\textbf{Transport graph}: where expensive loss can enter and travel.\\
+\textbf{Hinge diagnosis}: which few cells matter more than the rest.\\
+\textbf{Barrier design}: how patrol templates, sentinels, and UAV reserve suppress the worst residual debt first.\\
+\textbf{Queueing layer}: how many teams are required to honor the response commitment.\\
 
-Together, these modules create a closed-loop protected-area operating system whose ecological priorities and operational constraints are written in one graph-aware decision language.
+Together, these modules describe Etosha not as a map to be painted, but as a network to be interrupted.
 
 \section{Repository Implementation Map}
-This appendix identifies the repository files that implement the core analytic layers. The code remains external so that the manuscript stays portable and compiles on standard LaTeX installations.
+This appendix identifies the repository files that currently act as computational surrogates for the analytic layers of the paper. The manuscript is more general than the code, but the file structure remains useful for reproducibility.
 
 \begin{longtable}{p{0.30\linewidth}p{0.60\linewidth}}
 \toprule
-File & Purpose \\
+File & Current role in the repository \\
 \midrule
-\texttt{code/model0\_gis\_pipeline.py} & GIS preprocessing, multi-source shortest-path response modeling, and digital-twin feature construction from map and station geometry. \\
-\texttt{code/model1\_spatial\_risk.py} & Priority engine for ecological value, threat exposure, and graph-diffused latent-pressure inference. \\
-\texttt{code/model2\_allocation\_milp.py} & Route-column master MILP for patrol loops, fixed devices, and UAV sorties. \\
-\texttt{code/model3\_dynamic\_simulation.py} & Closed-loop stress test for arrivals, detection, response, interception, and \(\PI\), interpreted as a reduced-form graph process. \\
-\texttt{generate\_professional\_figures.js} & Figure-generation script for the GIS basemap plates, controller dashboards, and algorithm architecture figures used in the paper. \\
+\texttt{code/model0\_gis\_pipeline.py} & GIS preprocessing and shortest-path feature extraction from basemap, grid, and station geometry. \\
+\texttt{code/model1\_spatial\_risk.py} & Prototype zone-scoring engine that can serve as a surrogate for the transport-diagnostic layer. \\
+\texttt{code/model2\_allocation\_milp.py} & Prototype optimization layer for multi-asset allocation, interpretable here as a surrogate for barrier design. \\
+\texttt{code/model3\_dynamic\_simulation.py} & Prototype validation layer for event and response dynamics, usable as a backtest around the queueing design. \\
+\texttt{generate\_professional\_figures.js} & Figure-generation script for GIS basemaps, architecture plates, dashboards, and scenario graphics. \\
 \bottomrule
 \end{longtable}
 
 \section*{AI Use Report}
 \addcontentsline{toc}{section}{AI Use Report}
-This project uses AI as a drafting and coding copilot, not as an autonomous scientific authority. AI assistance was used to accelerate manuscript structuring, symbolic formatting, figure scripting, and language revision. All equations, assumptions, parameter interpretations, and management conclusions were then reviewed for consistency against the repository code and the intended operating logic of the paper.
+This project uses AI as a drafting and coding copilot, not as an autonomous scientific authority. AI assistance was used to accelerate manuscript structuring, symbolic formatting, figure scripting, and language revision. All equations, assumptions, parameter interpretations, and management conclusions were then reviewed for internal consistency against the intended operating logic of the paper.
 
-The practical benefit of AI in this workflow is speed across multiple modalities: text, code, figures, and manuscript structure can be iterated together. The main risk is false coherence, where a draft can sound technically complete without being internally consistent. For that reason, we applied explicit safeguards: dimensional sanity checks, consistency checks between text and code, feasibility checks on operating constraints, and result-to-claim checks on staffing and performance statements.
+The benefit of AI in this workflow is speed across text, code, and figure iteration. The main risk is synthetic coherence without technical closure. For that reason, we used explicit safeguards: consistency checks across model layers, staffing-feasibility checks, equation-to-claim checks, and repeated review of whether the proposed control logic actually matches the park-management interpretation.
 
 Responsibility for the final scientific content remains with the authors.

@@ -1,197 +1,132 @@
-\section{Operational Control and Resource Allocation}
-\subsection{Decision Layers}
-Once the priority field is known, the next question is not simply how much effort to spend, but how to structure that effort. We distinguish three control layers:
+\section{Lexicographic Barrier Design}
+\subsection{Decision Roles}
+Once residual defense debt \(\Gamma_i\) is known, the managerial question becomes: which assets should physically interrupt or compensate for that debt? We distinguish three roles:
 \begin{itemize}
-  \item \textbf{anchoring}: repeatable patrol loops that guarantee physical presence in decisive cells;
-  \item \textbf{persistence}: fixed devices that maintain continuous watch in stable hotspots;
-  \item \textbf{adaptation}: drone sorties that absorb uncertainty and provide surge observation.
+  \item \textbf{patrol templates}: repeatable gateway--hinge--return circuits that create physical interception opportunities;
+  \item \textbf{sentinel devices}: persistent watch assets placed on high-consequence hinge cells;
+  \item \textbf{mobile reserve}: UAV windows held for uncertainty absorption and surge response.
 \end{itemize}
-Those three layers become the decision variables of the controller:
+The associated decision variables are
 \begin{itemize}
-  \item \(x_r \in \mathbb{Z}_{+}\): number of times patrol loop \(r\) is activated;
-  \item \(y_i \in \{0,1,2\}\): number of fixed devices assigned to zone \(i\);
-  \item \(z_j \in \mathbb{Z}_{+}\): drone sorties assigned to aerial sector \(j\).
+  \item \(x_r\in\mathbb{Z}_+\): activations of patrol template \(r\);
+  \item \(y_i\in\{0,1,2\}\): number of sentinel devices assigned to cell \(i\);
+  \item \(z_j\in\mathbb{Z}_+\): UAV reserve windows assigned to sector \(j\).
 \end{itemize}
 
-\subsection{Route Library and Patrol Geometry}
-\subsubsection{Feasible Loop Construction}
-Let \(\mathcal{G}_R=(V_R,E_R,w)\) again denote the weighted road graph. A patrol column \(r\) based at station \(s\in\mathcal{S}\) is encoded by edge-use variables \(\xi_e^{(r)}\in\{0,1\}\) and zone-coverage variables \(c_i^{(r)}\in\{0,1\}\). The route-generation subproblem is a resource-constrained prize-collecting tour:
-\begin{align}
-\max_{\xi^{(r)},c^{(r)}} \quad &
-\Pi_r=\sum_{i=1}^{64} R_i c_i^{(r)}-\mu\sum_{e\in E_R} w_e \xi_e^{(r)}
-\label{eq:routeobj}\\
-\text{s.t.}\quad
-& \sum_{e\in\delta^+(v)}\xi_e^{(r)}-\sum_{e\in\delta^-(v)}\xi_e^{(r)}=0,
-\quad \forall v\in V_R\setminus\{s\},
-\label{eq:routeflow}\\
-& \sum_{e\in\delta^+(s)}\xi_e^{(r)}=
-\sum_{e\in\delta^-(s)}\xi_e^{(r)}=1,
-\label{eq:routeanchor}\\
-& h_r=\sum_{e\in E_R} w_e \xi_e^{(r)}+t_{\text{stop}}\sum_{i=1}^{64} c_i^{(r)}\le h_{\max},
-\label{eq:route}\\
-& c_i^{(r)}\le \sum_{e\in\delta(i)}\xi_e^{(r)},\quad \forall i.
-\label{eq:routecover}
-\end{align}
-Here \(\delta^+(v)\) and \(\delta^-(v)\) denote the outgoing and incoming road edges of node \(v\), \(\delta(i)\) denotes the set of road edges that enter zone \(i\), and standard subtour-elimination constraints are omitted for brevity. Equation~\eqref{eq:routeobj} makes the route library a genuine graph-theoretic object: each column is the solution of a bounded tour problem, not an arbitrary loop sketched after the fact.
-
-The zone-coverage matrix is defined by
+\subsection{Template Library}
+Patrol templates are not arbitrary loops. Each template links a station to one or more hinge cells and returns within a feasible shift limit. Let \(a_{ir}=1\) if template \(r\) covers cell \(i\), and \(a_{ir}=0\) otherwise. The duration of template \(r\) is
 \begin{equation}
-a_{ir} =
-\begin{cases}
-1, & \text{if } c_i^{(r)}=1,\\
-0, & \text{otherwise}.
-\end{cases}
+h_r = \sum_{e\in E_R} w_e \xi_e^{(r)} + t_{\mathrm{dwell}} \le h_{\max},
+\label{eq:route}
 \end{equation}
-Patrol intensity in zone \(i\) is therefore
-\begin{equation}
-F_i = \sum_{r\in\mathcal{R}} a_{ir}x_r.
-\end{equation}
-
-\subsubsection{Enumeration and Pruning}
-Equations~\eqref{eq:routeobj}--\eqref{eq:routecover} are the route-level version of team orienteering. In implementation, the master MILP does not solve that subproblem from scratch on every branch-and-bound node. Instead, for each station we generate a finite set of high-quality columns from \(K\)-shortest-path seeds and retain only the non-dominated loops. Route \(r\) dominates route \(r'\) if \(h_r\le h_{r'}\) and \(a_{ir}\ge a_{ir'}\) for every zone \(i\), with strict improvement in at least one component.
-
-We additionally cap within-station overlap by
-\begin{equation}
-\operatorname{ov}(r,r')=
-\frac{\sum_{e\in E_R}\xi_e^{(r)}\xi_e^{(r')}}{\min\left\{\sum_{e\in E_R}\xi_e^{(r)},\sum_{e\in E_R}\xi_e^{(r')}\right\}}
-\le \rho_{\max},
-\label{eq:overlap}
-\end{equation}
-and prune the resulting library by:
-\begin{enumerate}
-  \item removing any route that violates the time bound \eqref{eq:route};
-  \item removing dominated routes whose coverage vector is inferior to a lower-cost alternative;
-  \item limiting excessive overlap among routes from the same station so that the library preserves tactical variety.
-\end{enumerate}
-This produces a controller-ready route set that behaves like an operational menu rather than an arbitrary mathematical index. The route-cover matrix used in the code is therefore a compact column-generation interface to the underlying path-flow graph model.
-
-\subsection{Protection Gain Model}
-The controller values assets for their contribution to service intensity. Let
+where \(\xi_e^{(r)}\) indicates whether road edge \(e\) is used and \(t_{\mathrm{dwell}}\) captures on-site watch, reporting, and search behavior. The quantity
 \[
-\eta_i=\alpha F_i+\beta y_i+\gamma\sum_j b_{ij}z_j
+F_i=\sum_{r\in\mathcal{R}} a_{ir}x_r
 \]
-denote total surveillance intensity in zone \(i\), where \(b_{ij}=1\) if drone sector \(j\) covers zone \(i\). Zone-level protection gain is modeled as
+is the patrol-template frequency experienced by cell \(i\).
+
+\subsection{Defense Dose}
+The protection dose applied to cell \(i\) is
 \begin{equation}
-E_i = 1-\exp\!\left(-\alpha F_i-\beta y_i-\gamma \sum_j b_{ij}z_j\right).
-\label{eq:gain}
+\eta_i=\alpha F_i+\beta y_i+\gamma \sum_j b_{ij}z_j,
+\label{eq:dose}
 \end{equation}
-This is a deliberately saturating response: the first patrol, first device, and first drone window matter much more than later increments.
-
-The gain model can be derived from an event-level view. If illegal arrivals in zone \(i\) are Poisson with mean \(\lambda_i\), then expected prevented weighted loss in one planning period is
+where \(b_{ij}=1\) if UAV sector \(j\) can reinforce cell \(i\). Instead of maximizing a weighted gain directly, we define the residual debt left after that dose by
 \begin{equation}
-\mathbb{E}[\Delta_i]=R_i\lambda_i\left(1-e^{-\eta_i}\right)\bar{g}_i,
-\label{eq:delta}
+u_i \ge \Gamma_i-\kappa_i\eta_i,\qquad u_i\ge 0,
+\label{eq:residual}
 \end{equation}
-where \(\bar{g}_i\) is expected interception success conditional on detection.
+with \(\kappa_i=\kappa_0+\kappa_1 C_i\) giving additional defensive leverage to actions applied on transport-critical cells.
 
-\begin{proposition}
-For fixed \(\bar{g}_i\), the protection-gain function \(E_i(\eta_i)=1-e^{-\eta_i}\) is increasing and strictly concave.
-\end{proposition}
-\begin{proof}
-\[
-\frac{\partial E_i}{\partial \eta_i}=e^{-\eta_i}>0,\qquad
-\frac{\partial^2 E_i}{\partial \eta_i^2}=-e^{-\eta_i}<0.
-\]
-The controller therefore prefers concentrated reinforcement in decisive cells but recognizes diminishing marginal returns.
-\end{proof}
-
-\subsection{MILP Approximation and Control Insight}
-Because the solver is mixed-integer linear, we use a capped linear surrogate:
-\[
-e_i = \min\{1,\alpha F_i+\beta y_i+\gamma\sum_j b_{ij}z_j\}.
-\]
-The implementation enforces
-\begin{align}
-e_i &\le \alpha F_i+\beta y_i+\gamma\sum_j b_{ij}z_j, \label{eq:lin1}\\
-e_i &\le 1. \label{eq:lin2}
-\end{align}
-which preserves monotonicity and tractability while remaining close to the original concave response.
-
-Ignoring integrality and hotspot floors, the continuous relaxation equalizes weighted marginal value across active zones:
+\subsection{Stage I: Cap the Worst Hinge}
+The first optimization stage is a minimax problem:
 \begin{equation}
-R_i e^{-\eta_i} \approx R_k e^{-\eta_k}.
-\label{eq:balancing}
+\min \theta
+\label{eq:obj_stage1}
 \end{equation}
-Equation~\eqref{eq:balancing} is the core allocation insight. Scarce resources are pulled toward cells with large \(R_i\) until their marginal value is driven down to the same level as other active cells. That is why the optimized strategy concentrates along the eastern--southern corridor instead of dispersing effort uniformly.
-
-\subsection{Controller Objective and Constraints}
-The patrol component is a path-flow master problem written in route columns. Each integer variable \(x_r\) is the multiplicity of one graph-feasible patrol tour, so connectivity and return-to-station feasibility are already enforced upstream by Equations~\eqref{eq:routeflow}--\eqref{eq:routecover}. The master problem only decides how often each feasible column should be activated alongside devices and UAVs.
-
-The optimization model maximizes weighted expected protection net of route burden:
+subject to
 \begin{equation}
-\max \; Z = \sum_{i=1}^{64} R_iE_i - \lambda \sum_{r\in\mathcal{R}} h_rx_r,
+u_i \le \theta,\qquad \forall i\in\mathcal{H},
+\label{eq:hingecap}
+\end{equation}
+where \(\mathcal{H}\) is the hinge-cell set. This stage prevents the controller from producing an attractive average while leaving one decisive cell catastrophically exposed.
+
+\subsection{Stage II: Clean Up Total Residual Debt}
+After the optimal hinge ceiling \(\theta^\star\) is found, the second stage minimizes the total residual burden:
+\begin{equation}
+\min \; Z=\sum_{i=1}^{64}\omega_i u_i + \lambda_h\sum_{r\in\mathcal{R}} h_r x_r + \lambda_u\sum_j z_j,
 \label{eq:obj}
 \end{equation}
-with \(E_i\) replaced by the linearized surrogate \(e_i\) in implementation.
+subject to the same feasibility rules and the additional condition \(u_i\le\theta^\star\) for hinge cells. The weights \(\omega_i\) slightly upweight hinge and near-sink cells so that clean-up effort is still pulled toward the most expensive residual pathways.
 
-The controller is subject to five feasibility rules:
+\subsection{Feasibility Rules}
+The design is constrained by manpower, inventory, and station load:
 \begin{align}
 \sum_{r\in\mathcal{R}} 2h_r x_r &\le H_R, \label{eq:rangerhours}\\
 \sum_{i=1}^{64} y_i &\le M, \label{eq:devices}\\
 \sum_j z_j &\le U, \label{eq:drones}\\
-\sum_{r: s(r)=s} x_r &\le \kappa_s, \quad \forall s, \label{eq:station}\\
-F_i + y_i + \sum_j b_{ij}z_j &\ge \underline{q}\,\mathbb{I}(R_i\ge q_{0.75}),
+\sum_{r:s(r)=s} x_r &\le \kappa_s,\quad \forall s, \label{eq:station}\\
+u_i &\le \theta^\star,\quad \forall i\in\mathcal{H}.
 \label{eq:hotspots}
 \end{align}
-where \(H_R\) is total ranger-hours, \(M\) is device inventory, \(U\) is available drone sorties, and \(\kappa_s\) is station capacity. The hotspot-floor constraint \eqref{eq:hotspots} is the mathematical expression of the operating doctrine: decisive cells must not be allowed to fall below a minimum service level.
+This is a very different doctrine from maximizing raw weighted coverage. The controller first refuses to leave a hinge disastrously exposed, and only afterward spends any remaining flexibility on average improvement.
 
-\subsection{Staffing Floor and Rolling-Horizon Control}
-If \(\mathcal{H}\) is the hotspot set and \(f_i^\star\) is the required revisit frequency in those cells, then a conservative staffing floor is
-\begin{equation}
-n_{\min} \ge \frac{\sum_{i\in\mathcal{H}} f_i^\star \bar{h}_i}{h_{\text{shift}}\rho},
-\label{eq:rangermin2}
-\end{equation}
-where \(\bar{h}_i\) is the representative route-hours required to protect hotspot \(i\), \(h_{\text{shift}}\) is usable shift time, and \(\rho\) is field utilization. This equation closes the loop between hotspot protection and staffing demand.
+\subsection{Operational Interpretation}
+The controller therefore produces a three-tier shield:
+\begin{enumerate}
+  \item protect entry-facing hinges with repeatable patrol templates;
+  \item harden biologically expensive connectors with persistent sentinels;
+  \item keep part of the UAV capacity mobile so it can relieve whichever sector currently generates the most residual debt.
+\end{enumerate}
+This design logic is structurally different from corridor saturation. It is closer to barrier placement with a mobile reserve than to broad-area patrol painting.
 
-The controller runs in a rolling horizon:
 \begin{table}[H]
 \centering
-\caption{Closed-loop protection controller.}
+\caption{Lexicographic barrier-design procedure.}
 \label{alg:planner}
 \begin{tabular}{p{0.95\linewidth}}
 \toprule
-\textbf{Input:} zone features \((W_i,S_i,H_i,A_i,D_i)\), route library \(\mathcal{R}\), capacities \((H_R,M,U)\), and horizon \(T\). \\
-\textbf{Output:} deployment plan \(\{x_r^t,y_i^t,z_j^t\}_{t=1}^T\) and staffing floor \(n_{\min}\). \\
+\textbf{Input:} residual debt field \(\Gamma_i\), template library \(\mathcal{R}\), sector map, capacities \((H_R,M,U)\), station caps \(\kappa_s\). \\
+\textbf{Output:} patrol activations \(\{x_r\}\), sentinel placements \(\{y_i\}\), UAV reserve windows \(\{z_j\}\). \\
 \midrule
-1. Build the priority field \(R_i\) from Equations~\eqref{eq:risk}--\eqref{eq:prior}. \\
-2. Generate graph-feasible patrol columns from Equations~\eqref{eq:routeobj}--\eqref{eq:routecover} and build \(a_{ir}\) and \(b_{ij}\). \\
-3. Solve the allocation controller under Equations~\eqref{eq:obj}--\eqref{eq:hotspots}. \\
-4. Stress test the resulting plan through detection, dispatch, and interception simulation. \\
-5. Update patrol pressure \(C_i\), refresh \(P_i\), and re-optimize if performance falls below threshold. \\
-6. Return the controller output and the minimum staffing recommendation. \\
+1. Identify hinge set \(\mathcal{H}\) from the upper tail of \(\Gamma_i\) and transport criticality \(C_i\). \\
+2. Generate feasible patrol templates linking stations to ingress-facing and sink-facing hinges. \\
+3. Solve Stage I to minimize the worst hinge residual \(\theta\). \\
+4. Fix the resulting hinge ceiling \(\theta^\star\) and solve Stage II to minimize total residual debt. \\
+5. Reserve UAV windows for sectors with the largest remaining residual burden or uncertainty. \\
+6. Export the selected barrier package and pass it to the service-reliability layer. \\
 \bottomrule
 \end{tabular}
 \end{table}
-Figure~\ref{fig:controllerarch} expands the same logic visually by separating the input stack, the optimization core, and the deployable products that leave the solver.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{fig16_controller_architecture.png}
-  \caption{Algorithm architecture of the allocation controller, showing how state estimates, feasible-route geometry, and resource budgets pass through the MILP core to produce patrol, sensor, and UAV tasking.}
+  \caption{Barrier-design architecture in which hinge diagnosis, template feasibility, and station limits feed a two-stage controller rather than a single weighted-gain maximization.}
   \label{fig:controllerarch}
 \end{figure}
 
-\subsection{Baseline Control Package}
-Under baseline assumptions, the controller assigns 49\% of patrol-hours to the eastern sector, 31\% to the southern--central corridor, and 20\% to western and northern sectors. Eight of the twelve fixed devices are anchored in the top-risk quartile, while four drone sorties are rotated across three high-uncertainty sectors. This is not a cosmetic rebalance; it is a structural shift from thin park-wide patrol coverage to corridor-based service assurance.
+\subsection{Etosha Barrier Package}
+Under baseline assumptions, the resulting design does not spread effort evenly across the eastern--southern corridor. Instead, it allocates most patrol-template activations to the ingress-facing east and the southern relay strip, anchors persistent devices on a smaller hinge subset, and retains aerial flexibility for uncertain sectors that cannot justify permanent assignment.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{fig05_patrol_routes.png}
-  \caption{Controller-selected patrol families over the official Etosha basemap, showing how route geometry is concentrated into the decisive corridor.}
+  \caption{Selected patrol templates on the official basemap, emphasizing hinge interruption and relay control rather than broad corridor saturation.}
   \label{fig:routes}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{fig06_allocation_dashboard.png}
-  \caption{Control ledger translating manpower, devices, and drone effort into sector-level service commitments.}
+  \caption{Barrier-design ledger translating patrol templates, sentinel anchors, and reserve windows into residual-debt suppression by sector.}
   \label{fig:allocation}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{fig13_sensor_drone_map.png}
-  \caption{Layered control design on a real-map GIS basemap, in which fixed sensors hold persistent hotspots and UAVs absorb uncertainty and surge demand.}
+  \caption{Three-tier shield on the real-map GIS basemap: fixed sentinels hold hinges, patrol templates interrupt pathways, and UAV reserve absorbs uncertainty.}
   \label{fig:techmap}
 \end{figure}
 \FloatBarrier
