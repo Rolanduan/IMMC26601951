@@ -1,156 +1,188 @@
 \appendix
-\section{Baseline Parameters for the Re-Derived Model}
-\begin{longtable}{p{0.26\linewidth}p{0.18\linewidth}p{0.46\linewidth}}
+\section{Baseline Parameters for the Ecological-Liability Contract}
+\begin{longtable}{p{0.28\linewidth}p{0.18\linewidth}p{0.44\linewidth}}
 \toprule
 Item & Baseline value & Interpretation \\
 \midrule
-Grid size & \(8\times 8\) zones & Strategic management resolution \\
+Grid size & \(8\times 8\) cells & Strategic management resolution \\
 Planning horizon & 30 days & One dry-season operating month \\
 Field rangers & 34 & Equivalent to 17 two-person teams \\
-Fixed sentinels & 12 & Cameras, acoustic nodes, or other persistent watch assets \\
-Daily UAV windows & 4 & Mobile reserve capacity for surge sectors \\
-Response commitment \(\tau^\star\) & 4.5 hours & Threshold for acceptable field service \\
-Ingress prior scale & normalized softmax & Relative weighting over candidate entry corridors \\
-Delay-exceedance tolerance \(\epsilon_s\) & \(0.25\) & Station-level service target in the queueing layer \\
+Fixed sentinels & 12 & Cameras, acoustic nodes, or other persistent devices \\
+Daily UAV windows & 4 & Mobile reserve capacity for volatile sectors \\
+Backlog tolerance \(b^\star\) & 1 task-day & Maximum acceptable single-day backlog at a station \\
+Overload target \(\epsilon_s\) & \(0.20\) & Station-level workload guarantee \\
+CVaR level \(\alpha\) & \(0.90\) & Tail-risk emphasis in the portfolio objective \\
 \bottomrule
 \end{longtable}
 
 \section{Technical Derivations}
-This appendix collects the mathematical pieces behind the re-derived framework so that the manuscript stays readable while the derivations remain explicit.
+This appendix collects the mathematical pieces behind the new framework so that the manuscript stays readable while the technical closure remains explicit.
 
-\subsection{Existence of the Transport Fundamental Matrix}
+\subsection{Uniqueness of the Liability-Field Estimator}
 \begin{proposition}
-\label{prop:fundamental}
-If the transient transition matrix \(Q\) on the non-sink portion of the transport graph has spectral radius \(\rho(Q)<1\), then the fundamental matrix
+\label{prop:field}
+If \(\omega_i>0\) for every cell and \(\rho\ge 0\), then the objective in Equation~\eqref{eq:prior},
 \[
-N=(I-Q)^{-1}
+f(\ell)=\sum_{i=1}^{64}\omega_i(\ell_i-\widetilde \ell_i)^2+\rho\,\ell^\top L_G\ell,
 \]
-exists and equals \(\sum_{k=0}^{\infty}Q^k\).
+is strictly convex and therefore has a unique minimizer.
 \end{proposition}
 \begin{proof}
-The Neumann series for a square matrix converges when \(\rho(Q)<1\). Therefore
-\[
-\sum_{k=0}^{\infty}Q^k
-\]
-converges and satisfies
-\[
-(I-Q)\sum_{k=0}^{\infty}Q^k = I.
-\]
-Hence \((I-Q)\) is invertible and its inverse is exactly the convergent series, proving the result.
+The first term is a weighted quadratic with Hessian \(2\operatorname{diag}(\omega_1,\dots,\omega_{64})\), which is positive definite because every \(\omega_i>0\). The second term has Hessian \(2\rho L_G\), which is positive semidefinite because any graph Laplacian is positive semidefinite and \(\rho\ge 0\). The sum of a positive definite matrix and a positive semidefinite matrix is positive definite, so \(f(\ell)\) is strictly convex. A strictly convex coercive quadratic has a unique minimizer.
 \end{proof}
 
-Proposition~\ref{prop:fundamental} justifies the transport-criticality score in Equation~\eqref{eq:criticality}. The matrix \(N\) measures expected pre-absorption visits and therefore acts as a principled hinge detector rather than as an ad hoc centrality score.
+Proposition~\ref{prop:field} is the formal reason the liability surface is well defined. The fitted field does not depend on arbitrary tie-breaking or heuristic smoothing.
 
-\subsection{Why the Minimax Stage Controls the Worst Hinge}
+\subsection{Monotonicity and Diminishing Returns of Protection Quality}
 \begin{proposition}
-\label{prop:minimax}
-Let \(\theta^\star\) be the optimum of Stage I under Equation~\eqref{eq:obj_stage1} and constraints \eqref{eq:hingecap}. Then every feasible Stage-II solution that preserves \(u_i\le\theta^\star\) for all \(i\in\mathcal{H}\) weakly controls the worst hinge no worse than the best Stage-I design.
+\label{prop:quality}
+Let
+\[
+p_i(a)=1-\exp(-q_i),
+\qquad
+q_i=\alpha F_i+\beta y_i+\gamma\sum_j b_{ij}z_j.
+\]
+Then \(p_i(a)\) is increasing and concave in each decision component that enters \(q_i\).
 \end{proposition}
 \begin{proof}
-By construction, Stage I solves
-\[
-\min \theta \quad \text{s.t.}\quad u_i\le \theta\ \forall i\in\mathcal{H},
-\]
-over the full feasible region. Therefore no feasible solution can produce a hinge residual bound strictly smaller than \(\theta^\star\). Stage II is solved over the restricted feasible region that additionally enforces \(u_i\le\theta^\star\) for every hinge cell. Every Stage-II solution thus inherits the best achievable upper bound on worst-hinge exposure.
+Treat \(p(q)=1-e^{-q}\) on \(q\ge 0\). Then \(p'(q)=e^{-q}>0\) and \(p''(q)=-e^{-q}<0\). Hence \(p(q)\) is increasing and concave in \(q\). Because \(q_i\) is affine in \(F_i\), \(y_i\), and \(z_j\), composition preserves monotonicity and concavity in each component. Therefore additional assets always improve protection quality but with diminishing returns.
 \end{proof}
 
-This proposition is the formal reason the controller differs from a one-stage weighted sum. The model explicitly refuses to buy a better average by sacrificing one decisive hinge.
+This proposition justifies the portfolio logic in Equation~\eqref{eq:dose}: spreading a small amount of effort to a new expensive cell can be more valuable than oversaturating a cell that is already heavily protected.
 
-\subsection{Monotonicity of the Queueing Staffing Rule}
+\subsection{CVaR Epigraph Reformulation}
 \begin{proposition}
-\label{prop:queue}
-For fixed arrival rate \(\lambda_s\), service rate \(\mu_s\), and commitment threshold \(\tau^\star\), the delay-exceedance probability in Equation~\eqref{eq:intercept} is nonincreasing in the number of teams \(c_s\) whenever \(\rho_s<1\).
+\label{prop:cvar}
+For any finite scenario set \(\Omega\), the quantity
+\[
+\eta + \frac{1}{(1-\alpha)|\Omega|}\sum_{\omega\in\Omega}\zeta_\omega
+\]
+subject to \(\zeta_\omega\ge Y_\omega(a)-\eta\) and \(\zeta_\omega\ge 0\) is an exact epigraph formulation of \(\operatorname{CVaR}_\alpha(Y(a))\).
 \end{proposition}
 \begin{proof}
-Increasing \(c_s\) reduces traffic intensity \(\rho_s=\lambda_s/(c_s\mu_s)\), which weakly reduces the Erlang-C waiting term \(P_{\mathrm{wait},s}\). It also weakly increases the decay parameter \(c_s\mu_s-\lambda_s\) in the exponential tail term of Equation~\eqref{eq:intercept}. Both effects move in the same direction, so the resulting delay-exceedance probability cannot increase.
+This is the standard Rockafellar--Uryasev representation of conditional value at risk for a discrete scenario distribution. For any fixed decision \(a\), minimizing the epigraph expression over \(\eta\) and \(\zeta_\omega\) yields the average of the worst \((1-\alpha)\)-tail of the loss distribution. Therefore the objective in Equation~\eqref{eq:obj} exactly incorporates \(\operatorname{CVaR}_\alpha\) rather than a heuristic tail penalty.
 \end{proof}
 
-Proposition~\ref{prop:queue} justifies the staffing floor in Equation~\eqref{eq:rangermin}: the smallest \(c_s\) satisfying the service target is well defined and economically meaningful.
+Proposition~\ref{prop:cvar} is what makes the new model genuinely different from a weighted-average patrol objective: bad months are penalized explicitly.
+
+\subsection{Workload Guarantee Under Sub-Gaussian Tails}
+\begin{proposition}
+\label{prop:workload}
+If the station workload \(A_{s,t}\) is sub-Gaussian with mean \(\mu_s\) and scale parameter \(\sigma_s\), then choosing
+\[
+c_s
+\ge
+\mu_s-b^\star+\sqrt{2\sigma_s^2\log(1/\epsilon_s)}
+\]
+guarantees
+\[
+\Pr(A_{s,t}>c_s+b^\star)\le \epsilon_s.
+\]
+\end{proposition}
+\begin{proof}
+By the assumed sub-Gaussian tail bound,
+\[
+\Pr(A_{s,t}-\mu_s>x)\le \exp\!\left(-\frac{x^2}{2\sigma_s^2}\right).
+\]
+Set \(x=c_s+b^\star-\mu_s\). If
+\[
+x\ge \sqrt{2\sigma_s^2\log(1/\epsilon_s)},
+\]
+then
+\[
+\Pr(A_{s,t}>c_s+b^\star)
+\le
+\exp\!\left(-\frac{x^2}{2\sigma_s^2}\right)
+\le
+\epsilon_s.
+\]
+This proves the claim.
+\end{proof}
+
+Proposition~\ref{prop:workload} justifies the staffing rule in Equation~\eqref{eq:rangermin}: the ranger floor follows from a probabilistic service covenant, not from a descriptive average.
 
 \section{Algorithmic Workflow}
 The following four procedures summarize the paper's end-to-end logic in executable form.
 
 \begin{table}[H]
 \centering
-\caption{Algorithm A1: Build the threat-transport graph.}
+\caption{Algorithm A1: Build the ecological-liability surface.}
 \label{alg:app_transport}
 \begin{tabular}{p{0.95\linewidth}}
 \toprule
-\textbf{Input:} official basemap, road graph, station locations, wildlife layers, water dependence, candidate ingress set. \\
-\textbf{Output:} ingress prior \(\pi_e\), transport criticality \(C_i\), service slack \(S_i\), residual debt \(\Gamma_i\). \\
+\textbf{Input:} official basemap, ecology layers, road graph, station locations, access variables, monitoring recency. \\
+\textbf{Output:} latent intensity \(\lambda_i\), information deficit \(U_i\), service drag \(D_i\), liability field \(L_i\). \\
 \midrule
-1. Aggregate ecological rasters to the management grid and compute biological consequence \(V_i\). \\
-2. Build the ingress set \(\mathcal{E}\) and evaluate ingress features \((g_e,\ell_e,p_e)\). \\
-3. Compute the entry distribution \(\pi_e\) from Equation~\eqref{eq:prior}. \\
-4. Construct the transient transition matrix \(Q\) on the transport graph and solve for \(N=(I-Q)^{-1}\). \\
-5. Compute transport criticality \(C_i\) from Equation~\eqref{eq:criticality}. \\
-6. Solve shortest paths from all stations and convert them to service slack \(S_i\) through Equation~\eqref{eq:response}. \\
-7. Assemble the residual debt field \(\Gamma_i\) under Equation~\eqref{eq:risk}. \\
+1. Aggregate ecological rasters to the management lattice and compute biological consequence \(V_i\). \\
+2. Build the raw linear predictor \(\widetilde \ell_i\) from access and reach covariates. \\
+3. Solve the graph-regularized field problem in Equation~\eqref{eq:prior}. \\
+4. Exponentiate to obtain \(\lambda_i\) and compute information deficit \(U_i\). \\
+5. Solve station-to-cell shortest paths and normalize them into service drag \(D_i\). \\
+6. Assemble ecological liability \(L_i\) under Equation~\eqref{eq:risk}. \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 \begin{table}[H]
 \centering
-\caption{Algorithm A2: Generate barrier templates and solve the lexicographic controller.}
+\caption{Algorithm A2: Solve the ambiguity-aware protection portfolio.}
 \label{alg:app_barrier}
 \begin{tabular}{p{0.95\linewidth}}
 \toprule
-\textbf{Input:} residual debt field \(\Gamma_i\), hinge set \(\mathcal{H}\), road graph \(\mathcal{G}_R\), capacities \((H_R,M,U)\). \\
+\textbf{Input:} liability field \(L_i\), contract set \(\mathcal{C}\), route dictionary, asset capacities, scenario library \(\Omega\). \\
 \textbf{Output:} patrol templates \(x_r\), sentinel placements \(y_i\), UAV reserve windows \(z_j\). \\
 \midrule
-1. Build feasible gateway--hinge--return patrol templates subject to \(h_r\le h_{\max}\). \\
-2. Compute the defensive dose \(\eta_i\) and residual debt variables \(u_i\). \\
-3. Solve Stage I to find the smallest hinge ceiling \(\theta^\star\). \\
-4. Solve Stage II to minimize total residual debt under the fixed ceiling \(u_i\le\theta^\star\). \\
-5. Export the barrier package and sector-level residual burden for service sizing. \\
+1. Build feasible patrol templates and compute patrol frequencies \(F_i\). \\
+2. Convert the asset package into protection quality \(p_i(a)\) and residual uncertainty \(s_i(a)\). \\
+3. Evaluate scenario losses \(Y_\omega(a)\) using Equation~\eqref{eq:residual}. \\
+4. Minimize mean loss plus \(\operatorname{CVaR}_\alpha\) plus contract-shortfall penalties. \\
+5. Export the portfolio and the implied station workloads. \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 \begin{table}[H]
 \centering
-\caption{Algorithm A3: Size staffing by queueing reliability.}
+\caption{Algorithm A3: Size staffing by workload guarantees.}
 \label{alg:app_queue}
 \begin{tabular}{p{0.95\linewidth}}
 \toprule
-\textbf{Input:} barrier package, detection rates, station catchments, service-rate estimates \(\mu_s\), response target \(\tau^\star\). \\
-\textbf{Output:} station team counts \(c_s\), delay-exceedance profile, ranger floor \(n_{\min}\). \\
+\textbf{Input:} portfolio \(a\), workload samples or estimates, station regions, backlog tolerance \(b^\star\), overload targets \(\epsilon_s\). \\
+\textbf{Output:} station team counts \(c_s\), overload profile, ranger floor \(n_{\min}\). \\
 \midrule
-1. Compute cell-level detection \(q_i\) from Equation~\eqref{eq:detect}. \\
-2. Aggregate residual arrival intensity \(\lambda_s\) for each station using Equation~\eqref{eq:arrival}. \\
-3. For each station, evaluate the Erlang-C delay exceedance under Equation~\eqref{eq:intercept}. \\
-4. Increase \(c_s\) until \(\Pr(T_s>\tau^\star)\le \epsilon_s\). \\
-5. Sum station team requirements to obtain \(n_{\min}=2\sum_s c_s\). \\
+1. Compute station workload means \(\mu_s\) and scales \(\sigma_s\) from Equation~\eqref{eq:arrival}. \\
+2. Evaluate overload probability using Equation~\eqref{eq:intercept}. \\
+3. Increase \(c_s\) until the guarantee in Equation~\eqref{eq:rangermin} is satisfied. \\
+4. Aggregate station team requirements into \(n_{\min}=2\sum_s c_s\). \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 \begin{table}[H]
 \centering
-\caption{Algorithm A4: Replan with a mobile reserve.}
+\caption{Algorithm A4: Replan with mobile reserve recourse.}
 \label{alg:app_reserve}
 \begin{tabular}{p{0.95\linewidth}}
 \toprule
-\textbf{Input:} current station loads \(\lambda_s\), team counts \(c_s\), UAV windows, observed signals. \\
-\textbf{Output:} next-cycle reserve assignment and updated ingress weights. \\
+\textbf{Input:} current station workloads, team counts, reserve capacity, observed signals, contract-cell compliance. \\
+\textbf{Output:} next-cycle reserve assignment and refreshed liability map. \\
 \midrule
-1. Recompute station delay exceedance probabilities. \\
-2. Evaluate the marginal reserve benefit \(\Delta_s\) from Equation~\eqref{eq:dispatchscore}. \\
-3. Assign reserve support to the station or sector with the largest weighted benefit \(\lambda_s\Delta_s\). \\
-4. Update ingress weights \(\pi_e\) if observed signals show persistent rerouting or new pressure. \\
-5. Rebuild the barrier package if the hinge set changes materially. \\
+1. Recompute overload probabilities for all stations. \\
+2. Evaluate reserve benefits \(\Delta_s\) from Equation~\eqref{eq:dispatchscore}. \\
+3. Assign reserve to the station or sector with the largest weighted benefit. \\
+4. Refresh monitoring recency and rebuild the information-deficit field if compliance drifts. \\
+5. Recompute the contract set if liability ranking changes materially. \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 \section{Managerial Reading}
-\textbf{Transport graph}: where expensive loss can enter and travel.\\
-\textbf{Hinge diagnosis}: which few cells matter more than the rest.\\
-\textbf{Barrier design}: how patrol templates, sentinels, and UAV reserve suppress the worst residual debt first.\\
-\textbf{Queueing layer}: how many teams are required to honor the response commitment.\\
+\textbf{Liability field}: where ecological failure is most expensive once uncertainty and service drag are priced together.\\
+\textbf{Contract cells}: the small subset of cells that must not fall below a minimum protection standard.\\
+\textbf{Portfolio design}: how patrol templates, sentinels, and reserve reduce average liability and tail risk together.\\
+\textbf{Workload guarantee}: how many teams are required so that stations do not fail on bad days.\\
 
-Together, these modules describe Etosha not as a map to be painted, but as a network to be interrupted.
+Together, these modules describe Etosha not as an area to be painted, but as a liability contract to be honored.
 
 \section{Repository Implementation Map}
 This appendix identifies the repository files that currently act as computational surrogates for the analytic layers of the paper. The manuscript is more general than the code, but the file structure remains useful for reproducibility.
@@ -160,9 +192,9 @@ This appendix identifies the repository files that currently act as computationa
 File & Current role in the repository \\
 \midrule
 \texttt{code/model0\_gis\_pipeline.py} & GIS preprocessing and shortest-path feature extraction from basemap, grid, and station geometry. \\
-\texttt{code/model1\_spatial\_risk.py} & Prototype zone-scoring engine that can serve as a surrogate for the transport-diagnostic layer. \\
-\texttt{code/model2\_allocation\_milp.py} & Prototype optimization layer for multi-asset allocation, interpretable here as a surrogate for barrier design. \\
-\texttt{code/model3\_dynamic\_simulation.py} & Prototype validation layer for event and response dynamics, usable as a backtest around the queueing design. \\
+\texttt{code/model1\_spatial\_risk.py} & Prototype zone-scoring engine, interpretable here as a surrogate for liability-field estimation. \\
+\texttt{code/model2\_allocation\_milp.py} & Prototype optimization layer for multi-asset allocation, usable as a computational surrogate for the portfolio design stage. \\
+\texttt{code/model3\_dynamic\_simulation.py} & Prototype validation layer for event and service dynamics, usable as a backtest around the workload guarantee. \\
 \texttt{generate\_professional\_figures.js} & Figure-generation script for GIS basemaps, architecture plates, dashboards, and scenario graphics. \\
 \bottomrule
 \end{longtable}
@@ -171,6 +203,6 @@ File & Current role in the repository \\
 \addcontentsline{toc}{section}{AI Use Report}
 This project uses AI as a drafting and coding copilot, not as an autonomous scientific authority. AI assistance was used to accelerate manuscript structuring, symbolic formatting, figure scripting, and language revision. All equations, assumptions, parameter interpretations, and management conclusions were then reviewed for internal consistency against the intended operating logic of the paper.
 
-The benefit of AI in this workflow is speed across text, code, and figure iteration. The main risk is synthetic coherence without technical closure. For that reason, we used explicit safeguards: consistency checks across model layers, staffing-feasibility checks, equation-to-claim checks, and repeated review of whether the proposed control logic actually matches the park-management interpretation.
+The benefit of AI in this workflow is speed across text, code, and figure iteration. The main risk is synthetic fluency without technical closure. For that reason, we used explicit safeguards: equation-to-claim checks, contract-feasibility checks, overload-guarantee checks, and repeated review of whether the proposed field logic really matches the management interpretation.
 
 Responsibility for the final scientific content remains with the authors.

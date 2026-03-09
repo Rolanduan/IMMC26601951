@@ -1,49 +1,49 @@
-\section{Transfer by Park Morphology}
-The new framework is intentionally transferable, but it should not be copied by park name. It should be transferred by morphology. What matters is whether a reserve behaves like a gateway-constrained system, a dispersed-entry system, or a seasonally fractured system.
+\section{Transfer by Liability Morphology}
+The new framework is intentionally transferable, but it should not be copied park by park using one fixed map. It should be transferred by \emph{liability morphology}: the geometric relationship among biological value, incident uncertainty, and service capacity.
 
 \subsection{Three Transfer Classes}
 We distinguish three broad classes:
 \begin{itemize}
-  \item \textbf{Gateway-constrained parks}: a small set of entries dominates access, so hinge protection and rapid interception matter most.
-  \item \textbf{Dispersed-entry parks}: pressure enters diffusely, so the model must weight broader surveillance coverage more heavily than narrow bottleneck control.
-  \item \textbf{Seasonally fractured parks}: mobility and sink structure shift by season, so the transport graph and service rates must be rebuilt on a cycle.
+  \item \textbf{Boundary-loaded parks}: liability is driven mainly by a few exposed borders or gates, so contract cells cluster near ingress edges.
+  \item \textbf{Sink-clustered parks}: ecological value is concentrated around a few habitat clusters, so contract cells cluster around those sinks rather than around one entry axis.
+  \item \textbf{Seasonally bifurcated parks}: wildlife value, access, and workload structure all shift by season, so the liability surface must be rebuilt cyclically.
 \end{itemize}
 
 \subsection{Transfer Protocol}
 The correct transfer routine is therefore:
 \begin{enumerate}
-  \item identify ingress nodes and classify park morphology;
-  \item rebuild habitat sinks and the weighted value field;
-  \item reconstruct the road or trail graph and re-estimate service rates by station;
-  \item regenerate defense templates and recompute the stability frontier.
+  \item rebuild the ecological-consequence layer \(V_i\) from local species and habitat data;
+  \item rebuild the latent incident field and the information-deficit field;
+  \item rebuild station workload means and variances for the new service system;
+  \item regenerate the contract set \(\mathcal{C}\) and solve the portfolio model again.
 \end{enumerate}
-This is a stronger rule than simply porting weights. It preserves the architecture while localizing the objects that actually drive the decision.
+This is a stronger rule than porting weights. It preserves the logic of the contract while localizing the objects that actually determine where failure is expensive.
 
 \subsection{Illustrative Reuse}
-Yellowstone behaves more like a seasonally fractured system because winter closure, visitor movement, and seasonal wildlife concentration all change the transport graph materially \citep{yellowstoneOfficial}. Kakadu behaves more like a morphology-shifting park in which wet--dry transitions alter both ingress feasibility and service time \citep{kakaduOfficial}. In each case, the barrier-design logic still applies, but the hinge set and the service bottleneck move.
+Yellowstone behaves more like a seasonally bifurcated system because winter closure, visitor circulation, and wildlife concentration all change the liability field materially \citep{yellowstoneOfficial}. Kakadu behaves more like a morphology-shifting system because wet--dry transitions alter both access and service capacity \citep{kakaduOfficial}. In each case, the contract logic still transfers, but the contract cells and workload guarantees must be rebuilt from scratch.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{fig11_transferability_matrix.png}
-  \caption{Morphology-based transfer matrix separating what is structurally portable from what must be rebuilt for a new protected area.}
+  \caption{Liability-morphology transfer matrix separating what is structurally portable from what must be rebuilt for a new protected area.}
   \label{fig:transfer}
 \end{figure}
 \FloatBarrier
 
 \begin{table}[H]
   \centering
-  \caption{Transfer rules under the re-derived framework.}
+  \caption{Transfer rules under the ecological-liability contract framework.}
   \label{tab:transfer}
   \begin{tabular}{p{0.30\linewidth}p{0.22\linewidth}p{0.38\linewidth}}
     \toprule
     Component & Portable? & Rebuild requirement \\
     \midrule
-    Loss-flow framing & Yes & None \\
-    Lexicographic barrier logic & Yes & None \\
-    Queueing service discipline & Yes & Station rates and service target \\
-    Ingress prior & No & Local access geometry and intelligence pattern \\
-    Habitat sink map & No & Species distribution and seasonal value shift \\
-    Defense templates & No & Local road, river, trail, and station structure \\
+    Contract-based framing & Yes & None \\
+    Mean--CVaR portfolio logic & Yes & None \\
+    Workload-guarantee discipline & Yes & Station means, variances, and tolerance levels \\
+    Liability surface & No & Local ecological value, access, and uncertainty structure \\
+    Contract-cell set & No & Quantiles of the local liability distribution \\
+    Patrol templates and reserve windows & No & Local roads, trails, stations, and weather structure \\
     \bottomrule
   \end{tabular}
 \end{table}

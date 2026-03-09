@@ -1,48 +1,61 @@
-\section{Trade-Off Frontier and Structural Sensitivity}
-The new framework is built around residual loss flow and service reliability, so the natural sensitivity question is no longer ``Which parameter changes the score most?'' but ``Which levers move the system across the stability frontier?'' We define that frontier as
+\section{CVaR Frontier and Structural Sensitivity}
+The new framework is built around unresolved ecological liability, tail risk, and station overload. The correct sensitivity question is therefore not ``Which parameter moves the average score most?'' but ``Which levers move the system across the admissible contract frontier?'' We define that frontier by
 \[
-\mathcal{F}=\left\{(n,u,\Delta): \PI \ge 0.70,\ \Gamma_{\max}\ \text{controlled},\ \max_s \Pr(T_s>\tau^\star)\le 0.25 \right\},
+\mathfrak{S}
+=
+\left\{
+(n,u,\delta):
+\PI\ge 0.72,\;
+\operatorname{CVaR}_{0.9}(Y)\le \overline Y,\;
+\max_s \Pr(B_s>b^\star)\le 0.20
+\right\},
 \]
-where \(n\) is effective team depth, \(u\) is hinge-zone detection uptime, and \(\Delta\) is patrol-template regularity.
+where \(n\) is effective team depth, \(u\) is sentinel uptime on contract cells, and \(\delta\) is the average patrol revisit gap on the liability ridge.
 
-This definition creates a different ranking from a raw hardware-count analysis. The dominant levers are:
+This definition creates a different ranking from a simple hardware-count comparison. The dominant levers are
 \[
-\text{team depth} > \text{sensor uptime} > \text{template regularity} > \text{device count}.
+\text{team depth}
+>
+\text{sentinel uptime}
+>
+\text{revisit discipline}
+>
+\text{raw device count}.
 \]
-The distinction between uptime and count is important. Once a hinge zone already has a device, reliability of that device matters more than adding another low-uptime unit somewhere less critical.
+That ordering follows from the new mathematics. Team depth affects overload risk nonlinearly, sentinel uptime changes both protection quality and uncertainty shrinkage on the most expensive cells, and revisit discipline controls whether contract cells repeatedly slip below the minimum standard.
 
 \subsection{Team-Depth Shock}
-Reducing the field force from 34 to 24 rangers pushes the system across the stability frontier. The main failure is not a graceful drop in average coverage; it is a queueing failure at the busiest station--hinge pairs. Once that happens, the delay exceedance probability rises sharply, which in turn allows residual weighted loss to escape through the same few expensive pathways. In other words, the system fails by congestion before it fails by map area.
+Reducing the field force from 34 to 24 rangers pushes the system outside \(\mathfrak{S}\). The failure is not a smooth decline in average performance. It is a tail-risk failure. Once station capacity falls below the workload guarantee implied by Equation~\eqref{eq:rangermin}, overload probability rises sharply and the liability premium of bad days expands. This is why team depth remains the first policy priority.
 
 \subsection{Sentinel Uptime Loss}
-If hinge-zone monitoring uptime deteriorates, the barrier design loses persistence precisely where patrols were meant to be complemented rather than replaced. This explains why uptime behaves as the second-most powerful lever. A park can own enough devices on paper and still be structurally fragile if the biologically decisive hinges are intermittently blind.
+Contract cells are expensive precisely because late or uncertain decisions matter there. If sentinel uptime on those cells falls materially, the ambiguity premium in Equation~\eqref{eq:residual} rises even if nominal sensor count remains unchanged. This is why uptime outranks count. One reliable device on the correct contract cell is worth more than several unreliable devices placed on lower-liability background cells.
 
-\subsection{Template Irregularity}
-Patrol-template irregularity matters because the new framework depends on repeatability at gateway and relay cells. When the intended patrol cadence stretches from roughly 1.5 days toward 3 days, residual debt grows even if nominal patrol hours do not collapse. The problem is not only fewer visits; it is longer windows during which a hinge can remain open without a physical barrier or a service backstop.
+\subsection{Revisit Discipline}
+Patrol revisit discipline matters because the portfolio is contract-based. Once the average revisit gap on ridge cells stretches from about 1.5 days toward 3 days, the shortfall term \((\underline p-p_i(a))_+\) is activated for more cells and more scenarios. The result is not merely fewer visits; it is a systematic breach of the intended protection contract.
 
 \subsection{Hardware Inflation Without Structure}
-Additional devices remain helpful, but their marginal value falls quickly once the principal hinge set is instrumented. This is why raw device count ranks last among the four levers. Hardware without structural placement or uptime discipline acts like decorative surplus, not like genuine defense depth.
+Additional devices still help, but their marginal value diminishes quickly once the contract set \(\mathcal{C}\) is already watched. This is why raw hardware count ranks last among the four major levers. Hardware that is not tied to the contract set or to high-volatility stations behaves like surplus, not like resilience.
 
-These sensitivity results imply a different policy sequence from a conventional patrol paper. First secure enough teams to keep service reliability inside the frontier. Then protect hinge-zone uptime. Then stabilize patrol regularity. Only after those conditions are met does broader hardware expansion meaningfully improve the system.
+The sensitivity lesson is therefore sequential. First preserve enough crews to satisfy the workload guarantee. Then protect uptime on contract cells. Then preserve revisit discipline. Only after those three conditions are secure does broader hardware expansion produce meaningful liability reduction.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{fig10_sensitivity_panels.png}
-  \caption{Structural sensitivity of the re-derived model, emphasizing team depth, hinge-zone uptime, and patrol regularity rather than raw device count alone.}
+  \caption{Structural sensitivity of the contract-based model, emphasizing team depth, contract-cell uptime, and revisit discipline rather than raw device count alone.}
   \label{fig:sensitivity}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{fig14_ranger_requirement_curve.png}
-  \caption{Team-depth breakpoint curve separating congested service, transitional stability, and reliable hinge protection.}
+  \caption{Team-depth breakpoint curve separating overload-prone operations, transitional resilience, and reliable contract satisfaction.}
   \label{fig:rangercurve}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{fig15_scenario_matrix.png}
-  \caption{Trade-off frontier in manpower and hinge-zone detection quality, showing where the system remains inside the stability region.}
+  \caption{Trade-off frontier in manpower and contract-cell detection quality, showing where the system remains inside the admissible liability frontier.}
   \label{fig:scenariomatrix}
 \end{figure}
 \FloatBarrier

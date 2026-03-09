@@ -1,100 +1,121 @@
-\section{Lexicographic Barrier Design}
+\section{Ambiguity-Aware Protection Portfolio}
 \subsection{Decision Roles}
-Once residual defense debt \(\Gamma_i\) is known, the managerial question becomes: which assets should physically interrupt or compensate for that debt? We distinguish three roles:
+Once the liability field \(L_i\) is known, the managerial problem is no longer to block one path at a time. It is to assemble a portfolio that reduces both expected unresolved liability and the risk of a bad operating month. We distinguish three asset roles:
 \begin{itemize}
-  \item \textbf{patrol templates}: repeatable gateway--hinge--return circuits that create physical interception opportunities;
-  \item \textbf{sentinel devices}: persistent watch assets placed on high-consequence hinge cells;
-  \item \textbf{mobile reserve}: UAV windows held for uncertainty absorption and surge response.
+  \item \textbf{patrol templates}: repeatable route packages launched from stations;
+  \item \textbf{sentinel devices}: persistent monitoring assets pinned to expensive cells;
+  \item \textbf{mobile reserve}: UAV windows held for recourse under volatility.
 \end{itemize}
-The associated decision variables are
+The decision variables are
 \begin{itemize}
   \item \(x_r\in\mathbb{Z}_+\): activations of patrol template \(r\);
   \item \(y_i\in\{0,1,2\}\): number of sentinel devices assigned to cell \(i\);
-  \item \(z_j\in\mathbb{Z}_+\): UAV reserve windows assigned to sector \(j\).
+  \item \(z_j\in\mathbb{Z}_+\): UAV windows assigned to sector \(j\).
 \end{itemize}
 
-\subsection{Template Library}
-Patrol templates are not arbitrary loops. Each template links a station to one or more hinge cells and returns within a feasible shift limit. Let \(a_{ir}=1\) if template \(r\) covers cell \(i\), and \(a_{ir}=0\) otherwise. The duration of template \(r\) is
+\subsection{Asset Dictionary}
+Patrol templates remain useful, but they are now treated as instruments in a stochastic portfolio. Let \(a_{ir}=1\) if template \(r\) meaningfully services cell \(i\). The route duration is still
 \begin{equation}
 h_r = \sum_{e\in E_R} w_e \xi_e^{(r)} + t_{\mathrm{dwell}} \le h_{\max},
 \label{eq:route}
 \end{equation}
-where \(\xi_e^{(r)}\) indicates whether road edge \(e\) is used and \(t_{\mathrm{dwell}}\) captures on-site watch, reporting, and search behavior. The quantity
+but the model no longer optimizes route coverage as an end in itself. Instead, the induced patrol frequency at cell \(i\),
 \[
-F_i=\sum_{r\in\mathcal{R}} a_{ir}x_r
+F_i=\sum_{r\in\mathcal{R}} a_{ir}x_r,
 \]
-is the patrol-template frequency experienced by cell \(i\).
+enters a probabilistic protection function.
 
-\subsection{Defense Dose}
-The protection dose applied to cell \(i\) is
+\subsection{Protection Quality and Uncertainty Shrinkage}
+Define the effective protection quality on cell \(i\) by
 \begin{equation}
-\eta_i=\alpha F_i+\beta y_i+\gamma \sum_j b_{ij}z_j,
+p_i(a)
+=
+1-\exp\!\left(
+-\alpha F_i
+-\beta y_i
+-\gamma\sum_j b_{ij}z_j
+\right),
 \label{eq:dose}
 \end{equation}
-where \(b_{ij}=1\) if UAV sector \(j\) can reinforce cell \(i\). Instead of maximizing a weighted gain directly, we define the residual debt left after that dose by
+where \(b_{ij}=1\) if reserve sector \(j\) can reinforce cell \(i\). Equation~\eqref{eq:dose} is increasing and saturating: additional effort helps, but with diminishing returns.
+
+Assets also reduce ambiguity. We model the remaining information deficit after deployment as
 \begin{equation}
-u_i \ge \Gamma_i-\kappa_i\eta_i,\qquad u_i\ge 0,
+s_i(a)
+=
+U_i\exp\!\left(
+-\bar\alpha F_i
+-\bar\beta y_i
+-\bar\gamma\sum_j b_{ij}z_j
+\right).
+\label{eq:uncertainty}
+\end{equation}
+The first exponential reflects deterrence and interception quality; the second reflects information improvement. These two channels are kept separate on purpose.
+
+\subsection{Scenario Loss}
+Let \(\Omega\) denote a finite scenario library for dry-season operating conditions, and let \(\xi_{i\omega}\) be the realized liability multiplier for cell \(i\) under scenario \(\omega\). The unresolved ecological cost in scenario \(\omega\) is
+\begin{equation}
+Y_\omega(a)
+=
+\sum_{i=1}^{64}\xi_{i\omega}L_i\bigl(1-p_i(a)\bigr)
+\;+\;
+\psi\sum_{i=1}^{64}s_i(a).
 \label{eq:residual}
 \end{equation}
-with \(\kappa_i=\kappa_0+\kappa_1 C_i\) giving additional defensive leverage to actions applied on transport-critical cells.
+The first term is unresolved direct liability; the second is an ambiguity premium. This structure is materially different from the old residual-debt minimax controller.
 
-\subsection{Stage I: Cap the Worst Hinge}
-The first optimization stage is a minimax problem:
-\begin{equation}
-\min \theta
-\label{eq:obj_stage1}
-\end{equation}
-subject to
-\begin{equation}
-u_i \le \theta,\qquad \forall i\in\mathcal{H},
-\label{eq:hingecap}
-\end{equation}
-where \(\mathcal{H}\) is the hinge-cell set. This stage prevents the controller from producing an attractive average while leaving one decisive cell catastrophically exposed.
-
-\subsection{Stage II: Clean Up Total Residual Debt}
-After the optimal hinge ceiling \(\theta^\star\) is found, the second stage minimizes the total residual burden:
-\begin{equation}
-\min \; Z=\sum_{i=1}^{64}\omega_i u_i + \lambda_h\sum_{r\in\mathcal{R}} h_r x_r + \lambda_u\sum_j z_j,
+\subsection{Portfolio Objective}
+We optimize a mean--tail objective with an explicit contract penalty:
+\begin{align}
+\min\;&
+\frac{1}{|\Omega|}\sum_{\omega\in\Omega}Y_\omega(a)
+\;+\;
+\lambda\left(
+\eta + \frac{1}{(1-\alpha)|\Omega|}\sum_{\omega\in\Omega}\zeta_\omega
+\right)
+\;+\;
+\phi\sum_{i\in\mathcal{C}}\bigl(\underline p-p_i(a)\bigr)_+
 \label{eq:obj}
-\end{equation}
-subject to the same feasibility rules and the additional condition \(u_i\le\theta^\star\) for hinge cells. The weights \(\omega_i\) slightly upweight hinge and near-sink cells so that clean-up effort is still pulled toward the most expensive residual pathways.
+\\
+\text{s.t.}\;&
+\zeta_\omega \ge Y_\omega(a)-\eta,\qquad \zeta_\omega\ge 0,\quad \forall \omega\in\Omega.
+\label{eq:obj_stage1}
+\end{align}
+The first term is average unresolved liability; the second is the \(\operatorname{CVaR}_\alpha\) epigraph; the third enforces a minimum protection contract \(\underline p\) on the contract set \(\mathcal{C}\). This is a portfolio problem under ambiguity rather than a single weighted-average deployment rule.
 
 \subsection{Feasibility Rules}
-The design is constrained by manpower, inventory, and station load:
+The design is constrained by manpower, inventory, and station departure limits:
 \begin{align}
 \sum_{r\in\mathcal{R}} 2h_r x_r &\le H_R, \label{eq:rangerhours}\\
 \sum_{i=1}^{64} y_i &\le M, \label{eq:devices}\\
 \sum_j z_j &\le U, \label{eq:drones}\\
-\sum_{r:s(r)=s} x_r &\le \kappa_s,\quad \forall s, \label{eq:station}\\
-u_i &\le \theta^\star,\quad \forall i\in\mathcal{H}.
-\label{eq:hotspots}
+\sum_{r:s(r)=s} x_r &\le \kappa_s,\quad \forall s. \label{eq:station}
 \end{align}
-This is a very different doctrine from maximizing raw weighted coverage. The controller first refuses to leave a hinge disastrously exposed, and only afterward spends any remaining flexibility on average improvement.
+This means the optimizer is forced to choose between average performance, tail protection, and contract compliance inside a finite field budget.
 
 \subsection{Operational Interpretation}
-The controller therefore produces a three-tier shield:
+The resulting doctrine is different from both route maximization and corridor sealing:
 \begin{enumerate}
-  \item protect entry-facing hinges with repeatable patrol templates;
-  \item harden biologically expensive connectors with persistent sentinels;
-  \item keep part of the UAV capacity mobile so it can relieve whichever sector currently generates the most residual debt.
+  \item \textbf{contract cells} receive guaranteed patrol recurrence or persistent sensors;
+  \item \textbf{ridge cells outside the contract set} receive effort according to their contribution to scenario tail risk;
+  \item \textbf{mobile reserve} remains uncommitted until volatility at a station or sector justifies intervention.
 \end{enumerate}
-This design logic is structurally different from corridor saturation. It is closer to barrier placement with a mobile reserve than to broad-area patrol painting.
+This is why the paper now reads more like a risk portfolio than like a single controller.
 
 \begin{table}[H]
 \centering
-\caption{Lexicographic barrier-design procedure.}
+\caption{Ambiguity-aware portfolio-design procedure.}
 \label{alg:planner}
 \begin{tabular}{p{0.95\linewidth}}
 \toprule
-\textbf{Input:} residual debt field \(\Gamma_i\), template library \(\mathcal{R}\), sector map, capacities \((H_R,M,U)\), station caps \(\kappa_s\). \\
+\textbf{Input:} liability field \(L_i\), contract set \(\mathcal{C}\), route dictionary \(\mathcal{R}\), sector map, capacities \((H_R,M,U)\), scenario library \(\Omega\). \\
 \textbf{Output:} patrol activations \(\{x_r\}\), sentinel placements \(\{y_i\}\), UAV reserve windows \(\{z_j\}\). \\
 \midrule
-1. Identify hinge set \(\mathcal{H}\) from the upper tail of \(\Gamma_i\) and transport criticality \(C_i\). \\
-2. Generate feasible patrol templates linking stations to ingress-facing and sink-facing hinges. \\
-3. Solve Stage I to minimize the worst hinge residual \(\theta\). \\
-4. Fix the resulting hinge ceiling \(\theta^\star\) and solve Stage II to minimize total residual debt. \\
-5. Reserve UAV windows for sectors with the largest remaining residual burden or uncertainty. \\
-6. Export the selected barrier package and pass it to the service-reliability layer. \\
+1. Build feasible patrol templates and compute their induced frequencies \(F_i\). \\
+2. Convert the asset package into protection quality \(p_i(a)\) and uncertainty shrinkage \(s_i(a)\). \\
+3. Evaluate scenario loss \(Y_\omega(a)\) across the library \(\Omega\). \\
+4. Minimize average loss plus \(\operatorname{CVaR}_\alpha\) plus contract-shortfall penalties. \\
+5. Export the chosen package and the station-level implied workload for staffing analysis. \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -102,31 +123,31 @@ This design logic is structurally different from corridor saturation. It is clos
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{fig16_controller_architecture.png}
-  \caption{Barrier-design architecture in which hinge diagnosis, template feasibility, and station limits feed a two-stage controller rather than a single weighted-gain maximization.}
+  \caption{Ambiguity-aware portfolio architecture in which liability diagnosis, contract rules, and scenario tail risk jointly determine the deployable field package.}
   \label{fig:controllerarch}
 \end{figure}
 
-\subsection{Etosha Barrier Package}
-Under baseline assumptions, the resulting design does not spread effort evenly across the eastern--southern corridor. Instead, it allocates most patrol-template activations to the ingress-facing east and the southern relay strip, anchors persistent devices on a smaller hinge subset, and retains aerial flexibility for uncertain sectors that cannot justify permanent assignment.
+\subsection{Etosha Protection Portfolio}
+Under baseline assumptions, the portfolio does not spread effort uniformly over the east--south visual corridor. Instead, it guarantees minimum protection on the liability ridge, uses persistent sensors on the most expensive stable cells, and keeps UAV support flexible so that it can absorb scenario volatility where the marginal reduction in tail risk is largest.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{fig05_patrol_routes.png}
-  \caption{Selected patrol templates on the official basemap, emphasizing hinge interruption and relay control rather than broad corridor saturation.}
+  \caption{Selected patrol templates on the official basemap, interpreted here as liability-reducing route instruments rather than as a corridor-saturation map.}
   \label{fig:routes}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{fig06_allocation_dashboard.png}
-  \caption{Barrier-design ledger translating patrol templates, sentinel anchors, and reserve windows into residual-debt suppression by sector.}
+  \caption{Protection-portfolio ledger translating patrol templates, sentinel anchors, and reserve windows into mean and tail-risk reduction by sector.}
   \label{fig:allocation}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{fig13_sensor_drone_map.png}
-  \caption{Three-tier shield on the real-map GIS basemap: fixed sentinels hold hinges, patrol templates interrupt pathways, and UAV reserve absorbs uncertainty.}
+  \caption{Layered portfolio on the real-map GIS basemap: contract cells receive persistent attention, adjacent ridge cells receive route coverage, and UAV reserve remains flexible.}
   \label{fig:techmap}
 \end{figure}
 \FloatBarrier

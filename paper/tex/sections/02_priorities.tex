@@ -1,96 +1,113 @@
-\section{Threat-Transport Graph and Hinge-Zone Diagnosis}
-Etosha should not be read as a flat field of independent hotspots. It behaves as a transport network in which illegal pressure enters from a limited set of ingress opportunities, moves through a sparse relay structure, and ultimately threatens high-value habitat sinks. The point of the diagnostic layer is therefore to infer where weighted loss can travel, not merely where static ecological value is high.
+\section{Ecological-Liability Surface and GIS Diagnosis}
+Etosha should not be read as a flat field of independent hotspot scores. It should be read as a heterogeneous liability surface in which some cells are expensive because of ecology, others because of intrusion pressure, and still others because uncertainty and delayed service magnify the cost of any failure. The purpose of the diagnostic layer is to put those forces on the same scale.
 
-\subsection{Network Abstraction}
-We partition the park into an \(8\times 8\) management grid and construct two linked graphs:
-\begin{itemize}
-  \item a \textbf{road and access graph} \(\mathcal{G}_R=(V_R,E_R,w)\) for station travel and patrol mobility;
-  \item a \textbf{transport graph} \(\mathcal{G}_T=(V_T,E_T)\) whose nodes represent management cells, ingress cells, and habitat sinks.
-\end{itemize}
-
-Each management cell \(i\) stores four strategic attributes:
+\subsection{Grid and State Variables}
+We partition the park into an \(8\times 8\) management lattice. Each cell \(i\) stores four strategic objects:
 \[
-V_i:\text{ biological consequence},\quad
-A_i:\text{ ingress accessibility},\quad
-C_i:\text{ transport criticality},\quad
-S_i:\text{ service slack}.
+V_i:\text{ biological consequence},\qquad
+\lambda_i:\text{ latent incident intensity},\qquad
+U_i:\text{ information deficit},\qquad
+D_i:\text{ service drag}.
 \]
-All map plates in this section are anchored to the official Etosha basemap and upgraded with GIS overlays so that the diagnostic outputs stay visibly tied to real park geography.
+All map plates in this section are anchored to the official Etosha basemap and upgraded with GIS overlays so that the final diagnosis remains geographically interpretable.
 
-\subsection{Ingress Prior}
-The first question is not which cell is valuable, but where pressure is most likely to enter. Let \(\mathcal{E}\) denote the candidate ingress set. For entry node \(e\in\mathcal{E}\), define a prior weight
+\subsection{Latent Incident Intensity}
+Instead of assuming that pressure is known directly, we estimate a latent incident field with graph-regularized smoothing. Let \(\widetilde \ell_i\) denote a raw linear predictor built from access and terrain features:
 \begin{equation}
-\pi_e=
-\frac{\exp(\theta_1 g_e+\theta_2 \ell_e-\theta_3 p_e)}
-{\sum_{k\in\mathcal{E}}\exp(\theta_1 g_k+\theta_2 \ell_k-\theta_3 p_k)},
+\widetilde \ell_i = \beta_0+\beta_1A_i+\beta_2G_i+\beta_3R_i,
+\label{eq:rawfield}
+\end{equation}
+where \(A_i\) is access convenience, \(G_i\) is gate or boundary exposure, and \(R_i\) is road-linked reach. Let \(L_G\) be the graph Laplacian of the adjacency graph on the management lattice. We then solve
+\begin{equation}
+\ell^\star
+=
+\arg\min_{\ell\in\mathbb{R}^{64}}
+\left\{
+\sum_{i=1}^{64}\omega_i(\ell_i-\widetilde \ell_i)^2
+\;+\;
+\rho\,\ell^\top L_G \ell
+\right\},
 \label{eq:prior}
 \end{equation}
-where \(g_e\) measures access convenience, \(\ell_e\) measures downstream biological draw, and \(p_e\) measures recent defensive pressure near the entry corridor. Equation~\eqref{eq:prior} attaches uncertainty to entry structure first and lets the network propagate that pressure inland.
-
-\subsection{Transport Criticality}
-Let \(Q\) be the transient transition matrix on the non-sink portion of \(\mathcal{G}_T\). The fundamental matrix
-\[
-N=(I-Q)^{-1}
-\]
-gives the expected number of visits to each transient node before absorption at a habitat sink. We define the transport criticality of cell \(i\) by
+and define the latent incident intensity as
 \begin{equation}
-C_i = \frac{\sum_{e\in\mathcal{E}} \pi_e N_{ei}-\min_k \sum_{e\in\mathcal{E}} \pi_e N_{ek}}
-{\max_k \sum_{e\in\mathcal{E}} \pi_e N_{ek}-\min_k \sum_{e\in\mathcal{E}} \pi_e N_{ek}+\varepsilon}.
+\lambda_i = \exp(\ell_i^\star).
+\label{eq:intensity}
+\end{equation}
+Equation~\eqref{eq:prior} is not a transport-flow model. It is a field-estimation model: access-based predictors are shrunk toward a spatially coherent intensity surface before the protection decision begins.
+
+\subsection{Biological Consequence}
+The ecological cost of failure is handled separately:
+\begin{equation}
+V_i = 0.45M_i + 0.35H_i + 0.20B_i,
+\label{eq:value}
+\end{equation}
+where \(M_i\) is wildlife concentration, \(H_i\) is water dependence, and \(B_i\) is species sensitivity. This term answers the question ``How costly is a failure here?'' and intentionally remains distinct from incident intensity.
+
+\subsection{Information Deficit}
+The third ingredient is not threat but ignorance. Cells that are rarely revisited or hard to observe should receive an ambiguity premium. Let \(r_i\) denote monitoring recency in days and \(\kappa_i\in[0,1]\) denote sightline quality. We define the information deficit by
+\begin{equation}
+U_i = \frac{1}{1+r_i} + \chi(1-\kappa_i).
 \label{eq:criticality}
 \end{equation}
-Cells with high \(C_i\) are not necessarily those with the highest wildlife value. They are the cells through which an outsized share of weighted threat flow is expected to pass before it can be neutralized.
+The first term penalizes stale information; the second penalizes poor natural observability. High \(U_i\) means that the park knows too little about a cell precisely when it would be expensive to know too late.
 
-\subsection{Service Slack}
-Response quality is measured here as slack relative to a service commitment rather than as raw travel time alone. Let \(v(i)\in V_R\) be the access node for management cell \(i\), and let \(\mathcal{S}\) be the station set. The shortest-path distance is
-\[
-d_i=\min_{s\in\mathcal{S}} \operatorname{dist}_{\mathcal{G}_R}(s,v(i)).
-\]
-If the dispatch-delay term is approximated by a normal perturbation with mean \(\mu_\delta\) and standard deviation \(\sigma_\delta\), then the probability that service arrives before the commitment threshold \(\tau^\star\) is
+\subsection{Service Drag}
+Response difficulty is carried into the diagnosis as a structural drag term rather than as a queueing calculation. Let \(d_i\) be the shortest-path travel time from the nearest station to cell \(i\). We normalize this quantity into
 \begin{equation}
-S_i = \Phi\!\left(\frac{\tau^\star-d_i-\mu_\delta}{\sigma_\delta}\right),
+D_i=
+\frac{d_i-\min_k d_k}
+{\max_k d_k-\min_k d_k+\varepsilon},
 \label{eq:response}
 \end{equation}
-where \(\Phi(\cdot)\) is the standard normal distribution function. High \(S_i\) means a zone still has operational slack; low \(S_i\) means the zone is structurally late even before randomness is added.
+so that \(D_i\in[0,1]\) measures how strongly geography alone penalizes timely intervention.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{fig02_etosha_grid.png}
-  \caption{Etosha transport abstraction on the official basemap, showing management cells, station anchors, and the geographic skeleton used for ingress-to-habitat analysis.}
+  \caption{GIS liability lattice on the official Etosha basemap, showing the management grid, operational anchors, and the geographic skeleton used for liability estimation.}
   \label{fig:grid}
 \end{figure}
 
-\subsection{Biological Consequence}
-We measure wildlife consequence independently of network structure:
+\subsection{Ecological Liability}
+We now combine the four layers into one liability surface:
 \begin{equation}
-V_i = 0.45W_i + 0.35H_i + 0.20S_i^{(\mathrm{bio})},
-\label{eq:value}
-\end{equation}
-where \(W_i\) is wildlife density, \(H_i\) is water dependence, and \(S_i^{(\mathrm{bio})}\) is species sensitivity. This term answers a different question from transport criticality. It asks how expensive a loss would be if it reached cell \(i\), not how likely the path is to pass there.
-
-\subsection{Residual Defense Debt}
-The main diagnostic output is not a standard risk score but a residual defense debt:
-\begin{equation}
-\Gamma_i = V_i\Bigl(0.50C_i + 0.30A_i + 0.20(1-S_i)\Bigr).
+L_i
+=
+V_i\Bigl(
+0.52\,\lambda_i
++
+0.26\,U_i
++
+0.22\,D_i
+\Bigr).
 \label{eq:risk}
 \end{equation}
-\(\Gamma_i\) becomes large when a cell is biologically consequential, strategically central to loss flow, easy to reach from ingress structure, and operationally short on service slack. This is the quantity the controller will later try to suppress.
+This quantity is intentionally different from a hotspot score. A cell becomes expensive not merely when wildlife value is high, but when value, intensity, uncertainty, and structural delay all reinforce one another.
+
+\subsection{Contract Cells}
+The top decile of the liability distribution forms the \emph{contract set}
+\[
+\mathcal{C}=\left\{i:\;L_i\ge q_{0.90}(L)\right\}.
+\]
+These are the cells on which management commits to a minimum protection standard later in the portfolio model. This shift is deliberate. Instead of vaguely saying that hotspots deserve more attention, we impose an explicit service contract on the most expensive cells.
 
 \subsection{Etosha Diagnosis Under the New Framework}
-The resulting picture is materially different from a simple corridor heatmap. The east and south still matter, but not because every cell in those regions is equally dangerous. What matters is a smaller hinge system: a set of eastern ingress-facing cells, a southern relay strip, and several waterhole-linked sink connectors. These are the cells where loss flow can still remain both biologically expensive and operationally under-served.
+The resulting map is not a generic east--south corridor story. It is a liability ridge. A smaller collection of eastern and south-central cells emerges because those cells combine high biological consequence with persistent uncertainty and above-average service drag. Other visually busy zones matter less once those factors are priced together.
 
-The practical implication is sharp. Etosha should not be defended by uniform corridor saturation. It should be defended by breaking the continuity of that hinge system.
+The managerial implication is direct. Etosha should be managed by guaranteeing a minimum protection level on that ridge and then using the residual budget to reduce tail risk elsewhere.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{fig03_risk_heatmap.png}
-  \caption{Residual defense-debt field on the official basemap, emphasizing hinge zones and transport bottlenecks rather than broad undifferentiated hotspots.}
+  \caption{Ecological-liability surface on the official basemap, emphasizing the liability ridge and the small set of cells that dominate unresolved ecological cost.}
   \label{fig:riskmap}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{fig04_risk_decomposition.png}
-  \caption{Decomposition of Etosha's loss-flow debt into biological consequence, transport criticality, ingress accessibility, and service slack.}
+  \caption{Decomposition of Etosha's liability surface into biological consequence, latent incident intensity, information deficit, and service drag.}
   \label{fig:riskdecomp}
 \end{figure}
 \FloatBarrier

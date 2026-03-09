@@ -1,23 +1,23 @@
 \section{Strengths, Identification Risks, and Adversarial Failure}
 \subsection{Why the New Formulation Is Stronger}
-The re-derived framework has four structural advantages over a plain hotspot-allocation approach.
+The new ecological-liability contract has four structural advantages over a plain hotspot-allocation approach.
 \begin{itemize}
-  \item It changes the decision object from generic spatial risk to weighted loss pathways, which is closer to how protection actually fails.
-  \item It distinguishes between controlling average exposure and controlling the worst hinge, which prevents visually attractive but operationally fragile plans.
-  \item It ties staffing to service reliability through station load rather than only through aggregate patrol hours.
-  \item It offers a cleaner transfer rule across parks because ingress structure, habitat sinks, and service rates are easier to rebuild than an entire bespoke patrol doctrine.
+  \item It changes the decision object from a visually prominent hotspot or corridor to a priced liability surface that combines ecological consequence, pressure, uncertainty, and service drag.
+  \item It treats deployment as a portfolio under ambiguity, which forces the model to care about bad scenarios and not merely about average gains.
+  \item It binds the most expensive cells to an explicit minimum protection contract, which is more operationally meaningful than saying those cells are simply ``high priority.''
+  \item It derives staffing from overload guarantees, so the field-force recommendation follows from a reliability argument rather than from a descriptive patrol-hours tally.
 \end{itemize}
 
 \subsection{Identification Boundary}
-The framework also has nontrivial identification risk.
+The framework also carries nontrivial identification risk.
 \begin{itemize}
-  \item If ingress priors are badly misspecified, the model can overprotect one gateway while underprotecting an unseen alternative route.
-  \item If the road graph misses informal tracks or off-road movement, hinge criticality can be systematically biased.
-  \item If service times are calibrated from optimistic patrol assumptions, the queueing layer understates delay exceedance and therefore understates staffing needs.
-  \item If wildlife value is seasonally volatile, a static sink map can misidentify which pathways are actually expensive to defend this month.
+  \item If the latent incident field in Equation~\eqref{eq:prior} is built from poor access proxies, the liability surface can be spatially biased.
+  \item If monitoring recency or sightline quality is mismeasured, the information-deficit premium \(U_i\) can overstate or understate ambiguity.
+  \item If the scenario library \(\Omega\) is too narrow, the \(\operatorname{CVaR}\) layer will look rigorous while still missing realistic bad months.
+  \item If station workload variability is underestimated, the staffing floor from Equation~\eqref{eq:rangermin} will be too low and the service covenant will be illusory.
 \end{itemize}
 
-The sharpest failure mode is adversarial rerouting. Once defenders repeatedly seal the same obvious hinge, pressure may jump to a second-best route that was previously subcritical. That is exactly why the model should be run as a rolling decision system rather than as a one-time map product.
+The most important failure mode is not adversarial rerouting alone. It is \emph{adversarial substitution}: once managers protect the currently obvious ridge, pressure may migrate to a lower-intensity region whose uncertainty was previously ignored. This is exactly why the ambiguity premium is part of the objective rather than an afterthought.
 
 \subsection{Appropriate Validation Standard}
-This paper should therefore be read as a decision-support architecture, not as a definitive forecast. The correct validation routine is to compare predicted hinge use with observed signals, predicted delay exceedance with realized dispatch logs, and predicted reserve value with actual incident absorption. If those diagnostics drift, the transport graph or the service model must be rebuilt before the deployment logic is trusted again.
+This paper should therefore be read as a decision architecture, not as a claim of exact forecasting. The correct validation routine is to compare predicted high-liability cells with observed incident concentration, predicted contract breaches with observed patrol gaps, and predicted overload probability with realized station backlog. If those diagnostics drift, the liability field or the scenario library must be rebuilt before the deployment recommendations are trusted again.

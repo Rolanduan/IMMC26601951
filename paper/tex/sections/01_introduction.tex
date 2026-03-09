@@ -1,79 +1,79 @@
-\section{From Patrol Coverage to Loss-Flow Interdiction}
-\subsection{Why Coverage Maps Miss the Hard Part of Protection}
-Large protected areas are often discussed as if protection quality were proportional to the fraction of land that receives some visible patrol presence. That logic is too coarse for real operations. Illegal actors do not value every location equally, do not enter the park uniformly, and do not experience the same response difficulty everywhere. In practice, ecological damage is transmitted through a sparse set of pathways: entry opportunities, movement corridors, relay zones, and high-value habitat clusters. If those pathways remain weakly monitored, a park can look busy on paper while still leaking high-consequence losses in the field \citep{watson2014,geldmann2013,coad2019,jones2018}.
+\section{From Hotspot Maps to Ecological-Liability Contracts}
+\subsection{Why Coverage Language Is Too Weak}
+Protected areas are often evaluated as if all land parcels contributed equally to conservation failure and as if the main task of management were simply to maximize visible patrol presence. That framing is operationally weak. Real losses occur when a biologically costly event happens in a zone that is both hard to observe and hard to serve. The correct unit of decision is therefore not land area, and not even a hotspot by itself, but an \emph{ecological-liability cell}: a place where biological consequence, incident pressure, information uncertainty, and service drag accumulate into one costly exposure \citep{watson2014,geldmann2013,coad2019,jones2018}.
 
-Etosha National Park is a strong example of this mismatch. Wildlife value is concentrated around water-dependent habitat, road access is uneven, and station geometry creates service asymmetry across the landscape \citep{etoshaOfficial,etoshaEcology}. Those ingredients imply that the key management task is not to color the map with generalized effort, but to suppress a small set of biologically expensive pathways before they mature into realized loss.
+Etosha National Park is a particularly clear case. Water dependence concentrates wildlife value, access is highly uneven, and station geometry makes some cells systematically harder to serve than others \citep{etoshaOfficial,etoshaEcology}. Those properties imply that management quality should be judged by how much ecological liability remains unresolved after assets are deployed, not by how many route kilometers appear on a weekly map.
 
 \subsection{Problem Restatement}
-We therefore restate the IMMC problem as follows: build a decision system that minimizes residual weighted wildlife-loss flow from ingress points to high-value habitat under limited patrol teams, limited sensing infrastructure, finite drone support, and uncertain daily pressure.
+We therefore restate the IMMC problem as follows: design a protection contract that minimizes unresolved ecological liability under limited ranger time, limited persistent sensors, limited aerial reserve, and uncertain daily operating conditions.
 
-This is a materially different control problem from standard hotspot ranking. The manager is not merely selecting where risk is high; the manager is choosing which pathways will remain open after a protection plan is deployed. Let
+The park state at time \(t\) is written as
 \[
-\mathcal{N}_t = (\mathcal{E},\mathcal{Z},\mathcal{H},\mathcal{R},\Lambda_t)
+\mathcal{X}_t = \bigl(L_t,U_t,W_t\bigr),
 \]
-denote the park network at time \(t\), where \(\mathcal{E}\) is the ingress set, \(\mathcal{Z}\) the management zones, \(\mathcal{H}\) the habitat sinks, \(\mathcal{R}\) the patrol road system, and \(\Lambda_t\) the current pressure and service state. The control decision
+where \(L_t\) is the liability field, \(U_t\) the information-uncertainty field, and \(W_t\) the station workload state. A deployment decision
 \[
-u_t=(x_t,y_t,z_t)
+a_t=(x_t,y_t,z_t)
 \]
-assigns patrol templates, sentinel devices, and UAV reserve windows. The objective is to minimize the residual weighted loss-flow that survives those controls while keeping service delays within a defensible commitment standard.
+specifies patrol-template activations, sentinel-device placements, and UAV reserve windows. The management target is to minimize unresolved liability while ensuring that the most expensive cells receive a guaranteed minimum protection quality and that station overload remains below a stated service covenant.
 
 \subsection{New Analytic Spine}
-To operationalize that restatement, we use a three-core architecture plus one communication layer:
+To operationalize that restatement, we use an architecture that is structurally different from plain hotspot ranking:
 \begin{enumerate}
-  \item a \textbf{threat-transport graph} that estimates how pressure enters the park and how it propagates toward high-value habitat;
-  \item a \textbf{lexicographic barrier-design model} that caps the worst remaining hotspot debt before minimizing total residual loss;
-  \item a \textbf{queueing-based reliability model} that translates station load and travel time into a staffing requirement;
-  \item a \textbf{managerial synthesis layer} that converts the mathematics into an operational doctrine.
+  \item a \textbf{GIS-grounded ecological-liability field} that estimates where high biological consequence and high operating uncertainty coexist;
+  \item an \textbf{ambiguity-aware protection portfolio} that minimizes expected loss and the tail risk of bad scenarios;
+  \item a \textbf{workload-guarantee layer} that sizes staffing from overload probabilities rather than from average patrol hours;
+  \item a \textbf{managerial contract layer} that converts the mathematics into enforceable field rules.
 \end{enumerate}
 
 The information flow is
 \[
-\text{basemap + roads + stations + habitat}
+\text{basemap + ecology + access + stations}
 \;\longrightarrow\;
-\text{transport graph + hinge zones}
+\text{liability field + contract cells}
 \;\longrightarrow\;
-\text{barrier design}
+\text{portfolio design under ambiguity}
 \;\longrightarrow\;
-\text{service reliability and staffing}.
+\text{workload guarantee and reserve recourse}.
 \]
-Figure~\ref{fig:system} summarizes this pipeline visually. The central unit of decision is not a generic hotspot, but a pathway bottleneck with measurable residual debt.
+Figure~\ref{fig:system} summarizes this new pipeline visually. The central object is no longer a corridor to be sealed, but a liability contract to be honored.
 
 \begingroup
 \setstretch{0.6}
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.8\linewidth]{fig01_system_architecture.png}
-  \caption{Loss-flow interdiction architecture linking transport-graph diagnosis, barrier design, service-reliability sizing, and management feedback.}
+  \caption{Ecological-liability contract architecture linking liability diagnosis, ambiguity-aware portfolio design, workload guarantees, and rolling managerial revision.}
   \label{fig:system}
 \end{figure}
 \endgroup
 
 \subsection{Management Metrics}
-We evaluate plans with three cross-functional metrics:
+The new framework is evaluated by three deliberately different metrics:
 \begin{align}
-\PI &: \text{risk-weighted protection index, i.e., the complement of residual weighted loss flow}, \\
-\Gamma_{\max} &: \text{worst residual debt among hinge zones}, \\
-\Pr(T>\tau^\star) &: \text{delay exceedance probability relative to the response commitment}.
+\PI &: \text{protection index, i.e., the fraction of baseline ecological liability that is resolved}, \\
+\operatorname{CVaR}_{0.9}(Y) &: \text{tail risk of unresolved liability under bad operating scenarios}, \\
+\Pr(B_s>b^\star) &: \text{station-overload probability relative to a backlog tolerance } b^\star.
 \end{align}
-These indicators were chosen to force the analysis to stay operational. A plan is not attractive if it looks efficient on average but leaves one hinge zone catastrophically exposed or pushes one station into chronic overload.
+These indicators force the paper to remain operational. A design is not acceptable if it performs well on average but leaves the upper tail of loss too large or drives one station into recurrent overload.
 
-\subsection{What This Changes for the IMMC Tasks}
-The seven IMMC tasks are still answered, but under a different logic than a standard patrol-allocation paper. Table~\ref{tab:qmap} shows the mapping.
+\subsection{How the IMMC Tasks Change}
+The seven IMMC tasks are still answered, but the answer now comes from contract design rather than route-centric optimization. Table~\ref{tab:qmap} shows the mapping.
 \begin{table}[H]
   \centering
-  \caption{Mapping from IMMC tasks to the re-derived analytic outputs.}
+  \caption{Mapping from IMMC tasks to the new ecological-liability framework.}
   \label{tab:qmap}
   \begin{tabular}{p{0.12\linewidth}p{0.27\linewidth}p{0.45\linewidth}}
     \toprule
     Task & Decision target & Output in this paper \\
     \midrule
-    Task 1 & Define protection and identify priorities & Weighted loss-flow field, hinge-zone diagnosis, and response commitment \\
-    Task 2 & Allocate resources & Lexicographic barrier design across patrol templates, sentinels, and UAV reserve \\
-    Task 3 & Predict performance over time and staffing & Queueing reliability envelope plus backtested protection index \\
-    Task 4 & Sensitivity & Structural trade-off frontier in manpower, uptime, and cadence \\
-    Task 5 & Assess model quality & Identification risks, adversarial failure cases, and validation boundary \\
-    Task 6 & Adapt to other parks & Morphology-based transfer protocol using ingress, sink, and service-rate rebuilding \\
-    Task 7 & Communicate results & Letter and summary sheet framed in management language rather than solver language \\
+    Task 1 & Define protection and identify priorities & Liability surface, contract-cell set, and service covenant \\
+    Task 2 & Allocate resources & Ambiguity-aware portfolio across patrol templates, sentinels, and UAV reserve \\
+    Task 3 & Predict performance over time and staffing & Workload guarantee, overload probability, and protection index trajectory \\
+    Task 4 & Sensitivity & CVaR frontier in manpower, uptime, and revisit discipline \\
+    Task 5 & Assess model quality & Identification risk, scenario misspecification, and adversarial adaptation \\
+    Task 6 & Adapt to other parks & Transfer by liability morphology and station workload structure \\
+    Task 7 & Communicate results & Letter and summary sheet in contract language rather than solver language \\
     \bottomrule
   \end{tabular}
 \end{table}

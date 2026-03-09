@@ -1,6 +1,6 @@
-# IMMC Loss-Flow Interdiction Paper
+# IMMC Ecological-Liability Contract Paper
 
-This folder contains the full source package for the Etosha manuscript. The paper is organized around a new decision spine: threat-transport diagnosis, lexicographic barrier design, queueing-based service reliability, and morphology-based transfer.
+This folder contains the full source package for the Etosha manuscript. The paper is organized around a new decision spine: GIS-grounded liability estimation, ambiguity-aware protection portfolio design, workload guarantees, and transfer by liability morphology.
 
 ## Package Layout
 
@@ -21,13 +21,13 @@ This folder contains the full source package for the Etosha manuscript. The pape
 
 ## Manuscript Logic
 
-The paper is structured around one park-defense loop:
+The paper is structured around one conservation-contract loop:
 
-1. Build a threat-transport graph from ingress, habitat, road, and station structure.
-2. Diagnose hinge zones through residual weighted loss flow.
-3. Solve a lexicographic barrier-design problem for patrol templates, sentinels, and UAV reserve.
-4. Size staffing and reserve logic with a queueing reliability layer.
-5. Rebuild the model for other parks by morphology rather than by copying the map.
+1. Build an ecological-liability field from ecology, access, uncertainty, and service drag.
+2. Define a contract set of the most expensive cells.
+3. Solve a mean--CVaR protection portfolio for patrol templates, sentinels, and UAV reserve.
+4. Size staffing with workload guarantees rather than average patrol hours.
+5. Rebuild the model for other parks by liability morphology rather than by copying the map.
 
 ## Figure Workflow
 

@@ -13,14 +13,14 @@
   
     <rect x="92" y="82" width="270" height="38" rx="10" fill="#f2ecdf" stroke="#718ea8" stroke-opacity="0.15" stroke-width="1.2"/>
     <rect x="102" y="90" width="8" height="22" rx="4" fill="#718ea8" opacity="0.84"/>
-    <text x="122" y="108" font-family="Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700" letter-spacing="1.8" fill="#718ea8">SERVICE SLACK</text>
+    <text x="122" y="108" font-family="Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700" letter-spacing="1.8" fill="#718ea8">SERVICE DRAG</text>
   
   
     <rect x="2926" y="82" width="162" height="38" rx="10" fill="#f2ecdf" stroke="#16212a" stroke-opacity="0.15" stroke-width="1.2"/>
     <rect x="2936" y="90" width="8" height="22" rx="4" fill="#16212a" opacity="0.84"/>
     <text x="2956" y="108" font-family="Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700" letter-spacing="1.8" fill="#16212a">FIG. 12</text>
   
-  <text x="92" y="152" font-family="Helvetica Neue, Arial, sans-serif" font-size="58" font-weight="700" fill="#fcfaf6">Service Slack and Delay Exposure</text>
+  <text x="92" y="152" font-family="Helvetica Neue, Arial, sans-serif" font-size="58" font-weight="700" fill="#fcfaf6">Service Drag and Delay Exposure</text>
   <text x="92" y="188" font-family="Helvetica Neue, Arial, sans-serif" font-size="25" fill="#d7dde0">Station geometry creates a measurable asymmetry in where the service covenant can be met</text>
   <rect x="92" y="106" width="941.1200000000001" height="6" rx="3" fill="#718ea8"/><rect x="1088.48" y="106" width="442.88" height="6" rx="3" fill="#d5c8ae"/><rect x="1586.72" y="106" width="775.0400000000001" height="6" rx="3" fill="#8796a2" opacity="0.55"/><rect x="92" y="118" width="2103.68" height="2" rx="1" fill="#c5beb1"/>
   
