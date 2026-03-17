@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模型的四代进化历程 - 明亮版本</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 48px;
+            margin: 0 0 10px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            font-size: 18px;
+            color: #666;
+            margin: 0;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 40px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #667eea, #764ba2);
+        }
+
+        .generation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .generation:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .generation-card {
+            width: 45%;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            position: relative;
+        }
+
+        .generation-card::before {
+            content: '';
+            position: absolute;
+            top: 30px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border: 3px solid #667eea;
+            border-radius: 50%;
+        }
+
+        .generation:nth-child(odd) .generation-card::before {
+            right: -40px;
+        }
+
+        .generation:nth-child(even) .generation-card::before {
+            left: -40px;
+        }
+
+        .generation-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .generation-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin: 0 0 5px 0;
+            color: #333;
+        }
+
+        .generation-subtitle {
+            font-size: 16px;
+            color: #666;
+            margin: 0 0 15px 0;
+        }
+
+        .generation-slogan {
+            font-size: 18px;
+            color: #764ba2;
+            margin: 0 0 20px 0;
+            font-weight: 500;
+            font-style: italic;
+        }
+
+        .generation-info {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .generation-info h4 {
+            margin: 0 0 10px 0;
+            color: #333;
+            font-size: 16px;
+        }
+
+        .tag-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag {
+            padding: 6px 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .feature-tag {
+            padding: 6px 14px;
+            background: #f0f0f0;
+            color: #333;
+            border-radius: 20px;
+            font-size: 13px;
+        }
+
+        .period-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 5px 12px;
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 32px;
+            }
+
+            .generation {
+                flex-direction: column !important;
+            }
+
+            .generation-card {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+
+            .generation-card::before {
+                top: -40px !important;
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+            }
+
+            .timeline::before {
+                left: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 模型的四代进化历程</h1>
+            <p>从可触摸的实体到不可见的智能，人类建模方式的四次跃迁</p>
+        </div>
+
+        <div class="timeline">
+            <!-- 第一代：物理模型 -->
+            <div class="generation">
+                <div class="generation-card">
+                    <div class="period-badge">远古 — 至今</div>
+                    <div class="generation-icon">🏛️</div>
+                    <h2 class="generation-title">第一代：物理模型</h2>
+                    <p class="generation-subtitle">实体模型</p>
+                    <p class="generation-slogan">用实物表示现实</p>
+                    <div class="generation-info">
+                        <h4>代表作品</h4>
+                        <div class="tag-container">
+                            <span class="tag">古代地球仪</span>
+                            <span class="tag">军事沙盘</span>
+                            <span class="tag">服装纸样</span>
+                        </div>
+                        <h4 style="margin-top: 15px;">特点</h4>
+                        <div class="tag-container">
+                            <span class="feature-tag">直观、可触摸</span>
+                            <span class="feature-tag">精度有限</span>
+                            <span class="feature-tag">无法计算</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第二代：数学模型 -->
+            <div class="generation">
+                <div class="generation-card">
+                    <div class="period-badge">17世纪 —</div>
+                    <div class="generation-icon">📐</div>
+                    <h2 class="generation-title">第二代：数学模型</h2>
+                    <p class="generation-subtitle">符号模型</p>
+                    <p class="generation-slogan">用数学语言描述现实</p>
+                    <div class="generation-info">
+                        <h4>代表作品</h4>
+                        <div class="tag-container">
+                            <span class="tag">开普勒椭圆轨道</span>
+                            <span class="tag">牛顿万有引力</span>
+                        </div>
+                        <h4 style="margin-top: 15px;">特点</h4>
+                        <div class="tag-container">
+                            <span class="feature-tag">精确、可计算</span>
+                            <span class="feature-tag">可预测</span>
+                            <span class="feature-tag">需要人工推导</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第三代：计算模型 -->
+            <div class="generation">
+                <div class="generation-card">
+                    <div class="period-badge">20世纪 —</div>
+                    <div class="generation-icon">💻</div>
+                    <h2 class="generation-title">第三代：计算模型</h2>
+                    <p class="generation-subtitle">算法模型</p>
+                    <p class="generation-slogan">用计算机模拟现实</p>
+                    <div class="generation-info">
+                        <h4>代表作品</h4>
+                        <div class="tag-container">
+                            <span class="tag">数值天气预报</span>
+                            <span class="tag">蒙特卡洛模拟</span>
+                        </div>
+                        <h4 style="margin-top: 15px;">特点</h4>
+                        <div class="tag-container">
+                            <span class="feature-tag">处理复杂系统</span>
+                            <span class="feature-tag">大规模数据</span>
+                            <span class="feature-tag">规则需人工设计</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第四代：AI模型 -->
+            <div class="generation">
+                <div class="generation-card">
+                    <div class="period-badge">21世纪 —</div>
+                    <div class="generation-icon">🤖</div>
+                    <h2 class="generation-title">第四代：AI模型</h2>
+                    <p class="generation-subtitle">学习模型</p>
+                    <p class="generation-slogan">让机器从数据中"学会"现实</p>
+                    <div class="generation-info">
+                        <h4>代表作品</h4>
+                        <div class="tag-container">
+                            <span class="tag">深度学习</span>
+                            <span class="tag">ChatGPT</span>
+                            <span class="tag">AlphaGo</span>
+                        </div>
+                        <h4 style="margin-top: 15px;">特点</h4>
+                        <div class="tag-container">
+                            <span class="feature-tag">自动发现规律</span>
+                            <span class="feature-tag">处理高维数据</span>
+                            <span class="feature-tag">内部机制为"黑箱"</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
